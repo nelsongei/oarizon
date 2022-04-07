@@ -108,6 +108,54 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="{{ url('Properties') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Company Property</span>
+                            </a>
+                        </li>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+                                <span class="pcoded-mtext">Organization Management</span>
+                            </a>
+                            <ul class="pcoded-submenu">
+                                <li>
+                                    <a href="{{ url('organizations') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Organization</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('branches') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Branches</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('groups') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Groups</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('currencies') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Currency</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('departments')}}">
+                                        <span class="pcoded-mtext">Departments</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('Properties') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Banks</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('Properties') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Bank Branches</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="pcoded-hasmenu">
@@ -152,9 +200,7 @@
                     <a href="{{ url('licence')}}" class="waves-effect waves-dark">
                         <span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
                         <span class="pcoded-mtext">Licence Payments</span>
-
                     </a>
-
                 </li>
             </ul>
         </div>

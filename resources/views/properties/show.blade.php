@@ -1,0 +1,1 @@
+C:\xampp\htdocs\xara\app/views/nextofkins/show.blade.php

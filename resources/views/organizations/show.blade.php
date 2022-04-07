@@ -1,0 +1,1 @@
+C:\xampp\htdocs\rental\app/views/organizations/show.blade.php

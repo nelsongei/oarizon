@@ -3,13 +3,18 @@
 use App\Http\Controllers\AppraisalCategoryController;
 use App\Http\Controllers\AppraisalsController;
 use App\Http\Controllers\AppraisalSettingsController;
+use App\Http\Controllers\BranchesController;
+use App\Http\Controllers\CurrenciesController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\HolidaysController;
 use App\Http\Controllers\LeaveapplicationsController;
 use App\Http\Controllers\LeavetypesController;
 use App\Http\Controllers\OccurencesController;
 use App\Http\Controllers\OccurencesettingsController;
+use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\PromotionsController;
+use App\Http\Controllers\PropertiesController;
 use App\Models\Audit;
 use App\Models\Employee;
 use App\Models\Leaveapplication;
@@ -231,3 +236,50 @@ Route::get('api/leavetypes', function () {
     $leavetypes = Leavetype::where('organization_id', Auth::user()->organization_id)->get();
     return $leavetypes->pluck('name', 'id');
 });
+
+/*
+ * Properties
+ * */
+Route::resource('Properties', PropertiesController::class);
+Route::post('Properties/update/{id}', [PropertiesController::class,'update']);
+Route::get('Properties/delete/{id}', [PropertiesController::class,'destroy']);
+Route::get('Properties/edit/{id}', [PropertiesController::class,'edit']);
+Route::get('Properties/view/{id}', [PropertiesController::class,'view']);
+/*
+ * Organization
+ * */
+Route::resource('organizations', OrganizationsController::class);
+
+Route::post('organizations/update/{id}', [OrganizationsController::class,'update']);
+Route::post('organizations/logo/{id}', [OrganizationsController::class,'logo']);
+Route::get('language/{lang}',
+    array(
+        'as' => 'language.select',
+        'uses' => [OrganizationsController::class,'language']
+    )
+);
+
+/**
+ * branches routes
+ */
+
+Route::resource('branches', BranchesController::class);
+Route::post('branches/update/{id}', [BranchesController::class,'update']);
+Route::get('branches/delete/{id}', [BranchesController::class,'destroy']);
+Route::get('branches/edit/{id}', [BranchesController::class,'edit']);
+
+//=================GROUP ROUTES ===============================//
+Route::resource('groups', GroupsController::class);
+Route::post('groups/update/{id}', [GroupsController::class,'update']);
+Route::get('groups/delete/{id}', [GroupsController::class,'destroy']);
+Route::get('groups/edit/{id}', [GroupsController::class,'edit']);
+//==============================END GROUP ROUTES =============//
+
+/**
+ * Currencies
+ */
+Route::resource('currencies', CurrenciesController::class);
+Route::get('currencies/edit/{id}', [CurrenciesController::class,'edit']);
+Route::post('currencies/update/{id}', [CurrenciesController::class,'update']);
+Route::get('currencies/delete/{id}', [CurrenciesController::class,'destroy']);
+Route::get('currencies/create', [CurrenciesController::class,'create']);

@@ -1,4 +1,6 @@
-<?php namespace App\models;
+<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +35,7 @@ class Property extends Model
     public function employee()
     {
 
-        return $this->belongsTo('App\models\Employee');
+        return $this->belongsTo(Employee::class);
     }
 
     public static function getIssuer($id)

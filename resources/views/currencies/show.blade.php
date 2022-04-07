@@ -1,0 +1,1 @@
+C:\xampp\htdocs\xaracbs\app/views/currencies/show.blade.php
