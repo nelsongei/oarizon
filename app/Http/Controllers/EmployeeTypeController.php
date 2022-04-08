@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\EType;
+use App\Models\EType;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -73,8 +73,8 @@ class EmployeeTypeController extends Controller {
 	 * Show the form for editing the specified branch.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function edit($id)
 	{
 		$etype = EType::find($id);
@@ -86,20 +86,20 @@ class EmployeeTypeController extends Controller {
 	 * Update the specified branch in storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function update($id)
 	{
 		$etype = EType::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), EType::$rules,EType::$messages);
+		$validator = Validator::make($data = request()->all(), EType::$rules,EType::$messages);
 
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$etype->employee_type_name = Input::get('name');
+		$etype->employee_type_name = request('name');
 		$etype->update();
 
 		return Redirect::route('employee_type.index');
@@ -109,8 +109,8 @@ class EmployeeTypeController extends Controller {
 	 * Remove the specified branch from storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function destroy($id)
 	{
 		EType::destroy($id);

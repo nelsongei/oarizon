@@ -3,11 +3,22 @@
 use App\Http\Controllers\AppraisalCategoryController;
 use App\Http\Controllers\AppraisalsController;
 use App\Http\Controllers\AppraisalSettingsController;
+use App\Http\Controllers\BankBranchController;
+use App\Http\Controllers\BanksController;
+use App\Http\Controllers\BenefitSettingsController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CurrenciesController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\EarningsController;
+use App\Http\Controllers\EmployeeAllowancesController;
+use App\Http\Controllers\EmployeeDeductionsController;
+use App\Http\Controllers\EmployeeNonTaxableController;
+use App\Http\Controllers\EmployeeReliefController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\HolidaysController;
+use App\Http\Controllers\JobGroupController;
 use App\Http\Controllers\LeaveapplicationsController;
 use App\Http\Controllers\LeavetypesController;
 use App\Http\Controllers\OccurencesController;
@@ -15,6 +26,7 @@ use App\Http\Controllers\OccurencesettingsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\PropertiesController;
+use App\Http\Controllers\ReportsController;
 use App\Models\Audit;
 use App\Models\Employee;
 use App\Models\Leaveapplication;
@@ -275,6 +287,14 @@ Route::get('groups/delete/{id}', [GroupsController::class,'destroy']);
 Route::get('groups/edit/{id}', [GroupsController::class,'edit']);
 //==============================END GROUP ROUTES =============//
 
+/*
+* departments routes
+*/
+Route::resource('departments', DepartmentsController::class);
+Route::post('departments/update/{id}', [DepartmentsController::class,'update']);
+Route::get('departments/delete/{id}', [DepartmentsController::class,'destroy']);
+Route::get('departments/edit/{id}', [DepartmentsController::class,'edit']);
+
 /**
  * Currencies
  */
@@ -283,3 +303,110 @@ Route::get('currencies/edit/{id}', [CurrenciesController::class,'edit']);
 Route::post('currencies/update/{id}', [CurrenciesController::class,'update']);
 Route::get('currencies/delete/{id}', [CurrenciesController::class,'destroy']);
 Route::get('currencies/create', [CurrenciesController::class,'create']);
+
+/*
+ *
+ * Banks
+ * */
+Route::resource('banks', BanksController::class);
+Route::post('banks/update/{id}', [BanksController::class,'update']);
+Route::get('banks/delete/{id}', [BanksController::class,'destroy']);
+Route::get('banks/edit/{id}', [BanksController::class,'edit']);
+
+/*
+ * Bank Branches
+ * */
+Route::resource('bankbranches', BankBranchController::class);
+Route::post('bankbranches/update/{id}', [BankBranchController::class,'update']);
+Route::get('bankbranches/delete/{id}', [BankBranchController::class,'destroy']);
+Route::get('bankbranches/edit/{id}', [BankBranchController::class,'edit']);
+Route::get('bankbranchesimport', function () {
+    return View::make('bank_branch.import');
+});
+
+/*
+* employee type routes
+*/
+Route::resource('employee_type', EmployeeTypeController::class);
+Route::post('employee_type/update/{id}', [EmployeeTypeController::class,'update']);
+Route::get('employee_type/delete/{id}', [EmployeeTypeController::class,'destroy']);
+Route::get('employee_type/edit/{id}', [EmployeeTypeController::class,'edit']);
+
+
+/*
+* employee earnings routes
+*/
+Route::resource('other_earnings', EarningsController::class);
+Route::post('other_earnings/update/{id}', [EarningsController::class,'update']);
+Route::get('other_earnings/delete/{id}', [EarningsController::class,'destroy']);
+Route::get('other_earnings/edit/{id}', [EarningsController::class,'edit']);
+Route::get('other_earnings/view/{id}', [EarningsController::class,'view']);
+Route::post('createEarning', [EarningsController::class,'createearning']);
+
+/*
+* employee reliefs routes
+*/
+Route::resource('employee_relief', EmployeeReliefController::class);
+Route::post('employee_relief/update/{id}', [EmployeeReliefController::class,'update']);
+Route::get('employee_relief/delete/{id}', [EmployeeReliefController::class,'destroy']);
+Route::get('employee_relief/edit/{id}', [EmployeeReliefController::class,'edit']);
+Route::get('employee_relief/view/{id}', [EmployeeReliefController::class,'view']);
+Route::post('createRelief', [EmployeeReliefController::class,'createrelief']);
+
+/*
+* employee allowances routes
+*/
+Route::resource('employee_allowances', EmployeeAllowancesController::class);
+Route::post('employee_allowances/update/{id}', [EmployeeAllowancesController::class,'update']);
+Route::get('employee_allowances/delete/{id}', [EmployeeAllowancesController::class,'destroy']);
+Route::get('employee_allowances/edit/{id}', [EmployeeAllowancesController::class,'edit']);
+Route::get('employee_allowances/view/{id}', [EmployeeAllowancesController::class,'view']);
+Route::post('createAllowance', [EmployeeAllowancesController::class,'createallowance']);
+Route::post('reloaddata', [EmployeeAllowancesController::class,'display']);
+
+/*
+* employee nontaxables routes
+*/
+
+Route::resource('employeenontaxables', EmployeeNonTaxableController::class);
+Route::post('employeenontaxables/update/{id}', [EmployeeNonTaxableController::class,'update']);
+Route::get('employeenontaxables/delete/{id}', [EmployeeNonTaxableController::class,'destroy']);
+Route::get('employeenontaxables/edit/{id}', [EmployeeNonTaxableController::class,'edit']);
+Route::get('employeenontaxables/view/{id}', [EmployeeNonTaxableController::class,'view']);
+Route::post('createNontaxable', [EmployeeNonTaxableController::class,'createnontaxable']);
+
+/*
+* employee deductions routes
+*/
+Route::resource('employee_deductions', EmployeeDeductionsController::class);
+Route::post('employee_deductions/update/{id}', [EmployeeDeductionsController::class,'update']);
+Route::get('employee_deductions/delete/{id}', [EmployeeDeductionsController::class,'destroy']);
+Route::get('employee_deductions/edit/{id}', [EmployeeDeductionsController::class,'edit']);
+Route::get('employee_deductions/view/{id}', [EmployeeDeductionsController::class,'view']);
+Route::post('createDeduction', [EmployeeDeductionsController::class,'creatededuction']);
+
+/*
+* benefits setting routes
+*/
+
+Route::resource('benefitsettings', BenefitSettingsController::class);
+Route::post('benefitsettings/update/{id}', [BenefitSettingsController::class,'update']);
+Route::get('benefitsettings/delete/{id}', [BenefitSettingsController::class,'destroy']);
+Route::get('benefitsettings/edit/{id}', [BenefitSettingsController::class,'edit']);
+
+/*
+* job group routes
+*/
+
+Route::resource('job_group', JobGroupController::class);
+Route::post('job_group/update/{id}', [JobGroupController::class,'update']);
+Route::get('job_group/delete/{id}', [JobGroupController::class,'destroy']);
+Route::get('job_group/edit/{id}', [JobGroupController::class,'edit']);
+Route::get('job_group/show/{id}', [JobGroupController::class,'show']);
+
+/*
+ *
+ * HR Reports
+ * */
+Route::get('reports/CompanyProperty/selectPeriod', [ReportsController::class,'propertyperiod']);
+Route::post('reports/companyproperty', [ReportsController::class,'property']);

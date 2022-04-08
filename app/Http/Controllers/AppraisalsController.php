@@ -56,6 +56,7 @@ class AppraisalsController extends Controller {
         $appraisals = Appraisalquestion::where('organization_id',Auth::user()->organization_id)->get();
         $categories = Appraisalcategory::whereNull('organization_id')
             ->orWhere('organization_id',Auth::user()->organization_id)->get();
+        dd($categories);
         return View::make('appraisals.create',compact('employees','appraisals','categories'));
     }
 

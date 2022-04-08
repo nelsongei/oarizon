@@ -22,7 +22,7 @@ class Employeebenefit extends Model
     public function jobgroup()
     {
 
-        return $this->belongsTo('Jobgroup');
+        return $this->belongsTo(Jobgroup::class);
     }
 
 }
