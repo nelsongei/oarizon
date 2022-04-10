@@ -204,38 +204,158 @@
                 <li class="pcoded-hasmenu">
                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                         <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
-                        <span class="pcoded-mtext">Payroll</span>
+                        <span class="pcoded-mtext">Payroll Management</span>
                     </a>
                     <ul class="pcoded-submenu">
-                        <li class="">
-                            <a href="{{('disbursements')}}" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Disbursement Options</span>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+                                <span class="pcoded-mtext">Payroll</span>
                             </a>
-                        <li class="pcoded-submenu">
-                        <li class="">
-                            <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Guarantor Matrix</span>
-                            </a>
+                            <ul class="pcoded-submenu">
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Earnings</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('loanproducts')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Allowances</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{('loans')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Overtime</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('loanduplicates')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Deduction</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Pension</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Relief</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Non-Taxable Income</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Payroll Calculator</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Email Payslip</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="">
-                            <a href="{{ url('loanproducts')}}" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Loan Products</span>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+                                <span class="pcoded-mtext">Process Payroll</span>
                             </a>
+                            <ul class="pcoded-submenu">
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Advance Salaries</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Payroll</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Approve Payroll Rerun</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="">
-                            <a href="{{('loans')}}" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Loan Applications</span>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+                                <span class="pcoded-mtext">Reports</span>
                             </a>
+                            <ul class="pcoded-submenu">
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Advance Reports</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Payroll Reports</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Statutory Reports</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="">
-                            <a href="{{ url('loanduplicates')}}" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Loan Duplicates</span>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+                                <span class="pcoded-mtext">Preferances</span>
                             </a>
+                            <ul class="pcoded-submenu">
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Accounts Settings</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Data Migration</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="">
-                            <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Import Repayments</span>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+                                <span class="pcoded-mtext">Payroll Settings</span>
                             </a>
+                            <ul class="pcoded-submenu">
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Allowances</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Relief</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Deductions</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">NSSf Rates</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">NHIF Rates</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>

@@ -403,7 +403,6 @@ Route::post('job_group/update/{id}', [JobGroupController::class,'update']);
 Route::get('job_group/delete/{id}', [JobGroupController::class,'destroy']);
 Route::get('job_group/edit/{id}', [JobGroupController::class,'edit']);
 Route::get('job_group/show/{id}', [JobGroupController::class,'show']);
-
 /*
  *
  * HR Reports

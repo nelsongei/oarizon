@@ -1,0 +1,1 @@
+C:\xampp\htdocs\xaracore\app/views/other_earnings/show.blade.php

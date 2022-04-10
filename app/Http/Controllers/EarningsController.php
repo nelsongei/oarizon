@@ -1,11 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\Audit;
-use App\models\Currency;
-use App\models\Earnings;
-use App\models\Earningsetting;
-use App\models\Employee;
-use App\models\Organization;
+use App\Models\Audit;
+use App\Models\Currency;
+use App\Models\Earnings;
+use App\Models\Earningsetting;
+use App\Models\Employee;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
