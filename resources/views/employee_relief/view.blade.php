@@ -1,4 +1,4 @@
-@extends('layouts.payroll')
+@extends('layouts.main_hr')
 @section('content')
 
 <?php
@@ -17,7 +17,7 @@ function asMoney($value) {
 <a class="btn btn-danger btn-sm " onclick="return (confirm('Are you sure you want to delete this employee`s relief?'))" href="{{ URL::to('employee_relief/delete/'.$rel->id)}}">Delete</a>
 
 <hr>
-</div>	
+</div>
 </div>
 
 

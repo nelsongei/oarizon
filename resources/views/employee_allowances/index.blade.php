@@ -1,4 +1,4 @@
-@extends('layouts.payroll')
+@extends('layouts.main_hr')
 @section('xara_cbs')
     <?php
     function asMoney($value) {

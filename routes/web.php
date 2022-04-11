@@ -21,9 +21,11 @@ use App\Http\Controllers\HolidaysController;
 use App\Http\Controllers\JobGroupController;
 use App\Http\Controllers\LeaveapplicationsController;
 use App\Http\Controllers\LeavetypesController;
+use App\Http\Controllers\LoanrepaymentsController;
 use App\Http\Controllers\OccurencesController;
 use App\Http\Controllers\OccurencesettingsController;
 use App\Http\Controllers\OrganizationsController;
+use App\Http\Controllers\OvertimesController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\PropertiesController;
 use App\Http\Controllers\ReportsController;
@@ -395,6 +397,15 @@ Route::get('benefitsettings/delete/{id}', [BenefitSettingsController::class,'des
 Route::get('benefitsettings/edit/{id}', [BenefitSettingsController::class,'edit']);
 
 /*
+ * Overtimes
+ * */
+Route::resource('overtimes', OvertimesController::class);
+Route::get('overtimes/edit/{id}', [OvertimesController::class,'edit']);
+Route::post('overtimes/update/{id}', [OvertimesController::class,'update']);
+Route::get('overtimes/delete/{id}', [OvertimesController::class,'destroy']);
+Route::get('overtimes/view/{id}', [OvertimesController::class,'view']);
+
+/*
 * job group routes
 */
 
@@ -409,3 +420,9 @@ Route::get('job_group/show/{id}', [JobGroupController::class,'show']);
  * */
 Route::get('reports/CompanyProperty/selectPeriod', [ReportsController::class,'propertyperiod']);
 Route::post('reports/companyproperty', [ReportsController::class,'property']);
+/*
+ * Pension
+ * */
+Route::get('import_repayments', [LoanrepaymentsController::class,'importView']);
+Route::post('import_repayments', [LoanrepaymentsController::class,'importRepayment']);
+Route::get('repayments_template', [LoanrepaymentsController::class,'createTemplate']);

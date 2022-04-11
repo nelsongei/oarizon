@@ -7,7 +7,7 @@ function asMoney($value)
 
 ?>
 
-@extends('layouts.payroll')
+@extends('layouts.main_hr')
 @section('xara_cbs')
     @include('partials.breadcrumbs')
     <div class="pcoded-inner-content">

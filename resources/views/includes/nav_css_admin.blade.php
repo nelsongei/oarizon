@@ -214,22 +214,22 @@
                             </a>
                             <ul class="pcoded-submenu">
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('other_earnings')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Earnings</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('loanproducts')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('employee_allowances')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Allowances</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{('loans')}}" class="waves-effect waves-dark">
+                                    <a href="{{(url('overtimes'))}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Overtime</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('loanduplicates')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('employee_deductions')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Deduction</span>
                                     </a>
                                 </li>
@@ -239,12 +239,12 @@
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                    <a href="{{ url('employee_relief') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Relief</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                    <a href="{{ url('employeenontaxables') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Non-Taxable Income</span>
                                     </a>
                                 </li>

@@ -1,4 +1,4 @@
-@extends('layouts.payroll')
+@extends('layouts.main_hr')
 @section('xara_cbs')
     <link rel="stylesheet" href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}">
     <style>

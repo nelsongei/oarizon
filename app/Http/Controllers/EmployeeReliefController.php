@@ -1,12 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\Audit;
-use App\models\Currency;
-use App\models\Employee;
-use App\models\ERelief;
+use App\Models\Audit;
+use App\Models\Currency;
+use App\Models\Employee;
+use App\Models\ERelief;
 use App\Http\Controllers\Controller;
-use App\models\Organization;
-use App\models\Relief;
+use App\Models\Organization;
+use App\Models\Relief;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -73,11 +73,11 @@ class EmployeeReliefController extends Controller {
 	/**
 	 * Store a newly created branch in storage.
 	 *
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), ERelief::$rules, ERelief::$messages);
+		$validator = Validator::make($data = request()->all(), ERelief::$rules, ERelief::$messages);
 
 		if ($validator->fails())
 		{
@@ -86,15 +86,15 @@ class EmployeeReliefController extends Controller {
 
 		$rel = new ERelief;
 
-		$rel->employee_id = Input::get('employee');
+		$rel->employee_id = request('employee');
 
-		$rel->relief_id = Input::get('relief');
+		$rel->relief_id = request('relief');
 
-		$rel->percentage = str_replace( '%', '', Input::get('percentage'));
+		$rel->percentage = str_replace( '%', '', request('percentage'));
 
-		$rel->premium = str_replace( ',', '', Input::get('premium'));
+		$rel->premium = str_replace( ',', '', request('premium'));
 
-		$a = str_replace( ',', '', Input::get('amount') );
+		$a = str_replace( ',', '', request('amount') );
 
         $rel->relief_amount = $a;
 
@@ -110,8 +110,8 @@ class EmployeeReliefController extends Controller {
 	 * Display the specified branch.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function show($id)
 	{
 		$rel = ERelief::findOrFail($id);

@@ -24,8 +24,6 @@
                                         <th>Active</th>
                                         <th></th>
                                     </tr>
-
-
                                     </thead>
                                     <tbody>
 

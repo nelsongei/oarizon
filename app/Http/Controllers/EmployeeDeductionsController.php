@@ -1,12 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\Audit;
-use App\models\Currency;
-use App\models\Deduction;
-use App\models\EDeduction;
-use App\models\Employee;
+use App\Models\Audit;
+use App\Models\Currency;
+use App\Models\Deduction;
+use App\Models\EDeduction;
+use App\Models\Employee;
 use App\Http\Controllers\Controller;
-use App\models\Organization;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

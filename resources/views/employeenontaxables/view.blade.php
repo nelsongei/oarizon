@@ -1,4 +1,4 @@
-@extends('layouts.payroll')
+@extends('layouts.main_hr')
 @section('content')
 
 <?php
@@ -16,7 +16,7 @@ function asMoney($value) {
 <a class="btn btn-info btn-sm "  href="{{ URL::to('employeenontaxables/edit/'.$nontaxable->id)}}">update details</a>
 
 <hr>
-</div>	
+</div>
 </div>
 
 
