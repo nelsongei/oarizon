@@ -1,0 +1,1 @@
+C:\xampp\htdocs\xaracore\app/views/nhif/show.blade.php

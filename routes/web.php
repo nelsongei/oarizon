@@ -10,9 +10,11 @@ use App\Http\Controllers\BanksController;
 use App\Http\Controllers\BenefitSettingsController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CurrenciesController;
+use App\Http\Controllers\DeductionsController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\EarningsController;
 use App\Http\Controllers\EmployeeAllowancesController;
+use App\Http\Controllers\AllowancesController;
 use App\Http\Controllers\EmployeeDeductionsController;
 use App\Http\Controllers\EmployeeNonTaxableController;
 use App\Http\Controllers\EmployeeReliefController;
@@ -24,6 +26,8 @@ use App\Http\Controllers\JobGroupController;
 use App\Http\Controllers\LeaveapplicationsController;
 use App\Http\Controllers\LeavetypesController;
 use App\Http\Controllers\LoanrepaymentsController;
+use App\Http\Controllers\NhifController;
+use App\Http\Controllers\NssfController;
 use App\Http\Controllers\OccurencesController;
 use App\Http\Controllers\OccurencesettingsController;
 use App\Http\Controllers\OrganizationsController;
@@ -32,6 +36,7 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\payslipEmailController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\PropertiesController;
+use App\Http\Controllers\ReliefsController;
 use App\Http\Controllers\ReportsController;
 use App\Models\Audit;
 use App\Models\Currency;
@@ -550,3 +555,46 @@ Route::group(['before' => 'manage_settings'], function () {
     });
 
 });
+
+/*
+* allowances routes
+*/
+
+Route::resource('allowances', AllowancesController::class);
+Route::post('allowances/update/{id}', [AllowancesController::class,'update']);
+Route::get('allowances/delete/{id}', [AllowancesController::class,'destroy']);
+Route::get('allowances/edit/{id}', [AllowancesController::class,'edit']);
+
+/*
+* reliefs routes
+*/
+
+Route::resource('reliefs', ReliefsController::class);
+Route::post('reliefs/update/{id}', [ReliefsController::class,'update']);
+Route::get('reliefs/delete/{id}', [ReliefsController::class,'destroy']);
+Route::get('reliefs/edit/{id}', [ReliefsController::class,'edit']);
+/*
+* deductions routes
+*/
+
+Route::resource('deductions', DeductionsController::class);
+Route::post('deductions/update/{id}', [DeductionsController::class,'update']);
+Route::get('deductions/delete/{id}', [DeductionsController::class,'destroy']);
+Route::get('deductions/edit/{id}', [DeductionsController::class,'edit']);
+/*
+* nssf routes
+*/
+
+Route::resource('nssf', NssfController::class);
+Route::post('nssf/update/{id}', 'NssfController@update');
+Route::get('nssf/delete/{id}', 'NssfController@destroy');
+Route::get('nssf/edit/{id}', 'NssfController@edit');
+
+/*
+* nhif routes
+*/
+
+Route::resource('nhif', NhifController::class);
+Route::post('nhif/update/{id}', 'NhifController@update');
+Route::get('nhif/delete/{id}', 'NhifController@destroy');
+Route::get('nhif/edit/{id}', 'NhifController@edit');

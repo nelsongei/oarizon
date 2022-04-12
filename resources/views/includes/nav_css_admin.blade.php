@@ -331,27 +331,27 @@
                             </a>
                             <ul class="pcoded-submenu">
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('allowances')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Allowances</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('reliefs')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Relief</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('deductions')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Deductions</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('nssf')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">NSSf Rates</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('nhif')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">NHIF Rates</span>
                                     </a>
                                 </li>
