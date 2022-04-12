@@ -1,11 +1,13 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\models\Audit;
-use App\models\Currency;
-use App\models\Employee;
-use App\models\Employeenontaxable;
-use App\models\Nontaxable;
-use App\models\Organization;
+namespace App\Http\Controllers;
+
+use App\Models\Audit;
+use App\Models\Currency;
+use App\Models\Employee;
+use App\Models\Employeenontaxable;
+use App\Models\Nontaxable;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;

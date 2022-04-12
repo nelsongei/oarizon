@@ -1,4 +1,4 @@
-@extends('layouts.portspay')
+@extends('layouts.main_hr')
 @section('xara_cbs')
     <div class="pcoded-inner-content">
         <div class="main-body">

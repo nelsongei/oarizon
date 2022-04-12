@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\AdvanceController;
 use App\Http\Controllers\AppraisalCategoryController;
 use App\Http\Controllers\AppraisalsController;
 use App\Http\Controllers\AppraisalSettingsController;
@@ -26,10 +28,13 @@ use App\Http\Controllers\OccurencesController;
 use App\Http\Controllers\OccurencesettingsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\OvertimesController;
+use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\payslipEmailController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\PropertiesController;
 use App\Http\Controllers\ReportsController;
 use App\Models\Audit;
+use App\Models\Currency;
 use App\Models\Employee;
 use App\Models\Leaveapplication;
 use App\Models\Leavetype;
@@ -420,9 +425,128 @@ Route::get('job_group/show/{id}', [JobGroupController::class,'show']);
  * */
 Route::get('reports/CompanyProperty/selectPeriod', [ReportsController::class,'propertyperiod']);
 Route::post('reports/companyproperty', [ReportsController::class,'property']);
+Route::get('advanceReports/selectSummaryPeriod', [ReportsController::class,'period_advsummary']);
+Route::post('advanceReports/advanceSummary', [ReportsController::class,'payAdvSummary']);
+Route::get('payrollReports/selectPeriod', [ReportsController::class,'period_payslip']);
+Route::post('payrollReports/payslip', [ReportsController::class,'payslip']);
+Route::get('payrollReports/selectAllowance', [ReportsController::class,'employee_allowances']);
+Route::post('payrollReports/allowances', [ReportsController::class,'allowances']);
+Route::get('payrollReports/selectEarning', [ReportsController::class,'employee_earnings']);
+Route::post('payrollReports/earnings', [ReportsController::class,'earnings']);
+Route::get('payrollReports/selectOvertime', [ReportsController::class,'employee_overtimes']);
+Route::post('payrollReports/overtimes', [ReportsController::class,'overtimes']);
+Route::get('payrollReports/selectRelief', [ReportsController::class,'employee_reliefs']);
+Route::post('payrollReports/reliefs', [ReportsController::class,'reliefs']);
+Route::get('payrollReports/selectDeduction', [ReportsController::class,'employee_deductions']);
+Route::get('payrollReports/selectPension', [ReportsController::class,'employee_pensions']);
+Route::post('payrollReports/deductions', [ReportsController::class,'deductions']);
+Route::get('payrollReports/selectnontaxableincome', [ReportsController::class,'employeenontaxableselect']);
+Route::post('payrollReports/nontaxables', [ReportsController::class,'employeenontaxables']);
+Route::get('payrollReports/selectPayePeriod', [ReportsController::class,'period_paye']);
+Route::post('payrollReports/payeReturns', [ReportsController::class,'payeReturns']);
+Route::post('payrollReports/p9form', [ReportsController::class,'p9form']);
+Route::get('payrollReports/selectRemittancePeriod', [ReportsController::class,'period_rem']);
+Route::post('payrollReports/payRemittances', [ReportsController::class,'payeRems']);
+Route::get('payrollReports/selectSummaryPeriod', [ReportsController::class,'period_summary']);
+Route::post('payrollReports/payrollSummary', [ReportsController::class,'paySummary']);
+Route::get('payrollReports/selectNssfPeriod', [ReportsController::class,'period_nssf']);
+Route::post('payrollReports/nssfReturns', [ReportsController::class,'nssfReturns']);
+Route::get('payrollReports/selectNhifPeriod', [ReportsController::class,'period_nhif']);
+Route::post('payrollReports/nhifReturns', [ReportsController::class,'nhifReturns']);
+Route::get('payrollReports/selectNssfExcelPeriod', [ReportsController::class,'period_excel']);
+Route::post('payrollReports/nssfExcel', [ReportsController::class,'export']);
 /*
  * Pension
  * */
 Route::get('import_repayments', [LoanrepaymentsController::class,'importView']);
 Route::post('import_repayments', [LoanrepaymentsController::class,'importRepayment']);
 Route::get('repayments_template', [LoanrepaymentsController::class,'createTemplate']);
+/*
+ *
+ * Payroll Calculator
+ * */
+Route::get('payrollcalculator', function () {
+    $currency = Currency::find(1);
+    return View::make('payroll.payroll_calculator', compact('currency'));
+
+});
+
+//
+Route::get('email/payslip', [payslipEmailController::class,'index']);
+Route::post('email/payslip/employees', [payslipEmailController::class,'sendEmail']);
+/*
+* advance routes
+*/
+Route::resource('advance', AdvanceController::class);
+Route::post('deleteadvance', [AdvanceController::class,'del_exist']);
+Route::post('advance/preview', [AdvanceController::class,'create']);
+Route::post('createAccount', [AdvanceController::class,'createaccount']);
+/**
+ * payroll routes
+ */
+Route::resource('payroll', PayrollController::class);
+Route::post('deleterow', [PayrollController::class,'del_exist']);
+Route::post('payroll/preview', [PayrollController::class,'create']);
+Route::post('payroll/edit{id}', [PayrollController::class,'edit']);
+
+Route::post('showrecord', [PayrollController::class,'display']);
+Route::post('shownet', [PayrollController::class,'disp']);
+Route::post('showgross', [PayrollController::class,'dispgross']);
+Route::get('payrollpreviewprint/{period}', [PayrollController::class,'previewprint']);
+Route::get('unlockpayroll/index', [PayrollController::class,'unlockindex']);
+Route::get('payroll/view/{id}', [PayrollController::class,'viewpayroll']);
+Route::get('unlockpayroll/{id}', [PayrollController::class,'unlockpayroll']);
+Route::post('unlockpayroll', [PayrollController::class,'dounlockpayroll']);
+Route::post('createNewAccount', [PayrollController::class,'createaccount']);
+
+Route::get('payrollcalculator', function () {
+    $currency = Currency::find(1);
+    return View::make('payroll.payroll_calculator', compact('currency'));
+
+});
+
+Route::get('payrollReports', function () {
+
+    return view('employees.payrollreports');
+});
+
+Route::get('payrollReports/selectYear', function () {
+    $branches = Branch::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+    $departments = Department::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+    $employees = Employee::where('organization_id', Auth::user()->organization_id)->get();
+    return view('pdf.p9Select', compact('employees', 'branches', 'departments'));
+});
+
+
+/**
+ * Advance reports
+ */
+Route::get('advanceReports', function () {
+    return view('employees.advancereports');
+});
+
+
+/**
+ * statutory reports
+ */
+Route::get('statutoryReports', function () {
+    return view('employees.statutoryreports');
+});
+
+Route::resource('accounts', AccountsController::class);
+Route::post('accounts/update/{id}', [AccountsController::class,'update']);
+Route::get('accounts/delete/{id}', [AccountsController::class,'destroy']);
+Route::get('accounts/edit/{id}', [AccountsController::class,'edit']);
+Route::get('accounts/show/{id}', [AccountsController::class,'show']);
+Route::get('accounts/create/{id}', [AccountsController::class,'create']);
+
+//
+Route::group(['before' => 'manage_settings'], function () {
+
+    Route::get('migrate', function () {
+
+        return View::make('migration');
+
+    });
+
+});

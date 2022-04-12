@@ -65,21 +65,19 @@
                                                             <a href="{{url('accounts/delete/'.$account->id)}}">Delete</a>
                                                         </li>
                                                     <!--<li><a href="{{url('accounts/show/'.$account->id)}}">Delete</a></li>-->
-
                                                     </ul>
                                                 </div>
-
                                             </td>
-
-
                                         </tr>
-
                                         <?php $i++; ?>
                                     @endforeach
-
-
                                     </tbody>
                                 </table>
+                                <div class="col-sm-12">
+                                    <div class="float-right">
+                                        {{$accounts->links()}}
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

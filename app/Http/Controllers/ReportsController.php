@@ -1,30 +1,32 @@
-<?php  namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Exports\DisbursedLoanListingExport;
 use App\Exports\MemberExport;
-use App\models\Account;
-use App\models\AccountTransaction;
-use App\models\Audit;
-use App\models\Bank;
-use App\models\Branch;
-use App\models\Currency;
-use App\models\Department;
-use App\models\Employee;
-use App\models\Jobgroup;
-use App\models\Journal;
-use App\models\Loanaccount;
-use App\models\Loanproduct;
-use App\models\Loanrepayment;
-use App\models\Loantransaction;
-use App\models\Member;
-use App\models\Organization;
-use App\models\Particular;
-use App\models\Payroll;
-use App\models\Pensioninterest;
-use App\models\Property;
-use App\models\Savingaccount;
-use App\models\Savingproduct;
-use App\models\Transact;
+use App\Models\Account;
+use App\Models\AccountTransaction;
+use App\Models\Audit;
+use App\Models\Bank;
+use App\Models\Branch;
+use App\Models\Currency;
+use App\Models\Department;
+use App\Models\Employee;
+use App\Models\Jobgroup;
+use App\Models\Journal;
+use App\Models\Loanaccount;
+use App\Models\Loanproduct;
+use App\Models\Loanrepayment;
+use App\Models\Loantransaction;
+use App\Models\Member;
+use App\Models\Organization;
+use App\Models\Particular;
+use App\Models\Payroll;
+use App\Models\Pensioninterest;
+use App\Models\Property;
+use App\Models\Savingaccount;
+use App\Models\Savingproduct;
+use App\Models\Transact;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -2450,25 +2452,26 @@ class ReportsController extends Controller {
 
 
             if($request->get('branch') == 'All' && $request->get('department') == 'All'){
-                $total_amount = DB::table('transact_advances')
+                $total_amount = DB::table('x_transact_advances')
                     ->where('organization_id',Auth::user()->organization_id)
                     ->where('financial_month_year' ,'=', $period)
                     ->sum('amount');
 
-                $currencies = DB::table('currencies')
+                $currencies = DB::table('x_currencies')
                     ->whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)
                     ->select('shortname')
                     ->get();
 
-                $sums = DB::table('transact_advances')
-                    ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
-                    ->where('employee.organization_id',Auth::user()->organization_id)
+                $sums = DB::table('x_transact_advances')
+                    ->join('x_employee', 'x_transact_advances.employee_id', '=', 'x_employee.personal_file_number')
+                    ->where('x_employee.organization_id',Auth::user()->organization_id)
                     ->where('financial_month_year' ,'=', $period)
                     ->get();
 
                 $organization = Organization::find(Auth::user()->organization_id);
+                $part = ($request->get('period'));
+                //$part = implode("-", $request->get('period'));
 
-                $part = implode("-", $request->get('period'));
 
                 $m = "";
 

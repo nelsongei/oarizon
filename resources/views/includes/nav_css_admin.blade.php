@@ -249,12 +249,12 @@
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                    <a href="{{ url('payrollcalculator') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Payroll Calculator</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('import_repayments') }}" class="waves-effect waves-dark">
+                                    <a href="{{ url('email/payslip') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Email Payslip</span>
                                     </a>
                                 </li>
@@ -267,17 +267,17 @@
                             </a>
                             <ul class="pcoded-submenu">
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('advance')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Advance Salaries</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('payroll')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Payroll</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('unlockpayroll/index')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Approve Payroll Rerun</span>
                                     </a>
                                 </li>
@@ -290,17 +290,17 @@
                             </a>
                             <ul class="pcoded-submenu">
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('advanceReports')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Advance Reports</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('payrollReports')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Payroll Reports</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('statutoryReports')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Statutory Reports</span>
                                     </a>
                                 </li>
@@ -313,12 +313,12 @@
                             </a>
                             <ul class="pcoded-submenu">
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('accounts')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Accounts Settings</span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="{{ url('matrices')}}" class="waves-effect waves-dark">
+                                    <a href="{{ url('migrate')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Data Migration</span>
                                     </a>
                                 </li>
