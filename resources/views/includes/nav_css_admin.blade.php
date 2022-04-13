@@ -359,6 +359,26 @@
                         </li>
                     </ul>
                 </li>
+                <li class="pcoded-hasmenu">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="feather icon-check-circle"></i></span>
+                        <span class="pcoded-mtext">System</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li>
+                            <a href="{{url('users')}}" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-user"></i></span>
+                                <span class="pcoded-mtext">Users</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('roles')}}" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-user"></i></span>
+                                <span class="pcoded-mtext">Roles</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="">
                     <a href="{{ url('licence')}}" class="waves-effect waves-dark">
                         <span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
