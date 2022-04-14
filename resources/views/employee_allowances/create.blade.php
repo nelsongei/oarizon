@@ -175,8 +175,8 @@
                                                         style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control allowancedate" readonly="readonly"
-                                                           placeholder="" type="text"
+                                                    <input class="form-control allowancedate"
+                                                           placeholder="" type="date"
                                                            name="adate" id="adate" value="{{{ old('adate') }}}">
                                                 </div>
                                             </div>
@@ -207,13 +207,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-    </div>
-    <div class="row">
-        <div class="col-lg-5">
-        </div>
-
     </div>
     <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>

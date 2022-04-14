@@ -35,7 +35,7 @@
                                         <div class="row align-items-center m-b-30">
                                             <div class="col">
                                                 <h6 class="m-b-5 text-white">Employees</h6>
-                                                <h3 class="m-b-0 f-w-700 text-white">15</h3>
+                                                <h3 class="m-b-0 f-w-700 text-white">{{$employees}}</h3>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-users text-c-blue f-18"></i>
@@ -52,7 +52,7 @@
                                         <div class="row align-items-center m-b-30">
                                             <div class="col">
                                                 <h6 class="m-b-5 text-white">Leaves</h6>
-                                                <h3 class="m-b-0 f-w-700 text-white">150</h3>
+                                                <h3 class="m-b-0 f-w-700 text-white">{{$leaves}}</h3>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-copy text-c-blue f-18"></i>
@@ -86,7 +86,7 @@
                                         <div class="row align-items-center m-b-30">
                                             <div class="col">
                                                 <h6 class="m-b-5 text-white">Users</h6>
-                                                <h3 class="m-b-0 f-w-700 text-white">15</h3>
+                                                <h3 class="m-b-0 f-w-700 text-white">{{$users}}</h3>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-user text-c-blue f-18"></i>
@@ -167,13 +167,13 @@
     ?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const payroll = document.getElementById('genderChart').getContext('2d');
-        const genderChart = new Chart(payroll, {
+        const gender = document.getElementById('genderChart').getContext('2d');
+        const genderChart = new Chart(gender, {
             type: 'doughnut',
             data: {
                 labels: ['Male', 'Female'],
                 datasets: [{
-                    data: ['10', '14'],
+                    data: [{{$male}}, {{$female}}],
                     backgroundColor: [
                         'rgba(75, 192, 192, 1)',
                         'rgb(255,159,64)'
@@ -208,9 +208,9 @@
         const leaveChart = new Chart(leave, {
             type: 'doughnut',
             data: {
-                labels: ['Approved', 'Amended', 'Rejected'],
+                labels: ['Approved', 'Cancelled', 'Applied'],
                 datasets: [{
-                    data: ['10', '14', '3'],
+                    data: [{{$approved}}, {{$cancelled}}, {{$applied}}],
                     backgroundColor: [
                         'rgba(75, 192, 192, 1)',
                         'rgb(255,159,64)',
@@ -250,7 +250,7 @@
                 labels: ['{{$months[11]}}','{{$months[10]}}','{{$months[9]}}','{{$months[8]}}','{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}','{{$months[0]}}'],
                 datasets:[{
                     label: "Leave Applications",
-                    data:['2','21','30','12','2','14','18','9','8','10','10','1'],
+                    data:[{{$month12}},{{$month11}},{{$month10}},{{$month9}},{{$month8}},{{$month7}},{{$month6}},{{$month5}},{{$month4}},{{$month3}},{{$month2}},{{$month1}}],
                     backgroundColor: [
                         'rgba(75, 192, 192, 1)',
                         // 'rgba(255, 159, 64, 0.2)'
@@ -283,7 +283,7 @@
                 labels: ['{{$months[11]}}','{{$months[10]}}','{{$months[9]}}','{{$months[8]}}','{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}','{{$months[0]}}'],
                 datasets:[{
                     label: 'Payroll Process',
-                    data:['2','21','30','12','2','14','18','9','8','10','10','1'],
+                    data:[{{$month12}},{{$month11}},{{$month10}},{{$month9}},{{$month8}},{{$month7}},{{$month6}},{{$month5}},{{$month4}},{{$month3}},{{$month2}},{{$month1}}],
                     backgroundColor: [
                         'rgb(208,255,0)',
                         // 'rgba(255, 159, 64, 0.2)'

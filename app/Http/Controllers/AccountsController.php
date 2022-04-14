@@ -1,10 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\Account;
-use App\models\AccountTransaction;
-use App\models\Journal;
-use App\models\Member;
-use App\models\Particular;
+use App\Models\Account;
+use App\Models\AccountTransaction;
+use App\Models\Journal;
+use App\Models\Member;
+use App\Models\Particular;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -126,11 +126,11 @@ class AccountsController extends Controller {
         }
 
         $code = $request->get('code');
-        $original_code = DB::table('accounts')->where('id', '=', $account->id)->pluck('code');
+        $original_code = DB::table('x_accounts')->where('id', '=', $account->id)->pluck('code');
 
         if($code != $original_code) {
 
-            $code_exists = DB::table('accounts')->where('code', '=', $code)->count();
+            $code_exists = DB::table('x_accounts')->where('code', '=', $code)->count();
 
             if($code_exists >= 1){
 

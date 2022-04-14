@@ -278,12 +278,12 @@ class EmployeeAllowancesController extends Controller
     public function view($id)
     {
 
-        $eallw = DB::table('employee_allowances')
-            ->join('employee', 'employee_allowances.employee_id', '=', 'employee.id')
-            ->join('allowances', 'employee_allowances.allowance_id', '=', 'allowances.id')
-            ->where('employee_allowances.id', '=', $id)
-            ->where('employee.organization_id', Auth::user()->organization_id)
-            ->select('employee_allowances.id', 'first_name', 'last_name', 'middle_name', 'allowance_amount',
+        $eallw = DB::table('x_employee_allowances')
+            ->join('x_employee', 'x_employee_allowances.employee_id', '=', 'x_employee.id')
+            ->join('x_allowances', 'x_employee_allowances.allowance_id', '=', 'x_allowances.id')
+            ->where('x_employee_allowances.id', '=', $id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
+            ->select('x_employee_allowances.id', 'first_name', 'last_name', 'middle_name', 'allowance_amount',
                 'allowance_name', 'photo', 'signature', 'formular', 'instalments', 'allowance_date', 'first_day_month', 'last_day_month')
             ->first();
 

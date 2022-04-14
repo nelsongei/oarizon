@@ -1,4 +1,5 @@
-<?php namespace App\models;
+<?php
+namespace App\Models;
 
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Model;

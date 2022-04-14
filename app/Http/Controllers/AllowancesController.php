@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Allowance;
 use App\Models\Audit;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -54,7 +55,7 @@ class AllowancesController extends Controller {
 
 		$allowance->save();
 
-		Audit::logaudit('Allowances', 'create', 'created: '.$allowance->allowance_name);
+		Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Allowances', 'create',);
 
 
 		return Redirect::route('allowances.index');
@@ -96,17 +97,17 @@ class AllowancesController extends Controller {
 	{
 		$allowance = Allowance::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), Allowance::$rules, Allowance::$messsages);
+		$validator = Validator::make($data = request()->all(), Allowance::$rules, Allowance::$messsages);
 
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$allowance->allowance_name = Input::get('name');
+		$allowance->allowance_name = request('name');
 		$allowance->update();
 
-		Audit::logaudit('Allowances', 'update', 'updated: '.$allowance->allowance_name);
+		Audit::logaudit(date('Y-m-d'),Auth()->user()->name,'Allowances', 'update');
 
 		return Redirect::route('allowances.index');
 	}
@@ -122,7 +123,7 @@ class AllowancesController extends Controller {
 		$allowance = Allowance::findOrFail($id);
 		Allowance::destroy($id);
 
-		Audit::logaudit('Allowances', 'delete', 'deleted: '.$allowance->allowance_name);
+		Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Allowances', 'delete');
 
 		return Redirect::route('allowances.index');
 	}
