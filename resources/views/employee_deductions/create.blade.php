@@ -73,7 +73,6 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h3>New Employee Deduction</h3>
-
                             <hr>
                         </div>
                         <div class="col-lg-12">
@@ -116,9 +115,7 @@
                                                             value="{{ $employee->id }}"> {{ $employee->first_name.' '.$employee->middle_name.' '.$employee->last_name }}</option>
                                                     @endforeach
                                                 </select>
-
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="username">Deduction Type <span
                                                         style="color:red">*</span></label>
@@ -130,10 +127,7 @@
                                                             value="{{ $deduction->id }}"> {{ $deduction->deduction_name }}</option>
                                                     @endforeach
                                                 </select>
-
                                             </div>
-
-
                                             <div class="form-group">
                                                 <label for="username">Formular <span style="color:red">*</span></label>
                                                 <select name="formular" id="formular" class="form-control forml">
@@ -163,11 +157,6 @@
                                                            onkeyup="totalBalance()" name="amount" id="amount"
                                                            value="{{{ old('amount') }}}">
                                                 </div>
-                                                <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        $('#amount').priceFormat();
-                                                    });
-                                                </script>
                                             </div>
 
                                             <div class="form-group bal_amt" id="bal">
@@ -186,25 +175,11 @@
                                                         style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control deductiondate" readonly="readonly"
+                                                    <input class="form-control deductiondate"
                                                            placeholder="" type="text"
                                                            name="ddate" id="ddate" value="{{{ old('ddate') }}}">
                                                 </div>
                                             </div>
-
-                                            <script type="text/javascript">
-                                                $(function () {
-
-                                                    $('.deductiondate').datepicker({
-                                                        format: 'yyyy-mm-dd',
-                                                        startDate: '-60y',
-                                                        autoclose: true
-                                                    });
-                                                });
-
-                                            </script>
-
-
                                             <div class="form-actions form-group">
 
                                                 <button type="submit" class="btn btn-primary btn-sm">Create Employee
@@ -226,7 +201,23 @@
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript">
-        document.getElementById("edate").value = '';
+        // $(document).ready(function () {
+        //     $('#amount').priceFormat();
+        // });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('.deductiondate').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '-60y',
+                autoclose: true
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        //document.getElementById("edate").value = '';
 
         function totalBalance() {
             var instals = document.getElementById("instalments").value;

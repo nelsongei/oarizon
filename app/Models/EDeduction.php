@@ -18,7 +18,7 @@ class EDeduction extends Model
     ];
     */
 
-    public $table = "employee_deductions";
+    public $table = "x_employee_deductions";
 
     public static $rules = [
         'employee' => 'required',
@@ -44,13 +44,13 @@ class EDeduction extends Model
     public function employee()
     {
 
-        return $this->belongsTo('Employee');
+        return $this->belongsTo(Employee::class );
     }
 
     public function deduction()
     {
 
-        return $this->belongsTo('Deduction');
+        return $this->belongsTo(Deduction::class);
     }
 
 }

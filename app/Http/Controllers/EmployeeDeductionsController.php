@@ -133,7 +133,7 @@ class EmployeeDeductionsController extends Controller {
 
         $ded->save();
 
-        Audit::logaudit('Employee Deduction', 'create', 'assigned: '.$ded->deduction_amount.' to '.Employee::getEmployeeName($request->get('employee')));
+        Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Employee Deduction',  'assigned: '.$ded->deduction_amount.' to '.Employee::getEmployeeName($request->get('employee')));
 
         return Redirect::route('employee_deductions.index')->withFlashMessage('Employee Deduction successfully created!');
     }
@@ -227,7 +227,7 @@ class EmployeeDeductionsController extends Controller {
 
         $ded->update();
 
-        Audit::logaudit('Employee Deduction', 'update', 'assigned: '.$ded->deduction_amount.' for '.Employee::getEmployeeName($ded->employee_id));
+        Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Employee Deduction',  'assigned: '.$ded->deduction_amount.' for '.Employee::getEmployeeName($ded->employee_id));
 
         return Redirect::route('employee_deductions.index')->withFlashMessage('Employee Deduction successfully updated!');
     }
@@ -250,12 +250,12 @@ class EmployeeDeductionsController extends Controller {
 
     public function view($id){
 
-        $ded = DB::table('employee')
-            ->join('employee_deductions', 'employee.id', '=', 'employee_deductions.employee_id')
-            ->join('deductions', 'employee_deductions.deduction_id', '=', 'deductions.id')
-            ->where('employee_deductions.id','=',$id)
-            ->where('employee.organization_id',Auth::user()->organization_id)
-            ->select('employee_deductions.id','first_name','last_name','middle_name','formular','instalments','deduction_amount','deduction_name','deduction_date','last_day_month','photo','signature')
+        $ded = DB::table('x_employee')
+            ->join('x_employee_deductions', 'x_employee.id', '=', 'x_employee_deductions.employee_id')
+            ->join('x_deductions', 'x_employee_deductions.deduction_id', '=', 'x_deductions.id')
+            ->where('x_employee_deductions.id','=',$id)
+            ->where('x_employee.organization_id',Auth::user()->organization_id)
+            ->select('x_employee_deductions.id','first_name','last_name','middle_name','formular','instalments','deduction_amount','deduction_name','deduction_date','last_day_month','photo','signature')
             ->first();
 
         $organization = Organization::find(Auth::user()->organization_id);

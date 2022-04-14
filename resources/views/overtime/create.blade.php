@@ -106,8 +106,8 @@ function asMoney($value)
                                                         style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control expiry" readonly="readonly"
-                                                           placeholder="" type="text"
+                                                    <input class="form-control expiry"
+                                                           placeholder="" type="date"
                                                            name="odate" id="odate" value="{{{ old('odate') }}}">
                                                 </div>
                                             </div>
@@ -130,7 +130,7 @@ function asMoney($value)
     </div>
     <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script type="text/javascript">
-        document.getElementById("edate").value = '';
+        document.getElementById("odate").value = '';
 
         function totalBalance() {
             var p = document.getElementById("period").value;
@@ -177,32 +177,30 @@ function asMoney($value)
 
     <script type="text/javascript">
         $(document).ready(function () {
-
             $('#employee').change(function () {
                 $.get("{{ url('api/pay')}}",
                     {option: $(this).val()},
                     function (data) {
+                    console.log(data);
                         console.log(data.replace(/,/g, ''));
-
-                        if ($('#type').val() == '' || $('#period').val() == '') {
+                        if ($('#type').val() === '' || $('#period').val() === '') {
                             $('#amount').val(0.00);
                             $('#total').val(0.00);
-                        } else if ($('#type').val() == 'Hourly' && $('#period').val() != '') {
+                        } else if ($('#type').val() === 'Hourly' && $('#period').val() !== '') {
                             $('#amount').val(((data.replace(/,/g, '')) / 24 / 30).toFixed(2));
                             $('#total').val((((data.replace(/,/g, '')) / 24 / 30).toFixed(2) * ($('#period').val())).toFixed(2));
-                        } else if ($('#type').val() == 'Daily' && $('#period').val() != '') {
+                        } else if ($('#type').val() === 'Daily' && $('#period').val() !== '') {
                             $('#amount').val(((data.replace(/,/g, '')) / 30).toFixed(2));
                             $('#total').val((((data.replace(/,/g, '')) / 30).toFixed(2) * ($('#period').val())).toFixed(2));
                         }
                         $('#type').change(function () {
-                            if ($(this).val() == '') {
+                            if ($(this).val() === '') {
                                 $('#amount').val(0.00);
-                            } else if ($(this).val() == 'Hourly') {
+                            } else if ($(this).val() === 'Hourly') {
                                 $('#amount').val(((data.replace(/,/g, '')) / 24 / 30).toFixed(2));
                             } else {
                                 $('#amount').val(((data.replace(/,/g, '')) / 30).toFixed(2));
                             }
-
                             if ($('#period').val() != '' && $(this).val() == 'Hourly') {
                                 $('#total').val((((data.replace(/,/g, '')) / 24 / 30).toFixed(2) * ($('#period').val())).toFixed(2));
                             } else if ($('#period').val() != '' && $(this).val() == 'Daily') {

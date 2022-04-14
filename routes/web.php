@@ -596,15 +596,21 @@ Route::get('deductions/edit/{id}', [DeductionsController::class, 'edit']);
 */
 
 Route::resource('nssf', NssfController::class);
-Route::post('nssf/update/{id}', 'NssfController@update');
-Route::get('nssf/delete/{id}', 'NssfController@destroy');
-Route::get('nssf/edit/{id}', 'NssfController@edit');
+Route::post('nssf/update/{id}', [NssfController::class,'update']);
+Route::get('nssf/delete/{id}', [NssfController::class,'destroy']);
+Route::get('nssf/edit/{id}', [NssfController::class,'edit']);
 
 /*
 * nhif routes
 */
 
 Route::resource('nhif', NhifController::class);
-Route::post('nhif/update/{id}', 'NhifController@update');
-Route::get('nhif/delete/{id}', 'NhifController@destroy');
-Route::get('nhif/edit/{id}', 'NhifController@edit');
+Route::post('nhif/update/{id}', [NhifController::class,'update']);
+Route::get('nhif/delete/{id}', [NhifController::class,'destroy']);
+Route::get('nhif/edit/{id}', [NhifController::class,'edit']);
+//
+Route::get('api/pay', function () {
+    $id = request('option');
+    $employee = Employee::find($id);
+    return number_format($employee->basic_pay, 2);
+});

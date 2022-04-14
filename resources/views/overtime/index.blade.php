@@ -49,6 +49,7 @@ function asMoney($value)
                                             <th>Employee</th>
                                             <th>Period Worked</th>
                                             <th>Amount</th>
+                                            <th>Type</th>
                                             <th>Total Amount</th>
                                             <th>Action</th>
                                         </tr>
@@ -68,6 +69,7 @@ function asMoney($value)
                                                 @endif
                                                 <td>{{ $overtime->period }}</td>
                                                 <td align="right">{{ asMoney((double)$overtime->amount) }}</td>
+                                                <td>{{$overtime->type}}</td>
                                                 <td align="right">{{ asMoney((double)$overtime->amount*(double)$overtime->period) }}</td>
                                                 <td>
 

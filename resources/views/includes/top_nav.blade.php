@@ -1,7 +1,7 @@
 <?php
-//$notifications = App\models\Notification::where("user_id",Auth::user()->id)->where("is_read",0)->count();
-//$organization = DB::table('x_organizations')
-//    ->where('id', '=', 1)->first();
+$notifications = App\Models\Notification::where("user_id", Auth::user()->id)->where("is_read", 0)->count();
+$organization = DB::table('x_organizations')
+    ->where('id', '=', 1)->first();
 ?>
 <nav class="navbar header-navbar pcoded-header">
     <div class="navbar-wrapper">
@@ -42,13 +42,30 @@
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
                             <i class="feather icon-bell"></i>
-                            <span class="badge bg-c-red">0</span>
+                            <span class="badge bg-c-red">1</span>
                         </div>
+                        <ul class="show-notification notification-view dropdown-menu" data-dropdown-in="fadeIn"
+                            data-dropdown-out="fadeOut">
+                            <li>
+                                <h6>Notifications</h6>
+                                <label class="label label-danger">New</label>
+                            </li>
+                            <li>
+                                <div class="media">
+                                    <img class="img-radius" height="40px" src="{{asset('media/logo/logo.png')}}"
+                                         alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <h5 class="notification-user">John Doe</h5>
+                                        <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
+                                            elit.</p>
+                                        <span class="notification-time">30 minutes ago</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </li>
-
                 <li class="user-profile header-notification">
-
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('assets/assets/images/avatar-4.jpg')}}" class="img-radius"

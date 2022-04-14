@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Overtime extends Model
 {
+    protected $table = 'x_overtimes';
     /*
         use \Traits\Encryptable;
 
@@ -37,7 +38,7 @@ class Overtime extends Model
     public function employee()
     {
 
-        return $this->belongsTo('Employee');
+        return $this->belongsTo(Employee::class);
     }
 
 }

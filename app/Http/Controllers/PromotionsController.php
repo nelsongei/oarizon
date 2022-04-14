@@ -255,7 +255,7 @@ class PromotionsController extends Controller
         //$promotions = Promotion::whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)->get();
 
         $pdf = PDF::loadView('pdf.transferletter', compact('type', 'stationto', 'stationfrom', 'employee', 'organization', 'promotion'))
-            ->setPaper('a4')->setOrientation('potrait');
+            ->setPaper('a4');
 
         return $pdf->download('Transfer Letter pdf');
     }

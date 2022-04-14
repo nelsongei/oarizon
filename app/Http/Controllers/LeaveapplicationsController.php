@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\Employee;
-use App\models\Leaveapplication;
+use App\Models\Employee;
+use App\Models\Leaveapplication;
 use App\Models\Leavetype;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

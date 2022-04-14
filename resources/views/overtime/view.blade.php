@@ -1,5 +1,5 @@
 @extends('layouts.main_hr')
-@section('content')
+@section('xara_cbs')
 
 <?php
 

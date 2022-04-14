@@ -130,14 +130,12 @@
                                                     <option value="Recurring">Recurring</option>
                                                     <option value="Instalments">Instalments</option>
                                                 </select>
-
                                             </div>
-
                                             <div class="form-group insts" id="insts">
                                                 <label for="username">Instalments </label>
                                                 <input class="form-control" placeholder=""
-                                                       onkeypress="totalB(),getdate()"
-                                                       onkeyup="totalB(),getdate()" type="text" name="instalments"
+                                                       onkeypress="totalB().getdate()"
+                                                       onkeyup="totalB().getdate()" type="text" name="instalments"
                                                        id="instalments"
                                                        value="{{{ old('instalments') }}}">
                                             </div>
@@ -152,11 +150,6 @@
                                                            id="amount"
                                                            value="{{{ old('amount') }}}">
                                                 </div>
-                                                <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        $('#amount').priceFormat();
-                                                    });
-                                                </script>
                                             </div>
 
                                             <div class="form-group bal_amt" id="bal">
@@ -180,17 +173,6 @@
                                                            name="adate" id="adate" value="{{{ old('adate') }}}">
                                                 </div>
                                             </div>
-
-                                            <script type="text/javascript">
-                                                $(function () {
-
-                                                    $('.allowancedate').datepicker({
-                                                        format: 'yyyy-mm-dd',
-                                                        startDate: '-60y',
-                                                        autoclose: true
-                                                    });
-                                                });
-                                            </script>
                                             <div class="form-actions form-group">
 
                                                 <button type="submit" class="btn btn-primary btn-sm">Create Employee
@@ -211,6 +193,21 @@
     <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#amount').priceFormat();
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('.allowancedate').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '-60y',
+                autoclose: true
+            });
+        });
+    </script>
     <script>
         $(function () {
             var dialog, form,

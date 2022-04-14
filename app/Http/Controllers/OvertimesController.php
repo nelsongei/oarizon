@@ -119,7 +119,7 @@ class OvertimesController extends Controller
 
         $overtime->save();
 
-        Audit::logaudit('Overtimes', 'create', 'created: ' . $overtime->type . ' for ' . Employee::getEmployeeName(Input::get('employee')));
+        Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'create', 'created: ' . $overtime->type . ' for ' . Employee::getEmployeeName(request('employee')));
 
 
         return Redirect::route('overtimes.index')->withFlashMessage('Employee Overtime successfully created!');
@@ -162,7 +162,7 @@ class OvertimesController extends Controller
     {
         $overtime = Overtime::findOrFail($id);
 
-        $validator = Validator::make($data = Input::all(), Overtime::$rules, Overtime::$messsages);
+        $validator = Validator::make($data = request()->all(), Overtime::$rules, Overtime::$messsages);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -217,7 +217,7 @@ class OvertimesController extends Controller
 
         $overtime->update();
 
-        Audit::logaudit('Overtimes', 'update', 'updated: ' . $overtime->type . ' for ' . Employee::getEmployeeName($overtime->employee_id));
+        Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Overtimes',  'updated: ' . $overtime->type . ' for ' . Employee::getEmployeeName($overtime->employee_id));
 
         return Redirect::route('overtimes.index')->withFlashMessage('Employee Overtime successfully updated!');
     }
@@ -233,7 +233,7 @@ class OvertimesController extends Controller
         $overtime = Overtime::findOrFail($id);
         Overtime::destroy($id);
 
-        Audit::logaudit('Overtimes', 'delete', 'deleted: ' . $overtime->type . ' for ' . Employee::getEmployeeName($overtime->employee_id));
+        Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'delete', 'deleted: ' . $overtime->type . ' for ' . Employee::getEmployeeName($overtime->employee_id));
 
         return Redirect::route('overtimes.index')->withDeleteMessage('Employee Overtime successfully deleted!');
     }

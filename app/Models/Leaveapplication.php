@@ -4,6 +4,7 @@ namespace App\Models;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class Leaveapplication extends Model
@@ -48,26 +49,26 @@ class Leaveapplication extends Model
 
         $organization = Organization::getUserOrganization();
 
-        $employee = Employee::find(array_get($data, 'employee_id'));
+        $employee = Employee::find(Arr::get($data, 'employee_id'));
 
-        $leavetype = Leavetype::find(array_get($data, 'leavetype_id'));
+        $leavetype = Leavetype::find(Arr::get($data, 'leavetype_id'));
 
         $application = new Leaveapplication;
 
-        $application->applied_start_date = array_get($data, 'applied_start_date');
-        $application->applied_end_date = array_get($data, 'applied_end_date');
+        $application->applied_start_date = Arr::get($data, 'applied_start_date');
+        $application->applied_end_date = Arr::get($data, 'applied_end_date');
         $application->status = 'applied';
         $application->application_date = date('Y-m-d');
         $application->employee()->associate($employee);
         $application->leavetype()->associate($leavetype);
         $application->organization()->associate($organization);
         $application->is_supervisor_approved = 0;
-        if (array_get($data, 'weekends') == null) {
+        if (Arr::get($data, 'weekends') == null) {
             $application->is_weekend = 0;
         } else {
             $application->is_weekend = 1;
         }
-        if (array_get($data, 'holidays') == null) {
+        if (Arr::get($data, 'holidays') == null) {
             $application->is_holiday = 0;
         } else {
             $application->is_holiday = 1;
@@ -93,17 +94,17 @@ class Leaveapplication extends Model
 
     public static function amendLeaveApplication($data, $id)
     {
-        $leavetype = Leavetype::find(array_get($data, 'leavetype_id'));
+        $leavetype = Leavetype::find(Arr::get($data, 'leavetype_id'));
 
         $application = Leaveapplication::find($id);
 
-        $application->applied_start_date = array_get($data, 'applied_start_date');
-        $application->applied_end_date = array_get($data, 'applied_end_date');
+        $application->applied_start_date = Arr::get($data, 'applied_start_date');
+        $application->applied_end_date = Arr::get($data, 'applied_end_date');
         $application->status = 'amended';
         $application->date_amended = date('Y-m-d');
         $application->leavetype()->associate($leavetype);
-        $application->is_weekend = array_get($data, 'weekends');
-        $application->is_holiday = array_get($data, 'holidays');
+        $application->is_weekend = Arr::get($data, 'weekends');
+        $application->is_holiday = Arr::get($data, 'holidays');
         $application->update();
 
     }
@@ -111,12 +112,10 @@ class Leaveapplication extends Model
 
     public static function approveLeaveApplication($data, $id)
     {
-
-
         $application = Leaveapplication::find($id);
 
-        $application->approved_start_date = array_get($data, 'approved_start_date');
-        $application->approved_end_date = array_get($data, 'approved_end_date');
+        $application->approved_start_date = Arr::get($data, 'approved_start_date');
+        $application->approved_end_date = Arr::get($data, 'approved_end_date');
         $application->status = 'approved';
         $application->date_approved = date('Y-m-d');
 
