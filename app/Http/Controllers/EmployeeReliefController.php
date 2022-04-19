@@ -100,7 +100,7 @@ class EmployeeReliefController extends Controller {
 
 		$rel->save();
 
-		Audit::logaudit('Employee Reliefs', 'create', 'created: '.$rel->relief_amount.' for '.Employee::getEmployeeName(Input::get('employee')));
+		Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Employee Reliefs',  'created: '.$rel->relief_amount.' for '.Employee::getEmployeeName(request('employee')));
 
 		return Redirect::route('employee_relief.index')->withFlashMessage('Employee Relief successfully created!');
 	}
@@ -123,13 +123,13 @@ class EmployeeReliefController extends Controller {
 	 * Show the form for editing the specified branch.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function edit($id)
 	{
 
 		$rel = ERelief::find($id);
-		$employees = Employee::where('employee.organization_id',Auth::user()->organization_id)->get();
+		$employees = Employee::where('x_employee.organization_id',Auth::user()->organization_id)->get();
                 $reliefs = Relief::whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)->get();
                 $currency = Currency::whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)->first();
 		return View::make('employee_relief.edit', compact('rel','employees','reliefs','currency'));
@@ -139,32 +139,32 @@ class EmployeeReliefController extends Controller {
 	 * Update the specified branch in storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function update($id)
 	{
 		$rel = ERelief::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), ERelief::$rules, ERelief::$messages);
+		$validator = Validator::make($data = request()->all(), ERelief::$rules, ERelief::$messages);
 
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$rel->relief_id = Input::get('relief');
+		$rel->relief_id = request('relief');
 
-		$rel->percentage = str_replace( '%', '', Input::get('percentage'));
+		$rel->percentage = str_replace( '%', '', request('percentage'));
 
-		$rel->premium = str_replace( ',', '', Input::get('premium'));
+		$rel->premium = str_replace( ',', '', request('premium'));
 
-        $a = str_replace( ',', '', Input::get('amount') );
+        $a = str_replace( ',', '', request('amount') );
 
         $rel->relief_amount = $a;
 
 		$rel->update();
 
-		Audit::logaudit('Employee Reliefs', 'update', 'updated: '.$rel->relief_amount.' for '.Employee::getEmployeeName($rel->employee_id));
+		Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Employee Reliefs',  'updated: '.$rel->relief_amount.' for '.Employee::getEmployeeName($rel->employee_id));
 
 		return Redirect::route('employee_relief.index')->withFlashMessage('Employee Relief successfully updated!');
 	}
@@ -186,12 +186,12 @@ class EmployeeReliefController extends Controller {
 
 	public function view($id){
 
-		$rel = DB::table('employee')
-		          ->join('employee_relief', 'employee.id', '=', 'employee_relief.employee_id')
-		          ->join('relief', 'employee_relief.relief_id', '=', 'relief.id')
-		          ->where('employee_relief.id','=',$id)
-		          ->where('employee.organization_id',Auth::user()->organization_id)
-		          ->select('employee_relief.id','first_name','last_name','relief_amount','relief_name','middle_name','photo','signature','premium','percentage')
+		$rel = DB::table('x_employee')
+		          ->join('x_employee_relief', 'x_employee.id', '=', 'x_employee_relief.employee_id')
+		          ->join('x_relief', 'x_employee_relief.relief_id', '=', 'x_relief.id')
+		          ->where('x_employee_relief.id','=',$id)
+		          ->where('x_employee.organization_id',Auth::user()->organization_id)
+		          ->select('x_employee_relief.id','first_name','last_name','relief_amount','relief_name','middle_name','photo','signature','premium','percentage')
 		          ->first();
 
 		$organization = Organization::find(Auth::user()->organization_id);

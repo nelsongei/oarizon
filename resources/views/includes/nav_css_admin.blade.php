@@ -184,7 +184,7 @@
                                 </li>
                                 <li>
                                     <a href="{{url('departments')}}">
-                                        <span class="pcoded-mtext">Citizenship</span>
+                                        <span class="pcoded-mtext">Departments</span>
                                     </a>
                                 </li>
                                 <li>
@@ -375,6 +375,12 @@
                             <a href="{{url('roles')}}" class="waves-effect waves-dark">
                                 <span class="pcoded-micon"><i class="feather icon-user"></i></span>
                                 <span class="pcoded-mtext">Roles</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('audit')}}" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-user"></i></span>
+                                <span class="pcoded-mtext">Audit</span>
                             </a>
                         </li>
                     </ul>

@@ -586,6 +586,7 @@ class EmployeesController extends Controller
      */
     public function update(Request $request, $id)
     {
+//        dd($request->all());
         $employee = Employee::findOrFail($id);
 
         //$validator = Employee::validateUpdate($request->all(), $id);
@@ -600,7 +601,6 @@ class EmployeesController extends Controller
             }*/
 
         if ($request->hasFile('image')) {
-
             $file = $request->file('image');
             $name = time() . '-' . $file->getClientOriginalName();
             $file = $file->move('public/uploads/employees/photo', $name);

@@ -154,11 +154,6 @@
                                                            id="premium"
                                                            value="{{{ old('premium') }}}">
                                                 </diV>
-                                                <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        $('#premium').priceFormat();
-                                                    });
-                                                </script>
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Relief Amount <span style="color:red">*</span>
@@ -186,11 +181,16 @@
             </div>
         </div>
     </div>
-    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('media/jquery-1.12.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript">
-        document.getElementById("edate").value = '';
+        // $(document).ready(function () {
+        //     $('#premium').priceFormat();
+        // });
+    </script>
+    <script type="text/javascript">
+        //document.getElementById("edate").value = '';
 
         function totalBalance() {
             var percentage = document.getElementById("percentage").value;
@@ -233,7 +233,7 @@
             }
 
             function checkLength(o) {
-                if (o.val().length == 0) {
+                if (o.val().length === 0) {
                     o.addClass("ui-state-error");
                     updateTips("Please insert relief type!");
                     return false;
@@ -314,7 +314,6 @@
                     allFields.removeClass("ui-state-error");
                 }
             });
-
             form = dialog.find("form").on("submit", function (event) {
                 event.preventDefault();
                 addUser();

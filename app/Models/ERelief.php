@@ -15,7 +15,7 @@ class ERelief extends Model
     ];
     */
 
-    public $table = "employee_relief";
+    public $table = "x_employee_relief";
 
     public static $rules = [
         'employee' => 'required',
@@ -37,13 +37,13 @@ class ERelief extends Model
     public function employee()
     {
 
-        return $this->belongsTo('Employee');
+        return $this->belongsTo(Employee::class);
     }
 
     public function relief()
     {
 
-        return $this->belongsTo('Relief');
+        return $this->belongsTo(Relief::class);
     }
 
 }
