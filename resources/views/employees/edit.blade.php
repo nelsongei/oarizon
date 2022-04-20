@@ -580,7 +580,7 @@
                                                             <option value="cnew">Create New</option>
                                                             @foreach($departments as $department)
                                                                 <option
-                                                                    value="{{$department->id }}"<?= ($employee->department_id == $department->id) ? 'selected="selected"' : ''; ?>> {{ $department->department_name.' ('.$department->codes.')' }}</option>
+                                                                    value="{{$department->id }}"<?= ($employee->department_id == $department->id) ? 'selected="selected"' : ''; ?>> {{ $department->name.' ('.$department->codes.')' }}</option>
                                                             @endforeach
 
                                                         </select>

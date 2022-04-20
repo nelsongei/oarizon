@@ -214,7 +214,7 @@
                                     <div id="dialog-form" title="Create new Account">
                                         <p class="validateTips">Please insert All fields.</p>
 
-                                        <form>
+                                        <form action="{{url('/')}}" method="post">
                                             <fieldset>
                                                 <label for="username">Category <span style="color:red">*</span></label>
                                                 <select name="category" id="category" class="form-control">

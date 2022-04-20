@@ -278,9 +278,9 @@ class EmployeesController extends Controller
     public function store(Request $request)
     {
         //
-//        $validator = Validator::make($request->all([
-//            'firstname'=>'required'
-//        ]));
+        $validator = Validator::make($request->all([
+            'firstname'=>'required'
+        ]));
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -763,7 +763,7 @@ class EmployeesController extends Controller
 
         $employee->update();
 
-        Audit::logaudit('Employee', 'update', 'updated: ' . $employee->personal_file_number . '-' . $employee->first_name . ' ' . $employee->last_name);
+        Audit::logaudit(date('Y-m-d'),Auth::user()->name,'update', 'updated: ' . $employee->personal_file_number . '-' . $employee->first_name . ' ' . $employee->last_name);
 
         Nextofkin::where('employee_id', $id)->delete();
         for ($i = 0; $i < count($request->get('kin_first_name')); $i++) {
@@ -786,16 +786,16 @@ class EmployeesController extends Controller
         Document::where('employee_id', $id)->delete();
         $files = $request->file('path');
         $j = 0;
-
+        //($files);
         foreach ($files as $file) {
-
             if ($request->get('doc_name')[$j] != null || $request->get('doc_name')[$j] != '') {
                 $document = new Document;
                 $document->employee_id = $id;
                 if ($file) {
 
                     $name = time() . '-' . $file->getClientOriginalName();
-                    $file = $file->move('public/uploads/employees/documents/', $name);
+                    //dd($name);
+                    $file = $file->store('uploads/employees/documents','public', $name);
                     $input['file'] = '/public/uploads/employees/documents/' . $name;
                     $extension = pathinfo($name, PATHINFO_EXTENSION);
                     $document->document_path = $name;
@@ -809,15 +809,15 @@ class EmployeesController extends Controller
 
                 }
 
-                $document->description = $request->get('description')[$j];
+                //$document->description = $request->get('description')[$j];
 
-                $document->from_date = $request->get('fdate')[$j];
+                //$document->from_date = $request->get('fdate')[$j];
 
-                $document->expiry_date = $request->get('edate')[$j];
+                //$document->expiry_date = $request->get('edate')[$j];
 
                 $document->save();
 
-                Audit::logaudit('Documents', 'create', 'created: ' . $request->get('doc_name')[$j] . ' for ' . Employee::getEmployeeName($id));
+                Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'create', 'created: ' . $request->get('doc_name')[$j] . ' for ' . Employee::getEmployeeName($id));
                 $j = $j + 1;
             }
         }

@@ -2,13 +2,16 @@
 
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\AdvanceController;
+use App\Http\Controllers\Api\MpesaController;
 use App\Http\Controllers\AppraisalCategoryController;
 use App\Http\Controllers\AppraisalsController;
 use App\Http\Controllers\AppraisalSettingsController;
+use App\Http\Controllers\AuditsController;
 use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\BanksController;
 use App\Http\Controllers\BenefitSettingsController;
 use App\Http\Controllers\BranchesController;
+use App\Http\Controllers\CitizenshipController;
 use App\Http\Controllers\CurrenciesController;
 use App\Http\Controllers\DeductionsController;
 use App\Http\Controllers\DepartmentsController;
@@ -25,6 +28,7 @@ use App\Http\Controllers\HolidaysController;
 use App\Http\Controllers\JobGroupController;
 use App\Http\Controllers\LeaveapplicationsController;
 use App\Http\Controllers\LeavetypesController;
+use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\LoanrepaymentsController;
 use App\Http\Controllers\NhifController;
 use App\Http\Controllers\NssfController;
@@ -614,3 +618,22 @@ Route::get('api/pay', function () {
     $employee = Employee::find($id);
     return number_format($employee->basic_pay, 2);
 });
+/**
+ * citizenship routes
+ */
+
+Route::resource('citizenships', CitizenshipController::class);
+Route::post('citizenships/update/{id}', [CitizenshipController::class,'update']);
+Route::get('citizenships/delete/{id}', [CitizenshipController::class,'destroy']);
+Route::get('citizenships/edit/{id}', [CitizenshipController::class,'edit']);
+
+//Route::group(['middleware' => 'can:manage_audits'], function () {
+Route::resource('audits', AuditsController::class);
+//});
+// ================== Mpesa END API ROUTES organizations================================//
+Route::get('/licence', [MpesaController::class, 'index']);
+Route::get('/license/data', [MpesaController::class, 'getLicenseData']);
+Route::get('/license/date/{id}/{module}/{end}', [LicenseController::class, 'updateDates']);
+Route::get('/license/data/{id}', [MpesaController::class, 'getModuleData']);
+Route::post('/stkPush', [LicenseController::class, 'stkPush']);
+Route::get('mpesaTransactions/{id}/{transaction}', [MpesaController::class, 'view']);

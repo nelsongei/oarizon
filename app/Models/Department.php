@@ -30,7 +30,7 @@ class Department extends Model
     {
         $depart = Department::find($id);
 
-        return $depart->department_name;
+        return $depart->name;
     }
 
     public static function getCode($id)

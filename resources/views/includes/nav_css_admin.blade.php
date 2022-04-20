@@ -188,6 +188,11 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{url('citizenships')}}">
+                                        <span class="pcoded-mtext">Citizenship's</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ url('banks') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Appraisal Category</span>
                                     </a>
@@ -378,7 +383,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{url('audit')}}" class="waves-effect waves-dark">
+                            <a href="{{url('audits')}}" class="waves-effect waves-dark">
                                 <span class="pcoded-micon"><i class="feather icon-user"></i></span>
                                 <span class="pcoded-mtext">Audit</span>
                             </a>

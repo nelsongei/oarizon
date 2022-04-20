@@ -169,7 +169,7 @@
                                                                 <tr>
                                                                     <td><strong>Department: </strong></td>
                                                                     @if($employee->department_id != 0)
-                                                                        <td> {{ $employee->department->department_name.' ('.$employee->department->codes.')'}}</td>
+                                                                        <td> {{ $employee->department->name.' ('.$employee->department->codes.')'}}</td>
                                                                     @else
                                                                         <td></td>
                                                                     @endif
@@ -180,7 +180,7 @@
                                                                     @if($employee->job_group_id != 0)
                                                                         <td>
                                                                             <?php
-                                                                            $jgroup = DB::table('job_group')->where('id', '=', $employee->job_group_id)->pluck('job_group_name');
+                                                                            $jgroup = DB::table('x_job_group')->where('id', '=', $employee->job_group_id)->pluck('job_group_name');
                                                                             ?>
 
                                                                             {{ $jgroup}}</td>
@@ -190,10 +190,11 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Employee Type: </strong></td>
+
                                                                     @if($employee->type_id != 0)
                                                                         <td>
                                                                             <?php
-                                                                            $etype = DB::table('employee_type')->where('id', '=', $employee->type_id)->pluck('employee_type_name');
+                                                                            $etype = DB::table('x_employee_type')->where('id', '=', $employee->type_id)->pluck('employee_type_name');
                                                                             ?>
 
                                                                             {{ $etype}}</td>
