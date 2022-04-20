@@ -38,7 +38,8 @@
                                                 title="License Active"
                                                 @else
                                                 title="License Expired"
-                                                @endif>
+                                                @endif
+                                            >
                                                 <td>{{$count++}}</td>
                                                 <td>
                                                     <a
@@ -123,7 +124,7 @@
                                                      id="loaderField" style="display: none;">
                                                     <div class="input-group-prepend">
                                                     <span class="input-group-text">
-                                                        <img src="{{asset('images/loader.gif')}}" width="15px"
+                                                        <img src="{{asset('assets/assets/images/loader.gif')}}" width="15px"
                                                              height="15px"
                                                              style="margin-top: -5px !important;" alt="">
                                                     </span>
@@ -206,7 +207,7 @@
                 phone: document.getElementById('phone').value,
                 amount: document.getElementById('amount').value,
             }
-            axios.post("https://127.0.0.1/xara/public/stkPush", requestBody)
+            axios.post("https://127.0.0.1/orizon/public/stkPush", requestBody)
                 .then((response) => {
                     if (response.data.ResponseDescription) {
                         let CheckoutRequestID = response.data.CheckoutRequestID;
@@ -256,10 +257,10 @@
             axios.post("https://127.0.0.1/licensemanager/public/api/v1/update/organization/" + CheckoutRequestID + "/" + organizationId + "/" + moduleId + "/" + endDate, {})
                 .then((response) => {
                     if (response) {
-                        axios.get("https://127.0.0.1/xara/public/license/date/" + organizationId + "/" + moduleId + "/" + endDate, {})
+                        axios.get("https://127.0.0.1/orizon/public/license/date/" + organizationId + "/" + moduleId + "/" + endDate, {})
                             .then((response) => {
                                 if (response) {
-                                    // window.location.reload()
+                                     window.location.reload()
                                 }
                             })
                             .catch((err) => {
@@ -280,7 +281,7 @@
                 $('#loaderField').show();
             }
             $.ajax({
-                url: "https://127.0.0.1/xara/public/license/data/" + path,
+                url: "https://127.0.0.1/orizon/public/license/data/" + path,
                 type: 'GET',
                 data: '_token=<?php echo csrf_token()?>',
                 success: function (data) {
