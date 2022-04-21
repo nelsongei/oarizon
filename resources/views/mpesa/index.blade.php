@@ -20,10 +20,6 @@
                                             <th>#</th>
                                             <th>Module</th>
                                             <th>No Of Users</th>
-                                            <th>License Cost</th>
-                                            <th>Receipt No</th>
-                                            <th>Date</th>
-                                            <th>Phone Number</th>
                                             <th>Start Date</th>
                                             <th>Expiry Date</th>
                                             <th>Paid Via</th>
@@ -32,34 +28,17 @@
                                         <tbody>
                                         <?php $count = 1?>
                                         <?php $ids = \App\Models\Organization::pluck('id')->first()?>
-                                        @forelse($transactions as $transaction)
-                                            <tr
-                                                @if((\App\Models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())
-                                                title="License Active"
-                                                @else
-                                                title="License Expired"
-                                                @endif
-                                            >
+                                        @forelse($modules as $module)
+                                            <tr>
                                                 <td>{{$count++}}</td>
                                                 <td>
-                                                    <a
-                                                        href="{{url("mpesaTransactions/".$ids."/".$transaction["id"])}}">
-                                                        {{$transaction['module']['name']}}
-                                                    </a>
-                                                </td>
-                                                <td>{{$transaction['module']['user_count']}}</td>
-                                                <td>{{$transaction['module']['price']}}</td>
-                                                <td>{{$transaction['module']['price']}}</td>
-                                                <td>{{$transaction['TransactionDate']}}</td>
-                                                <td>{{$transaction['PhoneNumber']}}</td>
-                                                <td>{{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('start_date')->first()}}</td>
-                                                <td>
-                                                    @if((\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())
-                                                        {{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first()}}
-                                                    @else
-                                                        License Expired
+                                                    @if(App\Models\License::where('module_id',$module['id'])->pluck('module_id')->first())
+                                                        {{$module['name']}}
                                                     @endif
                                                 </td>
+                                                <td>{{$module['user_count']}}</td>
+                                                <td>{{App\Models\License::where('module_id',$module['id'])->pluck('start_date')->first()}}</td>
+                                                <td>{{App\Models\License::where('module_id',$module['id'])->pluck('end_date')->first()}}</td>
                                                 <td>Mpesa</td>
                                             </tr>
                                         @empty
@@ -124,7 +103,8 @@
                                                      id="loaderField" style="display: none;">
                                                     <div class="input-group-prepend">
                                                     <span class="input-group-text">
-                                                        <img src="{{asset('assets/assets/images/loader.gif')}}" width="15px"
+                                                        <img src="{{asset('assets/assets/images/loader.gif')}}"
+                                                             width="15px"
                                                              height="15px"
                                                              style="margin-top: -5px !important;" alt="">
                                                     </span>
@@ -260,7 +240,7 @@
                         axios.get("https://127.0.0.1/orizon/public/license/date/" + organizationId + "/" + moduleId + "/" + endDate, {})
                             .then((response) => {
                                 if (response) {
-                                     window.location.reload()
+                                    window.location.reload()
                                 }
                             })
                             .catch((err) => {
@@ -296,3 +276,35 @@
         }
     </script>
 @endsection
+{{--                                        @forelse($transactions as $transaction)--}}
+{{--                                            <tr--}}
+{{--                                                @if((\App\Models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())--}}
+{{--                                                title="License Active"--}}
+{{--                                                @else--}}
+{{--                                                title="License Expired"--}}
+{{--                                                @endif--}}
+{{--                                            >--}}
+{{--                                                <td>{{$count++}}</td>--}}
+{{--                                                <td>--}}
+{{--                                                    <a--}}
+{{--                                                        href="{{url("mpesaTransactions/".$ids."/".$transaction["id"])}}">--}}
+{{--                                                        {{$transaction['module']['name']}}--}}
+{{--                                                    </a>--}}
+{{--                                                </td>--}}
+{{--                                                <td>{{$transaction['module']['user_count']}}</td>--}}
+{{--                                                <td>{{$transaction['module']['price']}}</td>--}}
+{{--                                                <td>{{$transaction['module']['price']}}</td>--}}
+{{--                                                <td>{{$transaction['TransactionDate']}}</td>--}}
+{{--                                                <td>{{$transaction['PhoneNumber']}}</td>--}}
+{{--                                                <td>{{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('start_date')->first()}}</td>--}}
+{{--                                                <td>--}}
+{{--                                                    @if((\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())--}}
+{{--                                                        {{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first()}}--}}
+{{--                                                    @else--}}
+{{--                                                        License Expired--}}
+{{--                                                    @endif--}}
+{{--                                                </td>--}}
+{{--                                                <td>Mpesa</td>--}}
+{{--                                            </tr>--}}
+{{--                                        @empty--}}
+{{--                                        @endforelse--}}

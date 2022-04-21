@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\License;
 use App\Models\Organization;
 
 
@@ -21,7 +22,10 @@ class MpesaController extends Controller
         $uri = "http://127.0.0.1/licensemanager/public/api/v1/transactions/".$id;
         $resp = $data->request('GET',$uri);
         $transactions = json_decode($resp->getBody(),true);
-        return view('mpesa.index', compact('modules','transactions'));
+
+        //Licenses
+        $licences = License::orderBy('created_at')->get();
+        return view('mpesa.index', compact('modules','transactions','licences'));
     }
 
     public function getLicenseData()

@@ -1,4 +1,7 @@
-<?php namespace App\models;
+<?php
+
+
+namespace App\Models;
 /**
  * Created by PhpStorm.
  * User: user
@@ -10,7 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Particular extends Model
 {
-    protected $table= 'x_particulars';
+    protected $table = 'x_particulars';
+
     public function debitAccount()
     {
         return $this->belongsTo("App\models\Account", "debitaccount_id", "id");
