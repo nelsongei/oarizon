@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('content')
+@extends('layouts.main_hr')
+@section('xara_cbs')
     @include('partials.breadcrumbs')
     <style>
         th td {
@@ -35,14 +35,14 @@
                                         <div class="col-sm-12"
                                              style="margin-bottom: 20px; border-bottom: 1px solid #0d6efd">
                                             <div style="text-align: right">
-                                                <h2 class="text-info">{{\App\models\Organization::first()->name}}</h2>
-                                                <h6 class="text-gray">{{\App\models\Organization::first()->phone}}</h6>
-                                                <h6 class="text-gray">{{\App\models\Organization::first()->address}}</h6>
-                                                <h6 class="text-gray">{{\App\models\Organization::first()->website}}</h6>
+                                                <h2 class="text-info">{{\App\Models\Organization::first()->name}}</h2>
+                                                <h6 class="text-gray">{{\App\Models\Organization::first()->phone}}</h6>
+                                                <h6 class="text-gray">{{\App\Models\Organization::first()->address}}</h6>
+                                                <h6 class="text-gray">{{\App\Models\Organization::first()->website}}</h6>
                                             </div>
                                         </div>
                                         <table
-                                            style="width: 100%; border-collapse: collapse;border-spacing: 0;margin-bottom: 20px">
+                                            style="width: 100%; border-collapse: collapse;border-spacing: 0;margin-bottom: 20px" id="myTable">
                                             <thead>
                                             <tr>
                                                 <th>#</th>
@@ -54,15 +54,18 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {{$transaction[0]['module']['id']}}
-                                            <tr>
-                                                <td>1</td>
-                                                <td>{{$transaction[0]['module']['name']}}</td>
-                                                <td>{{$transaction[0]['MpesaReceiptNumber']}}</td>
-                                                <td>{{$transaction[0]['module']['user_count']}}</td>
-                                                <td>{{$transaction[0]['module']['interval_count'] + $transaction[0]['module']['trial_days']}}</td>
-                                                <td>{{$transaction[0]['Amount']}}</td>
-                                            </tr>
+                                            <?php $count=1?>
+                                            @foreach($transaction as $tra)
+                                                {{$tra['module']['name']}}
+                                                <tr style="border-bottom: 1px solid black">
+                                                    <td>{{$count++}}</td>
+                                                    <td>{{$tra['module']['name']}}</td>
+                                                    <td>{{$tra['MpesaReceiptNumber']}}</td>
+                                                    <td>{{$tra['module']['user_count']}}</td>
+                                                    <td>{{$tra['module']['interval_count'] + $transaction[0]['module']['trial_days']}}</td>
+                                                    <td id="total">{{$tra['Amount']}}</td>
+                                                </tr>
+                                            @endforeach
                                             </tbody>
                                             <tfoot style="border-top: 1px solid #0d6efd">
                                             <tr>
@@ -98,4 +101,16 @@
             </div>
         </div>
     </div>
+    <script>
+        var table = document.getElementById('myTable');
+        // sumVal = 0;
+        console.log(table.rows[1].cells[5])
+        for (var i=1; i<table.rows.length;i++){
+            // console.log(table.rows[i].cells[5].innerHtml)
+            // sumVal = (table.rows[i].cells[1].innerHtml);
+            // sumVal = sumVal+parseInt(table.rows[i].cells[1].innerHtml);
+        }
+        sumVal = (table.rows[5].cells[1].innerHtml);
+         // console.log(sumVal);
+    </script>
 @endsection

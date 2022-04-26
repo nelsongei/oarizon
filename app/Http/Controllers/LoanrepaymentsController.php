@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use AfricasTalkingGatewayException;
+use App\Exports\LoanRepayments;
 use App\Models\AfricasTalkingGateway;
 use App\Models\Audit;
 use App\Http\Controllers\Controller;
@@ -22,9 +23,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 use PhpOffice\PhpSpreadsheet\NamedRange;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class LoanrepaymentsController extends Controller
 {
@@ -71,15 +75,17 @@ class LoanrepaymentsController extends Controller
 
     public function createTemplate()
     {
+//        return Excel::download(function ($excel){
+//            $excel->sheet('LOans.xlsx',function ($sheet){
+//                $sheet->row(1 ,array(
+//                    'LOAN ACCOUNT', 'DATE', 'PRINCIPAL PAID', 'INTEREST PAID',
+//                ));
+//            });
+//        },'LOans.xlsx');
         return Excel::download(function ($excel) {
-
             require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
             require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/Cell/DataValidation.php");
-
-
             $excel->sheet('LoanRepayments', function ($sheet) {
-
-
                 $sheet->row(1, array(
                     'LOAN ACCOUNT', 'DATE', 'PRINCIPAL PAID', 'INTEREST PAID',
                 ));
@@ -90,7 +96,6 @@ class LoanrepaymentsController extends Controller
                     'C' => 30,
                     'D' => 30,
                 ));
-
                 /*$sheet->getStyle('A2:A100')
                     ->getNumberFormat()
                     ->setFormatCode('yyyy-mm-dd');*/
@@ -121,7 +126,6 @@ class LoanrepaymentsController extends Controller
 
 
                 for ($i = 2; $i <= 100; $i++) {
-
                     $objValidation = $sheet->getCell('A' . $i)->getDataValidation();
                     $objValidation->setType(DataValidation::TYPE_LIST);
                     $objValidation->setErrorStyle(DataValidation::STYLE_INFORMATION);
@@ -135,17 +139,15 @@ class LoanrepaymentsController extends Controller
                     $objValidation->setPrompt('Please pick a value from the drop-down list.');
                     $objValidation->setFormula1('accounts'); //note this!
                 }
-
             });
-
-        }, new Loanrepayment, 'xlsx');
+        },new Loanrepayment())->getAge();
     }
 
     public function importRepayment(Request $request)
     {
         if ($request->hasFile('repayments')) {
-            $destination = public_path() . '/migrations/';
-            $filename = str_random(12);
+            $destination = public_path() . 'database/migrations/';
+            $filename = Str::random(12);
             $ext = $request->file('repayments')->getClientOriginalExtension();
             /* use csv format for correct date format since excel resuilts to errorneous date format for THIS VERSION
          if ($ext === 'csv') */

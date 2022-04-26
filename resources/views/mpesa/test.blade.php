@@ -83,208 +83,125 @@
             border-top: 1px solid #0d6efd
         }
     </style>
-    <div class="pcoded-inner-content">
-        <div class="main-body">
-            <div class="page-wrapper">
-                <div class="page-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form id="regForm" action="/action_page.php">
-                                        <h1>Register:</h1>
-                                        <!-- One "tab" for each step in the form: -->
-                                        <div class="tab">Name:
-                                            <p>
-                                            <div class="form-group col-sm-4">
-                                                Module Name
-                                                <p>
-                                                    <select oninput="this.className = ''" name="module_id"
-                                                            id="module_id" class="form-control"
-                                                            onclick="selectModule()">
-                                                        @foreach($modules as $module)
-                                                            <option
-                                                                value="{{$module['id']}}">{{$module['name']}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </p>
-                                            </div>
-                                            </p>
-                                            <p><input placeholder="First name..." oninput="this.className = ''"
-                                                      name="fname"></p>
-                                            <p><input placeholder="Last name..." oninput="this.className = ''"
-                                                      name="lname"></p>
-                                        </div>
-                                        <div class="tab">Contact Info:
-                                            <p><input placeholder="E-mail..." oninput="this.className = ''"
-                                                      name="email"></p>
-                                            <p><input placeholder="Phone..." oninput="this.className = ''" name="phone">
-                                            </p>
-                                        </div>
-                                        <div class="tab">Birthday:
-                                            <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
-                                            <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
-                                            <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
-                                        </div>
-                                        <div class="tab">Login Info:
-                                            <p><input placeholder="Username..." oninput="this.className = ''"
-                                                      name="uname"></p>
-                                            <p><input placeholder="Password..." oninput="this.className = ''"
-                                                      name="pword" type="password"></p>
-                                        </div>
-                                        <div style="overflow:auto;">
-                                            <div style="float:right;">
-                                                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous
-                                                </button>
-                                                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-                                            </div>
-                                        </div>
-                                        <!-- Circles which indicates the steps of the form: -->
-                                        <div style="text-align:center;margin-top:40px;">
-                                            <span class="step"></span>
-                                            <span class="step"></span>
-                                            <span class="step"></span>
-                                            <span class="step"></span>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @foreach($modules as $module)
+
+        {{$module['id']}}  {{$module['name']}}
+    @endforeach
+        </select>
+        </p>
+        </div>
+    </p>
+    <p><input placeholder="First name..." oninput="this.className = ''"
+              name="fname"></p>
+    <p><input placeholder="Last name..." oninput="this.className = ''"
+              name="lname"></p>
+        </div>
+    <div class="tab">Contact Info:
+        <p><input placeholder="E-mail..." oninput="this.className = ''"
+                  name="email"></p>
+        <p><input placeholder="Phone..." oninput="this.className = ''" name="phone">
+        </p>
+    </div>
+    <div class="tab">Birthday:
+        <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
+        <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
+        <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
+    </div>
+    <div class="tab">Login Info:
+        <p><input placeholder="Username..." oninput="this.className = ''"
+                  name="uname"></p>
+        <p><input placeholder="Password..." oninput="this.className = ''"
+                  name="pword" type="password"></p>
+    </div>
+    <div style="overflow:auto;">
+        <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous
+            </button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+    </div>
+    <!-- Circles which indicates the steps of the form: -->
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+    </div>
+        </form>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
         </div>
     </div>
     </div>
-    <script>
-        function selectModule() {
-            var path = document.getElementById('module_id').value;
-            if (path !== 0) {
-                $('#dHolder').hide();
-                $('#loaderField').show();
-                $('#dUsers').hide();
-                $('#loadingUsers').show();
-                $('#dTrialDays').hide();
-                $('#loadingTrialDays').show();
-                $('#dInterval').hide();
-                $('#loadingInterval').show();
-                $('#durationInterval').hide();
-                $('#loadingDuration').show();
-            }
-            $.ajax({
-                url: "https://127.0.0.1/xara/public/license/data/" + path,
-                type: 'GET',
-                data: '_token=<?php echo csrf_token()?>',
-                success: function (data) {
-                    if (data) {
-                        // document.getElementById('dHolder').innerHTML = '<input type="text" oninput="this.className = ' + '" name="price" class="form-control" readonly value="' + data[0].price + '">';
-                        // document.getElementById('dUsers').innerHTML = '<input type="text" name="users" class="form-control" readonly value="' + data[0].user_count + '">'
-                        // document.getElementById('dTrialDays').innerHTML = '<input type="text" name="trial_days" class="form-control" readonly value="' + data[0].trial_days + '">'
-                        // document.getElementById('dInterval').innerHTML = '<input type="text" name="interval" class="form-control" readonly value="' + data[0].interval + '">';
-                        // document.getElementById('durationInterval').innerHTML = '<input type="text" name="interval_count" class="form-control" readonly value="' + data[0].interval_count + '">'
-                        //Populate Invoice Data
-                        // document.getElementById('name').innerText = data[0].name;
-                        // document.getElementById('mUsers').innerText = data[0].user_count;
-                        // document.getElementById('totalDays').innerText = data[0].interval_count;
-                        // document.getElementById('trialDays').innerText = data[0].trial_days;
-                        // document.getElementById('modulePrice').innerText = data[0].price;
-                        $('#dHolder').show();
-                        $('#loaderField').hide();
-                        $('#dUsers').show();
-                        $('#loadingUsers').hide();
-                        $('#dTrialDays').show();
-                        $('#loadingTrialDays').hide();
-                        $('#dInterval').show();
-                        $('#loadingInterval').hide();
-                        $('#durationInterval').show();
-                        $('#loadingDuration').hide();
-                    }
-                }
-            })
-        }
-    </script>
-    <script>
-        var currentTab = 0; // Current tab is set to be the first tab (0)
-        showTab(currentTab); // Display the current tab
 
-        function showTab(n) {
-            // This function will display the specified tab of the form...
-            var x = document.getElementsByClassName("tab");
-            x[n].style.display = "block";
-            //... and fix the Previous/Next buttons:
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
-            } else {
-                document.getElementById("prevBtn").style.display = "inline";
-            }
-            if (n == (x.length - 1)) {
-                document.getElementById("nextBtn").innerHTML = "Submit";
-            } else {
-                document.getElementById("nextBtn").innerHTML = "Next";
-            }
-            //... and run a function that will display the correct step indicator:
-            fixStepIndicator(n)
-        }
 
-        function nextPrev(n) {
-            // This function will figure out which tab to display
-            var x = document.getElementsByClassName("tab");
-            // Exit the function if any field in the current tab is invalid:
-            console.log(n)
-            if (validateForm()) {
-                console.log('Valid')
-            } else {
-                console.log('Not')
-            }
-            if (n === 1 && !validateForm()) return false;
-            // Hide the current tab:
-            x[currentTab].style.display = "none";
-            // Increase or decrease the current tab by 1:
-            currentTab = currentTab + n;
-            // if you have reached the end of the form...
-            if (currentTab >= x.length) {
-                // ... the form gets submitted:
-                document.getElementById("regForm").submit();
-                return false;
-            }
-            // Otherwise, display the correct tab:
-            showTab(currentTab);
-        }
 
-        function validateForm() {
-            // This function deals with validation of the form fields
-            var x, y, i, valid = true;
-            x = document.getElementsByClassName("tab");
-            y = x[currentTab].getElementsByTagName("input") || x[currentTab].getElementsByTagName("select");
-            // A loop that checks every input field in the current tab:
-            for (i = 0; i < y.length; i++) {
-                // If a field is empty...
-                console.log('My i ' + i + ' value ' + y[i].value)
-                console.log(y[i].value)
 
-                if (y[i].value === "") {
-                    // add an "invalid" class to the field:
-                    y[i].className += " invalid";
-                    // and set the current valid status to false
-                    valid = false;
-                }
-            }
-            // If the valid status is true, mark the step as finished and valid:
-            if (valid) {
-                document.getElementsByClassName("step")[currentTab].className += " finish";
-            }
-            return valid; // return the valid status
-        }
 
-        function fixStepIndicator(n) {
-            // This function removes the "active" class of all steps...
-            var i, x = document.getElementsByClassName("step");
-            for (i = 0; i < x.length; i++) {
-                x[i].className = x[i].className.replace(" active", "");
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <?php echo csrf_token()?>',
+        success: function (data) {
+            if (data) {
+                // document.getElementById('dHolder').innerHTML = '<input type="text" oninput="this.className = ' + '" name="price" class="form-control" readonly value="' + data[0].price + '">';
+                // document.getElementById('dUsers').innerHTML = '<input type="text" name="users" class="form-control" readonly value="' + data[0].user_count + '">'
+                // document.getElementById('dTrialDays').innerHTML = '<input type="text" name="trial_days" class="form-control" readonly value="' + data[0].trial_days + '">'
+                // document.getElementById('dInterval').innerHTML = '<input type="text" name="interval" class="form-control" readonly value="' + data[0].interval + '">';
+                // document.getElementById('durationInterval').innerHTML = '<input type="text" name="interval_count" class="form-control" readonly value="' + data[0].interval_count + '">'
+                //Populate Invoice Data
+                // document.getElementById('name').innerText = data[0].name;
+                // document.getElementById('mUsers').innerText = data[0].user_count;
+                // document.getElementById('totalDays').innerText = data[0].interval_count;
+                // document.getElementById('trialDays').innerText = data[0].trial_days;
+                // document.getElementById('modulePrice').innerText = data[0].price;
+                $('#dHolder').show();
+                $('#loaderField').hide();
+                $('#dUsers').show();
+                $('#loadingUsers').hide();
+                $('#dTrialDays').show();
+                $('#loadingTrialDays').hide();
+                $('#dInterval').show();
+                $('#loadingInterval').hide();
+                $('#durationInterval').show();
+                $('#loadingDuration').hide();
             }
-            //... and adds the "active" class on the current step:
-            x[n].className += " active";
         }
+    })
+    }
     </script>
 
 @endsection
@@ -326,117 +243,104 @@
 {{--                                                               placeholder="Loading Module Price..">--}}
 {{--                                                    </div>--}}
 {{--                                                </div>--}}
-                                                <div class="form-group col-sm-4">
-                                                    <div class="">
-                                                        <label for="users"
-                                                               class="block">Total Users
-                                                            *</label>
-                                                        <span id="dUsers" class="col-sm-12">
-                                                    <input oninput="this.className = ''" type="text" id="users" name="users"
-                                                           class="form-control"
-                                                           placeholder="Product Users">
-                                                </span>
-                                                        <div class="mb-3 input-group input-group-md"
-                                                             id="loadingUsers" style="display: none;">
-                                                            <div class="input-group-prepend">
-                                                    <span
-                                                        class="input-group-text">
-                                                        <img src="{{asset('images/loader.gif')}}" width="15px"
-                                                             height="15px" style="margin-top: -5px !important;" alt="">
-                                                    </span>
-                                                            </div>
-                                                            <input oninput="this.className = ''" type="text" id="users" readonly=""
-                                                                   class="form-control"
-                                                                   placeholder="Loading Module Users..">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-sm-4">
-                                                    <div class="">
-                                                        <label for="interval"
-                                                               class="block">
-                                                            Interval Type *</label>
-                                                        <span id="dInterval" class="col-sm-12">
-                                                    <input oninput="this.className = ''" type="text" id="interval" name="interval"
-                                                           class="form-control" placeholder="Interval">
-                                                </span>
-                                                        <div class="mb-3 input-group input-group-md"
-                                                             id="loadingInterval" style="display: none;">
-                                                            <div class="input-group-prepend">
-                                                                <span
-                                                                    class="input-group-text">
-                                                                    <img
-                                                                        src="{{asset('images/loader.gif')}}"
-                                                                        width="15px"
-                                                                        height="15px"
-                                                                        style="margin-top: -5px !important;"
-                                                                        alt="">
-                                                                </span>
-                                                            </div>
-                                                            <input oninput="this.className = ''" type="text" id="trial_days" readonly=""
-                                                                   class="form-control"
-                                                                   placeholder="Loading Module Interval...">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-sm-4">
-                                                    <div class="">
-                                                        <label for="trial_days"
-                                                               class="block">
-                                                            Trial days *</label>
-                                                        <span id="dTrialDays" class="col-sm-12">
-                                                    <input oninput="this.className = ''" type="text" id="trial_days" name="trail_days"
-                                                           class="form-control"
-                                                           placeholder="Trial Days">
-                                                </span>
-                                                        <div class="mb-3 input-group input-group-md"
-                                                             id="loadingTrialDays" style="display: none;">
-                                                            <div class="input-group-prepend">
-                                                                <span
-                                                                    class="input-group-text">
-                                                                    <img
-                                                                        src="{{asset('images/loader.gif')}}"
-                                                                        width="15px"
-                                                                        height="15px"
-                                                                        style="margin-top: -5px !important;"
-                                                                        alt="">
-                                                                </span>
-                                                            </div>
-                                                            <input oninput="this.className = ''" type="text" id="trial_days" readonly=""
-                                                                   class="form-control"
-                                                                   placeholder="Loading Module Trail Days..">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 form-group">
-                                                    <div class="">
-                                                        <label class="block" for="interval_count">
-                                                            Duration*
-                                                        </label>
-                                                        <span id="durationInterval" class="col-sm-12">
-                                                    <input oninput="this.className = ''" type="text" id="interval_count" class="form-control"
-                                                           placeholder="License Duration">
-                                                </span>
-                                                        <div class="mb-3 input-group input-group-md"
-                                                             id="loadingDuration" style="display: none;">
-                                                            <div class="input-group-prepend">
-                                                        <span
-                                                            class="input-group-text">
-                                                            <img
-                                                                src="{{asset('images/loader.gif')}}"
-                                                                width="15px"
-                                                                height="15px"
-                                                                style="margin-top: -5px !important;"
-                                                                alt="">
-                                                        </span>
-                                                            </div>
-                                                            <input oninput="this.className = ''" type="text" id="trial_days" readonly=""
-                                                                   class="form-control"
-                                                                   placeholder="Loading Module Duration Days..">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
+
+{{asset('images/loader.gif')}}  width="15px"
+                                height="15px" style="margin-top: -5px !important;" alt="">
+    </span>
+    </div>
+<input oninput="this.className = ''" type="text" id="users" readonly=""
+       class="form-control"
+       placeholder="Loading Module Users..">
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{asset('images/loader.gif')}}
+width="15px"
+height="15px"
+style="margin-top: -5px !important;"
+alt="">
+    </span>
+    </div>
+<input oninput="this.className = ''" type="text" id="trial_days" readonly=""
+       class="form-control"
+       placeholder="Loading Module Interval...">
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{asset('images/loader.gif')}}
+width="15px"
+height="15px"
+style="margin-top: -5px !important;"
+alt="">
+    </span>
+    </div>
+<input oninput="this.className = ''" type="text" id="trial_days" readonly=""
+       class="form-control"
+       placeholder="Loading Module Trail Days..">
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{asset('images/loader.gif')}}
+width="15px"
+height="15px"
+style="margin-top: -5px !important;"
+alt="">
+    </span>
+    </div>
+<input oninput="this.className = ''" type="text" id="trial_days" readonly=""
+       class="form-control"
+       placeholder="Loading Module Duration Days..">
+    </div>
+    </div>
+</div>
+</div>
 <form id="regForm">
     <h1>License Information & Payment:</h1>
     <!-- One "tab" for each step in the form: -->
@@ -510,7 +414,8 @@
                            class="block">
                         Interval Type *</label>
                     <span id="dInterval" class="col-sm-12">
-                                                    <input oninput="this.className = ''" type="text" id="interval" name="interval"
+                                                    <input oninput="this.className = ''" type="text" id="interval"
+                                                           name="interval"
                                                            class="form-control" placeholder="Interval">
                                                 </span>
                     <div class="mb-3 input-group input-group-md"
@@ -538,7 +443,8 @@
                            class="block">
                         Trial days *</label>
                     <span id="dTrialDays" class="col-sm-12">
-                                                    <input oninput="this.className = ''" type="text" id="trial_days" name="trail_days"
+                                                    <input oninput="this.className = ''" type="text" id="trial_days"
+                                                           name="trail_days"
                                                            class="form-control"
                                                            placeholder="Trial Days">
                                                 </span>
@@ -567,7 +473,8 @@
                         Duration*
                     </label>
                     <span id="durationInterval" class="col-sm-12">
-                                                    <input oninput="this.className = ''" type="text" id="interval_count" class="form-control"
+                                                    <input oninput="this.className = ''" type="text" id="interval_count"
+                                                           class="form-control"
                                                            placeholder="License Duration">
                                                 </span>
                     <div class="mb-3 input-group input-group-md"
@@ -893,8 +800,6 @@
 {{--</form>--}}
 
 
-
-
 {{--<form id="msform">--}}
 {{--    <!-- progressbar -->--}}
 {{--    <ul id="progressbar">--}}
@@ -1115,3 +1020,35 @@
 {{--        </button>--}}
 {{--    </fieldset>--}}
 {{--</form>--}}
+{{--                                        @forelse($transactions as $transaction)--}}
+{{--                                            <tr--}}
+{{--                                                @if((\App\Models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())--}}
+{{--                                                title="License Active"--}}
+{{--                                                @else--}}
+{{--                                                title="License Expired"--}}
+{{--                                                @endif--}}
+{{--                                            >--}}
+{{--                                                <td>{{$count++}}</td>--}}
+{{--                                                <td>--}}
+{{--                                                    <a--}}
+{{--                                                        href="{{url("mpesaTransactions/".$ids."/".$transaction["id"])}}">--}}
+{{--                                                        {{$transaction['module']['name']}}--}}
+{{--                                                    </a>--}}
+{{--                                                </td>--}}
+{{--                                                <td>{{$transaction['module']['user_count']}}</td>--}}
+{{--                                                <td>{{$transaction['module']['price']}}</td>--}}
+{{--                                                <td>{{$transaction['module']['price']}}</td>--}}
+{{--                                                <td>{{$transaction['TransactionDate']}}</td>--}}
+{{--                                                <td>{{$transaction['PhoneNumber']}}</td>--}}
+{{--                                                <td>{{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('start_date')->first()}}</td>--}}
+{{--                                                <td>--}}
+{{--                                                    @if((\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())--}}
+{{--                                                        {{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first()}}--}}
+{{--                                                    @else--}}
+{{--                                                        License Expired--}}
+{{--                                                    @endif--}}
+{{--                                                </td>--}}
+{{--                                                <td>Mpesa</td>--}}
+{{--                                            </tr>--}}
+{{--                                        @empty--}}
+{{--                                        @endforelse--}}

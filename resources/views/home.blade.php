@@ -1,5 +1,21 @@
 @extends('layouts.main')
 @section('xara_cbs')
+
+    <?php
+    use App\Models\Organization;
+    //use App\Branch;
+    $organization = Organization::find(1);
+    $installationdate = date('Y-m-d', strtotime($organization->installation_date));
+    $splitdate = explode('-', $installationdate);
+    //split to obtain month and day from the installation date
+    $day = $splitdate[2];
+    $month = $splitdate[1];
+    $year = date('Y');
+    //get the due date for annual subscription fee.
+    $date = date('d-F-Y', strtotime($day . '-' . $month . '-' . $year));
+    //$date =date('d-F-Y',strtotime('21-01-2020'));
+    $todaydate = date('d-F-Y');
+    ?>
     <div class="page-header card">
         <div class="row align-items-end">
             <div class="col-lg-8">
@@ -161,9 +177,9 @@
         </div>
     </div>
     <?php
-        for ($i = 0; $i < 12; $i++) {
-            $months[] = date("Y-M", strtotime(date('Y-m-01') . " -$i months"));
-        }
+    for ($i = 0; $i < 12; $i++) {
+        $months[] = date("Y-M", strtotime(date('Y-m-01') . " -$i months"));
+    }
     ?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -247,10 +263,10 @@
         const historyChart = new Chart(history, {
             type: "line",
             data: {
-                labels: ['{{$months[11]}}','{{$months[10]}}','{{$months[9]}}','{{$months[8]}}','{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}','{{$months[0]}}'],
-                datasets:[{
+                labels: ['{{$months[11]}}', '{{$months[10]}}', '{{$months[9]}}', '{{$months[8]}}', '{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}', '{{$months[0]}}'],
+                datasets: [{
                     label: "Leave Applications",
-                    data:[{{$month12}},{{$month11}},{{$month10}},{{$month9}},{{$month8}},{{$month7}},{{$month6}},{{$month5}},{{$month4}},{{$month3}},{{$month2}},{{$month1}}],
+                    data: [{{$month12}}, {{$month11}}, {{$month10}}, {{$month9}}, {{$month8}}, {{$month7}}, {{$month6}}, {{$month5}}, {{$month4}}, {{$month3}}, {{$month2}}, {{$month1}}],
                     backgroundColor: [
                         'rgba(75, 192, 192, 1)',
                         // 'rgba(255, 159, 64, 0.2)'
@@ -277,13 +293,13 @@
     </script>
     <script>
         const payrolls = document.getElementById('payrollHistoryChart').getContext('2d');
-        const payrollHistoryChart = new Chart(payrolls,{
+        const payrollHistoryChart = new Chart(payrolls, {
             type: 'bar',
-            data:{
-                labels: ['{{$months[11]}}','{{$months[10]}}','{{$months[9]}}','{{$months[8]}}','{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}','{{$months[0]}}'],
-                datasets:[{
+            data: {
+                labels: ['{{$months[11]}}', '{{$months[10]}}', '{{$months[9]}}', '{{$months[8]}}', '{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}', '{{$months[0]}}'],
+                datasets: [{
                     label: 'Payroll Process',
-                    data:[{{$month12}},{{$month11}},{{$month10}},{{$month9}},{{$month8}},{{$month7}},{{$month6}},{{$month5}},{{$month4}},{{$month3}},{{$month2}},{{$month1}}],
+                    data: [{{$month12}}, {{$month11}}, {{$month10}}, {{$month9}}, {{$month8}}, {{$month7}}, {{$month6}}, {{$month5}}, {{$month4}}, {{$month3}}, {{$month2}}, {{$month1}}],
                     backgroundColor: [
                         'rgb(208,255,0)',
                         // 'rgba(255, 159, 64, 0.2)'

@@ -13,10 +13,9 @@
                         <div class="card-header">
                             LOAN REPAYMENTS MIGRATION
 
-                            <p><strong>Import Loan Repayments </strong></p>
+                            <p><em>Import Loan Repayments </em></p>
                         </div>
                         <div class="card-block">
-
                             <form method="post" action="{{url('import_repayments')}}" accept-charset="UTF-8"
                                   enctype="multipart/form-data">@csrf
                                 <div class="form-group">

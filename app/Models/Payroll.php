@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Payroll extends Model
 {
-    public $table = "transact";
+    public $table = "x_transact";
 
     /*
 
@@ -59,10 +59,10 @@ class Payroll extends Model
 
         $allw = 0.00;
 
-        $total_allws = DB::table('employee_allowances')
-            ->join('employee', 'employee_allowances.employee_id', '=', 'employee.id')
+        $total_allws = DB::table('x_employee_allowances')
+            ->join('x_employee', 'x_employee_allowances.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(allowance_amount),0.00) as total_allowances'))
-            ->where('employee.organization_id', auth()->user()->organization_id)
+            ->where('x_employee.organization_id', auth()->user()->organization_id)
             ->where(function ($query) use ($id, $allowance_id, $start) {
                 $query->where('employee_id', '=', $id)
                     ->where('allowance_id', '=', $allowance_id)
@@ -131,7 +131,8 @@ class Payroll extends Model
     public static function totalallowances($allowance_id, $period, $type)
     {
 
-        $part = explode("-", $period);
+//        $part = explode("-", $period);
+        $part  = $period;
         $start = $part[1] . "-" . $part[0] . "-01";
         $end = date('Y-m-t', strtotime($start));
 
@@ -140,14 +141,13 @@ class Payroll extends Model
                 $query->whereNull('organization_id')
                     ->orWhere('organization_id', Auth::user()->organization_id);
             })->first();
-
         if ($type == 'management') {
 
-            $allw = DB::table('employee_allowances')
-                ->join('employee', 'employee_allowances.employee_id', '=', 'employee.id')
+            $allw = DB::table('x_employee_allowances')
+                ->join('x_employee', 'x_employee_allowances.employee_id', '=', 'x_employee.id')
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where(function ($query) use ($allowance_id, $start, $jgroup) {
                     $query->where('allowance_id', '=', $allowance_id)
                         ->where('job_group_id', $jgroup->id)
@@ -163,11 +163,11 @@ class Payroll extends Model
                 })->sum('allowance_amount');
 
         } else {
-            $allw = DB::table('employee_allowances')
-                ->join('employee', 'employee_allowances.employee_id', '=', 'employee.id')
+            $allw = DB::table('x_employee_allowances')
+                ->join('x_employee', 'x_employee_allowances.employee_id', '=', 'x_employee.id')
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where(function ($query) use ($allowance_id, $start, $jgroup) {
                     $query->where('allowance_id', '=', $allowance_id)
                         ->where('formular', '=', 'Recurring')
@@ -195,10 +195,10 @@ class Payroll extends Model
 
         $allw = 0.00;
 
-        $total_allws = DB::table('employee_allowances')
-            ->join('employee', 'employee_allowances.employee_id', '=', 'employee.id')
+        $total_allws = DB::table('x_employee_allowances')
+            ->join('x_employee', 'x_employee_allowances.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(allowance_amount),0.00) as total_allowances'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->whereDate('date_joined', '<=', $end)
             ->where(function ($query) use ($id, $start) {
                 $query->where('employee_id', '=', $id)
@@ -228,10 +228,10 @@ class Payroll extends Model
 
         $nontax = 0.00;
 
-        $total_nontaxes = DB::table('employeenontaxables')
-            ->join('employee', 'employeenontaxables.employee_id', '=', 'employee.id')
+        $total_nontaxes = DB::table('x_employeenontaxables')
+            ->join('x_employee', 'x_employeenontaxables.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(nontaxable_amount),0.00) as total_income'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where(function ($query) use ($id, $nontaxable_id, $start) {
                 $query->where('employee_id', '=', $id)
                     ->where('nontaxable_id', '=', $nontaxable_id)
@@ -268,11 +268,11 @@ class Payroll extends Model
 
         if ($type == 'management') {
 
-            $nontaxable = DB::table('employeenontaxables')
-                ->join('employee', 'employeenontaxables.employee_id', '=', 'employee.id')
+            $nontaxable = DB::table('x_employeenontaxables')
+                ->join('x_employee', 'x_employeenontaxables.employee_id', '=', 'x_employee.id')
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where(function ($query) use ($nontaxable_id, $start, $jgroup) {
                     $query->where('nontaxable_id', '=', $nontaxable_id)
                         ->where('formular', '=', 'Recurring')
@@ -288,11 +288,11 @@ class Payroll extends Model
                 })->sum('nontaxable_amount');
 
         } else {
-            $nontaxable = DB::table('employeenontaxables')
-                ->join('employee', 'employeenontaxables.employee_id', '=', 'employee.id')
+            $nontaxable = DB::table('x_employeenontaxables')
+                ->join('x_employee', 'x_employeenontaxables.employee_id', '=', 'x_employee.id')
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where(function ($query) use ($nontaxable_id, $start, $jgroup) {
                     $query->where('nontaxable_id', '=', $nontaxable_id)
                         ->where('formular', '=', 'Recurring')
@@ -320,10 +320,10 @@ class Payroll extends Model
 
         $nontax = 0.00;
 
-        $total_nontaxes = DB::table('employeenontaxables')
-            ->join('employee', 'employeenontaxables.employee_id', '=', 'employee.id')
+        $total_nontaxes = DB::table('x_employeenontaxables')
+            ->join('x_employee', 'x_employeenontaxables.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(nontaxable_amount),0.00) as total_income'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where(function ($query) use ($id, $start) {
                 $query->where('employee_id', '=', $id)
                     ->where('formular', '=', 'Recurring')
@@ -430,9 +430,9 @@ class Payroll extends Model
         }
 
         $deds = DB::table('pensions')
-            ->join('employee', 'pensions.employee_id', '=', 'employee.id')
+            ->join('x_employee', 'pensions.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(employee_contribution),0.00) as total_contribution'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where('in_employment', 'Y')
             ->where('employee_id', $employeeid)
             ->get();
@@ -482,9 +482,9 @@ class Payroll extends Model
         }
 
         $deds = DB::table('pensions')
-            ->join('employee', 'pensions.employee_id', '=', 'employee.id')
+            ->join('x_employee', 'pensions.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(employee_contribution),0.00) as total_contribution'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where('in_employment', 'Y')
             ->where('employee_id', $employeeid)
             ->get();
@@ -512,10 +512,10 @@ class Payroll extends Model
         $start = date('Y-m-01', strtotime("01-" . $period));
         $end = date('Y-m-t', strtotime("01-" . $period));
 
-        $total_rels = DB::table('employee_relief')
-            ->join('employee', 'employee_relief.employee_id', '=', 'employee.id')
+        $total_rels = DB::table('x_employee_relief')
+            ->join('x_employee', 'x_employee_relief.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(relief_amount),0.00) as total_reliefs'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where('employee_id', '=', $id)
             ->whereDate('date_joined', '<=', $end)
             ->get();
@@ -632,11 +632,11 @@ class Payroll extends Model
     {
         $rel = 0.00;
 
-        $total_rels = DB::table('employee_relief')
-            ->join('employee', 'employee_relief.employee_id', '=', 'employee.id')
+        $total_rels = DB::table('x_employee_relief')
+            ->join('x_employee', 'x_employee_relief.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(relief_amount),0.00) as total_reliefs'))
             ->where('employee_id', '=', $id)
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where('relief_id', '=', $relief_id)
             ->get();
         foreach ($total_rels as $total_rel) {
@@ -661,18 +661,18 @@ class Payroll extends Model
 
         if ($type == 'management') {
 
-            $rel = DB::table('employee_relief')
-                ->join('employee', 'employee_relief.employee_id', '=', 'employee.id')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $rel = DB::table('x_employee_relief')
+                ->join('x_employee', 'x_employee_relief.employee_id', '=', 'x_employee.id')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
                 ->where('job_group_id', $jgroup->id)
                 ->where('relief_id', '=', $relief_id)
                 ->sum('relief_amount');
         } else {
-            $rel = DB::table('employee_relief')
-                ->join('employee', 'employee_relief.employee_id', '=', 'employee.id')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $rel = DB::table('x_employee_relief')
+                ->join('x_employee', 'x_employee_relief.employee_id', '=', 'x_employee.id')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
                 ->where('job_group_id', '!=', $jgroup->id)
@@ -713,10 +713,10 @@ class Payroll extends Model
 
         $earn = 0.00;
 
-        $total_earns = DB::table('earnings')
-            ->join('employee', 'earnings.employee_id', '=', 'employee.id')
+        $total_earns = DB::table('x_earnings')
+            ->join('x_employee', 'x_earnings.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(earnings_amount),0.00) as total_earnings,instalments'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where(function ($query) use ($id, $earning_id, $start) {
                 $query->where('employee_id', '=', $id)
                     ->where('earning_id', '=', $earning_id)
@@ -746,7 +746,8 @@ class Payroll extends Model
     public static function totalearnings($earning_id, $period, $type)
     {
 
-        $part = explode("-", $period);
+//        $part = explode("-", $period);
+        $part  =$period;
         $start = $part[1] . "-" . $part[0] . "-01";
         $end = date('Y-m-t', strtotime($start));
 
@@ -760,10 +761,10 @@ class Payroll extends Model
 
         if ($type == 'management') {
 
-            $total_earns = DB::table('earnings')
-                ->join('employee', 'earnings.employee_id', '=', 'employee.id')
+            $total_earns = DB::table('x_earnings')
+                ->join('x_employee', 'x_earnings.employee_id', '=', 'x_employee.id')
                 ->select(DB::raw('COALESCE(sum(earnings_amount),0.00) as total_earnings,instalments'))
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
                 ->where(function ($query) use ($earning_id, $start, $jgroup) {
@@ -788,10 +789,10 @@ class Payroll extends Model
                 }
             }
         } else {
-            $total_earns = DB::table('earnings')
-                ->join('employee', 'earnings.employee_id', '=', 'employee.id')
+            $total_earns = DB::table('x_earnings')
+                ->join('x_employee', 'x_earnings.employee_id', '=', 'x_employee.id')
                 ->select(DB::raw('COALESCE(sum(earnings_amount),0.00) as total_earnings,instalments'))
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
                 ->where(function ($query) use ($earning_id, $start, $jgroup) {
@@ -830,10 +831,10 @@ class Payroll extends Model
 
         $earn = 0.00;
 
-        $total_earns = DB::table('earnings')
-            ->join('employee', 'earnings.employee_id', '=', 'employee.id')
+        $total_earns = DB::table('x_earnings')
+            ->join('x_employee', 'x_earnings.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(earnings_amount),0.00) as total_earnings,instalments'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->whereDate('date_joined', '<=', $end)
             ->where(function ($query) use ($id, $start) {
                 $query->where('employee_id', '=', $id)
@@ -895,10 +896,10 @@ class Payroll extends Model
 
         $otime = 0.00;
 
-        $total_overtimes = DB::table('overtimes')
-            ->join('employee', 'overtimes.employee_id', '=', 'employee.id')
+        $total_overtimes = DB::table('x_overtimes')
+            ->join('x_employee', 'x_overtimes.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(amount*period),0.00) as overtimes'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where(function ($query) use ($id, $overtime, $start) {
                 $query->where('employee_id', '=', $id)
                     ->where('type', '=', $overtime)
@@ -986,10 +987,10 @@ class Payroll extends Model
 
         $otime = 0.00;
 
-        $total_overtimes = DB::table('overtimes')
-            ->join('employee', 'overtimes.employee_id', '=', 'employee.id')
+        $total_overtimes = DB::table('x_overtimes')
+            ->join('x_employee', 'x_overtimes.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(amount*period),0.00) as overtimes'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->whereDate('date_joined', '<=', $end)
             ->where(function ($query) use ($id, $start) {
                 $query->where('employee_id', '=', $id)
@@ -1090,7 +1091,7 @@ class Payroll extends Model
         $total_nssf = static::nssf($id, $period);
         $total_pension = static::grosspension($id, $period);
         $taxable = $total_pay - $total_nssf - $total_pension;
-        $emps = DB::table('employee')->where('id', '=', $id)->get();
+        $emps = DB::table('x_employee')->where('id', '=', $id)->get();
         foreach ($emps as $emp) {
             if ($emp->income_tax_applicable == '0') {
                 $paye = 0.00;
@@ -1144,7 +1145,7 @@ class Payroll extends Model
         $total_nssf = static::nssf($id, $period);
         $total_pension = static::grosspension($id, $period);
         $taxable = $total_pay - $total_nssf - $total_pension;
-        $emps = DB::table('employee')->where('id', '=', $id)->get();
+        $emps = DB::table('x_employee')->where('id', '=', $id)->get();
         foreach ($emps as $emp) {
             if ($emp->income_tax_applicable == '0') {
                 $paye = 0.00;
@@ -1198,7 +1199,7 @@ class Payroll extends Model
         if ($employee->social_security_applicable == '0') {
             $nssfAmt = 0.00;
         } else {
-            $nssf_amts = DB::table('social_security')->get();
+            $nssf_amts = DB::table('x_social_security')->get();
             foreach ($nssf_amts as $nssf_amt) {
                 $from = $nssf_amt->income_from;
                 $to = $nssf_amt->income_to;
@@ -1218,7 +1219,7 @@ class Payroll extends Model
         if ($employee->hospital_insurance_applicable == '0') {
             $nhifAmt = 0.00;
         } else {
-            $nhif_amts = DB::table('hospital_insurance')->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+            $nhif_amts = DB::table('x_hospital_insurance')->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
             foreach ($nhif_amts as $nhif_amt) {
                 $from = $nhif_amt->income_from;
                 $to = $nhif_amt->income_to;
@@ -1240,10 +1241,10 @@ class Payroll extends Model
         $other_ded = 0.00;
 
 
-        $deds = DB::table('employee_deductions')
-            ->join('employee', 'employee_deductions.employee_id', '=', 'employee.id')
+        $deds = DB::table('x_employee_deductions')
+            ->join('x_employee', 'x_employee_deductions.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(deduction_amount),0.00) as total_deduction,instalments'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where(function ($query) use ($id, $deduction_id, $start) {
                 $query->where('employee_id', '=', $id)
                     ->where('deduction_id', '=', $deduction_id)
@@ -1270,7 +1271,8 @@ class Payroll extends Model
     public static function totaldeductions($deduction_id, $period, $type)
     {
 
-        $part = explode("-", $period);
+//        $part = explode("-", $period);
+        $part = $period;
         $start = $part[1] . "-" . $part[0] . "-01";
         $end = date('Y-m-t', strtotime($start));
 
@@ -1284,10 +1286,10 @@ class Payroll extends Model
 
         if ($type == 'management') {
 
-            $deds = DB::table('employee_deductions')
-                ->join('employee', 'employee_deductions.employee_id', '=', 'employee.id')
+            $deds = DB::table('x_employee_deductions')
+                ->join('x_employee', 'x_employee_deductions.employee_id', '=', 'x_employee.id')
                 ->select(DB::raw('COALESCE(sum(deduction_amount),0.00) as total_deduction,instalments'))
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
                 ->where(function ($query) use ($deduction_id, $start, $jgroup) {
@@ -1311,10 +1313,10 @@ class Payroll extends Model
                 }
             }
         } else {
-            $deds = DB::table('employee_deductions')
-                ->join('employee', 'employee_deductions.employee_id', '=', 'employee.id')
+            $deds = DB::table('x_employee_deductions')
+                ->join('x_employee', 'x_employee_deductions.employee_id', '=', 'x_employee.id')
                 ->select(DB::raw('COALESCE(sum(deduction_amount),0.00) as total_deduction,instalments'))
-                ->where('employee.organization_id', Auth::user()->organization_id)
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('in_employment', 'Y')
                 ->whereDate('date_joined', '<=', $end)
                 ->where(function ($query) use ($deduction_id, $start, $jgroup) {
@@ -1352,10 +1354,10 @@ class Payroll extends Model
         $other_ded = 0.00;
 
 
-        $deds = DB::table('employee_deductions')
-            ->join('employee', 'employee_deductions.employee_id', '=', 'employee.id')
+        $deds = DB::table('x_employee_deductions')
+            ->join('x_employee', 'x_employee_deductions.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(deduction_amount),0.00) as total_deduction,instalments'))
-            ->where('employee.organization_id', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->whereDate('date_joined', '<=', $end)
             ->where(function ($query) use ($id, $start) {
                 $query->where('employee_id', '=', $id)

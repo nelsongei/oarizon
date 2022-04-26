@@ -23,6 +23,7 @@
                                             <th>Start Date</th>
                                             <th>Expiry Date</th>
                                             <th>Paid Via</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -33,13 +34,28 @@
                                                 <td>{{$count++}}</td>
                                                 <td>
                                                     @if(App\Models\License::where('module_id',$module['id'])->pluck('module_id')->first())
-                                                        {{$module['name']}}
+                                                        <a href="{{url("mpesaTransactions/$ids".'/'.$module['id'])}}">
+                                                            {{$module['name']}}
+                                                        </a>
                                                     @endif
                                                 </td>
                                                 <td>{{$module['user_count']}}</td>
                                                 <td>{{App\Models\License::where('module_id',$module['id'])->pluck('start_date')->first()}}</td>
                                                 <td>{{App\Models\License::where('module_id',$module['id'])->pluck('end_date')->first()}}</td>
                                                 <td>Mpesa</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="fa fa-cogs"></i>Action
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li class="dropdown-item text-info">
+                                                            <a href="{{url("mpesaTransactions/$ids".'/'.$module['id'])}}">
+                                                                <i class="fa fa-eye"></i>
+                                                                View Transactions
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
                                             </tr>
                                         @empty
                                         @endforelse
@@ -276,35 +292,3 @@
         }
     </script>
 @endsection
-{{--                                        @forelse($transactions as $transaction)--}}
-{{--                                            <tr--}}
-{{--                                                @if((\App\Models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())--}}
-{{--                                                title="License Active"--}}
-{{--                                                @else--}}
-{{--                                                title="License Expired"--}}
-{{--                                                @endif--}}
-{{--                                            >--}}
-{{--                                                <td>{{$count++}}</td>--}}
-{{--                                                <td>--}}
-{{--                                                    <a--}}
-{{--                                                        href="{{url("mpesaTransactions/".$ids."/".$transaction["id"])}}">--}}
-{{--                                                        {{$transaction['module']['name']}}--}}
-{{--                                                    </a>--}}
-{{--                                                </td>--}}
-{{--                                                <td>{{$transaction['module']['user_count']}}</td>--}}
-{{--                                                <td>{{$transaction['module']['price']}}</td>--}}
-{{--                                                <td>{{$transaction['module']['price']}}</td>--}}
-{{--                                                <td>{{$transaction['TransactionDate']}}</td>--}}
-{{--                                                <td>{{$transaction['PhoneNumber']}}</td>--}}
-{{--                                                <td>{{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('start_date')->first()}}</td>--}}
-{{--                                                <td>--}}
-{{--                                                    @if((\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first())>=now())--}}
-{{--                                                        {{\App\models\License::where('module_id',$transaction['module']['id'])->pluck('end_date')->first()}}--}}
-{{--                                                    @else--}}
-{{--                                                        License Expired--}}
-{{--                                                    @endif--}}
-{{--                                                </td>--}}
-{{--                                                <td>Mpesa</td>--}}
-{{--                                            </tr>--}}
-{{--                                        @empty--}}
-{{--                                        @endforelse--}}

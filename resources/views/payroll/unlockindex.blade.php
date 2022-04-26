@@ -61,19 +61,19 @@ function asMoney($value)
 
                                                 <td>{{ $transact->financial_month_year }}</td>
 
-                                                <td>{{ Transact::getUser($transact->user_id) }}</td>
-                                                @if(Lockpayroll::checkAvailable($transact->financial_month_year) == 0)
+                                                <td>{{ App\Models\Transact::getUser($transact->user_id) }}</td>
+                                                @if(App\Models\Lockpayroll::checkAvailable($transact->financial_month_year) == 0)
                                                     <td>Locked</td>
                                                 @else
                                                     <td>Unlocked</td>
                                                 @endif
-                                                @if(Lockpayroll::checkAvailable($transact->financial_month_year) > 0)
-                                                    <td>{{Lockpayroll::getEmployee($transact->financial_month_year)}}</td>
+                                                @if(App\Models\Lockpayroll::checkAvailable($transact->financial_month_year) > 0)
+                                                    <td>{{App\Models\Lockpayroll::getEmployee($transact->financial_month_year)}}</td>
                                                 @else
                                                     <td></td>
                                                 @endif
-                                                @if(Lockpayroll::checkAvailable($transact->financial_month_year) > 0)
-                                                    <td>{{Lockpayroll::getUser($transact->financial_month_year)}}</td>
+                                                @if(App\Models\Lockpayroll::checkAvailable($transact->financial_month_year) > 0)
+                                                    <td>{{App\Models\Lockpayroll::getUser($transact->financial_month_year)}}</td>
                                                 @else
                                                     <td></td>
                                                 @endif
@@ -89,7 +89,7 @@ function asMoney($value)
                                                         <ul class="dropdown-menu" role="menu">
                                                             <li><a href="{{URL::to('payroll/view/'.$transact->id)}}">View</a>
                                                             </li>
-                                                            @if(Lockpayroll::checkAvailable($transact->financial_month_year) == 0)
+                                                            @if(App\models\Lockpayroll::checkAvailable($transact->financial_month_year) == 0)
                                                                 <li>
                                                                     <a href="{{URL::to('unlockpayroll/'.$transact->id)}}">Unlock
                                                                         Payroll</a></li>
@@ -108,9 +108,10 @@ function asMoney($value)
 
 
                                         </tbody>
-
-
                                     </table>
+                                    <div class="col-sm-12">
+                                        {{$transacts->links()}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

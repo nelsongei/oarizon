@@ -12,6 +12,7 @@ use App\Http\Controllers\BanksController;
 use App\Http\Controllers\BenefitSettingsController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CitizenshipController;
+use App\Http\Controllers\NonTaxablesController;
 use App\Http\Controllers\CurrenciesController;
 use App\Http\Controllers\DeductionsController;
 use App\Http\Controllers\DepartmentsController;
@@ -45,7 +46,9 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\Audit;
+use App\Models\Branch;
 use App\Models\Currency;
+use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Leaveapplication;
 use App\Models\Leavetype;
@@ -77,11 +80,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /*
  * Users
  * */
-Route::resource('users',UserController::class);
+Route::resource('users', UserController::class);
 /*
  * Roles
  * */
-Route::resource('roles',RoleController::class);
+Route::resource('roles', RoleController::class);
 
 /*
  *
@@ -600,32 +603,38 @@ Route::get('deductions/edit/{id}', [DeductionsController::class, 'edit']);
 */
 
 Route::resource('nssf', NssfController::class);
-Route::post('nssf/update/{id}', [NssfController::class,'update']);
-Route::get('nssf/delete/{id}', [NssfController::class,'destroy']);
-Route::get('nssf/edit/{id}', [NssfController::class,'edit']);
+Route::post('nssf/update/{id}', [NssfController::class, 'update']);
+Route::get('nssf/delete/{id}', [NssfController::class, 'destroy']);
+Route::get('nssf/edit/{id}', [NssfController::class, 'edit']);
 
 /*
 * nhif routes
 */
 
 Route::resource('nhif', NhifController::class);
-Route::post('nhif/update/{id}', [NhifController::class,'update']);
-Route::get('nhif/delete/{id}', [NhifController::class,'destroy']);
-Route::get('nhif/edit/{id}', [NhifController::class,'edit']);
+Route::post('nhif/update/{id}', [NhifController::class, 'update']);
+Route::get('nhif/delete/{id}', [NhifController::class, 'destroy']);
+Route::get('nhif/edit/{id}', [NhifController::class, 'edit']);
 //
 Route::get('api/pay', function () {
     $id = request('option');
     $employee = Employee::find($id);
     return number_format($employee->basic_pay, 2);
 });
+/**/
+
+Route::resource('nontaxables', NonTaxablesController::class);
+Route::post('nontaxables/update/{id}', [NonTaxablesController::class,'update']);
+Route::get('nontaxables/delete/{id}', [NonTaxablesController::class,'destroy']);
+Route::get('nontaxables/edit/{id}', [NonTaxablesController::class,'edit']);
 /**
  * citizenship routes
  */
 
 Route::resource('citizenships', CitizenshipController::class);
-Route::post('citizenships/update/{id}', [CitizenshipController::class,'update']);
-Route::get('citizenships/delete/{id}', [CitizenshipController::class,'destroy']);
-Route::get('citizenships/edit/{id}', [CitizenshipController::class,'edit']);
+Route::post('citizenships/update/{id}', [CitizenshipController::class, 'update']);
+Route::get('citizenships/delete/{id}', [CitizenshipController::class, 'destroy']);
+Route::get('citizenships/edit/{id}', [CitizenshipController::class, 'edit']);
 
 //Route::group(['middleware' => 'can:manage_audits'], function () {
 Route::resource('audits', AuditsController::class);

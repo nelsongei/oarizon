@@ -360,6 +360,11 @@
                                         <span class="pcoded-mtext">NHIF Rates</span>
                                     </a>
                                 </li>
+                                <li class="">
+                                    <a href="{{ url('nontaxables')}}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Non Taxables</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

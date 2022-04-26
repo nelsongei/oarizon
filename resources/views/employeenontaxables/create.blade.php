@@ -158,11 +158,6 @@
                                                            onkeyup="totalBalance()" name="amount" id="amount"
                                                            value="{{{ old('amount') }}}">
                                                 </div>
-                                                <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        $('#amount').priceFormat();
-                                                    });
-                                                </script>
                                             </div>
 
                                             <div class="form-group bal_amt" id="bal">
@@ -185,20 +180,6 @@
                                                            name="idate" id="idate" value="{{{ old('idate') }}}">
                                                 </div>
                                             </div>
-
-                                            <script type="text/javascript">
-                                                $(function () {
-
-                                                    $('.incomedate').datepicker({
-                                                        format: 'yyyy-mm-dd',
-                                                        startDate: '-60y',
-                                                        autoclose: true
-                                                    });
-                                                });
-
-                                            </script>
-
-
                                             <div class="form-actions form-group">
 
                                                 <button type="submit" class="btn btn-primary btn-sm">Create Employee Non
@@ -216,11 +197,27 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
-    <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript">
-        document.getElementById("edate").value = '';
+        // $(document).ready(function () {
+        //     $('#amount').priceFormat();
+        // });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('.incomedate').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '-60y',
+                autoclose: true
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        //document.getElementById("edate").value = '';
 
         function totalBalance() {
             var instals = document.getElementById("instalments").value;

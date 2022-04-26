@@ -134,7 +134,7 @@ class EmployeeNonTaxableController extends Controller
 
         $nontaxable->save();
 
-        Audit::logaudit('Employeenontaxables', 'create', 'assigned: ' . $nontaxable->nontaxable_amount . ' to ' . Employee::getEmployeeName(Input::get('employee')));
+        Audit::logaudit(date('Y-m-d'),Auth::user()->username,'Employeenontaxables',  'assigned: ' . $nontaxable->nontaxable_amount . ' to ' . Employee::getEmployeeName(request('employee')));
 
         return Redirect::route('employeenontaxables.index')->withFlashMessage('Employee non taxable income successfully created!');
     }

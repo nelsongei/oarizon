@@ -1,77 +1,69 @@
 @extends('layouts.main_hr')
-<style>
-    label, input {
-        display: block;
-    }
-
-    input.text {
-        margin-bottom: 12px;
-        width: 95%;
-        padding: .4em;
-    }
-
-    fieldset {
-        padding: 0;
-        border: 0;
-        margin-top: 25px;
-    }
-
-    h1 {
-        font-size: 1.2em;
-        margin: .6em 0;
-    }
-
-    div#users-contain {
-        width: 350px;
-        margin: 20px 0;
-    }
-
-    div#users-contain table {
-        margin: 1em 0;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    div#users-contain table td, div#users-contain table th {
-        border: 1px solid #eee;
-        padding: .6em 10px;
-        text-align: left;
-    }
-
-    .ui-dialog .ui-state-error {
-        padding: .3em;
-    }
-
-    .validateTips {
-        border: 1px solid transparent;
-        padding: 0.3em;
-    }
-
-    .ui-dialog {
-        position: fixed;
-        margin-bottom: 850px;
-    }
-
-
-    .ui-dialog-titlebar-close {
-        background: url("{{ URL::asset('jquery-ui-1.11.4.custom/images/ui-icons_888888_256x240.png') }}") repeat scroll -93px -128px rgba(0, 0, 0, 0);
-        border: medium none;
-    }
-
-    .ui-dialog-titlebar-close:hover {
-        background: url("{{ URL::asset('jquery-ui-1.11.4.custom/images/ui-icons_222222_256x240.png') }}") repeat scroll -93px -128px rgba(0, 0, 0, 0);
-    }
-
-</style>
-<script type="text/javascript">
-    function YNconfirm() {
-        var per = document.getElementById("period").value;
-        if (window.confirm('Do you wish to process payroll for ' + per + '?')) {
-            window.location.href = "{{ URL::to('payroll/accounts')}}";
-        }
-    }
-</script>
 @section('xara_cbs')
+    <style>
+        label, input {
+            display: block;
+        }
+
+        input.text {
+            margin-bottom: 12px;
+            width: 95%;
+            padding: .4em;
+        }
+
+        fieldset {
+            padding: 0;
+            border: 0;
+            margin-top: 25px;
+        }
+
+        h1 {
+            font-size: 1.2em;
+            margin: .6em 0;
+        }
+
+        div#users-contain {
+            width: 350px;
+            margin: 20px 0;
+        }
+
+        div#users-contain table {
+            margin: 1em 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        div#users-contain table td, div#users-contain table th {
+            border: 1px solid #eee;
+            padding: .6em 10px;
+            text-align: left;
+        }
+
+        .ui-dialog .ui-state-error {
+            padding: .3em;
+        }
+
+        .validateTips {
+            border: 1px solid transparent;
+            padding: 0.3em;
+        }
+
+        .ui-dialog {
+            position: fixed;
+            margin-bottom: 850px;
+        }
+
+
+        .ui-dialog-titlebar-close {
+            background: url("{{ URL::asset('jquery-ui-1.11.4.custom/images/ui-icons_888888_256x240.png') }}") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+            border: medium none;
+        }
+
+        .ui-dialog-titlebar-close:hover {
+            background: url("{{ URL::asset('jquery-ui-1.11.4.custom/images/ui-icons_222222_256x240.png') }}") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+        }
+
+    </style>
     @include('partials.breadcrumbs')
     <div class="pcoded-inner-content">
         <div class="main-body">
@@ -129,14 +121,15 @@
                                             @csrf
                                             <fieldset>
                                                 <div class="form-group">
-                                                    <label for="username">Period <span
+                                                    <label for="period">Period <span
                                                             style="color:red">*</span></label>
                                                     <div class="right-inner-addon ">
                                                         <i class="glyphicon glyphicon-calendar"></i>
-                                                        <input required class="form-control datepicker2"
+                                                        <input required class="form-control appdate  datepicker2"
                                                                 placeholder=""
-                                                               type="text" name="period" id="period"
-                                                               value="{{{ old('period') }}}">
+                                                               type="date" name="period" id="period"
+                                                               value="{{{ old('period') }}}"
+                                                        >
                                                     </div>
                                                 </div>
 
@@ -184,6 +177,10 @@
             </div>
         </div>
     </div>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script>
         $(function () {
             var dialog, form,
@@ -306,11 +303,13 @@
             });
         });
     </script>
-
-    {{--    {{ HTML::style('jquery-ui-1.11.4.custom/jquery-ui.css') }}--}}
-    {{--  {{ HTML::script('jquery-ui-1.11.4.custom/jquery-ui.js') }}--}}
-
-
-    {{--            {{ HTML::script('datepicker/js/bootstrap-datepicker.min.js') }}--}}
+    <script type="text/javascript">
+        function YNconfirm() {
+            var per = document.getElementById("period").value;
+            if (window.confirm('Do you wish to process payroll for ' + per + '?')) {
+                window.location.href = "{{ URL::to('payroll/accounts')}}";
+            }
+        }
+    </script>
 
 @stop

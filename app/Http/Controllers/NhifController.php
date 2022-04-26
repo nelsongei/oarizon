@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\NhifRates;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
 class NhifController extends BaseController {
@@ -14,6 +16,7 @@ class NhifController extends BaseController {
 	public function index()
 	{
 		$nrates = DB::table('x_hospital_insurance')->where('income_from', '!=', 0.00)->get();
+//        dd($nrates);
 
 		return View::make('nhif.index', compact('nrates'));
 	}
@@ -21,8 +24,8 @@ class NhifController extends BaseController {
 	/**
 	 * Show the form for creating a new branch
 	 *
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function create()
 	{
 		return View::make('nhif.create');
@@ -31,38 +34,40 @@ class NhifController extends BaseController {
 	/**
 	 * Store a newly created branch in storage.
 	 *
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), NhifRates::$rules,NhifRates::$messages);
+//        dd(request('amount'));
+		$validator = Validator::make($data = request()->all(), NhifRates::$rules,NhifRates::$messages);
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
 		}
 
 		$nrate = new NhifRates;
 
-		$nrate->income_from = Input::get('i_from');
+		$nrate->income_from = request('i_from');
 
-		$nrate->income_to = Input::get('i_to');
+		$nrate->income_to = request('i_to');
 
-		$nrate->hi_amount = Input::get('amount');
+		$nrate->hi_amount = request('amount');
 
         $nrate->organization_id = '1';
 
 		$nrate->save();
 
-		return Redirect::route('nhif.index');
+//		return Redirect::route('nhif.index');
+        return redirect()->route('nhif.index');
 	}
 
 	/**
 	 * Display the specified branch.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function show($id)
 	{
 		$nrate = NhifRates::findOrFail($id);
@@ -74,8 +79,8 @@ class NhifController extends BaseController {
 	 * Show the form for editing the specified branch.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function edit($id)
 	{
 		$nrate = NhifRates::find($id);
@@ -87,41 +92,41 @@ class NhifController extends BaseController {
 	 * Update the specified branch in storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function update($id)
 	{
 		$nrate = NhifRates::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), NhifRates::$rules,NhifRates::$messages);
+		$validator = Validator::make($data = request()->all(), NhifRates::$rules,NhifRates::$messages);
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return redirect()->back()->withErrors($validator)->withInput();
 		}
 
-		$nrate->income_from = Input::get('i_from');
+		$nrate->income_from = request('i_from');
 
-		$nrate->income_to = Input::get('i_to');
+		$nrate->income_to = request('i_to');
 
-		$nrate->hi_amount = Input::get('amount');
+		$nrate->hi_amount = request('amount');
 
 		$nrate->update();
 
-		return Redirect::route('nhif.index');
+		return redirect()->route('nhif.index');
 	}
 
 	/**
 	 * Remove the specified branch from storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function destroy($id)
 	{
 		NhifRates::destroy($id);
 
-		return Redirect::route('nhif.index');
+		return redirect()->route('nhif.index');
 	}
 
 }
