@@ -27,7 +27,7 @@
                                             </button>{{ Session::get('notice') }}
                                         </div>
                                     @endif
-                                    <form target="_blank" method="POST" action="{{URL::to('payrollReports/payslip')}}"
+                                    <form method="POST" action="{{URL::to('payrollReports/payslip')}}"
                                           accept-charset="UTF-8">
                                         @csrf
                                         <fieldset>
@@ -35,9 +35,9 @@
                                                 <label for="username">Period <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input required class="form-control datepicker2" readonly="readonly"
+                                                    <input required class="form-control datepicker"
                                                            placeholder=""
-                                                           type="text" name="period" id="period"
+                                                           type="date" name="period" id="period"
                                                            value="{{{ old('period') }}}">
                                                 </div>
                                             </div>
@@ -66,7 +66,7 @@
                                                     <option value="All">All</option>
                                                     @foreach($departments as $department)
                                                         <option
-                                                            value="{{$department->id }}"> {{ $department->department_name }}</option>
+                                                            value="{{$department->id }}"> {{ $department->name }}</option>
                                                     @endforeach
 
                                                 </select>

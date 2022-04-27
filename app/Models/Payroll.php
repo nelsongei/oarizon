@@ -132,7 +132,7 @@ class Payroll extends Model
     {
 
 //        $part = explode("-", $period);
-        $part  = $period;
+        $part = $period;
         $start = $part[1] . "-" . $part[0] . "-01";
         $end = date('Y-m-t', strtotime($start));
 
@@ -747,7 +747,7 @@ class Payroll extends Model
     {
 
 //        $part = explode("-", $period);
-        $part  =$period;
+        $part = $period;
         $start = $part[1] . "-" . $part[0] . "-01";
         $end = date('Y-m-t', strtotime($start));
 
@@ -1412,7 +1412,7 @@ class Payroll extends Model
 
         $salary = 0.00;
 
-        $pays = DB::table('transact')
+        $pays = DB::table('x_transact')
             ->select('employee_id', DB::raw('COALESCE(sum(basic_pay),0.00) as total_pay'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1430,12 +1430,11 @@ class Payroll extends Model
 
     public static function processedpensions($id, $period)
     {
-
-        $pension = DB::table('transact_pensions')
-            ->join('employee', 'transact_pensions.employee_id', '=', 'employee.id')
+        $pension = DB::table('x_transact_pensions')
+            ->join('x_employee', 'x_transact_pensions.employee_id', '=', 'x_employee.id')
             ->select(DB::raw('COALESCE(sum(employee_amount),0.00) as employee_amount'))
             ->where('financial_month_year', '=', $period)
-            ->where('employee.personal_file_number', '=', $id)
+            ->where('x_employee.personal_file_number', '=', $id)
             ->first();
 
         return number_format($pension->employee_amount, 2);
@@ -1447,7 +1446,7 @@ class Payroll extends Model
 
         $gross = 0.00;
 
-        $pays = DB::table('transact')
+        $pays = DB::table('x_transact')
             ->select('employee_id', DB::raw('COALESCE(sum(taxable_income),0.00) as total_pay'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1533,7 +1532,7 @@ class Payroll extends Model
 
         $rel = '';
 
-        $total_rels = DB::table('transact_reliefs')
+        $total_rels = DB::table('x_transact_reliefs')
             ->select('employee_id', 'relief_name')
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1554,7 +1553,7 @@ class Payroll extends Model
 
         $rel = 0.00;
 
-        $total_rels = DB::table('transact_reliefs')
+        $total_rels = DB::table('x_transact_reliefs')
             ->select('employee_id', DB::raw('COALESCE(sum(relief_amount),0.00) as total_reliefs'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1575,7 +1574,7 @@ class Payroll extends Model
 
         $earn = '';
 
-        $total_earns = DB::table('transact_earnings')
+        $total_earns = DB::table('x_transact_earnings')
             ->select('employee_id', 'earning_name')
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1596,7 +1595,7 @@ class Payroll extends Model
 
         $earn = 0.00;
 
-        $total_earns = DB::table('transact_earnings')
+        $total_earns = DB::table('x_transact_earnings')
             ->select('employee_id', DB::raw('COALESCE(sum(earning_amount),0.00) as total_earnings'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1617,7 +1616,7 @@ class Payroll extends Model
 
         $otime = '';
 
-        $total_overtimes = DB::table('transact_overtimes')
+        $total_overtimes = DB::table('x_transact_overtimes')
             ->select('employee_id', 'overtime_type')
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1638,7 +1637,7 @@ class Payroll extends Model
 
         $otime = 0.00;
 
-        $total_overtimes = DB::table('transact_overtimes')
+        $total_overtimes = DB::table('x_transact_overtimes')
             ->select('employee_id', DB::raw('COALESCE(sum(overtime_period*overtime_amount),0.00) as overtimes'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1659,7 +1658,7 @@ class Payroll extends Model
 
         $tax = 0.00;
 
-        $total_paye = DB::table('transact')
+        $total_paye = DB::table('x_transact')
             ->select('employee_id', DB::raw('COALESCE(sum(paye),0.00) as paye'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1678,7 +1677,7 @@ class Payroll extends Model
 
         $tallw = '';
 
-        $total_tallws = DB::table('transact_allowances')
+        $total_tallws = DB::table('x_transact_allowances')
             ->select('employee_id', 'allowance_name')
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1699,7 +1698,7 @@ class Payroll extends Model
 
         $tallw = 0.00;
 
-        $total_tallws = DB::table('transact_allowances')
+        $total_tallws = DB::table('x_transact_allowances')
             ->select('employee_id', DB::raw('COALESCE(sum(allowance_amount),0.00) as total_allowances'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1720,7 +1719,7 @@ class Payroll extends Model
 
         $tnontax = '';
 
-        $total_nontaxes = DB::table('transact_nontaxables')
+        $total_nontaxes = DB::table('x_transact_nontaxables')
             ->select('employee_id', 'nontaxable_name')
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1741,7 +1740,7 @@ class Payroll extends Model
 
         $tnontax = 0.00;
 
-        $total_nontaxes = DB::table('transact_nontaxables')
+        $total_nontaxes = DB::table('x_transact_nontaxables')
             ->select('employee_id', DB::raw('COALESCE(sum(nontaxable_amount),0.00) as total_nontaxables'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1762,7 +1761,7 @@ class Payroll extends Model
 
         $nssf_amt = 0.00;
 
-        $total_nssfs = DB::table('transact')
+        $total_nssfs = DB::table('x_transact')
             ->select('employee_id', DB::raw('COALESCE(sum(nssf_amount),0.00) as nssf'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1783,7 +1782,7 @@ class Payroll extends Model
 
         $nhif_amt = 0.00;
 
-        $total_nhifs = DB::table('transact')
+        $total_nhifs = DB::table('x_transact')
             ->select('employee_id', DB::raw('COALESCE(sum(nhif_amount),0.00) as nhif'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1802,7 +1801,7 @@ class Payroll extends Model
 
         $deductions = '';
 
-        $total_deds = DB::table('transact_deductions')
+        $total_deds = DB::table('x_transact_deductions')
             ->select('employee_id', 'deduction_name')
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1823,7 +1822,7 @@ class Payroll extends Model
 
         $deductions = 0.00;
 
-        $total_deds = DB::table('transact_deductions')
+        $total_deds = DB::table('x_transact_deductions')
             ->select('employee_id', DB::raw('COALESCE(sum(deduction_amount),0.00) as total_deductions'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1844,7 +1843,7 @@ class Payroll extends Model
 
         $deductions = 0.00;
 
-        $total_deds = DB::table('transact')
+        $total_deds = DB::table('x_transact')
             ->select('employee_id', DB::raw('COALESCE(sum(total_deductions),0.00) as total_deductions'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)
@@ -1865,7 +1864,7 @@ class Payroll extends Model
 
         $net = 0.00;
 
-        $total_nets = DB::table('transact')
+        $total_nets = DB::table('x_transact')
             ->select('employee_id', DB::raw('COALESCE(sum(net),0.00) as total_net'))
             ->where('organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', $period)

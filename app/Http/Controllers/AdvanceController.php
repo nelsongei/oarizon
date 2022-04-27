@@ -141,11 +141,10 @@ class AdvanceController extends Controller
             ->get();
         foreach ($employees as $employee) {
             $advance = new Advance;
-
             $advance->employee_id = $employee->personal_file_number;
             $advance->amount = $employee->deduction_amount;
-            $advance->financial_month_year = Input::get('period');
-            $advance->account_id = Input::get('account');
+            $advance->financial_month_year = request('period');
+            $advance->account_id = request('account');
             $advance->organization_id = Auth::user()->organization_id;
             $advance->save();
         }

@@ -306,7 +306,8 @@ function asMoney($value)
 
 
                                         <tr style="background:#EEE;">
-                                            <td style="border-right:0 #FFF;"><span style="display:none">{{$i}}</span></td>
+                                            <td style="border-right:0 #FFF;"><span style="display:none">{{$i}}</span>
+                                            </td>
                                             <td></td>
                                             <td align='right'><strong>Totals</strong></td>
                                             <td align='right'><strong>{{asMoney($totalsalary)}}</strong></td>
@@ -314,7 +315,8 @@ function asMoney($value)
                                                 <?php
                                                 $totalearning . $earning->id = $totalearning + (double)App\Models\Payroll::totalearnings($earning->id, $period, $type);
                                                 ?>
-                                                <td align='right'><strong>{{asMoney($totalearning.$earning->id)}}</strong>
+                                                <td align='right'>
+                                                    <strong>{{asMoney($totalearning.$earning->id)}}</strong>
                                                 </td>
                                             @endforeach
                                             <td align='right'><strong>{{asMoney($totalhourly)}}</strong></td>

@@ -3854,8 +3854,8 @@ class ReportsController extends Controller {
     }
 
     public function payslip(Request $request){
-
-        $check = DB::table('transact')
+//        dd($request->period);
+        $check = DB::table('x_transact')
             ->where('financial_month_year' ,'=', $request->get('period'))
             ->count();
 
@@ -3987,8 +3987,6 @@ class ReportsController extends Controller {
                     $objPHPExcel = new Spreadsheet;
                     // Set the active Excel worksheet to sheet 0
                     $objPHPExcel->setActiveSheetIndex(0);
-
-
                     $excel->sheet('Payslip', function($sheet) use($data,$nontaxables,$name,$period,$employee,$allws,$earnings,$overtimes,$rels,$deds,$organization,$currency,$pension,$objPHPExcel){
 
 
@@ -4343,14 +4341,14 @@ class ReportsController extends Controller {
 
                 $id = $request->get('employeeid');
 
-                $empall = DB::table('transact')
-                    ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                $empall = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                     ->where('financial_month_year' ,'=', $request->get('period'))
-                    ->where('employee.organization_id',Auth::user()->organization_id)
+                    ->where('x_employee.organization_id',Auth::user()->organization_id)
                     ->get();
 
 
-                $currency = DB::table('currencies')
+                $currency = DB::table('x_currencies')
                     ->whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)
                     ->select('shortname')
                     ->first();
@@ -4364,17 +4362,17 @@ class ReportsController extends Controller {
                 })->where('job_group_name','Management')
                     ->first();
 
-                $empall = DB::table('transact')
-                    ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                $empall = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                     ->where('financial_month_year' ,'=', $request->get('period'))
-                    ->where('employee.organization_id',Auth::user()->organization_id)
+                    ->where('x_employee.organization_id',Auth::user()->organization_id)
                     ->get();
 
-                $empall = DB::table('transact')
-                    ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                $empall = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                     ->where('financial_month_year' ,'=', $request->get('period'))
                     ->where('job_group_id' ,'!=', $jgroup->id)
-                    ->where('employee.organization_id',Auth::user()->organization_id)
+                    ->where('x_employee.organization_id',Auth::user()->organization_id)
                     ->get();
 
                 Audit::logaudit('Payslip', 'view', 'viewed payslip for all employees for period '.$request->get('period'));
@@ -4385,11 +4383,11 @@ class ReportsController extends Controller {
 
             }else{
 
-                if($data = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                if($data = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get("employeeid"))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get("employeeid"))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->count() == 0 ){
 
                     return Redirect::to('css/payslips')->with('errors', 'Your payslip for period '.$request->get('period').' is not available!');
@@ -4403,7 +4401,7 @@ class ReportsController extends Controller {
 
                     $employee = Employee::find($id);
 
-                    $empall = Employee::where('employee.organization_id',Auth::user()->organization_id)->get();
+                    $empall = Employee::where('x_employee.organization_id',Auth::user()->organization_id)->get();
 
                     $name = '';
 
@@ -4425,84 +4423,83 @@ class ReportsController extends Controller {
                         $name = $employee->first_name.' '.$employee->middle_name.' '.$employee->last_name;
                     }
 
-                    $transact = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $transact = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->first();
 
-                    $nontaxables = DB::table('transact_nontaxables')
-                        ->join('employee', 'transact_nontaxables.employee_id', '=', 'employee.id')
+                    $nontaxables = DB::table('x_transact_nontaxables')
+                        ->join('x_employee', 'x_transact_nontaxables.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->groupBy('nontaxable_name')
                         ->select('nontaxable_name',DB::raw('COALESCE(sum(nontaxable_amount),0.00) as nontaxable_amount'))
                         ->get();
 
-                    $allws = DB::table('transact_allowances')
-                        ->join('employee', 'transact_allowances.employee_id', '=', 'employee.id')
+                    $allws = DB::table('x_transact_allowances')
+                        ->join('x_employee', 'x_transact_allowances.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->groupBy('allowance_name')
                         ->select('allowance_name',DB::raw('COALESCE(sum(allowance_amount),0.00) as allowance_amount'))
                         ->get();
 
-                    $earnings = DB::table('transact_earnings')
-                        ->join('employee', 'transact_earnings.employee_id', '=', 'employee.id')
+                    $earnings = DB::table('x_transact_earnings')
+                        ->join('x_employee', 'x_transact_earnings.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->groupBy('earning_name')
                         ->select('earning_name',DB::raw('COALESCE(sum(earning_amount),0.00) as earning_amount'))
                         ->get();
 
-                    $deds = DB::table('transact_deductions')
-                        ->join('employee', 'transact_deductions.employee_id', '=', 'employee.id')
+                    $deds = DB::table('x_transact_deductions')
+                        ->join('x_employee', 'x_transact_deductions.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->groupBy('deduction_name')
                         ->select('deduction_name',DB::raw('COALESCE(sum(deduction_amount),0.00) as deduction_amount'))
                         ->get();
 
-                    $overtimes = DB::table('transact_overtimes')
-                        ->join('employee', 'transact_overtimes.employee_id', '=', 'employee.id')
+                    $overtimes = DB::table('x_transact_overtimes')
+                        ->join('x_employee', 'x_transact_overtimes.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->groupBy('overtime_type')
                         ->select('overtime_type',DB::raw('COALESCE(sum(overtime_period*overtime_amount),0.00) as overtimes'))
                         ->get();
 
-                    $rels = DB::table('transact_reliefs')
-                        ->join('employee', 'transact_reliefs.employee_id', '=', 'employee.id')
+                    $rels = DB::table('x_transact_reliefs')
+                        ->join('x_employee', 'x_transact_reliefs.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->groupBy('relief_name')
                         ->select('relief_name',DB::raw('COALESCE(sum(relief_amount),0.00) as relief_amount'))
                         ->get();
 
-                    $currency = DB::table('currencies')
+                    $currency = DB::table('x_currencies')
                         ->whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)
                         ->select('shortname')
                         ->first();
 
-                    $pension = DB::table('transact_pensions')
-                        ->join('employee', 'transact_pensions.employee_id', '=', 'employee.id')
+                    $pension = DB::table('x_transact_pensions')
+                        ->join('x_employee', 'x_transact_pensions.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year' ,'=', $request->get('period'))
-                        ->where('employee.id' ,'=', $request->get('employeeid'))
-                        ->where('employee.organization_id',Auth::user()->organization_id)
+                        ->where('x_employee.id' ,'=', $request->get('employeeid'))
+                        ->where('x_employee.organization_id',Auth::user()->organization_id)
                         ->select(DB::raw('COALESCE(sum(employee_amount),0.00) as employee_amount'))
                         ->first();
 
                     $organization = Organization::find(Auth::user()->organization_id);
 
                     Audit::logaudit('Payslip', 'view', 'viewed payslip for '.$employee->personal_file_number.' : '.$employee->first_name.' '.$employee->last_name.' for period '.$request->get('period'));
-
 
 //return view('pdf.monthlySlip', compact('nontaxables','empall','select','name','employee','transact','allws','deds','earnings','overtimes','pension','rels','period','currency', 'organization','id'));
                     $pdf = PDF::loadView('pdf.monthlySlip', compact('nontaxables','empall','select','name','employee','transact','allws','deds','earnings','overtimes','pension','rels','period','currency', 'organization','id'))->setPaper('a5');
