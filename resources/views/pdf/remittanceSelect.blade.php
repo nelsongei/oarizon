@@ -21,7 +21,7 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                        <form target="_blank" method="POST" action="{{URL::to('payrollReports/payRemittances')}}"
+                                        <form  method="POST" action="{{URL::to('payrollReports/payRemittances')}}"
                                               accept-charset="UTF-8">
                                             @csrf
                                             <fieldset>
@@ -30,8 +30,8 @@
                                                     <label for="username">Period <span style="color:red">*</span></label>
                                                     <div class="right-inner-addon ">
                                                         <i class="glyphicon glyphicon-calendar"></i>
-                                                        <input required class="form-control datepicker2" readonly="readonly" placeholder=""
-                                                               type="text" name="period" id="period" value="{{{ old('period') }}}">
+                                                        <input required class="form-control datepicker2" placeholder=""
+                                                               type="date" name="period" id="period" value="{{{ old('period') }}}">
                                                     </div>
                                                 </div>
 
@@ -45,17 +45,14 @@
                                                         @endforeach
 
                                                     </select>
-
                                                 </div>
-
-
                                                 <div class="form-group">
                                                     <label for="username">Select Department: <span style="color:red">*</span></label>
                                                     <select required name="department" class="form-control">
                                                         <option></option>
                                                         <option value='All'>All</option>
                                                         @foreach($depts as $dept)
-                                                            <option value="{{$dept->id}}"> {{ $dept->department_name }}</option>
+                                                            <option value="{{$dept->id}}"> {{ $dept->name }}</option>
                                                         @endforeach
 
                                                     </select>

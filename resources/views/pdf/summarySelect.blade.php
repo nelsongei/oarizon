@@ -21,7 +21,7 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                    <form target="_blank" method="POST"
+                                    <form method="POST"
                                           action="{{URL::to('payrollReports/payrollSummary')}}"
                                           accept-charset="UTF-8">
                                         @csrf
@@ -30,9 +30,9 @@
                                                 <label for="username">Period <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input required class="form-control datepicker2" readonly="readonly"
+                                                    <input required class="form-control datepicker2"
                                                            placeholder=""
-                                                           type="text" name="period" id="period"
+                                                           type="date" name="period" id="period"
                                                            value="{{{ old('period') }}}">
                                                 </div>
                                             </div>
@@ -60,7 +60,7 @@
                                                     <option value="All">All</option>
                                                     @foreach($depts as $dept)
                                                         <option
-                                                            value="{{$dept->id}}"> {{ $dept->department_name }}</option>
+                                                            value="{{$dept->id}}"> {{ $dept->name }}</option>
                                                     @endforeach
 
                                                 </select>
@@ -80,8 +80,6 @@
                                                 </select>
 
                                             </div>
-
-
                                             <div class="form-group">
                                                 <label for="username">Download as: <span
                                                         style="color:red">*</span></label>
