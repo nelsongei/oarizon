@@ -507,10 +507,10 @@
                                                                     <tr>
 
                                                                         <td> {{ $i }}</td>
-                                                                        @if($kin->middle_name == '')
-                                                                            <td>{{ $kin->first_name.' '.$kin->last_name }}</td>
+                                                                        @if($kin->kin_name == '')
+                                                                            <td>{{ $kin->kin_name}}</td>
                                                                         @else
-                                                                            <td>{{ $kin->first_name.' '.$kin->middle_name.' '.$kin->last_name }}</td>
+                                                                            <td>N/A</td>
                                                                         @endif
                                                                         @if($kin->id_number!=' ' || $kin->id_number!=null)
                                                                             <td>{{ $kin->id_number }}</td>
@@ -518,7 +518,7 @@
                                                                             <td></td>
                                                                         @endif
                                                                         @if($kin->id_number!=' ' || $kin->id_number!=null)
-                                                                            <td>{{ $kin->relationship }}</td>
+                                                                            <td>{{ $kin->relation }}</td>
                                                                         @else
                                                                             <td></td>
                                                                         @endif

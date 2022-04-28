@@ -1,4 +1,4 @@
-@extends('layouts.leave')
+@extends('layouts.main_hr')
 @section('xara_cbs')
 {{--TODO: Fix date--}}
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Holiday extends Model
 {
@@ -19,7 +20,7 @@ class Holiday extends Model
     public function organization()
     {
 
-        return $this->belongsTo('Organization');
+        return $this->belongsTo(Organization::class);
     }
 
 
@@ -30,8 +31,8 @@ class Holiday extends Model
 
         $holiday = new Holiday;
 
-        $holiday->name = array_get($data, 'name');
-        $holiday->date = array_get($data, 'date');
+        $holiday->name = Arr::get($data, 'name');
+        $holiday->date = Arr::get($data, 'date');
         $holiday->organization()->associate($organization);
         $holiday->save();
 
@@ -44,8 +45,8 @@ class Holiday extends Model
 
         $holiday = Holiday::find($id);
 
-        $holiday->name = array_get($data, 'name');
-        $holiday->date = array_get($data, 'date');
+        $holiday->name = Arr::get($data, 'name');
+        $holiday->date = Arr::get($data, 'date');
         $holiday->update();
 
     }

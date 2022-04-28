@@ -278,9 +278,9 @@ class EmployeesController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = Validator::make($request->all([
+        $validator  = Validator::make($request->all(),[
             'firstname'=>'required'
-        ]));
+        ]);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -770,16 +770,15 @@ class EmployeesController extends Controller
             if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
                 $kin = new Nextofkin;
                 $kin->employee_id = $id;
-                $kin->first_name = $request->get('kin_first_name')[$i];
-                $kin->last_name = $request->get('kin_last_name')[$i];
-                $kin->middle_name = $request->get('kin_middle_name')[$i];
-                $kin->relationship = $request->get('relationship')[$i];
+                $kin->kin_name = $request->get('kin_first_name')[$i].' '.$request->get('kin_last_name')[$i].' '.$request->get('kin_middle_name')[$i];
+//                $kin->last_name = $request->get('kin_last_name')[$i];
+//                $kin->middle_name = $request->get('kin_middle_name')[$i];
+                $kin->relation = $request->get('relationship')[$i];
                 $kin->contact = $request->get('contact')[$i];
                 $kin->id_number = $request->get('id_number')[$i];
-
                 $kin->save();
 
-                Audit::logaudit('NextofKins', 'create', 'created: ' . $request->get('kin_first_name')[$i] . ' for ' . Employee::getEmployeeName($id));
+                Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'create', 'created: ' . $request->get('kin_first_name')[$i] . ' for ' . Employee::getEmployeeName($id));
             }
         }
 

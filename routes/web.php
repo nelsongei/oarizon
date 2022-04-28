@@ -46,6 +46,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\Audit;
+use App\Models\Holiday;
 use App\Models\Branch;
 use App\Models\Jobgroup;
 use App\Models\Currency;
@@ -232,6 +233,45 @@ Route::get('leaveapplications/approvals', [LeaveapplicationsController::class, '
 Route::get('leaveapplications/rejects', [LeaveapplicationsController::class, 'rejects']);
 Route::get('leaveapplications/cancellations', [LeaveapplicationsController::class, 'cancellations']);
 Route::get('leaveapplications/amends', [LeaveapplicationsController::class, 'amended']);
+Route::get('ajaxfetchleaveEnd', function () {
+    $fdate = date("Y-m-d", strtotime(request('fdate')));
+    $leave_id = request('leavetype');
+    $fdate2 = date("Y-m-d", strtotime($fdate));
+    $leave = Leavetype::find($leave_id);
+    $leave_days = $leave->days;
+    $off_weekends = $leave->off_weekends;
+    $off_holidays = $leave->off_holidays;
+    for ($i = 1; $i <= $leave_days; $i++) {
+        if ($i == 1) {
+            $holidate = Holiday::where("date", "=", $fdate)->count();
+            $weekend = date("w", strtotime($fdate));
+            if ($weekend == 6 && $off_weekends == 1) {
+                $curr_date = date('Y-m-d', strtotime($fdate . '+ 2 days'));
+            } else if ($weekend == 0 && $off_weekends == 1) {
+                $curr_date = date('Y-m-d', strtotime($fdate . '+ 1 days'));
+            } else if ($holidate > 0 && $off_holidays == 1) {
+                $curr_date = date('Y-m-d', strtotime($fdate . '+ 1 days'));
+            } else {
+                $curr_date = $fdate;
+            }
+        } else {
+            $curr_date = $_SESSION['curr_date'];
+            $next_date = date('Y-m-d', strtotime($curr_date . '+ 1 days'));
+            $holidate = Holiday::where("date", "=", $next_date)->count();
+            $weekend = date("w", strtotime($next_date));
+            if ($weekend == 6 && $off_weekends == 1) {
+                $curr_date = date('Y-m-d', strtotime($curr_date . '+ 3 days'));
+            } elseif ($holidate > 0 && $off_holidays == 1) {
+                $curr_date = date('Y-m-d', strtotime($curr_date . '+ 2 days'));
+            } else {
+                $curr_date = date('Y-m-d', strtotime($curr_date . '+ 1 days'));
+            }
+        }
+        $_SESSION['curr_date'] = $curr_date;
+    }
+    session_unset();
+    return $curr_date;
+});
 /*
  *
  * Form

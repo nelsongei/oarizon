@@ -48,11 +48,11 @@ function initials($str, $pfn)
                         <div class="col-sm-12">
                             <div class="card">
                                 @if (count($errors) > 0)
-                                    <div class="alert alert-danger">
                                         @foreach ($errors->all() as $error)
+                                        <div class="alert alert-danger">
                                             {{ $error }}<br>
+                                        </div>
                                         @endforeach
-                                    </div>
                                 @endif
                                 <div class="card-header">
                                     <h3>New Employee</h3>
@@ -878,7 +878,10 @@ function initials($str, $pfn)
 
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script>
         $(".ndelete").on('click', function () {
             if ($('.ncase:checkbox:checked').length > 0) {

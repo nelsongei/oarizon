@@ -45,7 +45,7 @@ class HolidaysController extends Controller {
 
 		Holiday::createHoliday($data);
 
-		return route('holidays.index');
+		return redirect()->route('holidays.index');
 	}
 
 	/*
