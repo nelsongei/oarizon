@@ -28,13 +28,13 @@ public static function checkAvailable($period){
 public static function getUser($period){
  $lock = Lockpayroll::where('period',$period)->first();
  $user = User::find($lock->authorized_by);
- return $user->username;
+ return $user->name;
 }
 
 public static function getEmployee($period){
  $lock = Lockpayroll::where('period',$period)->first();
  $user = User::find($lock->user_id);
- return $user->username;
+ return $user->name;
 }
 
 }

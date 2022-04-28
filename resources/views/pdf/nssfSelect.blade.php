@@ -7,13 +7,14 @@
                 <div class="page-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h3>Select Non Taxable Income</h3>
+                            <h3>Select Period</h3>
 
                             <hr>
                         </div>
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
+
                                     @if ($errors)
                                         @foreach ($errors->all() as $error)
                                             <div class="alert alert-danger">
@@ -21,7 +22,7 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                    <form method="POST" action="{{URL::to('payrollReports/nontaxables')}}"
+                                    <form method="POST" action="{{URL::to('payrollReports/nssfReturns')}}"
                                           accept-charset="UTF-8">
                                         @csrf
                                         <fieldset>
@@ -32,42 +33,14 @@
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control datepicker2" readonly="readonly"
                                                            placeholder=""
-                                                           type="text" name="period" id="period"
+                                                           type="date" name="period" id="period"
                                                            value="{{{ date('Y-m-t') }}}">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="username">Select: <span style="color:red">*</span></label>
-                                                <select required name="income" class="form-control">
-                                                    <option></option>
-                                                    <option value='All'>All</option>
-                                                    @foreach($nontaxables as $nontaxable)
-                                                        <option
-                                                            value="{{$nontaxable->nontaxable_name}}"> {{ $nontaxable->nontaxable_name }}</option>
-                                                    @endforeach
-
-                                                </select>
-
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="username">Select Category <span
+                                                <label for="username">Download as: <span
                                                         style="color:red">*</span></label>
-                                                <select name="type" id="type" class="form-control" required>
-                                                    <option></option>
-                                                    {{--                           @if(Entrust::can('manager_payroll'))--}}
-                                                    <option value='All'>All</option>
-                                                    <option value="management"> Management</option>
-                                                    {{--                           @endif--}}
-                                                    <option value="normal"> Normal</option>
-                                                </select>
-
-                                            </div>
-
-
-                                            <div class="form-group">
-                                                <label for="username">Download as: <span style="color:red">*</span></label>
                                                 <select required name="format" class="form-control">
                                                     <option></option>
                                                     <option value="excel"> Excel</option>
@@ -91,18 +64,4 @@
             </div>
         </div>
     </div>
-    <div class="row">
-
-    </div>
-
-
-    <div class="row">
-        <div class="col-lg-5">
-
-
-        </div>
-
-    </div>
-
-
-@stop
+@endsection

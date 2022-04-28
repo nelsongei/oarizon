@@ -22,7 +22,7 @@
                                         @endforeach
                                     @endif
 
-                                    <form target="_blank" method="POST" action="{{URL::to('payrollReports/p9form')}}"
+                                    <form  method="POST" action="{{URL::to('payrollReports/p9form')}}"
                                           accept-charset="UTF-8">
                                         @csrf
                                         <fieldset>

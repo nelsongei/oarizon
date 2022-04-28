@@ -19,7 +19,6 @@ if($per > 0){?>
 <script type="text/javascript">
 
     if (window.confirm("Do you wish to process payroll for this period again?")) {
-
         $(function () {
             var p1 = <?php echo $part[0]?>;
             var p2 = "-";

@@ -194,7 +194,6 @@ class PayrollController extends Controller
                     ->orWhere('organization_id', Auth::user()->organization_id);
             })->first();
 
-
         $jgroup = Jobgroup::where('job_group_name', 'Management')
             ->where(function ($query) {
                 $query->whereNull('organization_id')

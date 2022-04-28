@@ -20,7 +20,7 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                        <form target="_blank" method="POST" action="{{URL::to('payrollReports/overtimes')}}" accept-charset="UTF-8">
+                                        <form  method="POST" action="{{URL::to('payrollReports/overtimes')}}" accept-charset="UTF-8">
                                             @csrf
                                             <fieldset>
 
@@ -29,7 +29,7 @@
                                                     <div class="right-inner-addon ">
                                                         <i class="glyphicon glyphicon-calendar"></i>
                                                         <input required class="form-control datepicker2" readonly="readonly" placeholder=""
-                                                               type="text" name="period" id="period" value="{{{ old('period') }}}">
+                                                               type="date" name="period" id="period" value="{{{ date('Y-m-t') }}}">
                                                     </div>
                                                 </div>
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\models\NssfRates;
+use App\Models\NssfRates;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -50,15 +50,15 @@ class NssfController extends Controller {
 
 		$nrate = new NssfRates;
 
-		$nrate->tier = Input::get('tier');
+		$nrate->tier = request('tier');
 
-		$nrate->income_from = Input::get('i_from');
+		$nrate->income_from = request('i_from');
 
-		$nrate->income_to = Input::get('i_to');
+		$nrate->income_to = request('i_to');
 
-		$nrate->ss_amount_employee = Input::get('employee_amount');
+		$nrate->ss_amount_employee = request('employee_amount');
 
-		$nrate->ss_amount_employer = Input::get('employer_amount');
+		$nrate->ss_amount_employer = request('employer_amount');
 
         $nrate->organization_id = '1';
 
@@ -71,8 +71,8 @@ class NssfController extends Controller {
 	 * Display the specified branch.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function show($id)
 	{
 		$nrate = NssfRates::findOrFail($id);
@@ -84,8 +84,8 @@ class NssfController extends Controller {
 	 * Show the form for editing the specified branch.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Contracts\View\View
+     */
 	public function edit($id)
 	{
 		$nrate = NssfRates::find($id);
@@ -97,28 +97,28 @@ class NssfController extends Controller {
 	 * Update the specified branch in storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function update($id)
 	{
 		$nrate = NssfRates::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), NssfRates::$rules,NssfRates::$messages);
+		$validator = Validator::make($data = request()->all(), NssfRates::$rules,NssfRates::$messages);
 
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$nrate->tier = Input::get('tier');
+		$nrate->tier = request('tier');
 
-		$nrate->income_from = Input::get('i_from');
+		$nrate->income_from = request('i_from');
 
-		$nrate->income_to = Input::get('i_to');
+		$nrate->income_to = request('i_to');
 
-		$nrate->ss_amount_employee = Input::get('employee_amount');
+		$nrate->ss_amount_employee = request('employee_amount');
 
-		$nrate->ss_amount_employer = Input::get('employer_amount');
+		$nrate->ss_amount_employer = request('employer_amount');
 
 		$nrate->update();
 
@@ -129,8 +129,8 @@ class NssfController extends Controller {
 	 * Remove the specified branch from storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
-	 */
+	 * @return \Illuminate\Http\RedirectResponse
+     */
 	public function destroy($id)
 	{
 		NssfRates::destroy($id);

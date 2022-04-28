@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('xara_cbs')
-
     <?php
     use App\Models\Organization;
     //use App\Branch;
@@ -46,7 +45,7 @@
                     <div class="col-xl-12">
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
-                                <div class="card prod-p-card card-blue">
+                                <div class="card prod-p-card" style="background-color: #6dd144">
                                     <div class="card-body">
                                         <div class="row align-items-center m-b-30">
                                             <div class="col">
@@ -54,16 +53,16 @@
                                                 <h3 class="m-b-0 f-w-700 text-white">{{$employees}}</h3>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-users text-c-blue f-18"></i>
+                                                <i class="fas fa-users f-18" style="color: #6dd144"></i>
                                             </div>
                                         </div>
-                                        <p class="m-b-0 text-white"><span class="label label-primary m-r-10">+12%</span>From
+                                        <p class="m-b-0 text-white"><span class="label m-r-10" style="">+12%</span>From
                                             Previous Month</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card prod-p-card card-yellow">
+                                <div class="card prod-p-card" style="background-color: #644ec5">
                                     <div class="card-body">
                                         <div class="row align-items-center m-b-30">
                                             <div class="col">
@@ -71,10 +70,10 @@
                                                 <h3 class="m-b-0 f-w-700 text-white">{{$leaves}}</h3>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-copy text-c-blue f-18"></i>
+                                                <i class="fas fa-copy f-18" style="color: #644ec5"></i>
                                             </div>
                                         </div>
-                                        <p class="m-b-0 text-white"><span class="label label-yellow m-r-10">+12%</span>From
+                                        <p class="m-b-0 text-white"><span class="label m-r-10">+12%</span>From
                                             Previous Month</p>
                                     </div>
                                 </div>
@@ -97,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card prod-p-card card-green">
+                                <div class="card prod-p-card" style="background-color: #ff8d34">
                                     <div class="card-body">
                                         <div class="row align-items-center m-b-30">
                                             <div class="col">
@@ -105,10 +104,10 @@
                                                 <h3 class="m-b-0 f-w-700 text-white">{{$users}}</h3>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-user text-c-blue f-18"></i>
+                                                <i class="fas fa-user f-18" style="color: #ff8d34"></i>
                                             </div>
                                         </div>
-                                        <p class="m-b-0 text-white"><span class="label label-green m-r-10">+12%</span>From
+                                        <p class="m-b-0 text-white"><span class="label m-r-10">+12%</span>From
                                             Previous Month</p>
                                     </div>
                                 </div>
@@ -191,12 +190,12 @@
                 datasets: [{
                     data: [{{$male}}, {{$female}}],
                     backgroundColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgb(255,159,64)'
+                        '#6dd144',
+                        '#644ec5'
                     ],
                     borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgb(255,159,64)'
+                        '#6dd144',
+                        '#644ec5'
                     ]
                 }],
             },
@@ -228,13 +227,13 @@
                 datasets: [{
                     data: [{{$approved}}, {{$cancelled}}, {{$applied}}],
                     backgroundColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgb(255,159,64)',
+                        '#6dd144',
+                        '#644ec5',
                         'rgb(255,255,0)'
                     ],
                     borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgb(255,159,64)',
+                        '#6dd144',
+                        '#644ec5',
                         'rgb(255,255,0)'
                     ]
                 }],
@@ -268,13 +267,13 @@
                     label: "Leave Applications",
                     data: [{{$month12}}, {{$month11}}, {{$month10}}, {{$month9}}, {{$month8}}, {{$month7}}, {{$month6}}, {{$month5}}, {{$month4}}, {{$month3}}, {{$month2}}, {{$month1}}],
                     backgroundColor: [
-                        'rgba(75, 192, 192, 1)',
+                        '#6dd144',
                         // 'rgba(255, 159, 64, 0.2)'
                     ],
                     borderColor: [
-                        'rgba(75, 192, 192, 1)',
+                        '#6dd144',
                     ],
-                    borderWidth: 3
+                    borderWidth: 10
                 }]
             },
             options: {
@@ -294,16 +293,20 @@
     <script>
         const payrolls = document.getElementById('payrollHistoryChart').getContext('2d');
         const payrollHistoryChart = new Chart(payrolls, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: ['{{$months[11]}}', '{{$months[10]}}', '{{$months[9]}}', '{{$months[8]}}', '{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}', '{{$months[0]}}'],
                 datasets: [{
                     label: 'Payroll Process',
-                    data: [{{$month12}}, {{$month11}}, {{$month10}}, {{$month9}}, {{$month8}}, {{$month7}}, {{$month6}}, {{$month5}}, {{$month4}}, {{$month3}}, {{$month2}}, {{$month1}}],
+                    data: [{{$monthss12}}, {{$monthss11}}, {{$monthss10}}, {{$monthss9}}, {{$monthss8}}, {{$monthss7}}, {{$monthss6}}, {{$monthss5}}, {{$monthss4}}, {{$monthss3}}, {{$monthss2}}, {{$monthss1}}],
                     backgroundColor: [
-                        'rgb(208,255,0)',
+                        '#644ec5',
                         // 'rgba(255, 159, 64, 0.2)'
                     ],
+                    borderColor:[
+                        '#644ec5',
+                    ],
+                    borderWidth: 10
                 }]
             },
             options: {

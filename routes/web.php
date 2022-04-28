@@ -467,7 +467,7 @@ Route::get('payrollReports/selectnontaxableincome', [ReportsController::class, '
 Route::post('payrollReports/nontaxables', [ReportsController::class, 'employeenontaxables']);
 Route::get('payrollReports/selectPayePeriod', [ReportsController::class, 'period_paye']);
 Route::post('payrollReports/payeReturns', [ReportsController::class, 'payeReturns']);
-Route::post('payrollReports/p9form', [ReportsController::class, 'p9form']);
+Route::post('payrollReports/p9form', [ReportsController::class, 'p9form1']);
 Route::get('payrollReports/selectRemittancePeriod', [ReportsController::class, 'period_rem']);
 Route::post('payrollReports/payRemittances', [ReportsController::class, 'payeRems']);
 Route::get('payrollReports/selectSummaryPeriod', [ReportsController::class, 'period_summary']);
@@ -478,6 +478,7 @@ Route::get('payrollReports/selectNhifPeriod', [ReportsController::class, 'period
 Route::post('payrollReports/nhifReturns', [ReportsController::class, 'nhifReturns']);
 Route::get('payrollReports/selectNssfExcelPeriod', [ReportsController::class, 'period_excel']);
 Route::post('payrollReports/nssfExcel', [ReportsController::class, 'export']);
+Route::post('payrollReports/pensions', [ReportsController::class,'pensions']);
 /*
  * Pension
  * */

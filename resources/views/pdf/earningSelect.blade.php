@@ -13,20 +13,22 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form target="_blank" method="POST" action="{{URL::to('payrollReports/earnings')}}" accept-charset="UTF-8">
+                                    <form  method="POST" action="{{URL::to('payrollReports/earnings')}}" accept-charset="UTF-8">
                                         @csrf
 
                                         <fieldset>
 
                                             <div class="form-group">
                                                 <label for="username">Period <span style="color:red">*</span></label>
-                                                <select class="form-control selectable" name="type" id="period">
-                                                    <option value="">Select Period</option>
-                                                    <option value="day">As at date</option>
-                                                    <option value="month">Month</option>
-                                                    <option value="custom">Custom</option>
-                                                    <option value="year">Year</option>
-                                                </select>
+                                                <input class="form-control datepicker" readonly="readonly" placeholder="" type="date"
+                                                       name="period" id="date" value="{{date('Y-m-t')}}">
+{{--                                                <select class="form-control selectable" name="type" id="period">--}}
+{{--                                                    <option value="">Select Period</option>--}}
+{{--                                                    <option value="day">As at date</option>--}}
+{{--                                                    <option value="month">Month</option>--}}
+{{--                                                    <option value="custom">Custom</option>--}}
+{{--                                                    <option value="year">Year</option>--}}
+{{--                                                </select>--}}
                                             </div>
 
                                             <div class="form-group" id="select_date">
@@ -35,7 +37,7 @@
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input class="form-control datepicker" readonly="readonly" placeholder="" type="text"
-                                                           name="day" id="date" value="{{date('Y-m-d')}}">
+                                                           name="day" id="date" value="{{date('t')}}">
                                                 </div>
 
                                             </div>
@@ -45,7 +47,7 @@
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input class="form-control datepicker2" readonly="readonly" placeholder="" type="text"
-                                                           name="month" id="date" value="{{date('m-Y')}}">
+                                                           name="month" id="date" value="{{date('m')}}">
                                                 </div>
                                             </div>
 

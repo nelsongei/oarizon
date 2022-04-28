@@ -31,7 +31,7 @@
                                             {{ Session::get('delete_message') }}
                                         </div>
                                     @endif
-                                    <form target="_blank" method="POST" action="{{URL::to('payrollReports/pensions')}}"
+                                    <form  method="POST" action="{{URL::to('payrollReports/pensions')}}"
                                           accept-charset="UTF-8">
                                         @csrf
                                         <fieldset>
@@ -39,19 +39,19 @@
                                                 <label for="username">From <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input required class="form-control datepicker2" readonly="readonly"
+                                                    <input required class="form-control datepicker2"
                                                            placeholder=""
-                                                           type="text" name="from" id="from"
-                                                           value="{{{ old('from') }}}">
+                                                           type="date" name="from" id="from"
+                                                           value="{{{ date('m-Y-t') }}}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">To <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input required class="form-control datepicker2" readonly="readonly"
+                                                    <input required class="form-control datepicker2"
                                                            placeholder=""
-                                                           type="text" name="to" id="to" value="{{{ old('to') }}}">
+                                                           type="date" name="to" id="to" value="{{{ date('m-Y-t') }}}">
                                                 </div>
                                             </div>
                                             <div class="form-group">

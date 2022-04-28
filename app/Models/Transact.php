@@ -10,7 +10,7 @@ use Zizaco\Confide\Confide;
 class Transact extends Model
 {
 
-    public $table = "transact";
+    public $table = "x_transact";
 
     protected $fillable = [];
 
