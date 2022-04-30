@@ -48,11 +48,11 @@ function initials($str, $pfn)
                         <div class="col-sm-12">
                             <div class="card">
                                 @if (count($errors) > 0)
-                                        @foreach ($errors->all() as $error)
+                                    @foreach ($errors->all() as $error)
                                         <div class="alert alert-danger">
                                             {{ $error }}<br>
                                         </div>
-                                        @endforeach
+                                    @endforeach
                                 @endif
                                 <div class="card-header">
                                     <h3>New Employee</h3>
@@ -224,7 +224,7 @@ function initials($str, $pfn)
 
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <h3>New Employee
+                                                <h3>
                                                     <button style="margin-left:620px" type="submit"
                                                             class="btn btn-primary btn-sm">Create Employee
                                                     </button>
@@ -233,16 +233,7 @@ function initials($str, $pfn)
                                                 <hr>
                                             </div>
                                         </div>
-
-                                        @if (count($errors)>0)
-                                            <div class="alert alert-danger">
-                                                @foreach ($errors->all() as $error)
-                                                    {{ $error }}<br>
-                                                @endforeach
-                                            </div>
-                                    @endif
-
-                                    <!-- Nav tabs -->
+                                        <!-- Nav tabs -->
                                         <ul class="nav nav-tabs md-tabs" role="tablist">
                                             <li role="presentation" class="nav-item"><a class="nav-link active"
                                                                                         href="#personalinfo"
@@ -504,7 +495,7 @@ function initials($str, $pfn)
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="username">Bank</label>
+                                                        <label for="username">Banks</label>
                                                         <select name="bank_id" id="bank_id" class="form-control">
                                                             <option></option>
                                                             <option value="cnew">Create New</option>
@@ -861,7 +852,6 @@ function initials($str, $pfn)
                                                 </div>
 
 
-
                                             </div>
 
                                         </div>
@@ -981,11 +971,11 @@ function initials($str, $pfn)
         }
 
     </script>
-{{--    <script type="text/javascript">--}}
-{{--        $(document).ready(function () {--}}
-{{--            $('#pay').priceFormat();--}}
-{{--        });--}}
-{{--    </script>--}}
+    {{--    <script type="text/javascript">--}}
+    {{--        $(document).ready(function () {--}}
+    {{--            $('#pay').priceFormat();--}}
+    {{--        });--}}
+    {{--    </script>--}}
     <script type="text/javascript">
         $(document).ready(function () {
             $('#contract').hide()
@@ -2351,6 +2341,5 @@ function initials($str, $pfn)
             successClass: 'has-success'
         };
     </script>
-
 
 @stop

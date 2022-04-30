@@ -62,6 +62,13 @@ class MpesaController extends Controller
         $data  = new \GuzzleHttp\Client(['base_uri'=>$endPoint]);
         $response = $data->request('GET',$endPoint);
         $transaction = json_decode($response->getBody(),true);
+//        for ($i=0;$i<count($transaction);$i++){
+//            return(count($transaction));
+////            foreach ($transaction as $tra)
+////            {
+////                dd(count([$tra['Amount']]));
+////            }
+//        }
         return view('mpesa.view',compact('transaction'));
     }
 }

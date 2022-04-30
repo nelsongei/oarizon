@@ -285,6 +285,13 @@ Route::get('EmployeeForm', function () {
 
     return $pdf->stream('Employee_Form.pdf');
 
+
+});
+Route::get('api/dropdown', function (Request $request, $id) {
+    $bbranch = Bank::find($id)->bankbranch;
+//    $branches = $bbranch->pluck('id','bank_branch_name');
+    $branches = $bbranch->all();
+    return response()->json(array('branches'=>$branches));
 });
 
 Route::get('leavemgmt', function () {
@@ -824,3 +831,22 @@ Route::get('api/deptemployee', function () {
     }
     return $employee;
 });
+/*
+ * ERP Alvin
+ * */
+Route::resource('items', 'App\Http\Controllers\ItemsController');
+Route::get('items/edit/{id}', 'App\Http\Controllers\ItemsController@edit');
+Route::post('items/update/{id}', 'App\Http\Controllers\ItemsController@update');
+Route::get('items/delete/{id}', 'App\Http\Controllers\ItemsController@destroy');
+
+// Items Category routes
+Route::resource('itemscategory','App\Http\Controllers\ItemscategoryController');
+Route::post('itemscategory','App\Http\Controllers\ItemscategoryController@store');
+Route::get('itemscategory/edit/{id}','App\Http\Controllers\ItemscategoryController@edit');
+Route::get('itemscategory/show/{id}','App\Http\Controllers\ItemscategoryController@show');
+Route::post('itemscategory/update/{id}','App\Http\Controllers\ItemscategoryController@update');
+
+Route::resource('expenses', 'App\Http\Controllers\ExpensesController');
+Route::get('expenses/edit/{id}', 'App\Http\Controllers\ExpensesController@edit');
+Route::post('expenses/update/{id}', 'App\Http\Controllers\ExpensesController@update');
+Route::get('expenses/delete/{id}', 'App\Http\Controllers\ExpensesController@destroy');

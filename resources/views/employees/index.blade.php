@@ -18,7 +18,7 @@
                             </div>
                         @endif
                         <div class="card-header">
-                            <h4>Deactivated Employees</h4>
+                            <h4>Active Employees</h4>
                             <div class="card-header-right">
                                 <a class="dt-button btn-sm" href="{{ url('employees/create')}}">New Employee</a>
                             </div>

@@ -42,7 +42,8 @@
                                             </div>
                                         </div>
                                         <table
-                                            style="width: 100%; border-collapse: collapse;border-spacing: 0;margin-bottom: 20px" id="myTable">
+                                            style="width: 100%; border-collapse: collapse;border-spacing: 0;margin-bottom: 20px"
+                                            id="myTable">
                                             <thead>
                                             <tr>
                                                 <th>#</th>
@@ -54,7 +55,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <?php $count=1?>
+                                            <?php $count = 1?>
                                             @foreach($transaction as $tra)
                                                 {{$tra['module']['name']}}
                                                 <tr style="border-bottom: 1px solid black">
@@ -63,7 +64,7 @@
                                                     <td>{{$tra['MpesaReceiptNumber']}}</td>
                                                     <td>{{$tra['module']['user_count']}}</td>
                                                     <td>{{$tra['module']['interval_count'] + $transaction[0]['module']['trial_days']}}</td>
-                                                    <td id="total">{{$tra['Amount']}}</td>
+                                                    <td class="total">{{$tra['Amount']}}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -75,7 +76,6 @@
                                                 </td>
                                                 <td>
                                                     <h1>
-                                                        {{$transaction[0]['Amount']}}
                                                     </h1>
                                                 </td>
                                             </tr>
@@ -101,16 +101,19 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         var table = document.getElementById('myTable');
-        // sumVal = 0;
-        console.log(table.rows[1].cells[5])
-        for (var i=1; i<table.rows.length;i++){
-            // console.log(table.rows[i].cells[5].innerHtml)
-            // sumVal = (table.rows[i].cells[1].innerHtml);
-            // sumVal = sumVal+parseInt(table.rows[i].cells[1].innerHtml);
+        var rows = table.rows;
+        var total = 0;
+        var cell;
+        for (var i = 1, iLen = rows.length - 1; i < iLen; i++) {
+            cell = rows[i].cells[5].textContent
+            // console.log(cell);
+            if (rows[i].cells.length === 6) {
+                total += Number(cell)
+                console.log(total);
+            }
         }
-        sumVal = (table.rows[5].cells[1].innerHtml);
-         // console.log(sumVal);
     </script>
 @endsection
