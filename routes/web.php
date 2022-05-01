@@ -3039,7 +3039,7 @@ Route::get('erpquotations/cancel/{id}', function($id){
 Route::get('erporders/show/{id}', function($id){
 
     $order = Erporder::findorfail($id);
-    dd($order);
+//    dd($order);
 
     return View::make('erporders.show', compact('order'));
 
