@@ -10,138 +10,137 @@ use App\Models\Itemscategory;
 use DB;
 
 
-class ItemsController extends Controller {
+class ItemsController extends Controller
+{
 
-	/**
-	 * Display a listing of items
-	 *
-	 * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-	 */
-	public function index()
-	{
-
-		$items = Item::all();
-		$category = Itemscategory::all();
-
-		return view('items.index', compact('items', 'category'));
-	}
-
-	/**
-	 * Show the form for creating a new item
-	 *
-	 * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-	 */
-	public function create()
-	{
-		$category = Itemscategory::all();
-		return view('items.create')->with('category', $category);
-	}
-
-	/**
-	 * Store a newly created item in storage.
-	 *
-	 * @return \Illuminate\Http\RedirectResponse
+    /**
+     * Display a listing of items
+     *
+     * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-	public function store()
-	{
-		$validator = Validator::make($data = Request::all(), Item::$rules, Item::$messages);
+    public function index()
+    {
 
-		if ($validator->fails())
-		{
-			return back()->withErrors($validator)->withInput();
-		}
+        $items = Item::all();
+        $category = Itemscategory::all();
 
-		$item = new Item;
+        return view('items.index', compact('items', 'category'));
+    }
 
-		$item->name = Request::get('name');
-		$item->date = date('Y-m-d');
-		$item->description = Request::get('description');
-		$item->category = Request::get('category');
+    /**
+     * Show the form for creating a new item
+     *
+     * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function create()
+    {
+        $category = Itemscategory::all();
+        return view('items.create')->with('category', $category);
+    }
 
-		$item->purchase_price= Request::get('pprice');
-		$item->selling_price = Request::get('sprice');
-		$item->reorder_level = Request::get('reorder');
-		// $item->sku= Input::get('sku');
-		// $item->tag_id = Input::get('tag');
+    /**
+     * Store a newly created item in storage.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $validator = Validator::make($data = Request::all(), Item::$rules, Item::$messages);
 
-		$item->type = Request::get('type');
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
-		$item->save();
+        $item = new Item;
 
-		return redirect()->route('items.index')->with('flash_message', 'Item successfully created!');
-	}
+        $item->name = Request::get('name');
+        $item->date = date('Y-m-d');
+        $item->description = Request::get('description');
+        $item->category = Request::get('category');
 
-	/**
-	 * Display the specified item.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$item = Item::findOrFail($id);
+        $item->purchase_price = Request::get('pprice');
+        $item->selling_price = Request::get('sprice');
+        $item->reorder_level = Request::get('reorder');
+        // $item->sku= Input::get('sku');
+        // $item->tag_id = Input::get('tag');
 
-		return view('items.show', compact('item'));
-	}
+        $item->type = Request::get('type');
 
-	/**
-	 * Show the form for editing the specified item.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		$item = Item::find($id);
-		$category = Itemscategory::all();
-		return view('items.edit', compact('item','category'));
-	}
+        $item->save();
 
-	/**
-	 * Update the specified item in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		$item = Item::findOrFail($id);
+        return redirect()->route('items.index')->with('flash_message', 'Item successfully created!');
+    }
 
-		$validator = Validator::make($data = Request::all(), Item::$rules, Item::$messages);
+    /**
+     * Display the specified item.
+     *
+     * @param int $id
+     * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function show($id)
+    {
+        $item = Item::findOrFail($id);
 
-		if ($validator->fails())
-		{
-			return back()->withErrors($validator)->withInput();
-		}
+        return view('items.show', compact('item'));
+    }
 
-		$item->name = Request::get('name');
-		$item->description = Request::get('description');
-		$item->purchase_price= Request::get('pprice');
-		$item->selling_price = Request::get('sprice');
-		$item->category = Request::get('category');
-		// $item->sku= Input::get('sku');
-		// $item->tag_id = Input::get('tag');
-		$item->reorder_level = Request::get('reorder');
+    /**
+     * Show the form for editing the specified item.
+     *
+     * @param int $id
+     * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function edit($id)
+    {
+        $item = Item::find($id);
+        $category = Itemscategory::all();
+        return view('items.edit', compact('item', 'category'));
+    }
 
-		$item->type = Request::get('type');
+    /**
+     * Update the specified item in storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update($id)
+    {
+        $item = Item::findOrFail($id);
 
-		$item->update();
+        $validator = Validator::make($data = Request::all(), Item::$rules, Item::$messages);
 
-		return redirect('items.index')->with('flash_message', 'Item successfully updated!');
-	}
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
-	/**
-	 * Remove the specified item from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		Erporderitem::where('item_id', $id)->delete();
-		Item::destroy($id);
+        $item->name = Request::get('name');
+        $item->description = Request::get('description');
+        $item->purchase_price = Request::get('pprice');
+        $item->selling_price = Request::get('sprice');
+        $item->category = Request::get('category');
+        // $item->sku= Input::get('sku');
+        // $item->tag_id = Input::get('tag');
+        $item->reorder_level = Request::get('reorder');
 
-		return redirect('items.index')->with('error','Item successfully deleted!');
-	}
+        $item->type = Request::get('type');
+
+        $item->update();
+
+        return redirect()->route('items.index')->with('flash_message', 'Item successfully updated!');
+    }
+
+    /**
+     * Remove the specified item from storage.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        Erporderitem::where('item_id', $id)->delete();
+        Item::destroy($id);
+
+        return redirect('items.index')->with('error', 'Item successfully deleted!');
+    }
 
 }

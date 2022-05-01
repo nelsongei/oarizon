@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Particular extends Model
 {
-    protected $table = 'x_particulars';
+    protected $table = 'particulars';
 
     public function debitAccount()
     {

@@ -45,19 +45,29 @@ use App\Http\Controllers\ReliefsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\Account;
 use App\Models\Audit;
+use App\Models\BankAccount;
+use App\Models\Client;
+use App\Models\Erporder;
 use App\Models\Holiday;
 use App\Models\Branch;
+use App\Models\Invoice;
+use App\Models\Item;
 use App\Models\Jobgroup;
 use App\Models\Currency;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Leaveapplication;
 use App\Models\Leavetype;
+use App\Models\Location;
 use App\Models\Organization;
+use App\Models\Payment;
 use App\Models\Promotion;
+use App\Models\Stations;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
@@ -291,7 +301,7 @@ Route::get('api/dropdown', function (Request $request, $id) {
     $bbranch = Bank::find($id)->bankbranch;
 //    $branches = $bbranch->pluck('id','bank_branch_name');
     $branches = $bbranch->all();
-    return response()->json(array('branches'=>$branches));
+    return response()->json(array('branches' => $branches));
 });
 
 Route::get('leavemgmt', function () {
@@ -525,7 +535,7 @@ Route::get('payrollReports/selectNhifPeriod', [ReportsController::class, 'period
 Route::post('payrollReports/nhifReturns', [ReportsController::class, 'nhifReturns']);
 Route::get('payrollReports/selectNssfExcelPeriod', [ReportsController::class, 'period_excel']);
 Route::post('payrollReports/nssfExcel', [ReportsController::class, 'export']);
-Route::post('payrollReports/pensions', [ReportsController::class,'pensions']);
+Route::post('payrollReports/pensions', [ReportsController::class, 'pensions']);
 /*
  * Pension
  * */
@@ -673,9 +683,9 @@ Route::get('api/pay', function () {
 /**/
 
 Route::resource('nontaxables', NonTaxablesController::class);
-Route::post('nontaxables/update/{id}', [NonTaxablesController::class,'update']);
-Route::get('nontaxables/delete/{id}', [NonTaxablesController::class,'destroy']);
-Route::get('nontaxables/edit/{id}', [NonTaxablesController::class,'edit']);
+Route::post('nontaxables/update/{id}', [NonTaxablesController::class, 'update']);
+Route::get('nontaxables/delete/{id}', [NonTaxablesController::class, 'destroy']);
+Route::get('nontaxables/edit/{id}', [NonTaxablesController::class, 'edit']);
 /**
  * citizenship routes
  */
@@ -840,13 +850,163 @@ Route::post('items/update/{id}', 'App\Http\Controllers\ItemsController@update');
 Route::get('items/delete/{id}', 'App\Http\Controllers\ItemsController@destroy');
 
 // Items Category routes
-Route::resource('itemscategory','App\Http\Controllers\ItemscategoryController');
-Route::post('itemscategory','App\Http\Controllers\ItemscategoryController@store');
-Route::get('itemscategory/edit/{id}','App\Http\Controllers\ItemscategoryController@edit');
-Route::get('itemscategory/show/{id}','App\Http\Controllers\ItemscategoryController@show');
-Route::post('itemscategory/update/{id}','App\Http\Controllers\ItemscategoryController@update');
+Route::resource('itemscategory', 'App\Http\Controllers\ItemscategoryController');
+Route::post('itemscategory', 'App\Http\Controllers\ItemscategoryController@store');
+Route::get('itemscategory/edit/{id}', 'App\Http\Controllers\ItemscategoryController@edit');
+Route::get('itemscategory/show/{id}', 'App\Http\Controllers\ItemscategoryController@show');
+Route::post('itemscategory/update/{id}', 'App\Http\Controllers\ItemscategoryController@update');
 
 Route::resource('expenses', 'App\Http\Controllers\ExpensesController');
 Route::get('expenses/edit/{id}', 'App\Http\Controllers\ExpensesController@edit');
 Route::post('expenses/update/{id}', 'App\Http\Controllers\ExpensesController@update');
 Route::get('expenses/delete/{id}', 'App\Http\Controllers\ExpensesController@destroy');
+/*
+* client routes come here
+*/
+
+Route::resource('clients', 'App\Http\Controllers\ClientsController');
+Route::get('clients/show/{id}','App\Http\Controllers\ClientsController@show');
+Route::get('clients/edit/{id}','App\Http\Controllers\ClientsController@edit');
+Route::post('clients/update/{id}','App\Http\Controllers\ClientsController@update');
+Route::resource('suppliers', 'App\Http\Controllers\SuppliersController');
+
+/**
+
+ *Sales Order
+ *
+ */
+Route::get('salesorders', function(){
+
+    $orders = Erporder::orderBy('date', 'DESC')->get();
+    $items = Item::all();
+    $locations = Location::all();
+
+    return View::make('erporders.index', compact('items', 'locations', 'orders'));
+});
+Route::get('salesorders/create', function(){
+
+    $count = DB::table('erporders')->count();
+    $order_number = date("Y/m/d/").str_pad($count+1, 4, "0", STR_PAD_LEFT);
+    $items = Item::all();
+    $locations = Location::all();
+    $accounts = Account::all();
+    $stations = Stations::all();
+
+    $clients = Client::all();
+
+    return View::make('erporders.create', compact('items', 'locations', 'order_number', 'clients', 'accounts','stations'));
+});
+/*
+ * Purchase
+ * */
+Route::get('purchaseorders', function(){
+
+    $purchases = Erporder::orderBy('date', 'DESC')->get();
+    //$purchases = Erporder::all();
+    $items = Item::all();
+    $locations = Location::all();
+    $payments = Payment::all();
+
+
+    return View::make('erppurchases.index', compact('items', 'locations', 'payments','purchases'));
+});
+Route::get('purchaseorders/create', function(){
+
+    $count = DB::table('erporders')->count();
+    $order_number = date("Y/m/d/").str_pad($count+1, 4, "0", STR_PAD_LEFT);
+    $items = Item::all();
+    $locations = Location::all();
+    $accounts = Account::all();
+
+    $clients = Client::all();
+
+    return View::make('erppurchases.create', compact('items', 'locations', 'order_number', 'clients', 'accounts'));
+});
+/*
+ * Delivery Notes
+ * */
+Route::get('deliverynotes', 'App\Http\Controllers\ErpordersController@listDelivery');
+/*
+ *quotationorders
+ * */
+Route::get('quotationorders', function(){
+
+    //$quotations = Erporder::all();
+    $quotations = Erporder::orderBy('date', 'DESC')->get();
+    $items = Item::all();
+    $locations = Location::all();
+    $items = Item::all();
+    $locations = Location::all();
+    $invoices = Invoice::all();
+
+
+
+    return View::make('erpquotations.index', compact('items', 'locations', 'quotations', 'invoices'));
+});
+Route::get('quotationorders/create', function(){
+    Request::all();
+    $count = DB::table('erporders')->count();
+    $order_number = date("Y/m/d/").str_pad($count+1, 4, "0", STR_PAD_LEFT);;
+    $items = Item::all();
+    $service = Item::where('type','=','service')->get();
+    $locations = Location::all();
+    $clients = Client::all();
+    $bank_accounts=BankAccount::all();
+
+    return View::make('erpquotations.create', compact('items', 'locations', 'order_number', 'clients','service','bank_accounts'));
+});
+
+/* PAYMENT METHODS */
+Route::resource('paymentmethods', 'App\Http\Controllers\PaymentmethodsController');
+Route::get('paymentmethods/edit/{id}', 'App\Http\Controllers\PaymentmethodsController@edit');
+Route::post('paymentmethods/update/{id}', 'App\Http\Controllers\PaymentmethodsController@update');
+Route::get('paymentmethods/delete/{id}', 'App\Http\Controllers\PaymentmethodsController@destroy');
+/*
+ * Payments
+ * */
+Route::resource('payments', 'App\Http\Controllers\PaymentsController');
+
+/*
+ * STOCKS
+ * */
+
+Route::resource('stocks', 'App\Http\Controllers\StocksController');
+Route::get('stocks/index','App\Http\Controllers\StocksController@index');
+Route::get('stock/tracking', function(){
+    $stocks = Stock::all();
+    $items = Item::all();
+    $clients = Client::all();
+    $location = Location::all();
+    // $leased = ItemTracker::all();
+
+    if (! Auth::user()->can('track_stock') ) // Checks the current user
+    {
+        return Redirect::to('dashboard')->with('notice', 'you do not have access to this resource. Contact your system admin');
+    }else{
+        return View::make('stocks/track', compact('stocks', 'items', 'clients', 'location', 'leased'));
+    }
+});
+
+Route::get('confirmstock/{id}/{name}/{confirmer}/{key}', function($id,$name,$confirmer,$key){
+    $stock = Stock::find($id);
+    if($stock->confirmation_code != $key){
+        $stock->is_confirmed = 1;
+        $stock->confirmed_id = $confirmer;
+        $stock->confirmation_code = $key;
+        $stock->update();
+
+        /*$order = Erporder::findorfail($erporder_id);
+$order->status = 'delivered';
+$order->update();*/
+
+        $notifications = Notification::where('confirmation_code',$key)->get();
+        foreach ($notifications as $notification) {
+            $notification->is_read = 1;
+            $notification->update();
+        }
+
+        return "<strong><span style='color:green'>Stock for item ".$name." confirmed as received!</span></strong>";
+    }else{
+        return "<strong><span style='color:red'>Stock for item ".$name." already received!</span></strong>";
+    }
+});

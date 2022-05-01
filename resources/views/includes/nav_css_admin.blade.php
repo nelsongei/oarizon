@@ -26,11 +26,11 @@
                         </li>
                         -->
 
-{{--                        <li>--}}
-{{--                            <a href="{{ URL::to('accounts')}}">--}}
-{{--                                <i class="fa fa-calculator fa-fw"></i> {{{ Lang::get('messages.nav.accounting') }}}--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
+                        {{--                        <li>--}}
+                        {{--                            <a href="{{ URL::to('accounts')}}">--}}
+                        {{--                                <i class="fa fa-calculator fa-fw"></i> {{{ Lang::get('messages.nav.accounting') }}}--}}
+                        {{--                            </a>--}}
+                        {{--                        </li>--}}
 
                         <li>
                             <a href="{{ URL::to('clients') }}"><i class="fa fa-user fa-fw"></i>Clients/ Supplier</a>
@@ -59,10 +59,9 @@
                     <a href="{{ URL::to('account') }}"><i class="fa fa-tasks fa-fw"></i>  Accounts</a>
                   </li> -->
 
-                        <li>
-                            <a href="#"><i class="fa fa-th-large fa-fw"></i>Payment<i
-                                    class="fa fa-caret-down fa-fw"></i></a>
-                            <ul class="nav">
+                        <li class="pcoded-hasmenu">
+                            <a href="#"><i class="fa fa-th-large fa-fw"></i>Payment</a>
+                            <ul class="pcoded-submenu">
                                 <li><a href="{{ URL::to('paymentmethods') }}"><i class="fa fa-tasks fa-fw"></i>Payment
                                         Methods</a></li>
                                 <li><a href="{{ URL::to('payments') }}"><i class="fa fa-list fa-fw"></i>Payments</a>
@@ -87,7 +86,7 @@
                         </li>
 
                         <li>
-                            <a href="{{ URL::to('erpReports') }}" ><i class="fa fa-folder-open fa-fw"></i>Reports</a>
+                            <a href="{{ URL::to('erpReports') }}"><i class="fa fa-folder-open fa-fw"></i>Reports</a>
                         </li>
                     </ul>
                 </li>
