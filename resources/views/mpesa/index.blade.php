@@ -10,10 +10,17 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <button type="button" class="mb-2 btn btn-primary btn-outline-primary"
-                                            data-toggle="modal" data-target="#pay-now">
-                                        Paynow
-                                    </button>
+                                    @if(sizeof($organization) === 0)
+                                        <button type="button" class="mb-2 btn btn-primary btn-outline-primary"
+                                                data-toggle="modal" data-target="#create-account">
+                                            Create Account
+                                        </button>
+                                    @else
+                                        <button type="button" class="mb-2 btn btn-primary btn-outline-primary"
+                                                data-toggle="modal" data-target="#pay-now">
+                                            Paynow
+                                        </button>
+                                    @endif
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                         <tr>
@@ -44,7 +51,8 @@
                                                 <td>{{App\Models\License::where('module_id',$module['id'])->pluck('end_date')->first()}}</td>
                                                 <td>Mpesa</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="fa fa-cogs"></i>Action
                                                     </button>
                                                     <ul class="dropdown-menu">
@@ -61,6 +69,27 @@
                                         @endforelse
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="create-account">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="" method="post">
+                                        @csrf
+                                        <div class="modal-body">
+
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-sm btn-warning"
+                                                    data-dismiss="modal">
+                                                Not Now
+                                            </button>
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                Pay Now
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -22,10 +22,13 @@ class MpesaController extends Controller
         $uri = "http://127.0.0.1/licensemanager/public/api/v1/transactions/".$id;
         $resp = $data->request('GET',$uri);
         $transactions = json_decode($resp->getBody(),true);
-
+        //Check If Organization Exists
+        $urls = "http://127.0.0.1/licensemanager/public/api/v1/getOrganization/".$id;
+        $orgs = $data->request('GET',$urls);
+        $organization = json_decode($orgs->getBody(),true);
         //Licenses
         $licences = License::orderBy('created_at')->get();
-        return view('mpesa.index', compact('modules','transactions','licences'));
+        return view('mpesa.index', compact('modules','transactions','licences','organization'));
     }
 
     public function getLicenseData()

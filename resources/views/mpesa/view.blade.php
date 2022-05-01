@@ -86,7 +86,10 @@
                                                 </td>
                                                 <td>
                                                     <h1>
+                                                        @if(sizeof($transaction)===0)
+                                                        @else
                                                         {{$transaction[0]['module']['price']-$transaction[0]['Amount']}}
+                                                        @endif
                                                     </h1>
                                                 </td>
                                             </tr>
@@ -95,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>x_relief
                     </div>
                 </div>
             </div>

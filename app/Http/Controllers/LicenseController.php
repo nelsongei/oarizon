@@ -43,6 +43,26 @@ class LicenseController extends Controller
         return $post;
 
     }
+    public function createOrganization(Request $request)
+    {
+        $data = new \GuzzleHttp\Client();
+        $post =  $data->post('http://127.0.0.1/licensemanager/public/api/v1/create/organization',[
+            'form_params'=>[
+                'name'=>$request->name,
+                'phone'=>$request->phone,
+                'address'=>$request->address,
+                'website'=>$request->webiste,
+                'kra_pin'=>$request->kra_pin,
+                'business_no'=>$request->business_no,
+                'owner_id'=>$request->owner_id,
+                'cname'=>$request->cname,
+                'fname'=>$request->fname,
+                'lname'=>$request->lname,
+                'surname'=>$request->surname,
+            ]
+        ]);
+        return $post;
+    }
 
     public function updateDates($org, $module, $end)
     {
