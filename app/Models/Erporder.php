@@ -19,37 +19,37 @@ class Erporder extends Model {
 
 	public function paymentmethod(){
 
-		return $this->belongsTo('Paymentmethod');
+		return $this->belongsTo(Paymentmethod::class);
 	}
 
 	public function client(){
 
-		return $this->belongsTo('Client');
+		return $this->belongsTo(Client::class);
 	}
 
 	public function erporderitems(){
 
-		return $this->hasMany('Erporderitem');
+		return $this->hasMany(Erporderitem::class);
 	}
 
 	public function payments(){
 
-		return $this->hasMany('Payment');
+		return $this->hasMany(Payment::class);
 	}
 
 	public function timing(){
 
-			return $this->hasOne('Erpordertiming');
+			return $this->hasOne(Erpordertiming::class);
 		}
-		
+
 	public function items(){
 
-		return $this->belongsToMany('Item');
+		return $this->belongsToMany(Item::class);
 	}
 
 	public function tax(){
 
-		return $this->belongsTo('TaxOrder');
+		return $this->belongsTo(TaxOrder::class);
 	}
 	public static function getTotalPayments($order){
 		$payments = 0;
@@ -113,14 +113,14 @@ public static function getPayment($id, $client_id){
          }
       return $sorted;
 	 }
-	 
-	 public static function orderTotal($id){ 
+
+	 public static function orderTotal($id){
 		$order=Order::find($id); $ototal=0;
 		$orderItems=Erporderitem::where('erporder_id',$id)->get();
 		foreach($orderItems as $orderItem){ $item=Item::find($orderItem->item_id);
 			$tot=$item->selling_price*$orderItem->quantity;
-			$ototal+=$tot;  
-		}   
-		return $ototal;  
+			$ototal+=$tot;
+		}
+		return $ototal;
 	 }
 }

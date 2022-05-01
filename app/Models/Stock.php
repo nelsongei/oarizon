@@ -19,11 +19,11 @@ class Stock extends Model {
 
 
 	public function location(){
-		return $this->belongsTo('Location');
+		return $this->belongsTo(Location::class);
 	}
 
 	public function item(){
-		return $this->belongsTo('Item');
+		return $this->belongsTo(Item::class);
 	}
 
 
@@ -272,7 +272,7 @@ class Stock extends Model {
 
 
 	}
-          
+
         public static function addEditStock($item,$location, $quantity, $date){
 
          $itemobj=Item::find($item);
@@ -287,8 +287,8 @@ class Stock extends Model {
 		$stock->is_confirmed = 0;
 		$stock->save();
 
-	
-       
+
+
 
 	}
 

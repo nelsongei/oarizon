@@ -12,21 +12,21 @@ use App\Models\Erporder;
 
 class SuppliersController extends Controller
 {
-    /** 
+    /**
 	 * Display a listing of clients
 	 *
-	 * @return Response
+	 * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
 	 */
 	public function index()
-	{  
-		//$clients = Client::all();   
+	{
+		//$clients = Client::all();
 		$customers = Client::where('type','Customer')->get();
 		$suppliers = Client::where('type', 'Supplier')->get();
 		$clientOrders = Erporder::where("status","!=","REJECTED")->where("type","invoice")->orWhere("type","sales")->get();
-		$companyOrders = Erporder::where("status","!=","REJECTED")->where("type","purchases")->get(); 
+		$companyOrders = Erporder::where("status","!=","REJECTED")->where("type","purchases")->get();
 		return view('suppliers.index', compact('customers', 'suppliers','clientOrders','companyOrders'));
-	} 
-  
+	}
+
 
 	/**
 	 * Show the form for creating a new client
@@ -68,7 +68,7 @@ class SuppliersController extends Controller
 		$client->contact_person_phone = Request::get('mobile_phone');
 		$client->phone = Request::get('office_phone');
 		$client->address = Request::get('address');
-		$client->type = Request::get('type'); 
+		$client->type = Request::get('type');
 		$client->save();
 
 		if(Request::get('type') == 'Customer')

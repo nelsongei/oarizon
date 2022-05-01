@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountTransaction extends Model{
 
-	protected $table = 'x_account_transactions';
+	protected $table = 'account_transactions';
 
 	// Validation Rules
 	public static $rules = [
@@ -35,11 +35,11 @@ class AccountTransaction extends Model{
 		$acTr->account_debited = $data['debit_account'];
 		$acTr->account_credited = $data['credit_account'];
 		$acTr->transaction_amount = $data['amount'];
-		$acTr->is_bank= 1;
-		$acTr->bank_account_id=$data['bank_account'];
-		$acTr->type=$data['type'];
-		$acTr->initiated_by=$data['initiated_by'];
-		$acTr->form=$data['payment_form'];
+//		$acTr->is_bank= 1;
+//		$acTr->bank_account_id=$data['bank_account'];
+//		$acTr->type=$data['type'];
+//		$acTr->initiated_by=$data['initiated_by'];
+//		$acTr->form=$data['payment_form'];
 		$acTr->save();
 
 		return $acTr->id;

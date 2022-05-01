@@ -37,6 +37,7 @@ class Journal extends Model
 
     public function journal_entry($data)
     {
+//        dd($data);
         $trans_no = $this->getTransactionNumber();
         // function for crediting
         $this->creditAccount($data, $trans_no);
@@ -44,11 +45,11 @@ class Journal extends Model
         $this->debitAccount($data, $trans_no);
 
         // Insert narration
-        $confirm = DB::table('narration')->where('trans_no', '=', $trans_no)->count();
+        $confirm = DB::table('x_narration')->where('trans_no', '=', $trans_no)->count();
         if ($confirm <= 0) {
-            DB::table('narration')->insert(array(
+            DB::table('x_narration')->insert(array(
                 'trans_no' => $trans_no,
-                'member_id' => $data['narration']
+                'member_id' => 1
             ));
         }
 
@@ -64,7 +65,7 @@ class Journal extends Model
 
     public function creditAccount($data, $trans_no)
     {
-
+//        dd($data);
         $journal = new Journal;
         $account = Account::findOrFail($data['credit_account']);
         $journal->account()->associate($account);
@@ -74,7 +75,7 @@ class Journal extends Model
         $journal->initiated_by = $data['initiated_by'];
         $journal->amount = $data['amount'];
         $journal->type = 'credit';
-        $journal->particulars_id = $data['particulars_id'];
+//        $journal->particulars_id = $data['particulars_id'];
         $journal->description = $data['description'];
         $journal->save();
     }
@@ -91,7 +92,7 @@ class Journal extends Model
         $journal->initiated_by = $data['initiated_by'];
         $journal->amount = $data['amount'];
         $journal->type = 'debit';
-        $journal->particulars_id = $data['particulars_id'];
+//        $journal->particulars_id = $data['particulars_id'];
         $journal->description = $data['description'];
         $journal->save();
     }

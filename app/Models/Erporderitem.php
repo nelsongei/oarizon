@@ -17,15 +17,15 @@ class Erporderitem extends Model {
 
 	public function erporder(){
 
-		return $this->belongsTo('Erporder');
+		return $this->belongsTo(Erporder::class);
 	}
 
 	public function orderservice(){
-		return $this->belongsTo('Orderservice');
+		return $this->belongsTo(Orderservice::class);
 	}
 
 	public function item(){
-		return $this->belongsTo('Item');
+		return $this->belongsTo(Item::class);
 	}
 
 	public static function getInvoice($id){

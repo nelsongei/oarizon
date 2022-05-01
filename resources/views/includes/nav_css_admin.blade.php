@@ -33,7 +33,11 @@
                         {{--                        </li>--}}
 
                         <li>
-                            <a href="{{ URL::to('clients') }}"><i class="fa fa-user fa-fw"></i>Clients/ Supplier</a>
+                            <a href="{{ URL::to('clients') }}"><i class="fa fa-user fa-fw"></i>Clients</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ URL::to('suppliers') }}"><i class="fa fa-user fa-fw"></i>Suppliers</a>
                         </li>
 
                         <li class="pcoded-hasmenu">
