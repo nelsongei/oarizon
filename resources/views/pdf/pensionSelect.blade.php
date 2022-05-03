@@ -72,7 +72,7 @@
                                                     <option value="All">All</option>
                                                     @foreach($departments as $department)
                                                         <option
-                                                            value="{{$department->id }}"> {{ $department->department_name }}</option>
+                                                            value="{{$department->id }}"> {{ $department->name }}</option>
                                                     @endforeach
 
                                                 </select>

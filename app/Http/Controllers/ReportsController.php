@@ -12558,9 +12558,9 @@ class ReportsController extends Controller
                         ->select(DB::raw('COALESCE(SUM(employee_amount),0) as total_employee,COALESCE(SUM(employer_amount),0) as total_employer'))
                         ->first();
                 } else {
-                    $pensions = DB::table('transact_pensions')
-                        ->join('employee', 'transact_pensions.employee_id', '=', 'employee.id')
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                    $pensions = DB::table('x_transact_pensions')
+                        ->join('x_employee', 'x_transact_pensions.employee_id', '=', 'x_employee.id')
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->whereBetween('year', array($from[1], $to[1]))
                         ->whereBetween('month', array($from[0], $to[0]))
                         ->select('personal_file_number', 'first_name', 'last_name', 'middle_name', 'employee_amount', 'employer_amount', 'employee_percentage', 'employer_percentage', 'employee_id', 'employer_amount', 'month', 'year', 'financial_month_year')
@@ -12568,14 +12568,14 @@ class ReportsController extends Controller
 
                     //return $data;
 
-                    $total = DB::table('transact_pensions')
+                    $total = DB::table('x_transact_pensions')
                         ->where('organization_id', Auth::user()->organization_id)
                         ->whereBetween('year', array($from[1], $to[1]))
                         ->whereBetween('month', array($from[0], $to[0]))
                         ->select(DB::raw('COALESCE(SUM(employee_amount),0) as total_employee,COALESCE(SUM(employer_amount),0) as total_employer'))
                         ->first();
                 }
-                $currencies = DB::table('currencies')
+                $currencies = DB::table('x_currencies')
                     ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
                     ->select('shortname')
                     ->get();

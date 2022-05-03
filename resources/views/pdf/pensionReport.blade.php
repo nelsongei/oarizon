@@ -125,8 +125,8 @@ body {
       </tr>
       <?php $i =1; $totalamount = 0; $total_interest = 0; ?>
       @foreach($pensions as $ded)
-      <?php $totalamount = $totalamount + $ded->employee_amount + $ded->employer_amount + Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year);
-      $total_interest = $total_interest + Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year);
+      <?php $totalamount = $totalamount + $ded->employee_amount + $ded->employer_amount + App\Models\Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year);
+      $total_interest = $total_interest + App\Models\Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year);
 
       ?>
       <tr>
@@ -147,9 +147,9 @@ body {
         <td align="right"> {{ asMoney($ded->employee_percentage) }}</td>
         <td align="right"> {{ asMoney($ded->employer_amount )}}</td>
         <td align="right"> {{ asMoney($ded->employer_percentage )}}</td>
-        <td align="right"> {{ asMoney(Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year) )}}</td>
-        <td align="right"> {{ asMoney($ded->employee_amount + $ded->employer_amount + Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year) )}}</td>
-        <td> {{ Pensioninterest::getTransactComment($ded->employee_id,$ded->financial_month_year) }}</td>
+        <td align="right"> {{ asMoney(App\Models\Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year) )}}</td>
+        <td align="right"> {{ asMoney($ded->employee_amount + $ded->employer_amount + App\Models\Pensioninterest::getTransactInterest($ded->employee_id,$ded->financial_month_year) )}}</td>
+        <td> {{ App\Models\Pensioninterest::getTransactComment($ded->employee_id,$ded->financial_month_year) }}</td>
         </tr>
       <?php $i++; ?>
 
