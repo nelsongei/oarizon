@@ -138,8 +138,8 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="paid_via" value="mpesa">
-                                                <input type="hidden" name="trxn_id" value="">
+                                                <input type="hidden" id="paid_via" name="paid_via" value="mpesa">
+                                                <input type="hidden" id="trxn_id" name="trxn_id" value="">
                                             </div>
                                         </div>
                                         <div class="modal-footer justify-content-center">
@@ -301,15 +301,22 @@
                 address: document.getElementById('address').value,
                 website: document.getElementById('website').value,
                 module: document.getElementById('module').value,
+                paid_via: document.getElementById('paid_via').value,
+                trxn_id: document.getElementById('trxn_id').value,
             }
-            // console.log(requestOrganization);
             axios.post("https://127.0.0.1/orizon/public/create/organization", requestOrganization)
                 .then((response) => {
                     console.log(response)
+                    toastr.success('Organization Data Saved');
+                    window.location.reload()
                 })
-                .catch((error)=>{
+                .catch((error) => {
                     console.log(error)
                 })
+            // if (requestOrganization['cname'] === '' || requestOrganization['fname'] === '' || requestOrganization['lname'] === '' | requestOrganization['surname'] === '' || requestOrganization['mobno'] === '' || requestOrganization['email'] === '' || requestOrganization['pin'] === '' || requestOrganization['address'] === '' ||requestOrganization['website']===''||requestOrganization['module']==='') {
+            //     toastr.warning('All Fields ARe required');
+            // } else {
+            // }
         });
     </script>
     <script>

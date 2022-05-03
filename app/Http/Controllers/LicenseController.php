@@ -58,6 +58,8 @@ class LicenseController extends Controller
             'website' => $request->website,
             'module' => $request->module,
             'pin'=>$request->pin,
+            'paid_via'=>$request->paid_via,
+            'trxn_id'=>$request->trxn_id,
         ]);
         return $data;
     }
