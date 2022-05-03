@@ -6,6 +6,7 @@ use App\models\License;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Spatie\ArrayToXml\ArrayToXml;
 
 class LicenseController extends Controller
@@ -43,25 +44,22 @@ class LicenseController extends Controller
         return $post;
 
     }
+
     public function createOrganization(Request $request)
     {
-        $data = new \GuzzleHttp\Client();
-        $post =  $data->post('http://127.0.0.1/licensemanager/public/api/v1/create/organization',[
-            'form_params'=>[
-                'name'=>$request->name,
-                'phone'=>$request->phone,
-                'address'=>$request->address,
-                'website'=>$request->webiste,
-                'kra_pin'=>$request->kra_pin,
-                'business_no'=>$request->business_no,
-                'owner_id'=>$request->owner_id,
-                'cname'=>$request->cname,
-                'fname'=>$request->fname,
-                'lname'=>$request->lname,
-                'surname'=>$request->surname,
-            ]
+        $data = Http::post('http://127.0.0.1/licensemanager/public/api/v1/create/organization', [
+            'cname' => $request->cname,
+            'fname' => $request->fname,
+            'lname' => $request->lname,
+            'surname' => $request->surname,
+            'mobno' => $request->mobno,
+            'email' => $request->email,
+            'address' => $request->address,
+            'website' => $request->website,
+            'module' => $request->module,
+            'pin'=>$request->pin,
         ]);
-        return $post;
+        return $data;
     }
 
     public function updateDates($org, $module, $end)

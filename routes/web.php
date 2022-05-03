@@ -714,6 +714,7 @@ Route::get('/license/date/{id}/{module}/{end}', [LicenseController::class, 'upda
 Route::get('/license/data/{id}', [MpesaController::class, 'getModuleData']);
 Route::post('/stkPush', [LicenseController::class, 'stkPush']);
 Route::get('mpesaTransactions/{id}/{transaction}', [MpesaController::class, 'view']);
+Route::post('create/organization',[LicenseController::class,'createOrganization']);
 /*
  * Employees Apis
  * */

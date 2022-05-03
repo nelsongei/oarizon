@@ -75,18 +75,81 @@
                         <div class="modal fade" id="create-account">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="" method="post">
+                                    <form method="POST"
+                                          id="create-organization">
                                         @csrf
                                         <div class="modal-body">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="cname">Surname:</label>
+                                                    <input type="text" class="form-control" id="surname" name="surname"
+                                                           placeholder="Surname">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="cname">First Name:</label>
+                                                    <input type="text" class="form-control" id="fname" name="fname"
+                                                           placeholder="First Name">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="cname">Last Name:</label>
+                                                    <input type="text" class="form-control" id="lname" name="lname"
+                                                           placeholder="Last Name">
+                                                </div>
 
+                                                <div class="form-group col-md-6">
+                                                    <label for="mobno">Mobile Number:</label>
+                                                    <input type="text" class="form-control" id="mobno" name="mobno"
+                                                           placeholder="Mobile Number">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="email">Email:</label>
+                                                    <input type="email" class="form-control" id="email" name="email"
+                                                           placeholder="Email">
+                                                </div>
+
+                                                <div class="form-group col-md-12">
+                                                    <label for="cname">Company Name:</label>
+                                                    <input type="text" class="form-control" id="cname" name="cname"
+                                                           placeholder="Company Name">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="pin">KRA Pin:</label>
+                                                    <input type="text" class="form-control" id="pin" name="pin"
+                                                           placeholder="KRA PIN">
+                                                </div>
+
+                                                <div class="form-group col-md-6">
+                                                    <label for="website">Website</label>
+                                                    <input type="text" class="form-control" id="website" name="website"
+                                                           placeholder="http://example.com">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="website">Address</label>
+                                                    <input type="text" class="form-control" id="address" name="address"
+                                                           placeholder="ex rd p.o box">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="module">Module: </label>
+                                                    <select type="text" class="form-control" id="module" name="module">
+                                                        <option value="">Select Package</option>
+                                                        @foreach ($modules  as $module )
+                                                            <option
+                                                                value="{{$module['id']}}">{{$module['name']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="paid_via" value="mpesa">
+                                                <input type="hidden" name="trxn_id" value="">
+                                            </div>
                                         </div>
                                         <div class="modal-footer justify-content-center">
                                             <button type="button" class="btn btn-sm btn-warning"
                                                     data-dismiss="modal">
                                                 Not Now
                                             </button>
-                                            <button type="submit" class="btn btn-sm btn-primary">
-                                                Pay Now
+                                            <button type="submit" class="btn btn-sm btn-primary"
+                                                    id="create-organization">
+                                                Create Organization
                                             </button>
                                         </div>
                                     </form>
@@ -224,6 +287,31 @@
         })
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('create-organization').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const requestOrganization = {
+                cname: document.getElementById('cname').value,
+                fname: document.getElementById('fname').value,
+                lname: document.getElementById('lname').value,
+                surname: document.getElementById('surname').value,
+                mobno: document.getElementById('mobno').value,
+                email: document.getElementById('email').value,
+                pin: document.getElementById('pin').value,
+                address: document.getElementById('address').value,
+                website: document.getElementById('website').value,
+                module: document.getElementById('module').value,
+            }
+            // console.log(requestOrganization);
+            axios.post("https://127.0.0.1/orizon/public/create/organization", requestOrganization)
+                .then((response) => {
+                    console.log(response)
+                })
+                .catch((error)=>{
+                    console.log(error)
+                })
+        });
+    </script>
     <script>
         var intervalId = null;
         document.getElementById('pay-now').addEventListener('submit', (event) => {
