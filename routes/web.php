@@ -545,6 +545,8 @@ Route::post('payrollReports/nhifReturns', [ReportsController::class, 'nhifReturn
 Route::get('payrollReports/selectNssfExcelPeriod', [ReportsController::class, 'period_excel']);
 Route::post('payrollReports/nssfExcel', [ReportsController::class, 'export']);
 Route::post('payrollReports/pensions', [ReportsController::class, 'pensions']);
+Route::get('mergeStatutory/selectPeriod', [ReportsController::class,'mergeperiod']);
+Route::post('mergeStatutory/report', [ReportsController::class,'mergestatutory']);
 /*
  * Pension
  * */

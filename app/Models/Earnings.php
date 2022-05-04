@@ -38,12 +38,12 @@ public static $messages = array(
 
 	public function employee(){
 
-		return $this->belongsTo('Employee');
+		return $this->belongsTo(Employee::class);
 	}
 
 	public function earningsetting(){
 
-		return $this->hasMany('Earningsetting');
+		return $this->hasMany(Earningsetting::class);
 	}
 
 }

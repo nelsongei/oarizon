@@ -164,16 +164,16 @@ class EarningsController extends Controller
      */
     public function edit($id)
     {
-        $earning = DB::table('employee')
-            ->join('earnings', 'employee.id', '=', 'earnings.employee_id')
+        $earning = DB::table('x_employee')
+            ->join('x_earnings', 'x_employee.id', '=', 'x_earnings.employee_id')
             ->where('in_employment', '=', 'Y')
-            ->where('employee.organization_id', Auth::user()->organization_id)
-            ->where('earnings.id', '=', $id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
+            ->where('x_earnings.id', '=', $id)
             ->first();
 
         $earningsettings = Earningsetting::all();
         $currency = Currency::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->first();
-        return View::make('other_earnings.edit', compact('earning', 'employees', 'earningsettings', 'currency'));
+        return View::make('other_earnings.edit', compact('earning', 'earningsettings', 'currency'));
     }
 
     /*

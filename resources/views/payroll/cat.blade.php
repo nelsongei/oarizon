@@ -23,8 +23,7 @@
                 dataType: "JSON",
                 async: false,
                 data: {
-                    'formdata': $('#grossform').serialize(),
-                    '_token':'<?php echo csrf_token()?>'
+                    'formdata': $('#grossform').serialize()
                 }
             }).done(function (data) {
                 //alert(data.gross1);
@@ -74,8 +73,7 @@
                 dataType: "JSON",
                 async: false,
                 data: {
-                    'formdata': $('#netform').serialize(),
-                    '_token':'<?php echo csrf_token()?>'
+                    'formdata': $('#netform').serialize()
                 }
             }).done(function (data) {
                 console.log(data);
@@ -146,8 +144,7 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     @if($a == null || $a == '')
                                                                         <input class="form-control" placeholder=""
@@ -166,10 +163,13 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
-                                                                    <input readonly class="form-control" placeholder="" type="text" name="paye" id="paye" value="{{ App\Models\Payroll::asMoney(App\Models\Payroll::payecalc($a))}}">
+                                                                    <input readonly class="form-control" placeholder=""
+                                                                           type="text" name="paye"
+                                                                           id="paye"
+                                                                           value="{{ App\Models\Payroll::asMoney(App\models\Payroll::payecalc(1))}}">
+                                                                    {{--                                               id="paye" value="{{ App\Models\Payroll::asMoney(App\models\Payroll::payecalc($a))}}">--}}
                                                                 </div>
                                                             </div>
 
@@ -178,13 +178,12 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     <input readonly class="form-control" placeholder=""
                                                                            type="text" name="nssf"
                                                                            id="nssf"
-                                                                           value="{{App\models\Payroll::asMoney(App\models\Payroll::nssfcalc($a))}}">
+                                                                           value="{{App\models\Payroll::asMoney(App\models\Payroll::nssfcalc(1))}}">
                                                                     {{--                                               id="nssf" value="{{App\models\Payroll::asMoney(Payroll::nssfcalc($a))}}">--}}
                                                                 </div>
                                                             </div>
@@ -196,13 +195,12 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     <input readonly class="form-control" placeholder=""
                                                                            type="text" name="nhif"
                                                                            id="nhif"
-                                                                           value="{{App\models\Payroll::asMoney(App\models\Payroll::nhifcalc($a))}}">
+                                                                           value="{{App\models\Payroll::asMoney(App\models\Payroll::nhifcalc(1))}}">
                                                                     {{--                                               id="nhif" value="{{App\models\Payroll::asMoney(Payroll::nhifcalc($a))}}">--}}
 
                                                                 </div>
@@ -213,13 +211,12 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     <input readonly class="form-control" placeholder=""
                                                                            type="text" name="net"
                                                                            id="net"
-                                                                           value="{{App\models\Payroll::asMoney(App\models\Payroll::netcalc($a))}}">
+                                                                           value="{{App\models\Payroll::asMoney(App\models\Payroll::netcalc(1))}}">
                                                                     {{--                                               id="net" value="{{App\models\Payroll::asMoney(Payroll::netcalc($a))}}">--}}
                                                                 </div>
                                                             </div>
@@ -248,8 +245,7 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     @if($a == null || $a == '')
                                                                         <input class="form-control" readonly
@@ -271,8 +267,7 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     @if($a == null || $a == '')
                                                                         <input readonly class="form-control"
@@ -293,8 +288,7 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     @if($a == null || $a == '')
                                                                         <input readonly class="form-control"
@@ -317,8 +311,7 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     @if($a == null || $a == '')
                                                                         <input readonly class="form-control"
@@ -339,8 +332,7 @@
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span
-                                                                            class="input-group-text"
-                                                                            style="margin: 0px">{{$currency->shortname}}</span>
+                                                                            class="input-group-text" style="margin: 0px">{{$currency->shortname}}</span>
                                                                     </div>
                                                                     @if($a == null || $a == '')
                                                                         <input class="form-control" placeholder=""

@@ -36,8 +36,8 @@
                                                 <label for="username">Period <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input required class="form-control datepicker2" readonly="readonly" placeholder=""
-                                                           type="date" name="period" id="period" value="{{{ old('period') }}}">
+                                                    <input required class="form-control datepicker2" placeholder=""
+                                                           type="date" name="period" id="period" value="{{{ date('m') }}}">
                                                 </div>
                                             </div>
 

@@ -136,18 +136,7 @@
             </div>
         </div>
     </div>
-
-
-    <div class="row">
-        <div class="col-lg-5">
-
-
-        </div>
-
-    </div>
-
     <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#branchid').change(function () {

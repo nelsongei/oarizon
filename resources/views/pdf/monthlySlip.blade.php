@@ -303,55 +303,57 @@
     <div class="content">
         <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0' style='width:350px'>
             {{'<tr><td colspan="2" align="center"><strong>PERIOD : '.$period.'</strong></td></tr>'}}
-            <tr>
-                <td colspan='2'><strong>PERSONAL DETAILS</strong></td>
-            </tr>
-            <tr>
-                <td>Payroll Number:</td>
-                <td>{{$transact->personal_file_number}}</td>
-            </tr>
+            @foreach($transacts as $transact)
+                <tr>
+                    <td colspan='2'><strong>PERSONAL DETAILS</strong></td>
+                </tr>
+                <tr>
+                    <td>Payroll Number:</td>
+                    <td>{{$transact->personal_file_number}}</td>
+                </tr>
 
-            <tr>
-                <td>Employee Name:</td>
-                <td> {{$name}}</td>
+                <tr>
+                    <td>Employee Name:</td>
+                    <td> {{$transact->employee_id}}</td>
 
-            </tr>
-            <tr>
-                <td>Identity Number:</td>
-                <td>{{$transact->identity_number}}</td>
-            </tr>
-            <tr>
-                <td>Kra Pin:</td>
-                @if($transact->pin != null || $transact->pin != '')
-                    <td>{{$transact->pin}}</td>
-                @else
-                    <td></td>
-                @endif
-            </tr>
-            <tr>
-                <td>Nssf Number:</td>
-                @if($transact->social_security_number != null || $transact->social_security_number != '')
-                    <td>{{$transact->social_security_number}}</td>
-                @else
-                    <td></td>
-                @endif
-            </tr>
-            <tr>
-                <td>Nhif Number:</td>
-                @if($transact->hospital_insurance_number != null || $transact->hospital_insurance_number != '')
-                    <td>{{$transact->hospital_insurance_number}}</td>
-                @else
-                    <td></td>
-                @endif
-            </tr>
-            <tr>
-                <td><strong>EARNINGS</strong></td>
-                <td><strong>Amount ({{$currency->shortname}})</strong></td>
-            </tr>
-            <tr>
-                <td>Basic Pay:</td>
-                <td align='right'>{{ App\Models\Payroll::asMoney($transact->basic_pay) }}</td>
-            </tr>
+                </tr>
+                <tr>
+                    <td>Identity Number:</td>
+                    <td>{{$transact->identity_number}}</td>
+                </tr>
+                <tr>
+                    <td>Kra Pin:</td>
+                    @if($transact->pin != null || $transact->pin != '')
+                        <td>{{$transact->pin}}</td>
+                    @else
+                        <td></td>
+                    @endif
+                </tr>
+                <tr>
+                    <td>Nssf Number:</td>
+                    @if($transact->social_security_number != null || $transact->social_security_number != '')
+                        <td>{{$transact->social_security_number}}</td>
+                    @else
+                        <td></td>
+                    @endif
+                </tr>
+                <tr>
+                    <td>Nhif Number:</td>
+                    @if($transact->hospital_insurance_number != null || $transact->hospital_insurance_number != '')
+                        <td>{{$transact->hospital_insurance_number}}</td>
+                    @else
+                        <td></td>
+                    @endif
+                </tr>
+                <tr>
+                    <td><strong>EARNINGS</strong></td>
+                    <td><strong>Amount ({{$currencies}})</strong></td>
+                </tr>
+                <tr>
+                    <td>Basic Pay:</td>
+                    <td align='right'>{{ App\Models\Payroll::asMoney($transact->basic_pay) }}</td>
+                </tr>
+            @endforeach
 
             @foreach($earnings as $earning)
                 @if($earning->earning_name != null || $earning->earning_name != '')
@@ -364,6 +366,7 @@
             @endforeach
 
             @foreach($overtimes as $overtime)
+                {{dd($overtime->id)}}
                 @if($overtime->overtime_type != null || $overtime->overtime_type != '')
                     <tr>
                         <td>{{ 'Overtime Earning - '.$overtime->overtime_type }}:</td>

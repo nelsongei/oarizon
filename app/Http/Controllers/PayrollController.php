@@ -331,10 +331,10 @@ class PayrollController extends Controller
     public function disp()
     {
         $display = "";
-        $postedit = Input::all();
-        parse_str(Input::get('formdata'), $postedit);
+        $postedit = request()->all();
+        parse_str(request('formdata'), $postedit);
         $gross = str_replace(',', '', $postedit['gross']);
-
+//        dd($gross);
         $paye = number_format(Payroll::payecalc($gross), 2);
         $nssf = number_format(Payroll::nssfcalc($gross), 2);
         $nhif = number_format(Payroll::nhifcalc($gross), 2);
@@ -668,8 +668,8 @@ class PayrollController extends Controller
     public function dispgross()
     {
         $display = "";
-        $postedit = Input::all();
-        parse_str(Input::get('formdata'), $postedit);
+        $postedit = request()->all();
+        parse_str(request('formdata'), $postedit);
         $net = str_replace(',', '', $postedit['net1']);
         //print_r($searcharray['net1']);
 

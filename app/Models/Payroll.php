@@ -1883,23 +1883,28 @@ class Payroll extends Model
 
     public static function payecalc($gross)
     {
-        $paye = 0.00;
-        $a = str_replace(',', '', $gross);
-        $total_pay = $a;
-        $total_nssf = static::nssfcalc($gross);
-        $taxable = $total_pay - $total_nssf;
-        if ($taxable >= 12298 && $taxable < 23885) {
-            $paye = (1229.8 + ($taxable - 12298) * 15 / 100) - 1408.00;
-        } else if ($taxable >= 23885 && $taxable < 35472) {
-            $paye = ((1229.8 + ((11587) * 0.15)) + ($taxable - 23885) * 20 / 100) - 1408.00;
-        } else if ($taxable >= 35472 && $taxable < 47059) {
-            $paye = ((1229.8 + (11587 * 0.15) + ((11587) * 0.2)) + ($taxable - 35472) * 25 / 100) - 1408.00;
-        } else if ($taxable >= 47059) {
-            $paye = ((1229.8 + (11587 * 0.15) + (11587 * 0.2) + ((11587) * 0.25)) + ($taxable - 47059) * 30 / 100) - 1408.00;
-        } else {
+        try{
             $paye = 0.00;
+            $a = str_replace(',', '', $gross);
+//        $a=0.00;
+            $total_pay = $a;
+            $total_nssf = static::nssfcalc($gross);
+            $taxable = $total_pay - $total_nssf;
+            if ($taxable >= 12298 && $taxable < 23885) {
+                $paye = (1229.8 + ($taxable - 12298) * 15 / 100) - 1408.00;
+            } else if ($taxable >= 23885 && $taxable < 35472) {
+                $paye = ((1229.8 + ((11587) * 0.15)) + ($taxable - 23885) * 20 / 100) - 1408.00;
+            } else if ($taxable >= 35472 && $taxable < 47059) {
+                $paye = ((1229.8 + (11587 * 0.15) + ((11587) * 0.2)) + ($taxable - 35472) * 25 / 100) - 1408.00;
+            } else if ($taxable >= 47059) {
+                $paye = ((1229.8 + (11587 * 0.15) + (11587 * 0.2) + ((11587) * 0.25)) + ($taxable - 47059) * 30 / 100) - 1408.00;
+            } else {
+                $paye = 0.00;
+            }
+            return round($paye, 2);
+        }catch (\Exception $e){
+
         }
-        return round($paye, 2);
 
         /*if($taxable>=13686 && $taxable<23884){
     $paye = (1229.8+($taxable-12298)*15/100)-1408.00;
@@ -1933,6 +1938,7 @@ class Payroll extends Model
         $total = $a;
 
         $nssf_amts = DB::table('x_social_security')->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+//        dd($nssf_amts);
         foreach ($nssf_amts as $nssf_amt) {
             $from = $nssf_amt->income_from;
             $to = $nssf_amt->income_to;
@@ -1946,24 +1952,24 @@ class Payroll extends Model
     public static function nhifcalc($gross)
     {
         $nhifAmt = 0.00;
-        $a = str_replace(',', '', $gross);
+        $a = str_replace( ',', '', $gross);
         $total = $a;
 
-        $nhif_amts = DB::table('x_hospital_insurance')->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-        foreach ($nhif_amts as $nhif_amt) {
-            $from = $nhif_amt->income_from;
-            $to = $nhif_amt->income_to;
-            if ($total >= $from && $total <= $to) {
-                $nhifAmt = $nhif_amt->hi_amount;
+        $nhif_amts = DB::table('x_hospital_insurance')->whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)->get();
+        foreach($nhif_amts as $nhif_amt){
+            $from=$nhif_amt->income_from;
+            $to=$nhif_amt->income_to;
+            if($total>=$from && $total<=$to){
+                $nhifAmt=$nhif_amt->hi_amount;
             }
         }
-        return round($nhifAmt, 2);
+        return round($nhifAmt,2);
     }
 
     public static function netcalc($gross)
     {
         $total_net = 0.00;
-
+        $gross=0.00;
         $total_net = $gross - static::payecalc($gross) - static::nssfcalc($gross) - static::nhifcalc($gross);
         if ($total_net < 0) {
             $total_net = 0;
