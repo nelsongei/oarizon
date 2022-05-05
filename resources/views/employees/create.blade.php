@@ -572,7 +572,7 @@ function initials($str, $pfn)
                                                             <option value="cnew">Create New</option>
                                                             @foreach($departments as $department)
                                                                 <option
-                                                                    value="{{$department->id }}"> {{ $department->department_name.' ('.$department->codes.')' }}</option>
+                                                                    value="{{$department->id }}"> {{ $department->name.' ('.$department->codes.')' }}</option>
                                                             @endforeach
 
                                                         </select>
@@ -790,7 +790,6 @@ function initials($str, $pfn)
                                             </div>
 
                                             <div role="tabpanel" class="tab-pane" id="documents">
-
                                                 <h4 style="align-content: center"><strong>Employee Documents</strong>
                                                 </h4>
                                                 <div class="table-responsive">
@@ -838,7 +837,6 @@ function initials($str, $pfn)
                                                             </td>
                                                         </tr>
                                                     </table>
-
                                                     <button type="button"
                                                             class="btn btn-primary waves-effect waves-light add vaddmore"
                                                             onclick="add_ve_row();">Add Row
@@ -847,25 +845,16 @@ function initials($str, $pfn)
                                                             class="btn btn-danger waves-effect waves-light vdelete">
                                                         Delete Row
                                                     </button>
-
-
                                                 </div>
-
-
                                             </div>
-
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
     <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">

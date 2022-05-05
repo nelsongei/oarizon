@@ -43,8 +43,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 
 class ReportsController extends Controller
-    {
+{
     use Exportable;
+
     private $excel;
 
     public function __construct(Excel $excel)
@@ -2678,15 +2679,15 @@ class ReportsController extends Controller
         }
         if ($request->get('format') == "excel") {
             if ($request->get('branch') == 'All' && $request->get('department') == 'All') {
-                $total = DB::table('transact_advances')
-                    ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
+                $total = DB::table('x_transact_advances')
+                    ->join('x_employee', 'x_transact_advances.employee_id', '=', 'x_employee.personal_file_number')
                     ->where('financial_month_year', '=', $period)
                     ->where('employee.organization_id', Auth::user()->organization_id)
                     ->where('mode_of_payment', '=', 'Bank')
                     ->sum('amount');
 
-                $data = DB::table('transact_advances')
-                    ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
+                $data = DB::table('x_transact_advances')
+                    ->join('x_employee', 'x_transact_advances.employee_id', '=', 'x_employee.personal_file_number')
                     ->join('banks', 'employee.bank_id', '=', 'banks.id')
                     ->join('bank_branches', 'employee.bank_branch_id', '=', 'bank_branches.id')
                     ->where('employee.organization_id', Auth::user()->organization_id)
@@ -3631,39 +3632,37 @@ class ReportsController extends Controller
 
             if ($request->get('branch') == 'All' && $request->get('department') == 'All') {
 
-                $total = DB::table('transact_advances')
-                    ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
+                $total = DB::table('x_transact_advances')
+                    ->join('x_employee', 'x_transact_advances.employee_id', '=', 'x_employee.personal_file_number')
                     ->where('mode_of_payment', '=', 'Bank')
-                    ->where('employee.organization_id', Auth::user()->organization_id)
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
                     ->where('financial_month_year', '=', $period)
                     ->sum('amount');
 
-                $currencies = DB::table('currencies')
+                $currencies = DB::table('x_currencies')
                     ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
                     ->select('shortname')
                     ->get();
 
-                $rems = DB::table('transact_advances')
-                    ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
-                    ->join('banks', 'employee.bank_id', '=', 'banks.id')
-                    ->join('bank_branches', 'employee.bank_branch_id', '=', 'bank_branches.id')
+                $rems = DB::table('x_transact_advances')
+                    ->join('x_employee', 'x_transact_advances.employee_id', '=', 'x_employee.personal_file_number')
+                    ->join('banks', 'x_employee.bank_id', '=', 'banks.id')
+                    ->join('bank_branches', 'x_employee.bank_branch_id', '=', 'bank_branches.id')
                     ->where('mode_of_payment', '=', 'Bank')
-                    ->where('employee.organization_id', Auth::user()->organization_id)
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
                     ->where('financial_month_year', '=', $period)
                     ->get();
 
                 $organization = Organization::find(Auth::user()->organization_id);
-
                 $branch = DB::table('bank_branches')
-                    ->join('organizations', 'bank_branches.organization_id', '=', 'organizations.id')
+                    ->join('x_organizations', 'bank_branches.organization_id', '=', 'x_organizations.id')
                     ->where('bank_branches.id', '=', $organization->bank_branch_id)
                     ->first();
 
                 $bank = DB::table('banks')
-                    ->join('organizations', 'banks.organization_id', '=', 'organizations.id')
+                    ->join('x_organizations', 'banks.organization_id', '=', 'x_organizations.id')
                     ->where('banks.id', '=', $organization->bank_id)
                     ->first();
-
                 $part = implode("-", $period);
 
                 $m = "";
@@ -3679,7 +3678,6 @@ class ReportsController extends Controller
                 $pdf = PDF::loadView('pdf.advanceremittanceReport', compact('rems', 'branch', 'bank', 'total', 'currencies', 'period', 'organization'))->setPaper('a4', 'landscape');
 
                 return $pdf->stream('Advance_Remittance_' . $month . '.pdf');
-
             } else if ($request->get('department') == 'All') {
                 $total = DB::table('transact_advances')
                     ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
@@ -15063,15 +15061,17 @@ class ReportsController extends Controller
         } else {
             $ename = $employee->first_name . '_' . $employee->last_name;
         }
-        return Excel::download(function($excel){
+        return Excel::download(function ($excel) {
             $excel->setTitle('Our New P9 Form');
             $excel->setCreator('Nelon')
                 ->setCompany('Lixnet');
             $excel->setDescription("A demo");
-        },'xls.xls');
+        }, 'xls.xls');
         return view('pdf.p9');
     }
-    public function p9form1(){
+
+    public function p9form1()
+    {
         $organization = Organization::find(Auth::user()->organization_id);
 
         $employee = Employee::find(request('employeeid'));
@@ -15086,7 +15086,7 @@ class ReportsController extends Controller
         }
 //        dd($ename . '_P9Form_' . $year);
 
-       return Excel::download(new P9FormExports($year,$employee,$organization),$ename . '_P9Form_' . $year.".xls");
+        return Excel::download(new P9FormExports($year, $employee, $organization), $ename . '_P9Form_' . $year . ".xls");
 //        return Excel::download(function ($excel) use ($employee, $organization, $year) {
 //            require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
 //            require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php");

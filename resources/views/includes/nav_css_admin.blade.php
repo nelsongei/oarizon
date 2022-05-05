@@ -102,6 +102,28 @@
                     <ul class="pcoded-submenu">
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Attendance/Timesheet</span>
+                            </a>
+                            <ul class="pcoded-submenu">
+                                <li>
+                                    <a href="{{ url('timesheet/attendances') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Attendance</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('timesheet/work_shift') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Timesheet</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ url('Properties') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Company Property</span>
+                            </a>
+                        </li>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
                                 <span class="pcoded-micon"><i class="feather icon-grid"></i></span>
                                 <span class="pcoded-mtext">Employees Management</span>
                             </a>
@@ -139,6 +161,54 @@
                                 <li class="">
                                     <a href="{{ url('payrollReports/selectPeriod') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Payslips</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="pcoded-hasmenu">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+                                <span class="pcoded-mtext">General Settings</span>
+                            </a>
+                            <ul class="pcoded-submenu">
+                                <li>
+                                    <a href="{{ url('benefitsettings') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Benefits Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('employee_type') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Employee Types</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('job_group') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Job Groups</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('currencies') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Occurrence Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('departments')}}">
+                                        <span class="pcoded-mtext">Departments</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('citizenships')}}">
+                                        <span class="pcoded-mtext">Citizenship's</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('banks') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Appraisal Category</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('bankbranches') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Appraisal Settings</span>
                                     </a>
                                 </li>
                             </ul>
@@ -192,11 +262,6 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="{{ url('Properties') }}" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Company Property</span>
-                            </a>
-                        </li>
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
                                 <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
@@ -236,54 +301,6 @@
                                 <li>
                                     <a href="{{ url('bankbranches') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Bank Branches</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="pcoded-hasmenu">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
-                                <span class="pcoded-mtext">General Settings</span>
-                            </a>
-                            <ul class="pcoded-submenu">
-                                <li>
-                                    <a href="{{ url('benefitsettings') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Benefits Settings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('employee_type') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Employee Types</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('job_group') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Job Groups</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('currencies') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Occurrence Settings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{url('departments')}}">
-                                        <span class="pcoded-mtext">Departments</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{url('citizenships')}}">
-                                        <span class="pcoded-mtext">Citizenship's</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('banks') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Appraisal Category</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('bankbranches') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Appraisal Settings</span>
                                     </a>
                                 </li>
                             </ul>

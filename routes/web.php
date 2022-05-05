@@ -7,8 +7,10 @@ use App\Http\Controllers\AppraisalCategoryController;
 use App\Http\Controllers\AppraisalsController;
 use App\Http\Controllers\AppraisalSettingsController;
 use App\Http\Controllers\AuditsController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\BanksController;
+use App\Http\Controllers\OfficeShiftController;
 use App\Http\Controllers\BenefitSettingsController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CitizenshipController;
@@ -547,6 +549,8 @@ Route::post('payrollReports/nssfExcel', [ReportsController::class, 'export']);
 Route::post('payrollReports/pensions', [ReportsController::class, 'pensions']);
 Route::get('mergeStatutory/selectPeriod', [ReportsController::class,'mergeperiod']);
 Route::post('mergeStatutory/report', [ReportsController::class,'mergestatutory']);
+Route::get('advanceReports/selectRemittancePeriod', [ReportsController::class,'period_advrem']);
+Route::post('advanceReports/advanceRemittances', [ReportsController::class,'payeAdvRems']);
 /*
  * Pension
  * */
@@ -852,6 +856,21 @@ Route::get('api/deptemployee', function () {
         }
     }
     return $employee;
+});
+
+/*
+ * Timesheet
+ */
+Route::group(['prefix' => 'timesheet'], function () {
+    Route::get('work_shift', [OfficeShiftController::class,'index']);
+    Route::get('work_shift/create', [OfficeShiftController::class,'create']);
+    Route::post('work_shift/save', [OfficeShiftController::class,'store']);
+    Route::post('work_shift/deactivate', [OfficeShiftController::class,'destroy']);
+    //Route::resource('attendances','AttendanceController');
+    Route::get('attendances', [AttendanceController::class,'index']);
+
+    Route::get('monthlyAttendance', 'AttendanceController@monthlyAttendance');
+    Route::get('dailyAttendance', 'AttendanceController@dateWiseAttendance');
 });
 /*
  * ERP Alvin
