@@ -17,10 +17,9 @@
                         </div>
                         <div class="card-block">
 
-                            <form target="_blank" method="POST" action="{{url('advanceReports/advanceSummary')}}" >@csrf
-
+                            <form method="POST" action="{{url('advanceReports/advanceSummary')}}" >@csrf
+                                @csrf
                                 <fieldset>
-
                                     <div class="form-group">
                                         <label for="username">Period <span style="color:red">*</span></label>
                                         <select class="form-control selectable" name="period" id="period">
@@ -100,7 +99,7 @@
                                             <option></option>
                                             <option value="All">All</option>
                                             @foreach($depts as $dept)
-                                                <option value="{{$dept->id}}"> {{ $dept->department_name }}</option>
+                                                <option value="{{$dept->id}}"> {{ $dept->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -128,4 +127,84 @@
             </div>
         </div>
     </div>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#year').hide();
+            $('#select_date').hide();
+            $('#month').hide();
+            $('#custom').hide();
+
+
+            $('#period').change(function () {
+                if ($(this).val() == "As at date" || $(this).val() == "day") {
+                    $('#year').hide();
+                    $('#select_date').show();
+                    $('#month').hide();
+                    $('#custom').hide();
+                } else if ($(this).val() == "year") {
+                    $('#year').show();
+                    $('#select_date').hide();
+                    $('#month').hide();
+                    $('#custom').hide();
+                } else if ($(this).val() == "month") {
+                    $('#year').hide();
+                    $('#select_date').hide();
+                    $('#month').show();
+                    $('#custom').hide();
+
+                } else if ($(this).val() == "custom") {
+                    $('#year').hide();
+                    $('#select_date').hide();
+                    $('#month').hide();
+                    $('#custom').show();
+
+                } else {
+                    $('#year').hide();
+                    $('#select_date').hide();
+                    $('#month').hide();
+                    $('#custom').hide();
+                }
+            });
+        });
+
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
+    <script type="text/javascript">
+
+        $(function () {
+            $('.datepicker').datepicker({
+                format: 'dd-M-yyyy',
+                startDate: '-60y',
+                endDate: '+0d',
+                autoclose: true
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker42').datepicker({
+                format: " yyyy",
+                startView: "years",
+                minViewMode: "years",
+                startDate: '-2y',
+                endDate: '+0y',
+                autoclose: true
+            });
+        });
+    </script>
 @stop

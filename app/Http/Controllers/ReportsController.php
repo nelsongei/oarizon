@@ -2505,30 +2505,29 @@ class ReportsController extends Controller
                 return $pdf->stream('Advance_summary_' . $month . '.pdf');
 
             } else if ($request->get('department') == 'All') {
-                $sels = DB::table('branches')->find($request->get('branch'));
+                $sels = DB::table('x_branches')->find($request->get('branch'));
 
-                $total_amount = DB::table('transact_advances')
-                    ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
-                    ->where('employee.organization_id', Auth::user()->organization_id)
+                $total_amount = DB::table('x_transact_advances')
+                    ->join('x_employee', 'x_transact_advances.employee_id', '=', 'x_employee.personal_file_number')
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
                     ->where('branch_id', '=', $request->get('branch'))
                     ->where('financial_month_year', '=', $period)
                     ->sum('amount');
 
-                $currencies = DB::table('currencies')
+                $currencies = DB::table('x_currencies')
                     ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
                     ->select('shortname')
                     ->get();
 
-                $sums = DB::table('transact_advances')
-                    ->join('employee', 'transact_advances.employee_id', '=', 'employee.personal_file_number')
-                    ->join('branches', 'employee.branch_id', '=', 'branches.id')
-                    ->where('employee.organization_id', Auth::user()->organization_id)
+                $sums = DB::table('x_transact_advances')
+                    ->join('x_employee', 'x_transact_advances.employee_id', '=', 'x_employee.personal_file_number')
+                    ->join('x_branches', 'x_employee.branch_id', '=', 'x_branches.id')
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
                     ->where('branch_id', '=', $request->get('branch'))
                     ->where('financial_month_year', '=', $period)
                     ->get();
 
                 $organization = Organization::find(Auth::user()->organization_id);
-
                 $part = implode("-", $period);
 
                 $m = "";
@@ -2649,9 +2648,11 @@ class ReportsController extends Controller
     {
         $data = $request->all();
         $period = $request->get('period');
-        $date = $request->get('date');
+        $date = $request->get('day');
         $year = $request->get('year');
         $month = $request->get('month');
+        $from = $request->get('from');
+        $to = $request->get('to');
 
         if ($period == 'day') {
             // $title = 'Deposit report as at'.date('Y-m-d', strtotime($date));
@@ -3663,10 +3664,10 @@ class ReportsController extends Controller
                     ->join('x_organizations', 'banks.organization_id', '=', 'x_organizations.id')
                     ->where('banks.id', '=', $organization->bank_id)
                     ->first();
-                $part = implode("-", $period);
+//                $part = implode("-", $period);
+                $part = $period;
 
                 $m = "";
-
                 if (strlen($part[0]) == 1) {
                     $m = "0" . $part[0];
                 } else {
