@@ -27,9 +27,8 @@ class AttendanceController extends BaseController
     public function index()
     {
         $selected_date = Carbon::parse(request('filter_month_year'))->format('Y-m-d') ?? Carbon::now()->format('Y-m-d');
+
         $day = strtolower(Carbon::parse(request('filter_month_year'))->format('l')) . '_in' ?? strtolower(Carbon::now()->format('l')) . '_in';
-
-
         if(Request::ajax()){
             $employee = Employee::with(['office_shift','employee_attendance' => function($query) use ($selected_date)
             {

@@ -53,6 +53,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/assets/css/style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/css/widget.css')}}">
+    <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/assets/css/pages.css')}}">
 </head>
 

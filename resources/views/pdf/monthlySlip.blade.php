@@ -303,6 +303,57 @@
     <div class="content">
         <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0' style='width:350px'>
             {{'<tr><td colspan="2" align="center"><strong>PERIOD : '.$period.'</strong></td></tr>'}}
+            @if(count([$transacts]) >0)
+                <tr>
+                    <td colspan='2'><strong>PERSONAL DETAILS</strong></td>
+                </tr>
+                <tr>
+                    <td>Payroll Number:</td>
+                    <td>{{$transacts->personal_file_number}}</td>
+                </tr>
+
+                <tr>
+                    <td>Employee Name:</td>
+                    <td> {{$transacts->first_name}}</td>
+
+                </tr>
+                <tr>
+                    <td>Identity Number:</td>
+                    <td>{{$transacts->identity_number}}</td>
+                </tr>
+                <tr>
+                    <td>Kra Pin:</td>
+                    @if($transacts->pin != null || $transacts->pin != '')
+                        <td>{{$transacts->pin}}</td>
+                    @else
+                        <td></td>
+                    @endif
+                </tr>
+                <tr>
+                    <td>Nssf Number:</td>
+                    @if($transacts->social_security_number != null || $transacts->social_security_number != '')
+                        <td>{{$transacts->social_security_number}}</td>
+                    @else
+                        <td></td>
+                    @endif
+                </tr>
+                <tr>
+                    <td>Nhif Number:</td>
+                    @if($transacts->hospital_insurance_number != null || $transacts->hospital_insurance_number != '')
+                        <td>{{$transacts->hospital_insurance_number}}</td>
+                    @else
+                        <td></td>
+                    @endif
+                </tr>
+                <tr>
+                    <td><strong>EARNINGS</strong></td>
+                    <td><strong>Amount ({{$currency->shortname}})</strong></td>
+                </tr>
+                <tr>
+                    <td>Basic Pay:</td>
+                    <td align='right'>{{ App\Models\Payroll::asMoney($transacts->basic_pay) }}</td>
+                </tr>
+            @else
             @foreach($transacts as $transact)
                 <tr>
                     <td colspan='2'><strong>PERSONAL DETAILS</strong></td>
@@ -314,7 +365,7 @@
 
                 <tr>
                     <td>Employee Name:</td>
-                    <td> {{$transact->employee_id}}</td>
+                    <td> {{$transact->first_name}}</td>
 
                 </tr>
                 <tr>
@@ -347,13 +398,14 @@
                 </tr>
                 <tr>
                     <td><strong>EARNINGS</strong></td>
-                    <td><strong>Amount ({{$currencies}})</strong></td>
+                    <td><strong>Amount ({{$currency}})</strong></td>
                 </tr>
                 <tr>
                     <td>Basic Pay:</td>
-                    <td align='right'>{{ App\Models\Payroll::asMoney($transact->basic_pay) }}</td>
+                    <td align='right'>{{ App\Models\Payroll::asMoney($transacts->basic_pay) }}</td>
                 </tr>
             @endforeach
+            @endif
 
             @foreach($earnings as $earning)
                 @if($earning->earning_name != null || $earning->earning_name != '')
@@ -392,7 +444,7 @@
 
             <tr>
                 <td><strong>GROSS PAY: </strong></td>
-                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transact->taxable_income) }}</strong></td>
+                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts->taxable_income) }}</strong></td>
             </tr>
 
             @foreach($nontaxables as $nontaxable)
@@ -420,15 +472,15 @@
             </tr>
             <tr>
                 <td>Paye:</td>
-                <td align='right'>{{ App\Models\Payroll::asMoney($transact->paye) }}</td>
+                <td align='right'>{{ App\Models\Payroll::asMoney($transacts->paye) }}</td>
             </tr>
             <tr>
                 <td>Nssf:</td>
-                <td align='right'>{{ App\Models\Payroll::asMoney($transact->nssf_amount) }}</td>
+                <td align='right'>{{ App\Models\Payroll::asMoney($transacts->nssf_amount) }}</td>
             </tr>
             <tr>
                 <td>Nhif:</td>
-                <td align='right'>{{ App\Models\Payroll::asMoney($transact->nhif_amount) }}</td>
+                <td align='right'>{{ App\Models\Payroll::asMoney($transacts->nhif_amount) }}</td>
             </tr>
 
             @foreach($deds as $ded)
@@ -451,12 +503,12 @@
             <tr>
                 <td><strong>TOTAL DEDUCTIONS
                         : </strong></td>
-                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transact->total_deductions) }}</strong></td>
+                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts->total_deductions) }}</strong></td>
             </tr>
 
             <tr>
                 <td><strong>NET PAY: </strong></td>
-                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transact->net) }}</strong></td>
+                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts->net) }}</strong></td>
             </tr>
 
         </table>

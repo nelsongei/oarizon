@@ -4442,7 +4442,7 @@ class ReportsController extends Controller
                         $name = $employee->first_name . ' ' . $employee->middle_name . ' ' . $employee->last_name;
                     }
 
-                    $transact = DB::table('x_transact')
+                    $transacts = DB::table('x_transact')
                         ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->where('x_employee.id', '=', $request->get('employeeid'))
@@ -4521,7 +4521,7 @@ class ReportsController extends Controller
                     Audit::logaudit('Payslip', 'view', 'viewed payslip for ' . $employee->personal_file_number . ' : ' . $employee->first_name . ' ' . $employee->last_name . ' for period ' . $request->get('period'));
 
 //return view('pdf.monthlySlip', compact('nontaxables','empall','select','name','employee','transact','allws','deds','earnings','overtimes','pension','rels','period','currency', 'organization','id'));
-                    $pdf = PDF::loadView('pdf.monthlySlip', compact('nontaxables', 'empall', 'select', 'name', 'employee', 'transact', 'allws', 'deds', 'earnings', 'overtimes', 'pension', 'rels', 'period', 'currency', 'organization', 'id'))->setPaper('a5');
+                    $pdf = PDF::loadView('pdf.monthlySlip', compact('nontaxables', 'empall', 'select', 'name', 'employee', 'transacts', 'allws', 'deds', 'earnings', 'overtimes', 'pension', 'rels', 'period', 'currency', 'organization', 'id'))->setPaper('a5');
 
                     return $pdf->stream($employee->personal_file_number . '_' . $employee->first_name . '_' . $employee->last_name . '_' . $month . '.pdf');
                 }
@@ -13459,7 +13459,6 @@ class ReportsController extends Controller
                 ->where('social_security_applicable', '=', 1)
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->get();
-            dd($nssfs);
             $organization = Organization::find(Auth::user()->organization_id);
 
             $part = explode("-", $request->get('period'));
@@ -13487,7 +13486,7 @@ class ReportsController extends Controller
 
     public function nhifReturns()
     {
-        if ($request->get('format') == "excel") {
+        if (request()->get('format') == "excel") {
 
             $total = DB::table('transact')
                 ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
@@ -13613,30 +13612,30 @@ class ReportsController extends Controller
             })->download('xls');
 
         } else {
-            $period = $request->get("period");
+            $period = request()->get("period");
 
-            $total = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $total = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('hospital_insurance_applicable', '=', 1)
-                ->where('financial_month_year', '=', $request->get('period'))
+                ->where('financial_month_year', '=', request('period'))
                 ->sum('nhif_amount');
 
-            $currencies = DB::table('currencies')
+            $currencies = DB::table('x_currencies')
                 ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
                 ->select('shortname')
                 ->get();
 
-            $nhifs = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $nhifs = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('hospital_insurance_applicable', '=', 1)
-                ->where('financial_month_year', '=', $request->get('period'))
+                ->where('financial_month_year', '=', request('period'))
                 ->get();
 
             $organization = Organization::find(Auth::user()->organization_id);
 
-            $part = explode("-", $request->get('period'));
+            $part = explode("-", request('period'));
 
             $m = "";
 
@@ -13666,14 +13665,14 @@ class ReportsController extends Controller
             $total_enabled = DB::table('transact')
                 ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
                 ->where('employee.organization_id', Auth::user()->organization_id)
-                ->where('financial_month_year', '=', $request->get('period'))
+                ->where('financial_month_year', '=', request('period'))
                 ->where('income_tax_applicable', '=', 1)
                 ->sum('paye');
 
             $total_disabled = DB::table('transact')
                 ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
                 ->where('employee.organization_id', Auth::user()->organization_id)
-                ->where('financial_month_year', '=', $request->get('period'))
+                ->where('financial_month_year', '=', request('period'))
                 ->where('income_tax_applicable', '=', 0)
                 ->sum('paye');
 

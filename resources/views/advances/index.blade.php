@@ -129,10 +129,10 @@
                                                 <div class="form-group">
                                                     <label for="username">Period <span
                                                             style="color:red">*</span></label>
-                                                    <input required class="form-control" readonly="readonly"
+                                                    <input required class="form-control datepicker2"
                                                            placeholder=""
                                                            type="text"
-                                                           name="period" id="period" value="{{ date('n-Y') }}">
+                                                           name="period" id="period" value="{{ old('period') }}">
 
                                                 </div>
 
@@ -170,6 +170,16 @@
     <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
     <script>
         $(function () {
             var dialog, form,

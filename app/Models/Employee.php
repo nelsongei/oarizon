@@ -137,6 +137,9 @@ class Employee extends Model
 
         return $this->belongsTo(Jobgroup::class);
     }
+    public function office_shift(){
+        return $this->hasOne(OfficeShift::class,'id','office_shift_id');
+    }
 
     public function jobtitle()
     {

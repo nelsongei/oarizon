@@ -33,8 +33,8 @@
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control datepicker2" readonly="readonly"
                                                            placeholder=""
-                                                           type="date" name="period" id="period"
-                                                           value="{{{ date('Y-m-t') }}}">
+                                                           type="text" name="period" id="period"
+                                                           value="{{{ old('period') }}}">
                                                 </div>
                                             </div>
 
@@ -64,4 +64,18 @@
             </div>
         </div>
     </div>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
 @endsection

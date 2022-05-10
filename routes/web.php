@@ -1648,9 +1648,9 @@ Route::get('api/getmax', function(){
 
 Route::post('erporders/create', function(){
 
-    $data = Input::all();
+    $data = request()->all();
 
-    $client = Client::findOrFail(array_get($data, 'client'));
+    $client = Client::findOrFail(Arr::get($data, 'client'));
 
     /*
 $erporder = array(
@@ -1662,13 +1662,13 @@ $erporder = array(
 */
 
     Session::put( 'erporder', array(
-            'order_number' => array_get($data, 'order_number'),
+            'order_number' => Arr::get($data, 'order_number'),
             'client' => $client,
-            'date' => array_get($data, 'date'),
-            'credit_ac' => array_get($data, 'credit_ac'),
-            'debit_ac' => array_get($data, 'debit_ac'),
-            'transaction_desc' => array_get($data, 'transaction_desc'),
-            'payment_type' => array_get($data, 'payment_type')
+            'date' => Arr::get($data, 'date'),
+            'credit_ac' => Arr::get($data, 'credit_ac'),
+            'debit_ac' => Arr::get($data, 'debit_ac'),
+            'transaction_desc' => Arr::get($data, 'transaction_desc'),
+            'payment_type' => Arr::get($data, 'payment_type')
         )
     );
     Session::put('orderitems', []);

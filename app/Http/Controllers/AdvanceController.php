@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\Audit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 //use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -25,13 +26,12 @@ class AdvanceController extends Controller
     public function index()
     {
         $accounts = Account::where('organization_id', Auth::user()->organization_id)->where('active', true)->get();
-
         return View::make('advances.index', compact('accounts'));
     }
 
     public function createaccount()
     {
-        $postaccount = Input::all();
+        $postaccount = request()->all();
         $data = array('name' => $postaccount['name'],
             'code' => $postaccount['code'],
             'category' => $postaccount['category'],
@@ -150,7 +150,7 @@ class AdvanceController extends Controller
         }
 
         $period = request('period');
-        Audit::logaudit(date('Y-m-d'),Auth::user()->name,'Advance Salaries', 'process',);
+        Audit::logaudit(date('Y-m-d'), Auth::user()->name, 'Advance Salaries', 'process',);
 
         return Redirect::route('advance.index')->withFlashMessage('Advance Salaries successfully processed!');
 
