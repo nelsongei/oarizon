@@ -13661,10 +13661,10 @@ class ReportsController extends Controller
 
     public function payeReturns()
     {
-        if ($request->get('format') == "excel") {
-            $total_enabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+        if (request()->get('format') == "excel") {
+            $total_enabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('financial_month_year', '=', request('period'))
                 ->where('income_tax_applicable', '=', 1)
                 ->sum('paye');
@@ -13846,7 +13846,8 @@ class ReportsController extends Controller
 
             })->download('xls');
 
-        } else if ($request->get('format') == "csv") {
+        }
+        else if (request()->get('format') == "csv") {
 
             if ($request->get('type') == "enabled") {
 
@@ -14044,46 +14045,46 @@ class ReportsController extends Controller
 
             }
 
-        } else {
+        }
+        else {
 
-            $type = $request->get('type');
+            $type = request()->get('type');
 
-            $period = $request->get("period");
+            $period = request()->get("period");
 
-            $total_enabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
-                ->where('financial_month_year', '=', $request->get('period'))
+            $total_enabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
+                ->where('financial_month_year', '=', request()->get('period'))
                 ->where('income_tax_applicable', '=', 1)
                 ->sum('paye');
 
-            $total_disabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
-                ->where('financial_month_year', '=', $request->get('period'))
+            $total_disabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
+                ->where('financial_month_year', '=', request()->get('period'))
                 ->where('income_tax_applicable', '=', 0)
                 ->sum('paye');
-
-            $currencies = DB::table('currencies')
+            $currencies = DB::table('x_currencies')
                 ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
                 ->select('shortname')
                 ->get();
 
-            $payes_enabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
-                ->where('financial_month_year', '=', $request->get('period'))
+            $payes_enabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
+                ->where('financial_month_year', '=', request()->get('period'))
                 ->where('income_tax_applicable', '=', 1)
                 ->get();
 
-            $payes_disabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
-                ->where('financial_month_year', '=', $request->get('period'))
+            $payes_disabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
+                ->where('financial_month_year', '=', request()->get('period'))
                 ->where('income_tax_applicable', '=', 0)
                 ->get();
 
-            $part = explode("-", $request->get('period'));
+            $part = explode("-", request()->get('period'));
 
             $m = "";
 
