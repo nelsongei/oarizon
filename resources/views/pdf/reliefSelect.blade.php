@@ -21,11 +21,10 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                    <form target="_blank" method="POST" action="{{URL::to('payrollReports/reliefs')}}"
+                                    <form method="POST" action="{{URL::to('payrollReports/reliefs')}}"
                                           accept-charset="UTF-8">
                                         @csrf
                                         <fieldset>
-
                                             <div class="form-group">
                                                 <label for="username">Period <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
@@ -80,7 +79,6 @@
 
                                                 <button type="submit" class="btn btn-primary btn-sm">Select</button>
                                             </div>
-
                                         </fieldset>
                                     </form>
                                 </div>
@@ -91,5 +89,18 @@
             </div>
         </div>
     </div>
-    <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
 @endsection

@@ -21,7 +21,8 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                    <form target="_blank" method="POST" action="{{URL::to('payrollReports/allowances')}}"
+                                    <form method="POST"
+                                          action="{{URL::to('payrollReports/allowances')}}"
                                           accept-charset="UTF-8">
                                         @csrf
                                         <fieldset>
@@ -30,8 +31,10 @@
                                                 <label for="username">Period <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input required class="form-control datepicker2" readonly="readonly" placeholder=""
-                                                           type="text" name="period" id="period" value="{{{ old('period') }}}">
+                                                    <input required class="form-control datepicker2" readonly="readonly"
+                                                           placeholder=""
+                                                           type="text" name="period" id="period"
+                                                           value="{{{ old('period') }}}">
                                                 </div>
                                             </div>
 
@@ -41,18 +44,20 @@
                                                     <option></option>
                                                     <option value='All'>All</option>
                                                     @foreach($allws as $allw)
-                                                        <option value="{{$allw->allowance_name}}"> {{ $allw->allowance_name }}</option>
+                                                        <option
+                                                            value="{{$allw->allowance_name}}"> {{ $allw->allowance_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="username">Select Category <span style="color:red">*</span></label>
+                                                <label for="username">Select Category <span
+                                                        style="color:red">*</span></label>
                                                 <select name="type" id="type" class="form-control" required>
                                                     <option></option>
-                                                    {{--                            @if(Entrust::can('manager_payroll'))--}}
-                                                    <option value='All'>All</option>
-                                                    <option value="management"> Management</option>
-                                                    {{--                            @endif--}}
+                                                    @if(Auth::user()->can('manager_payroll'))
+                                                        <option value='All'>All</option>
+                                                        <option value="management"> Management</option>
+                                                    @endif
                                                     <option value="normal"> Normal</option>
                                                 </select>
 
@@ -60,7 +65,8 @@
 
 
                                             <div class="form-group">
-                                                <label for="username">Download as: <span style="color:red">*</span></label>
+                                                <label for="username">Download as: <span
+                                                        style="color:red">*</span></label>
                                                 <select required name="format" class="form-control">
                                                     <option></option>
                                                     <option value="excel"> Excel</option>
@@ -84,4 +90,18 @@
             </div>
         </div>
     </div>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
 @endsection

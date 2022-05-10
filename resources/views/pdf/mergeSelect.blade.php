@@ -23,7 +23,7 @@
 
                                     <form method="POST" action="{{URL::to('mergeStatutory/report')}}"
                                           accept-charset="UTF-8">
-
+                                        @csrf
                                         <fieldset>
 
                                             <div class="form-group">
@@ -41,8 +41,7 @@
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control datepicker2"
                                                            placeholder=""
-                                                           type="text" name="periodmonth" id="pm"
-                                                           value="{{ date('m')}}">
+                                                           type="text" name="periodmonth" id="pm">
                                                 </div>
                                             </div>
                                             <div class="form-group" id="periodyear">
@@ -51,10 +50,9 @@
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control year"
                                                            placeholder="" type="text"
-                                                           name="periodyear" id="py" value="{{ date('Y') }}">
+                                                           name="periodyear" id="py">
                                                 </div>
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="username">Download as: <span
                                                         style="color:red">*</span></label>
@@ -92,11 +90,19 @@
                 if ($(this).val() === 'month') {
                     $('#periodmonth').show();
                     $('#periodyear').hide();
-                    $('#py').val("");
+                    // $('#py').val("");
+                    let date = new Date();
+                    let month = date.getMonth();
+                    document.getElementById('pm').value = month + 1;
+                    console.log(month);
                 } else if ($(this).val() === 'year') {
                     $('#periodmonth').hide();
                     $('#periodyear').show();
-                    $('#pm').val("");
+                    // $('#pm').val("");
+                    let date = new Date();
+                    let year = date.getFullYear();
+                    document.getElementById('py').value = year;
+                    console.log(year);
                 } else {
                     $('#periodmonth').hide();
                     $('#periodyear').hide();

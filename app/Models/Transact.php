@@ -23,9 +23,9 @@ class Transact extends Model
     public static function getTransact($month, $year)
     {
         $period = $month . '-' . $year;
-        $statutories = DB::table('transact')
-            ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-            ->where('employee.organization_id', Auth::user()->organization_id)
+        $statutories = DB::table('x_transact')
+            ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->where('financial_month_year', '=', str_replace(' ', '', $period))
             ->get();
         return $statutories;

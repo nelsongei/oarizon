@@ -41,8 +41,8 @@
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control datepicker2"
                                                            placeholder=""
-                                                           type="date" name="from" id="from"
-                                                           value="{{{ date('m-Y-t') }}}">
+                                                           type="text" name="from" id="from"
+                                                           >
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -51,7 +51,7 @@
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control datepicker2"
                                                            placeholder=""
-                                                           type="date" name="to" id="to" value="{{{ date('m-Y-t') }}}">
+                                                           type="text" name="to" id="to" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -136,7 +136,20 @@
             </div>
         </div>
     </div>
-    <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#branchid').change(function () {

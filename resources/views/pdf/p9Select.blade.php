@@ -22,7 +22,7 @@
                                         @endforeach
                                     @endif
 
-                                    <form  method="POST" action="{{URL::to('payrollReports/p9form')}}"
+                                    <form method="POST" action="{{URL::to('payrollReports/p9form')}}"
                                           accept-charset="UTF-8">
                                         @csrf
                                         <fieldset>
@@ -32,7 +32,7 @@
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control year"
-                                                           placeholder="" type="date" name="period" id="period"
+                                                           placeholder="" type="text" name="period" id="period"
                                                            value="{{{ old('period') }}}">
                                                 </div>
                                             </div>
@@ -67,4 +67,21 @@
             </div>
         </div>
     </div>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('.year').datepicker({
+                format: " yyyy", // Notice the Extra space at the beginning
+                viewMode: "years",
+                minViewMode: "years",
+                endDate: '+0d',
+                autoclose: true
+            });
+        });
+
+    </script>
 @stop

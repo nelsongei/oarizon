@@ -551,6 +551,8 @@ Route::get('mergeStatutory/selectPeriod', [ReportsController::class,'mergeperiod
 Route::post('mergeStatutory/report', [ReportsController::class,'mergestatutory']);
 Route::get('advanceReports/selectRemittancePeriod', [ReportsController::class,'period_advrem']);
 Route::post('advanceReports/advanceRemittances', [ReportsController::class,'payeAdvRems']);
+Route::get('itax/download', [ReportsController::class,'getDownload']);
+Route::get('reports/blank', [ReportsController::class,'template']);
 /*
  * Pension
  * */
