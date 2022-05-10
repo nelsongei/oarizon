@@ -20,15 +20,13 @@
 
                                             <div class="form-group">
                                                 <label for="username">Period <span style="color:red">*</span></label>
-                                                <input class="form-control datepicker" readonly="readonly" placeholder="" type="date"
-                                                       name="period" id="date" value="{{date('Y-m-t')}}">
-{{--                                                <select class="form-control selectable" name="type" id="period">--}}
-{{--                                                    <option value="">Select Period</option>--}}
-{{--                                                    <option value="day">As at date</option>--}}
-{{--                                                    <option value="month">Month</option>--}}
-{{--                                                    <option value="custom">Custom</option>--}}
-{{--                                                    <option value="year">Year</option>--}}
-{{--                                                </select>--}}
+                                                <select class="form-control selectable" name="type" id="period">
+                                                    <option value="">Select Period</option>
+                                                    <option value="day">As at date</option>
+                                                    <option value="month">Month</option>
+                                                    <option value="custom">Custom</option>
+                                                    <option value="year">Year</option>
+                                                </select>
                                             </div>
 
                                             <div class="form-group" id="select_date">
@@ -37,7 +35,7 @@
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input class="form-control datepicker" readonly="readonly" placeholder="" type="text"
-                                                           name="day" id="date" value="{{date('t')}}">
+                                                           name="day" id="date" value="{{date('Y-m-d')}}">
                                                 </div>
 
                                             </div>
@@ -47,7 +45,7 @@
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input class="form-control datepicker2" readonly="readonly" placeholder="" type="text"
-                                                           name="month" id="date" value="{{date('m')}}">
+                                                           name="month" id="date" value="{{date('m-Y')}}">
                                                 </div>
                                             </div>
 
@@ -110,4 +108,84 @@
             </div>
         </div>
     </div>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#year').hide();
+            $('#select_date').hide();
+            $('#month').hide();
+            $('#custom').hide();
+
+
+            $('#period').change(function () {
+                if ($(this).val() == "As at date" || $(this).val() == "day") {
+                    $('#year').hide();
+                    $('#select_date').show();
+                    $('#month').hide();
+                    $('#custom').hide();
+                } else if ($(this).val() == "year") {
+                    $('#year').show();
+                    $('#select_date').hide();
+                    $('#month').hide();
+                    $('#custom').hide();
+                } else if ($(this).val() == "month") {
+                    $('#year').hide();
+                    $('#select_date').hide();
+                    $('#month').show();
+                    $('#custom').hide();
+
+                } else if ($(this).val() == "custom") {
+                    $('#year').hide();
+                    $('#select_date').hide();
+                    $('#month').hide();
+                    $('#custom').show();
+
+                } else {
+                    $('#year').hide();
+                    $('#select_date').hide();
+                    $('#month').hide();
+                    $('#custom').hide();
+                }
+            });
+        });
+
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
+    <script type="text/javascript">
+
+        $(function () {
+            $('.datepicker').datepicker({
+                format: 'dd-M-yyyy',
+                startDate: '-60y',
+                endDate: '+0d',
+                autoclose: true
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker42').datepicker({
+                format: " yyyy",
+                startView: "years",
+                minViewMode: "years",
+                startDate: '-2y',
+                endDate: '+0y',
+                autoclose: true
+            });
+        });
+    </script>
 @endsection

@@ -20,61 +20,66 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                        <form  method="POST" action="{{URL::to('payrollReports/overtimes')}}" accept-charset="UTF-8">
-                                            @csrf
-                                            <fieldset>
+                                    <form method="POST" action="{{URL::to('payrollReports/overtimes')}}"
+                                          accept-charset="UTF-8">
+                                        @csrf
+                                        <fieldset>
 
-                                                <div class="form-group">
-                                                    <label for="username">Period <span style="color:red">*</span></label>
-                                                    <div class="right-inner-addon ">
-                                                        <i class="glyphicon glyphicon-calendar"></i>
-                                                        <input required class="form-control datepicker2" readonly="readonly" placeholder=""
-                                                               type="date" name="period" id="period" value="{{{ date('Y-m-t') }}}">
-                                                    </div>
+                                            <div class="form-group">
+                                                <label for="username">Period <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                    <input required class="form-control datepicker2" readonly="readonly"
+                                                           placeholder=""
+                                                           type="text" name="period" id="period"
+                                                           value="{{{ old('period') }}}">
                                                 </div>
+                                            </div>
 
-                                                <div class="form-group">
-                                                    <label for="username">Select: <span style="color:red">*</span></label>
-                                                    <select required name="overtime" class="form-control">
-                                                        <option></option>
-                                                        <option value='All'>All</option>
-                                                        <option value="Hourly">Hourly</option>
-                                                        <option value="Daily">Daily</option>
-                                                    </select>
+                                            <div class="form-group">
+                                                <label for="username">Select: <span style="color:red">*</span></label>
+                                                <select required name="overtime" class="form-control">
+                                                    <option></option>
+                                                    <option value='All'>All</option>
+                                                    <option value="Hourly">Hourly</option>
+                                                    <option value="Daily">Daily</option>
+                                                </select>
 
-                                                </div>
+                                            </div>
 
-                                                <div class="form-group">
-                                                    <label for="username">Select Category <span style="color:red">*</span></label>
-                                                    <select name="type" id="type" class="form-control" required>
-                                                        <option></option>
-                                                        {{--                           @if(Entrust::can('manager_payroll'))--}}
-                                                        <option value='All'>All</option>
-                                                        <option value="management"> Management</option>
-                                                        {{--                           @endif--}}
-                                                        <option value="normal"> Normal</option>
-                                                    </select>
+                                            <div class="form-group">
+                                                <label for="username">Select Category <span
+                                                        style="color:red">*</span></label>
+                                                <select name="type" id="type" class="form-control" required>
+                                                    <option></option>
+                                                    {{--                           @if(Entrust::can('manager_payroll'))--}}
+                                                    <option value='All'>All</option>
+                                                    <option value="management"> Management</option>
+                                                    {{--                           @endif--}}
+                                                    <option value="normal"> Normal</option>
+                                                </select>
 
-                                                </div>
+                                            </div>
 
 
-                                                <div class="form-group">
-                                                    <label for="username">Download as: <span style="color:red">*</span></label>
-                                                    <select required name="format" class="form-control">
-                                                        <option></option>
-                                                        <option value="excel"> Excel</option>
-                                                        <option value="pdf"> PDF</option>
-                                                    </select>
+                                            <div class="form-group">
+                                                <label for="username">Download as: <span
+                                                        style="color:red">*</span></label>
+                                                <select required name="format" class="form-control">
+                                                    <option></option>
+                                                    <option value="excel"> Excel</option>
+                                                    <option value="pdf"> PDF</option>
+                                                </select>
 
-                                                </div>
+                                            </div>
 
-                                                <div class="form-actions form-group">
+                                            <div class="form-actions form-group">
 
-                                                    <button type="submit" class="btn btn-primary btn-sm">Select</button>
-                                                </div>
+                                                <button type="submit" class="btn btn-primary btn-sm">Select</button>
+                                            </div>
 
-                                            </fieldset>
-                                        </form>
+                                        </fieldset>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -83,23 +88,19 @@
             </div>
         </div>
     </div>
-    <div class="row">
-
-    </div>
-
-
-    <div class="row">
-        <div class="col-lg-5">
-
-
-
-
-
-
-
-        </div>
-
-    </div>
-
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
 
 @stop

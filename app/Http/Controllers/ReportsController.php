@@ -9622,7 +9622,7 @@ class ReportsController extends Controller
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->select('personal_file_number', 'first_name', 'last_name', 'middle_name', 'earning_name', 'earning_amount')
                         ->get();
-                    dd($earnings);
+
                     $total = DB::table('x_transact_earnings')
                         ->where('organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
