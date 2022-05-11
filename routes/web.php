@@ -50,6 +50,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Account;
 use App\Models\AccountTransaction;
 use App\Models\Audit;
+use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\Client;
 use App\Models\Erporder;
@@ -308,9 +309,10 @@ Route::get('EmployeeForm', function () {
 
 
 });
-Route::get('api/dropdown', function (Request $request, $id) {
+Route::get('api/dropdown', function (Request $request) {
+    $id = request()->option;
     $bbranch = Bank::find($id)->bankbranch;
-//    $branches = $bbranch->pluck('id','bank_branch_name');
+    //$branches = $bbranch->pluck('id','bank_branch_name');
     $branches = $bbranch->all();
     return response()->json(array('branches' => $branches));
 });
@@ -963,7 +965,7 @@ Route::get('deliverynotes', 'App\Http\Controllers\ErpordersController@listDelive
  * */
 Route::get('quotationorders', function () {
 
-    //$quotations = Erporder::all();
+//    $quotations = Erporder::all();
     $quotations = Erporder::orderBy('date', 'DESC')->get();
     $items = Item::all();
     $locations = Location::all();

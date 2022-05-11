@@ -242,7 +242,7 @@ class EmployeesController extends Controller
 
         $employees = count(Employee::where('organization_id', Auth::user()->organization_id)->get());
 
-        #echo "<pre>"; print_r($organization->licensed); echo "</pre>"; die;
+       #echo "<pre>"; print_r($organization->licensed); echo "</pre>"; die;
 
         if ($organization->licensed <= $employees) {
             return View::make('employees.employeelimit');

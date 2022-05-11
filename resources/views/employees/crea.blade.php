@@ -1,4 +1,5 @@
 @extends('layouts.main_hr')
+
 <?php
 $organization = App\models\Organization::find(Auth::user()->organization_id);
 $string = $organization->name;
@@ -18,14 +19,13 @@ function initials($str, $pfn)
 
 ?>
 @section('xara_cbs')
-    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
     <style>
         #imagePreview {
             width: 180px;
             height: 180px;
             background-position: center center;
             background-size: cover;
-            background-image: url("{{asset('/images/default_photo.png') }}");
+            background-image: url("{{asset('/public/uploads/employees/photo/default_photo.png') }}");
             -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
             display: inline-block;
         }
@@ -36,7 +36,7 @@ function initials($str, $pfn)
             background-position: center center;
             background-size: cover;
             -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
-            background-image: url("{{asset('/images/sign_av.jpg') }}");
+            background-image: url("{{asset('/public/uploads/employees/signature/sign_av.jpg') }}");
             display: inline-block;
         }
     </style>
@@ -778,8 +778,8 @@ function initials($str, $pfn)
                                                     </table>
 
                                                     <button type="button"
-                                                            class="btn btn-primary waves-effect waves-light add naddmore"
-                                                    >Add Row
+                                                            class="btn btn-primary waves-effect waves-light add"
+                                                            onclick="add_nk_row();">Add Row
                                                     </button>
                                                     <button type="button"
                                                             class="btn btn-danger waves-effect waves-light ndelete">
@@ -838,12 +838,12 @@ function initials($str, $pfn)
                                                         </tr>
                                                     </table>
                                                     <button type="button"
-                                                            class="btn btn-primary waves-effect waves-light add daddmore">
-                                                        Add Row
+                                                            class="btn btn-primary waves-effect waves-light add vaddmore"
+                                                            onclick="add_ve_row();">Add Row
                                                     </button>
                                                     <button type="button"
-                                                            class="btn btn-danger waves-effect waves-light ddelete">
-                                                        Delete Rows
+                                                            class="btn btn-danger waves-effect waves-light vdelete">
+                                                        Delete Row
                                                     </button>
                                                 </div>
                                             </div>
@@ -857,9 +857,9 @@ function initials($str, $pfn)
             </div>
         </div>
     </div>
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
     <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
-    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script>
         $(".ndelete").on('click', function () {
@@ -902,6 +902,8 @@ function initials($str, $pfn)
         }
 
     </script>
+    <script
+        src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 
 
     <script type="text/javascript">
@@ -958,6 +960,11 @@ function initials($str, $pfn)
         }
 
     </script>
+    {{--    <script type="text/javascript">--}}
+    {{--        $(document).ready(function () {--}}
+    {{--            $('#pay').priceFormat();--}}
+    {{--        });--}}
+    {{--    </script>--}}
     <script type="text/javascript">
         $(document).ready(function () {
             $('#contract').hide()
@@ -1003,13 +1010,10 @@ function initials($str, $pfn)
                     function (data) {
                         $('#bbranch_id').empty();
                         $('#bbranch_id').append("<option>----------------select Bank Branch--------------------</option>");
-                        if (data.branches.length > 0) {
-                        } else {
-                            $('#bbranch_id').append("<option value='cnew'>Create New</option>");
-                        }
-                        for (var x = 0; x < data.branches.length; x++) {
-                            $('#bbranch_id').append("<option value='" + data.branches[x]['id'] + "'>" + data.branches[x]['bank_branch_name'] + "</option>");
-                        }
+                        $('#bbranch_id').append("<option value='cnew'>Create New</option>");
+                        $.each(data, function (key, element) {
+                            $('#bbranch_id').append("<option value='" + key + "'>" + element + "</option>");
+                        });
                     });
             });
         });
