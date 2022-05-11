@@ -55,5 +55,26 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/css/widget.css')}}">
     <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/assets/css/pages.css')}}">
+    <style>
+        #imagePreview {
+            width: 180px;
+            height: 180px;
+            background-position: center center;
+            background-size: cover;
+            background-image: url("{{asset('/images/default_photo.png') }}");
+            -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+            display: inline-block;
+        }
+
+        #signPreview {
+            width: 180px;
+            height: 100px;
+            background-position: center center;
+            background-size: cover;
+            -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+            background-image: url("{{asset('/images/sign_av.jpg') }}");
+            display: inline-block;
+        }
+    </style>
 </head>
 

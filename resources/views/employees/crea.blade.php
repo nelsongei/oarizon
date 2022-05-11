@@ -1,5 +1,4 @@
 @extends('layouts.main_hr')
-
 <?php
 $organization = App\models\Organization::find(Auth::user()->organization_id);
 $string = $organization->name;
@@ -19,13 +18,14 @@ function initials($str, $pfn)
 
 ?>
 @section('xara_cbs')
+    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
     <style>
         #imagePreview {
             width: 180px;
             height: 180px;
             background-position: center center;
             background-size: cover;
-            background-image: url("{{asset('/public/uploads/employees/photo/default_photo.png') }}");
+            background-image: url("{{asset('/images/default_photo.png') }}");
             -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
             display: inline-block;
         }
@@ -36,7 +36,7 @@ function initials($str, $pfn)
             background-position: center center;
             background-size: cover;
             -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
-            background-image: url("{{asset('/public/uploads/employees/signature/sign_av.jpg') }}");
+            background-image: url("{{asset('/images/sign_av.jpg') }}");
             display: inline-block;
         }
     </style>
@@ -220,7 +220,8 @@ function initials($str, $pfn)
                                     </div>
 
                                     <form method="POST" action="{{{ url('employees') }}}" enctype="multipart/form-data"
-                                          data-parsley-validate>@csrf
+                                          data-parsley-validate>
+                                        @csrf
 
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -778,8 +779,8 @@ function initials($str, $pfn)
                                                     </table>
 
                                                     <button type="button"
-                                                            class="btn btn-primary waves-effect waves-light add"
-                                                            onclick="add_nk_row();">Add Row
+                                                            class="btn btn-primary waves-effect waves-light add naddmore"
+                                                    >Add Row
                                                     </button>
                                                     <button type="button"
                                                             class="btn btn-danger waves-effect waves-light ndelete">
@@ -838,12 +839,12 @@ function initials($str, $pfn)
                                                         </tr>
                                                     </table>
                                                     <button type="button"
-                                                            class="btn btn-primary waves-effect waves-light add vaddmore"
-                                                            onclick="add_ve_row();">Add Row
+                                                            class="btn btn-primary waves-effect waves-light add daddmore">
+                                                        Add Row
                                                     </button>
                                                     <button type="button"
-                                                            class="btn btn-danger waves-effect waves-light vdelete">
-                                                        Delete Row
+                                                            class="btn btn-danger waves-effect waves-light ddelete">
+                                                        Delete Rows
                                                     </button>
                                                 </div>
                                             </div>
@@ -857,10 +858,239 @@ function initials($str, $pfn)
             </div>
         </div>
     </div>
-    <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
     <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script>
+        function next(id){
+            if (id==1) {
+                // console.log(id);
+                var firstName=$("#firstName").val();
+                var lastName=$("#lastName").val();
+                var email=$("#email").val();
+                var phone=$("#phone").val();
+                var street=$("#street").val();
+                var city=$("#city").val();
+                var state=$("#state").val();
+                var zip=$("#zip").val();
+                var childAddress=$("#childAddress").val();
+                if(firstName.length !== 0&&lastName.length!==0&&email.length!==0&&phone.length!==0&&street.length!==0&&city.length!==0&&state.length!==0&&zip.length!==0&&childAddress.length!==0){
+                    // if (isNaN(idNumber)) {
+                    $("#emptyErr2").fadeOut();
+                    document.getElementById("contactBtn").disabled = false;
+                    document.getElementById("hrBtn").disabled = true;
+                    // document.getElementById("finish").disabled = true;
+                    $("#page1").hide();
+                    $("#page2").fadeIn();
+                    $("#page3").hide();
+                    $("#page4").hide();
+                    document.getElementById('progressBtn').style.background=" #f96f34";
+                    setInterval(Incrementer,40);
+                    var x=0+25;
+                    function Incrementer(){
+                        x=x+1;
+                        if(x<=((100/3)*2)){
+                            document.getElementById('progressBtn').innerHTML=x+"%";
+                        }
+                    }
+                }
+                else{
+                    $("#emptyErr").fadeIn();
+                    document.getElementById("contactBtn").disabled = true;
+                    document.getElementById("hrBtn").disabled = true;
+                    // document.getElementById("finish").disabled = true;
+                }
+            }
+            if (id==2) {
+                $("#page1").fadeIn();
+                $("#page2").hide();
+                $("#page3").hide();
+                $("#page4").hide();
+                document.getElementById('progressBtn').style.background=" #f96f34";
+                setInterval(Incrementer,40);
+                var x=0;
+                function Incrementer(){
+                    x=x+1;
+                    if(x<=(100/3)){
+                        document.getElementById('progressBtn').innerHTML=x+"%";
+                    }
+                }
+            }
+            if (id==3) {
+                var ChildFistName=$("#ChildFistName").val();
+                var cLastName=$("#cLastName").val();
+                var dob=$("#dob").val();
+                var language=$("#language").val();
+                if(ChildFistName.length !== 0&&cLastName.length !==0&&dob.length!==0&&language.length!==0){
+                    $("#emptyErr1").fadeOut();
+                    document.getElementById("contactBtn").disabled = false;
+                    document.getElementById("hrBtn").disabled = false;
+                    // document.getElementById("finish").disabled = true;
+                    $("#page2").hide();
+                    $("#page1").hide();
+                    $("#page3").fadeIn();
+                    $("#page4").hide();
+                    document.getElementById('progressBtn').style.background=" #f96f34";
+                    setInterval(Incrementer,40);
+                    var x=0+50;
+                    function Incrementer(){
+                        x=x+1;
+                        if(x<=((100/3)*3)){
+                            // document.getElementById('progressBtn').innerHTML=x+"%";
+                            document.getElementById('progressBtn').style.background="#28a745";
+                            document.getElementById("progressBtn").innerHTML='<i class="text-white fa fa-check fa-2x"></i>';
+                        }
+                    }
+                }else{  $("#emptyErr1").fadeIn();
+                    document.getElementById("contactBtn").disabled = false;
+                    document.getElementById("hrBtn").disabled = true;
+                    // document.getElementById("finish").disabled = true;
+
+                }
+            }
+            if (id==4) {
+                $("#page1").hide();
+                $("#page2").fadeIn();
+                $("#page3").hide();
+                $("#page4").hide();
+                document.getElementById('progressBtn').style.background=" #f96f34";
+                setInterval(Incrementer,40);
+                var x=0+25;
+                function Incrementer(){
+                    x=x+1;
+                    if(x<=((100/3)*2)){
+                        document.getElementById('progressBtn').innerHTML=x+"%";
+                    }
+                }
+            }
+            if (id==5) {
+                var insuranceId=$("#insurance_id").val();
+                var memberId=$("#insurance_member_id").val();
+                var selfInsured=$("#selfInsured").val();
+                var intake=$("#intake").val();
+                var diagnosisCode=$("#diagnosisCode").val();
+                var primaryMember=$("#primaryMember").val();
+                var diagnosis=$("#diagnosis").val();
+                if(insuranceId.length !== 0&&memberId.length!==0&&selfInsured.length!==0&&intake.length!==0&&diagnosisCode.length!==0&&primaryMember.length!==0&&diagnosis.length!==0){
+                    $("#emptyErr2").fadeOut();
+                    document.getElementById("contactBtn").disabled = false;
+                    document.getElementById("hrBtn").disabled = false;
+                    // document.getElementById("finish").disabled = false;
+                    $("#page4").fadeIn();
+                    $("#page1").hide();
+                    $("#page2").hide();
+                    $("#page3").hide();
+                    document.getElementById('progressBtn').style.background="#28a745";
+                    document.getElementById("progressBtn").innerHTML='<i class="text-white fa fa-check fa-2x"></i>';
+                }else{
+                    $("#emptyErr2").fadeIn();
+                    document.getElementById("contactBtn").disabled = false;
+                    document.getElementById("hrBtn").disabled = false;
+                    // document.getElementById("finish").disabled = true;
+                }
+            }
+            if (id==6) {
+                $("#page3").fadeIn();
+                $("#page1").hide();
+                $("#page2").hide();
+                $("#page4").hide();
+                document.getElementById('progressBtn').style.background=" #fa966b";
+                setInterval(Incrementer,40);
+                var x=0+50;
+                function Incrementer(){
+                    x=x+1;
+                    if(x<=((100/4)*3)){
+                        document.getElementById('progressBtn').innerHTML=x+"%";
+                    }
+                }
+            }
+        }
+
+        //
+        function tabControl(id){
+            if(id==1){
+                $("#page1").fadeIn();
+                $("#page2").hide();
+                $("#page3").hide();
+                $("#page4").hide();
+                document.getElementById('progressBtn').style.background=" #f96f34";
+                setInterval(Incrementer,40);
+                var x=0;
+                function Incrementer(){
+                    x=x+1;
+                    if(x<=(100/3)){
+                        document.getElementById('progressBtn').innerHTML=x+"%";
+                    }
+                }
+
+            }else if(id==2){
+
+                $("#page2").fadeIn();
+                $("#page1").hide();
+                $("#page3").hide();
+                $("#page4").hide();
+                document.getElementById('progressBtn').style.background=" #f96f34";
+                setInterval(Incrementer,40);
+                var x=0+25;
+                function Incrementer(){
+                    x=x+1;
+                    if(x<=((100/3)*2)){
+                        document.getElementById('progressBtn').innerHTML=x+"%";
+                    }
+                }
+
+
+            }
+                // else if(id==3){
+                //     $("#page3").fadeIn();
+                //     $("#page1").hide();
+                //     $("#page2").hide();
+                //     $("#page4").hide();
+                //     document.getElementById('progressBtn').style.background=" #f96f34";
+                //     setInterval(Incrementer,40);
+                //     var x=0+50;
+                //     function Incrementer(){
+                //         x=x+1;
+                //         if(x<=((100/3)*3)){
+                //             document.getElementById('progressBtn').style.background="#28a745";
+                //             document.getElementById("progressBtn").innerHTML='<i class="text-white fa fa-check fa-2x"></i>';
+                //         }
+                //     }
+                //
+            // }
+            else if(id==3){
+                $("#page3").fadeIn();
+                $("#page4").hide();
+                $("#page1").hide();
+                $("#page2").hide();
+                document.getElementById('progressBtn').style.background="#28a745";
+                document.getElementById("progressBtn").innerHTML='<i class="text-white fa fa-check fa-2x"></i>';
+                // document.getElementById('progressBtn').innerHTML=100;
+            }
+        }
+        //
+        setInterval(Incrementer,20);
+        var x=0;
+        function Incrementer(){
+            x=x+1;
+            if(x<=$("#ct").val()){
+                document.getElementById('ctNo').innerHTML=x;
+            }
+        }
+
+        setInterval(Incrementer2,20);
+        var x=0;
+        function Incrementer2(){
+            x=x+1;
+            if(x<=$("#ct2").val()){
+                document.getElementById('ctNo2').innerHTML=x;
+            }
+        }
+        jQuery(document).ready(function() {
+            jQuery(".main-table").clone(true).appendTo('#table-scroll').addClass('clone');
+        });
+    </script>
     <script>
         $(".ndelete").on('click', function () {
             if ($('.ncase:checkbox:checked').length > 0) {
@@ -902,8 +1132,6 @@ function initials($str, $pfn)
         }
 
     </script>
-    <script
-        src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 
 
     <script type="text/javascript">
@@ -960,11 +1188,6 @@ function initials($str, $pfn)
         }
 
     </script>
-    {{--    <script type="text/javascript">--}}
-    {{--        $(document).ready(function () {--}}
-    {{--            $('#pay').priceFormat();--}}
-    {{--        });--}}
-    {{--    </script>--}}
     <script type="text/javascript">
         $(document).ready(function () {
             $('#contract').hide()
@@ -1010,10 +1233,13 @@ function initials($str, $pfn)
                     function (data) {
                         $('#bbranch_id').empty();
                         $('#bbranch_id').append("<option>----------------select Bank Branch--------------------</option>");
-                        $('#bbranch_id').append("<option value='cnew'>Create New</option>");
-                        $.each(data, function (key, element) {
-                            $('#bbranch_id').append("<option value='" + key + "'>" + element + "</option>");
-                        });
+                        if (data.branches.length > 0) {
+                        } else {
+                            $('#bbranch_id').append("<option value='cnew'>Create New</option>");
+                        }
+                        for (var x = 0; x < data.branches.length; x++) {
+                            $('#bbranch_id').append("<option value='" + data.branches[x]['id'] + "'>" + data.branches[x]['bank_branch_name'] + "</option>");
+                        }
                     });
             });
         });
