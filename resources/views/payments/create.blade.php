@@ -1,4 +1,4 @@
-<?php session_start(); 
+<?php session_start();
 function asMoney($value) {
   return number_format($value, 2);
 }
@@ -6,14 +6,14 @@ function asMoney($value) {
 ?>
 
 @extends('layouts.main_hr')
-
+<script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    
+
       $('#invoice').change(function(){
-       
+
           $.get("{{ url('api/totalsales')}}",
-          { option: $(this).val() }, 
+          { option: $(this).val() },
           function(data) {
             console.log('hi');
                   $('#amountdue').val(data);
@@ -21,11 +21,11 @@ function asMoney($value) {
           });
      });
   </script>
-  
+
   <script type="text/javascript">
   $(document).ready(function(){
   $('#description').hide();
-  
+
   $('#item').change(function(){
   if($(this).val()){
       $('#sup').show();
@@ -56,25 +56,25 @@ function asMoney($value) {
   }else{
       $('#assetcategory').hide();
       $('#expensecategory').hide();
-      $('#liabilitycategory').hide(); 
-      $('#incomecategory').hide(); 
+      $('#liabilitycategory').hide();
+      $('#incomecategory').hide();
       $('#assetcat').val('');
       $('#expensecat').val('');
       $('#liabilitycat').val('');
       $('#incomecat').val('');
   }
-  
+
   });
   });
   </script>
-  
+
   <script>
     $(document).ready(function(){
       $('#order').change(function(){
-          $.get("{{ url('api/salesdropdown')}}", 
-          { option: $(this).val() }, 
+          $.get("{{ url('api/salesdropdown')}}",
+          { option: $(this).val() },
           function(data) {
-              $('#invoice').empty(); 
+              $('#invoice').empty();
               $('#invoice').append("<option>----------------Select Invoice--------------------</option>");
               for (var i = 0; i < data.length; i++) {
               $('#invoice').append("<option value='" + data[i].id +"'>" + data[i].erporder + (data[i].total_amount -data[i].discount) + ")" + "</option>");
@@ -120,17 +120,17 @@ function asMoney($value) {
                             @if ($errors->count())
         <div class="alert alert-danger">
             @foreach ($errors->all() as $error)
-                {{ $error }}<br>        
+                {{ $error }}<br>
             @endforeach
         </div>
         @endif
 
      <form method="POST" action="{{{ URL::to('payments') }}}" accept-charset="UTF-8">
-   
+
     <font color="red"><i>All fields marked with * are mandatory</i></font>
     <fieldset>
-      
-        
+
+
             <div class="form-group">
             <label for="username">Client Name</label><span style="color:red">*</span> :
            <select name="order" id="order" class="form-control" required>
@@ -151,14 +151,14 @@ function asMoney($value) {
                         <select required="" name="invoice" id="invoice" class="form-control">
                             <option></option>
                         </select>
-                
+
               </div>
-          
+
         <div class="form-group">
-        <label for="username">Amount Due <span style="color:red">*</span> :</label> 
+        <label for="username">Amount Due <span style="color:red">*</span> :</label>
           <div class="input-group">
             <span class="input-group-addon">KES</span>
-            <input required type="text" class="form-control"  name="amountdue" id="amountdue" value= '{{asMoney(0.00)}}'> 
+            <input required type="text" class="form-control"  name="amountdue" id="amountdue" value= '{{asMoney(0.00)}}'>
         </div>
       </div>
 
@@ -168,18 +168,18 @@ function asMoney($value) {
         </div>-->
 
         <div class="form-group">
-            
+
             <input class="form-control" placeholder="" type="hidden" name="credit_account" id="credit_account" value="2">
         </div>
 
 
 
          <div class="form-group">
-            
+
             <input class="form-control" placeholder="" type="hidden" name="description" id="description" value="{{{ Request::old('description') }}}">
         </div>
 
-        
+
 
       <hr>
 
@@ -194,7 +194,7 @@ function asMoney($value) {
                             <option value="{{$paymentmethod->id}}">{{$paymentmethod->name}}</option>
                            @endforeach
                         </select>
-        </div> 
+        </div>
 
         <div class="form-group" id="description">
             <label for="username">Describe Payment Method</label>
@@ -211,7 +211,7 @@ function asMoney($value) {
                             <option value="{{$account->id}}">{{$account->name}}</option>
                            @endforeach
                         </select>
-        </div> 
+        </div>
 
         <div class="form-group">
             <label for="username">Debit Account</label><span style="color:red">*</span> :
@@ -222,7 +222,7 @@ function asMoney($value) {
                             <option value="{{$account->id}}">{{$account->name}}</option>
                            @endforeach
                         </select>
-        </div> -->      
+        </div> -->
 
          <!--  <div class="form-group">
             <label for="username">Accounting Particular</label><span style="color:red">*</span> :
@@ -233,7 +233,7 @@ function asMoney($value) {
 
             <input class="form-control" placeholder="" type="hidden" readonly="readonly" name="received_by" id="received_by" value="{{{ Auth::user()->username}}}">
             <input class="form-control" placeholder="" type="hidden" readonly="readonly" name="particulars_id" id="particulars_id" value="{{$particular->id}}">
-  
+
          <div class="form-group">
                         <label for="username">Date</label>
                         <div class="right-inner-addon ">
@@ -244,16 +244,16 @@ function asMoney($value) {
 
 
 
-          
+
         <div class="form-actions form-group">
-        
+
           <button type="submit" class="btn btn-primary btn-sm">Accept Payment</button>
         </div>
 
     </fieldset>
 </form>
-                       
-                       
+
+
                          </div>
 
                         </div>

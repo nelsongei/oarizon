@@ -693,7 +693,10 @@
 
                                                                 <tbody>
 
-                                                                <?php $i = 1; ?>
+                                                                <?php
+                                                                $i = 1;
+                                                                use App\Models\Appraisalquestion;
+                                                                ?>
                                                                 @foreach($appraisals as $appraisal)
 
                                                                     <tr>

@@ -34,7 +34,6 @@
 
                                         <?php $i = 1; ?>
                                         @foreach($nrates as $nrate)
-
                                             <tr>
 
                                                 <td> {{ $i }}</td>

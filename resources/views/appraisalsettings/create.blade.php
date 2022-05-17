@@ -149,8 +149,9 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
-    <script src="{{asset('media/jquery-1.12.0.min.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script>
         $(function () {

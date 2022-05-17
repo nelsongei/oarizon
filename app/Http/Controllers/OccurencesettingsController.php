@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\Audit;
-use App\models\Occurencesetting;
+use App\Models\Audit;
+use App\Models\Occurencesetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -42,7 +42,7 @@ class OccurencesettingsController extends Controller
     /**
      * Store a newly created branch in storage.
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store()
     {
@@ -54,7 +54,7 @@ class OccurencesettingsController extends Controller
 
         $occurence = new Occurencesetting;
 
-        $occurence->occurence_type = Input::get('type');
+        $occurence->occurence_type = request('type');
 
         $occurence->organization_id = Auth::user()->organization_id;
 
@@ -63,7 +63,7 @@ class OccurencesettingsController extends Controller
         Audit::logaudit('Occurencesettings', 'create', 'created: ' . $occurence->occurence_type);
 
 
-        return Redirect::route('occurencesettings.index')->withFlashMessage('Occurence type successfully created!');
+        return redirect()->route('occurencesettings.index')->withFlashMessage('Occurence type successfully created!');
     }
 
     /**

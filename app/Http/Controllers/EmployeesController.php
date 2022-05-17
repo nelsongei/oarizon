@@ -93,7 +93,7 @@ class EmployeesController extends Controller
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('jobtitles')->insertGetId($data);
+        $check = DB::table('x_jobtitles')->insertGetId($data);
 
         if ($check > 0) {
 
@@ -129,6 +129,7 @@ class EmployeesController extends Controller
     public function createbankbranch(Request $request)
     {
         $postbankbranch = $request->all();
+//        dd($postbankbranch);
         $data = array('bank_branch_name' => $postbankbranch['name'],
             'branch_code' => $postbankbranch['code'],
             'bank_id' => $postbankbranch['bid'],
@@ -155,7 +156,7 @@ class EmployeesController extends Controller
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('branches')->insertGetId($data);
+        $check = DB::table('x_branches')->insertGetId($data);
 
         if ($check > 0) {
             $date = now();
@@ -172,12 +173,12 @@ class EmployeesController extends Controller
     public function createdepartment(Request $request)
     {
         $postdept = $request->all();
-        $data = array('department_name' => $postdept['name'],
+        $data = array('name' => $postdept['name'],
             'codes' => $postdept['code'],
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('departments')->insertGetId($data);
+        $check = DB::table('x_departments')->insertGetId($data);
 
         if ($check > 0) {
             $date = now();
@@ -197,7 +198,7 @@ class EmployeesController extends Controller
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('employee_type')->insertGetId($data);
+        $check = DB::table('x_employee_type')->insertGetId($data);
 
         if ($check > 0) {
             $date = now();
@@ -279,7 +280,8 @@ class EmployeesController extends Controller
     {
         //
         $validator  = Validator::make($request->all(),[
-            'firstname'=>'required'
+            'fname'=>'required',
+            'education'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -466,10 +468,10 @@ class EmployeesController extends Controller
                 if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
                     $kin = new Nextofkin;
                     $kin->employee_id = $insertedId;
-                    $kin->first_name = $request->get('kin_first_name')[$i];
-                    $kin->last_name = $request->get('kin_last_name')[$i];
-                    $kin->middle_name = $request->get('kin_middle_name')[$i];
-                    $kin->relationship = $request->get('relationship')[$i];
+                    $kin->kin_name = $request->get('kin_first_name')[$i].' '.$request->get('kin_last_name')[$i].' '.$request->get('kin_middle_name')[$i];
+//                    $kin->last_name = $request->get('kin_last_name')[$i];
+//                    $kin->middle_name = $request->get('kin_middle_name')[$i];
+                    $kin->relation = $request->get('relationship')[$i];
                     $kin->contact = $request->get('contact')[$i];
                     $kin->id_number = $request->get('id_number')[$i];
 
@@ -881,6 +883,7 @@ class EmployeesController extends Controller
         $employee = Employee::find($id);
 
         $appraisals = Appraisal::where('employee_id', $id)->get();
+
 
         $kins = Nextofkin::where('employee_id', $id)->get();
 

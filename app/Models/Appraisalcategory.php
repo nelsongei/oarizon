@@ -20,11 +20,9 @@ class Appraisalcategory extends Model
     public static $rules = [
         'name' => 'required'
     ];
-
     public static $messsages = array(
         'name.required' => 'Please insert appraisal category!',
     );
-
     // Don't forget to fill this array
     protected $fillable = [];
 
@@ -32,7 +30,7 @@ class Appraisalcategory extends Model
     public function employees()
     {
 
-        return $this->hasMany('Employee');
+        return $this->hasMany(Employee::class);
     }
 
     public static function getCategory($id)

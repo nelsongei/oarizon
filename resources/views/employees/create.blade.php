@@ -30,6 +30,13 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="card">
+                                @if (count($errors) > 0)
+                                    @foreach ($errors->all() as $error)
+                                        <div class="alert alert-danger">
+                                            {{ $error }}<br>
+                                        </div>
+                                    @endforeach
+                                @endif
                                 <div class="card-body">
                                     <form method="POST" action="{{{ url('employees') }}}" enctype="multipart/form-data"
                                           data-parsley-validate>
@@ -76,407 +83,732 @@
                                                     disabled=""> Documents
                                             </button>&nbsp;
                                         </center>
-                                        <div id="page1" class="row">
-                                            <div class="col-sm-12">
-                                                <small class="text-danger" id="emptyErr"
-                                                       style="font-size: 12px; font-weight: bold; display:none;">Fields
-                                                    Marked * Are Required.</small>
-                                            </div>
-                                            <div class="form-group-lg col-sm-4">
-                                                <label for="personal_file_number">Personal File Number <span
-                                                        style="color:red">*</span></label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="personal_file_number" id="personal_file_number"
-                                                       value="{{initials($organization->name,$pfn)}}">
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="lname">Surname <span
-                                                        style="color:red">*</span></label>
-                                                <input class="form-control" placeholder=""
-                                                       data-parsley-trigger="change focusout" minlength="2"
-                                                       type="text" name="lname" id="lname"
-                                                       value="{{{ old('lname') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="fname">First Name <span
-                                                        style="color:red">*</span></label>
-                                                <input class="form-control" placeholder=""
-                                                       data-parsley-trigger="change focusout" minlength="2"
-                                                       type="text" name="fname" id="fname"
-                                                       value="{{{ old('fname') }}}">
+                                        <div class="card">
+                                            <div id="dialog-form" title="Create new citizenship name">
+                                                <p class="validateTips1">Please insert citizenship name.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="cname" id="cname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
                                             </div>
 
-                                            <div class="form-group col-sm-4">
-                                                <label for="mname">Other Names </label>
-                                                <input class="form-control" placeholder=""
-                                                       data-parsley-trigger="change focusout" minlength="2"
-                                                       type="text" name="mname" id="mname"
-                                                       value="{{{ old('mname') }}}">
+                                            <div id="dialog-form" title="Create new education level">
+                                                <p class="validateTips2">Please insert education level.</p>
+
+                                                <form>
+                                                    @csrf
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="ename" id="ename" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
                                             </div>
 
-                                            <div class="form-group col-sm-4">
-                                                <label for="identity_number">ID Number <span style="color:red">*</span></label>
-                                                <input class="form-control" placeholder=""
-                                                       data-parsley-trigger="change focusout"
-                                                       data-parsley-type="number" data-parsley-minlength="8"
-                                                       type="number" name="identity_number" id="identity_number"
-                                                       value="{{{ old('identity_number') }}}">
+                                            <div id="dialog-form" title="Create new bank">
+                                                <p class="validateTips3">Please insert bank name.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="bname" id="bname" value=""
+                                                               class="form-control">
+
+                                                        <label for="name">Code<span style="color:red"></span></label>
+                                                        <input type="text" name="bcode" id="bcode" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                       <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
                                             </div>
 
-                                            <div class="form-group col-sm-4">
-                                                <label for="passport_number">Passport number</label>
-                                                <input class="form-control" placeholder="" type="number"
-                                                       name="passport_number" id="passport_number"
-                                                       value="{{{ old('passport_number') }}}">
+                                            <div id="dialog-form" title="Create new bank branch">
+                                                <p class="validateTips4">Please Insert Bank Branch.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="bname" id="brname" value=""
+                                                               class="form-control">
+
+                                                        <label for="name">Code<span style="color:red"></span></label>
+                                                        <input type="text" name="bcode" id="brcode" value=""
+                                                               class="form-control">
+
+                                                        <input type="hidden" name="bid" id="bid" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
                                             </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="dob">Date of birth <span
-                                                        style="color:red">*</span></label>
-                                                <div class="right-inner-addon ">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control date fill"
-                                                           placeholder="" type="date" name="dob"
-                                                           id="dob" data-mask="99/99/9999"
-                                                           value="{{{ old('dob') }}}">
+
+                                            <div id="dialog-form" title="Create new branch">
+                                                <p class="validateTips5">Please insert branch.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label for="name">Name <span
+                                                                    style="color:red">*</span></label>
+                                                            <input type="text" name="ebname" id="ebname" value=""
+                                                                   class="form-control">
+
+                                                            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                            <input type="submit" tabindex="-1"
+                                                                   style="position:absolute; top:-1000px">
+
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new department">
+                                                <p class="validateTips6">Please insert Department fields in *.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Code <span style="color:red">*</span></label>
+                                                        <input type="text" name="dcode" id="dcode" value=""
+                                                               class="form-control">
+
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="dname" id="dname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new job group">
+                                                <p class="validateTips7">Please insert job group.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="jname" id="jname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new employee type">
+                                                <p class="validateTips8">Please insert employee type.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="tname" id="tname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new job title" class="mb-5 mb-lg-2">
+                                                <p class="validateTips9">Please insert job title.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="jtitle" id="jtitle" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                            <div class="card-body" style="border: 1px solid blue">
+                                                <div id="page1" class="row">
+                                                    <div class="col-sm-12">
+                                                        <small class="text-danger" id="emptyErr"
+                                                               style="font-size: 12px; font-weight: bold; display:none;">Fields
+                                                            Marked * Are Required.</small>
+                                                    </div>
+                                                    <div class="form-group-lg col-sm-4">
+                                                        <label for="personal_file_number">Personal File Number <span
+                                                                style="color:red">*</span></label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="personal_file_number" id="personal_file_number"
+                                                               value="{{initials($organization->name,$pfn)}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="lname">Surname <span
+                                                                style="color:red">*</span></label>
+                                                        <input class="form-control" placeholder=""
+                                                               data-parsley-trigger="change focusout" minlength="2"
+                                                               type="text" name="lname" id="lname"
+                                                               value="{{{ old('lname') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="fname">First Name <span
+                                                                style="color:red">*</span></label>
+                                                        <input class="form-control" placeholder=""
+                                                               data-parsley-trigger="change focusout" minlength="2"
+                                                               type="text" name="fname" id="fname"
+                                                               value="{{{ old('fname') }}}">
+                                                    </div>
+
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="mname">Other Names </label>
+                                                        <input class="form-control" placeholder=""
+                                                               data-parsley-trigger="change focusout" minlength="2"
+                                                               type="text" name="mname" id="mname"
+                                                               value="{{{ old('mname') }}}">
+                                                    </div>
+
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="identity_number">ID Number <span
+                                                                style="color:red">*</span></label>
+                                                        <input class="form-control" placeholder=""
+                                                               data-parsley-trigger="change focusout"
+                                                               data-parsley-type="number" data-parsley-minlength="8"
+                                                               type="number" name="identity_number" id="identity_number"
+                                                               value="{{{ old('identity_number') }}}">
+                                                    </div>
+
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="passport_number">Passport number</label>
+                                                        <input class="form-control" placeholder="" type="number"
+                                                               name="passport_number" id="passport_number"
+                                                               value="{{{ old('passport_number') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="dob">Date of birth <span
+                                                                style="color:red">*</span></label>
+                                                        <div class="right-inner-addon ">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                            <input class="form-control date fill"
+                                                                   placeholder="" type="date" name="dob"
+                                                                   id="dob" data-mask="99/99/9999"
+                                                                   value="{{{ old('dob') }}}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="status">Marital Status</label>
+                                                        <select name="status" id="status" class="form-control">
+                                                            <option></option>
+                                                            <option value="Single">Single</option>
+                                                            <option value="Married">Married</option>
+                                                            <option value="Divorced">Divorced</option>
+                                                            <option value="Separated">Separated</option>
+                                                            <option value="Widowed">Widowed</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+
+                                                    </div>
+
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="citizenship">Citizenship</label>
+                                                        <select name="citizenship" id="citizenship"
+                                                                class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($citizenships as $citizenship)
+                                                                <option
+                                                                    value="{{ $citizenship->id }}"> {{ $citizenship->name }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                    </div>
+
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="education">Education Background</label>
+                                                        <select name="education" id="education" class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($educations as $education)
+                                                                <option
+                                                                    value="{{ $education->id }}"> {{ $education->education_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="gender">Gender <span
+                                                                style="color:red">*</span></label>
+                                                        <input class="gen" type="radio" name="gender" id="gender"
+                                                               value="male"> Male
+                                                        <input class="gen" type="radio" name="gender" id="gender"
+                                                               value="female"> Female
+                                                    </div>
+                                                    <!--Browse files from here-->
+                                                    <div class="form-group-lg col-sm-6">
+                                                        <label for="username">Photo</label><br>
+                                                        <div id="imagePreview"></div>
+                                                        <input class="img" placeholder="" type="file" name="image"
+                                                               id="uploadFile" value="{{{ old('image') }}}">
+                                                    </div>
+                                                    <div class="form-group-lg col-sm-6">
+                                                        <label for="username">Signature</label><br>
+                                                        <div id="signPreview"></div>
+                                                        <input class="img" placeholder="" type="file" name="signature"
+                                                               id="signFile" value="{{{ old('signature') }}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <button class="float-right btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(1)">&nbsp;Next&nbsp;
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="form-group col-sm-4">
-                                                <label for="status">Marital Status</label>
-                                                <select name="status" id="status" class="form-control">
-                                                    <option></option>
-                                                    <option value="Single">Single</option>
-                                                    <option value="Married">Married</option>
-                                                    <option value="Divorced">Divorced</option>
-                                                    <option value="Separated">Separated</option>
-                                                    <option value="Widowed">Widowed</option>
-                                                    <option value="Others">Others</option>
-                                                </select>
-
-                                            </div>
-
-                                            <div class="form-group col-sm-4">
-                                                <label for="citizenship">Citizenship</label>
-                                                <select name="citizenship" id="citizenship"
-                                                        class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($citizenships as $citizenship)
-                                                        <option
-                                                            value="{{ $citizenship->id }}"> {{ $citizenship->name }}</option>
-                                                    @endforeach
-                                                </select>
-
-                                            </div>
-
-                                            <div class="form-group col-sm-4">
-                                                <label for="education">Education Background</label>
-                                                <select name="education" id="education" class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($educations as $education)
-                                                        <option
-                                                            value="{{ $education->id }}"> {{ $education->education_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="gender">Gender <span
-                                                        style="color:red">*</span></label>
-                                                <input class="gen" type="radio" name="gender" id="gender"
-                                                       value="male"> Male
-                                                <input class="gen" type="radio" name="gender" id="gender"
-                                                       value="female"> Female
-                                            </div>
-                                            <!--Browse files from here-->
-                                            <div class="form-group-lg col-sm-6">
-                                                <label for="username">Photo</label><br>
-                                                <div id="imagePreview"></div>
-                                                <input class="img" placeholder="" type="file" name="image"
-                                                       id="uploadFile" value="{{{ old('image') }}}">
-                                            </div>
-                                            <div class="form-group-lg col-sm-6">
-                                                <label for="username">Signature</label><br>
-                                                <div id="signPreview"></div>
-                                                <input class="img" placeholder="" type="file" name="signature"
-                                                       id="signFile" value="{{{ old('signature') }}}">
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <button class="float-right btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(1)">&nbsp;Next&nbsp;
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div id="page2" class="row" style="display: none">
-                                            <div class="col-sm-12">
-                                                <small class="text-danger" id="emptyErr1"
-                                                       style="font-size: 12px; font-weight: bold; display:none;">All
-                                                    Fields Are Required.</small>
-                                            </div>
-                                            <div class="form-group col-sm-12">
-                                                <h3 style='color:Green;'>Pin
-                                                    Information</h3></div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="pin">KRA Pin</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="pin" id="pin" value="{{{ old('pin') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="social_security_number">Nssf Number</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="social_security_number" id="social_security_number"
-                                                       value="{{{ old('social_security_number') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="hospital_insurance_number">Nhif Number</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="hospital_insurance_number"
-                                                       id="hospital_insurance_number"
-                                                       value="{{{ old('hospital_insurance_number') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-12">
-                                                <h3 style='color:Green;'>Deductions
-                                                    Applicable</h3></div>
-                                            <div class="checkbox col-sm-3">
-                                                <label>
-                                                    <input type="checkbox" checked name="i_tax" id="itax">
-                                                    Apply Income Tax
-                                                </label>
-                                            </div>
-                                            <div class="checkbox col-sm-3">
-                                                <label>
-                                                    <input type="checkbox" checked name="i_tax_relief"
-                                                           id="irel">
-                                                    Apply Income Tax Relief
-                                                </label>
-                                            </div>
-                                            <div class="checkbox col-sm-3">
-                                                <label>
-                                                    <input type="checkbox" checked name="a_nssf" id="a_nssf">
-                                                    Apply Nssf
-                                                </label>
-                                            </div>
-                                            <div class="checkbox col-sm-3">
-                                                <label>
-                                                    <input type="checkbox" checked name="a_nhif" id="a_nhif">
-                                                    Apply Nhif
-                                                </label>
-                                            </div>
-                                            <!--Next Button-->
-                                            <div class="form-group col-md-12">
-                                                <button class="btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(2)">&nbsp;Previous
-                                                </button>&nbsp;
-                                                <button class="float-right btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(3)">&nbsp;Next&nbsp;
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div id="page3" class="row" style="display: none">
-                                            <div class="col-sm-12">
-                                                <small class="text-danger" id="emptyErr21"
-                                                       style="font-size: 12px; font-weight: bold; display:none;">All
-                                                    Fields Are Required.</small>
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="modep">Mode of Payment</label>
-                                                <select name="modep" id="modep" class="form-control">
-                                                    <option></option>
-                                                    <option value="Bank">Bank</option>
-                                                    <option value="Mpesa">Mpesa</option>
-                                                    <option value="Cash">Cash</option>
-                                                    <option value="Cheque">Cheque</option>
-                                                    <option value="Others">Others</option>
-                                                </select>
-
-                                            </div>
-                                            <div class="form-group" id="newmode">
-                                                <label for="omode">Insert Mode of Payment</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="omode" id="omode" value="{{{ old('omode') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="bank_id">Banks</label>
-                                                <select name="bank_id" id="bank_id" class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($banks as $bank)
-                                                        <option
-                                                            value="{{ $bank->id }}"> {{ $bank->bank_name }}</option>
-                                                    @endforeach
-
-                                                </select>
-
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="bbranch_id">Bank Branch</label>
-                                                <select name="bbranch_id" id="bbranch_id" class="form-control">
-                                                    <option></option>
-                                                </select>
-
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="bank_account_number">Bank Account Number</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="bank_account_number" id="bank_account_number"
-                                                       value="{{{ old('bank_account_number') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="bank_eft_code">Sort Code</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="bank_eft_code" id="bank_eft_code"
-                                                       value="{{{ old('bank_eft_code') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="swift_code">Swift Code</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="swift_code" id="swift_code"
-                                                       value="{{{ old('swift_code') }}}">
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <button class="btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(4)">&nbsp;Previous
-                                                </button>&nbsp;
-                                                <button class="float-right btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(5)">&nbsp;Next
-                                                </button>&nbsp;
-                                            </div>
-                                        </div>
-                                        <div id="page4" class="row" style="display: none">
-                                            <div class="form-group col-sm-3">
-                                                <label for="branch_id">Employee Branch </label>
-                                                <select name="branch_id" id="branch_id" class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($branches as $branch)
-                                                        <option
-                                                            value="{{ $branch->id }}"> {{ $branch->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="department_id">Employee Department </label>
-                                                <select name="department_id" id="department_id"
-                                                        class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($departments as $department)
-                                                        <option
-                                                            value="{{$department->id }}"> {{ $department->name.' ('.$department->codes.')' }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="jgroup_id">Job Group <span
-                                                        style="color:red">*</span></label>
-                                                <select name="jgroup_id" id="jgroup_id" class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($jgroups as $jgroup)
-                                                        <option
-                                                            value="{{ $jgroup->id }}"> {{ $jgroup->job_group_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="type_id">Employee Type <span
-                                                        style="color:red">*</span></label>
-                                                <select name="type_id" id="type_id" class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($etypes as $etype)
-                                                        <option
-                                                            value="{{$etype->id }}"> {{ $etype->employee_type_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="startdate">Start Date <span
-                                                        style="color:red">*</span></label>
-                                                <div class="right-inner-addon ">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control expiry" readonly="readonly"
-                                                           placeholder="" type="text" name="startdate"
-                                                           id="startdate" value="{{{ old('startdate') }}}">
+                                                <div id="page2" class="row" style="display: none">
+                                                    <div class="col-sm-12">
+                                                        <small class="text-danger" id="emptyErr1"
+                                                               style="font-size: 12px; font-weight: bold; display:none;">All
+                                                            Fields Are Required.</small>
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <h3 style='color:Green;'>Pin
+                                                            Information</h3></div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="pin">KRA Pin</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="pin" id="pin" value="{{{ old('pin') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="social_security_number">Nssf Number</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="social_security_number" id="social_security_number"
+                                                               value="{{{ old('social_security_number') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="hospital_insurance_number">Nhif Number</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="hospital_insurance_number"
+                                                               id="hospital_insurance_number"
+                                                               value="{{{ old('hospital_insurance_number') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <h3 style='color:Green;'>Deductions
+                                                            Applicable</h3></div>
+                                                    <div class="checkbox col-sm-3">
+                                                        <label>
+                                                            <input type="checkbox" checked name="i_tax" id="itax">
+                                                            Apply Income Tax
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox col-sm-3">
+                                                        <label>
+                                                            <input type="checkbox" checked name="i_tax_relief"
+                                                                   id="irel">
+                                                            Apply Income Tax Relief
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox col-sm-3">
+                                                        <label>
+                                                            <input type="checkbox" checked name="a_nssf" id="a_nssf">
+                                                            Apply Nssf
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox col-sm-3">
+                                                        <label>
+                                                            <input type="checkbox" checked name="a_nhif" id="a_nhif">
+                                                            Apply Nhif
+                                                        </label>
+                                                    </div>
+                                                    <!--Next Button-->
+                                                    <div class="form-group col-md-12">
+                                                        <button class="btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(2)">&nbsp;Previous
+                                                        </button>&nbsp;
+                                                        <button class="float-right btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(3)">&nbsp;Next&nbsp;
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="enddate">End Date <span
-                                                        style="color:red">*</span></label>
-                                                <div class="right-inner-addon ">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control expiry" readonly="readonly"
-                                                           placeholder="" type="text" name="enddate"
-                                                           id="enddate" value="{{{ old('enddate') }}}">
+                                                <div id="page3" class="row" style="display: none">
+                                                    <div class="col-sm-12">
+                                                        <small class="text-danger" id="emptyErr21"
+                                                               style="font-size: 12px; font-weight: bold; display:none;">All
+                                                            Fields Are Required.</small>
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="modep">Mode of Payment</label>
+                                                        <select name="modep" id="modep" class="form-control">
+                                                            <option></option>
+                                                            <option value="Bank">Bank</option>
+                                                            <option value="Mpesa">Mpesa</option>
+                                                            <option value="Cash">Cash</option>
+                                                            <option value="Cheque">Cheque</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="form-group" id="newmode">
+                                                        <label for="omode">Insert Mode of Payment</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="omode" id="omode" value="{{{ old('omode') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="bank_id">Banks</label>
+                                                        <select name="bank_id" id="bank_id" class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($banks as $bank)
+                                                                <option
+                                                                    value="{{ $bank->id }}"> {{ $bank->bank_name }}</option>
+                                                            @endforeach
+
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="bbranch_id">Bank Branch</label>
+                                                        <select name="bbranch_id" id="bbranch_id" class="form-control">
+                                                            <option></option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="bank_account_number">Bank Account Number</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="bank_account_number" id="bank_account_number"
+                                                               value="{{{ old('bank_account_number') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="bank_eft_code">Sort Code</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="bank_eft_code" id="bank_eft_code"
+                                                               value="{{{ old('bank_eft_code') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="swift_code">Swift Code</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="swift_code" id="swift_code"
+                                                               value="{{{ old('swift_code') }}}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <button class="btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(4)">&nbsp;Previous
+                                                        </button>&nbsp;
+                                                        <button class="float-right btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(5)">&nbsp;Next
+                                                        </button>&nbsp;
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="work_permit_number">Work Permit Number</label>
-                                                <input class="form-control" placeholder="" type="text"
-                                                       name="work_permit_number" id="work_permit_number"
-                                                       value="{{{ old('work_permit_number') }}}">
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="job_title">Job Title<span
-                                                        style="color:red">*</span></label>
-                                                <select name="job_title" id="job_title" class="form-control">
-                                                    <option></option>
-                                                    <option value="cnew">Create New</option>
-                                                    @foreach($jobtitles as $jobtitle)
-                                                        <option
-                                                            value="{{ $jobtitle->id }}"> {{ $jobtitle->job_title }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="pay">Basic Salary <span
-                                                        style="color:red">*</span></label>
-                                                <div class="input-group">
+                                                <div id="page4" class="row" style="display: none">
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="branch_id">Employee Branch </label>
+                                                        <select name="branch_id" id="branch_id" class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($branches as $branch)
+                                                                <option
+                                                                    value="{{ $branch->id }}"> {{ $branch->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="department_id">Employee Department </label>
+                                                        <select name="department_id" id="department_id"
+                                                                class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($departments as $department)
+                                                                <option
+                                                                    value="{{$department->id }}"> {{ $department->name.' ('.$department->codes.')' }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="jgroup_id">Job Group <span
+                                                                style="color:red">*</span></label>
+                                                        <select name="jgroup_id" id="jgroup_id" class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($jgroups as $jgroup)
+                                                                <option
+                                                                    value="{{ $jgroup->id }}"> {{ $jgroup->job_group_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="type_id">Employee Type <span
+                                                                style="color:red">*</span></label>
+                                                        <select name="type_id" id="type_id" class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($etypes as $etype)
+                                                                <option
+                                                                    value="{{$etype->id }}"> {{ $etype->employee_type_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="startdate">Start Date <span
+                                                                style="color:red">*</span></label>
+                                                        <div class="right-inner-addon ">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                            <input class="form-control expiry" readonly="readonly"
+                                                                   placeholder="" type="text" name="startdate"
+                                                                   id="startdate" value="{{{ old('startdate') }}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="enddate">End Date <span
+                                                                style="color:red">*</span></label>
+                                                        <div class="right-inner-addon ">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                            <input class="form-control expiry" readonly="readonly"
+                                                                   placeholder="" type="text" name="enddate"
+                                                                   id="enddate" value="{{{ old('enddate') }}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="work_permit_number">Work Permit Number</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="work_permit_number" id="work_permit_number"
+                                                               value="{{{ old('work_permit_number') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="job_title">Job Title<span
+                                                                style="color:red">*</span></label>
+                                                        <select name="job_title" id="job_title" class="form-control">
+                                                            <option></option>
+                                                            <option value="cnew">Create New</option>
+                                                            @foreach($jobtitles as $jobtitle)
+                                                                <option
+                                                                    value="{{ $jobtitle->id }}"> {{ $jobtitle->job_title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="pay">Basic Salary <span
+                                                                style="color:red">*</span></label>
+                                                        <div class="input-group">
                                                             <span
                                                                 class="input-group-addon">{{$currency->shortname}}</span>
-                                                    <input class="form-control" placeholder="" type="text"
-                                                           name="pay" id="pay" value="{{{ old('pay') }}}">
+                                                            <input class="form-control" placeholder="" type="text"
+                                                                   name="pay" id="pay" value="{{{ old('pay') }}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="djoined">Date joined <span
+                                                                style="color:red">*</span></label>
+                                                        <div class="right-inner-addon ">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                            <input class="form-control datepicker" readonly="readonly"
+                                                                   placeholder="" type="text" name="djoined"
+                                                                   id="djoined" value="{{{ old('djoined') }}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group-lg col-lg-4">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input id="ch" type="checkbox" checked name="active">
+                                                                In Employment
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <button class="btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(6)">&nbsp;Previous
+                                                        </button>&nbsp;
+                                                        <button class="float-right btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(7)">&nbsp;Next
+                                                        </button>&nbsp;
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <label for="djoined">Date joined <span
-                                                        style="color:red">*</span></label>
-                                                <div class="right-inner-addon ">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control datepicker" readonly="readonly"
-                                                           placeholder="" type="text" name="djoined"
-                                                           id="djoined" value="{{{ old('djoined') }}}">
+                                                <div id="page5" class="row" style="display: none">
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="telephone_mobile">Phone Number</label>
+                                                        <input class="form-control" placeholder="" type="number"
+                                                               name="telephone_mobile" id="telephone_mobile"
+                                                               value="{{{ old('telephone_mobile') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="email_office">Office Email <span
+                                                                style="color:red">*</span></label>
+                                                        <input class="form-control" placeholder=""
+                                                               data-parsley-trigger="focusout focusin" type="email"
+                                                               name="email_office" id="email_office"
+                                                               value="{{{ old('email_office') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="email_personal">Personal Email</label>
+                                                        <input class="form-control" placeholder=""
+                                                               data-parsley-trigger="focusout focusin" type="email"
+                                                               name="email_personal" id="email_personal"
+                                                               value="{{{ old('email_personal') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label for="zip">Postal Zip</label>
+                                                        <input class="form-control" placeholder="" type="text"
+                                                               name="zip" id="zip" value="{{{ old('zip') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <label for="address">Postal Address</label>
+                                                        <textarea class="form-control" name="address"
+                                                                  id="address">{{{ old('address') }}}</textarea>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <button class="btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(8)">&nbsp;Previous
+                                                        </button>&nbsp;
+                                                        <button class="float-right btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(9)">&nbsp;Next
+                                                        </button>&nbsp;
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group-lg col-lg-4">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input id="ch" type="checkbox" checked name="active">
-                                                        In Employment
-                                                    </label>
+                                                <div id="page6" style="display: none">
+                                                    <h4 style="align-content: center"><strong>Next of Kin</strong></h4>
+                                                    <div class="table-responsive dt-responsive">
+                                                        <table class="table table-striped table-bordered" id="nextkin">
+                                                            <tr>
+                                                                <th><input class='ncheck_all' type='checkbox'
+                                                                           onclick="select_all()"/></th>
+                                                                <th>#</th>
+                                                                <th>First Name</th>
+                                                                <th>Last Name</th>
+                                                                <th>Other Names</th>
+                                                                <th>ID Number</th>
+                                                                <th>Relationship</th>
+                                                                <th>Contact</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><input type='checkbox' class='ncase'/></td>
+                                                                <td><span id='nsnum'>1.</span></td>
+                                                                <td><input class="kindata" type='text' id='first_name'
+                                                                           name='kin_first_name[0]'
+                                                                           value="{{{ old('kin_first_name[0]') }}}"/>
+                                                                </td>
+                                                                <td><input class="kindata" type='text' id='last_name'
+                                                                           name='kin_last_name[0]'
+                                                                           value="{{{ old('kin_last_name[0]') }}}"/>
+                                                                </td>
+                                                                <td><input class="kindata" type='text' id='middle_name'
+                                                                           name='kin_middle_name[0]'
+                                                                           value="{{{ old('kin_middle_name[0]') }}}"/>
+                                                                </td>
+                                                                <td><input class="kindata" type='text' id='id_number'
+                                                                           name='id_number[0]'
+                                                                           value="{{{ old('id_number[0]') }}}"/></td>
+                                                                <td><input class="kindata" type='text' id='relationship'
+                                                                           name='relationship[0]'
+                                                                           value="{{{ old('relationship[0]') }}}"/></td>
+                                                                <td><textarea class="kindata" name="contact[0]"
+                                                                              id="contact">{{{ old('contact[0]') }}}</textarea>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <button type="button"
+                                                                class="btn btn-primary waves-effect waves-light add naddmore"
+                                                        >Add Row
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-danger waves-effect waves-light ndelete">
+                                                            Delete Row
+                                                        </button>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <button class="btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(10)">&nbsp;Previous
+                                                        </button>&nbsp;
+                                                        <button class="float-right btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(11)">&nbsp;Next
+                                                        </button>&nbsp;
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <button class="btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(6)">&nbsp;Previous
-                                                </button>&nbsp;
-                                                <button class="float-right btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(7)">&nbsp;Next
-                                                </button>&nbsp;
+                                                <div id="page7" style="display: none">
+                                                    <h4 style="align-content: center"><strong>Employee
+                                                            Documents</strong>
+                                                    </h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-bordered" id="docEmp">
+                                                            <tr>
+                                                                <th><input class='dcheck_all' type='checkbox'
+                                                                           onclick="dselect_all()"/></th>
+                                                                <th>#</th>
+                                                                <th style="width: 200px;">Document</th>
+                                                                <th>Name</th>
+                                                                <th>Description</th>
+                                                                <th>Date From</th>
+                                                                <th>End Date</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><input type='checkbox' class='dcase'/></td>
+                                                                <td><span id='dsnum'>1.</span></td>
+                                                                <td id="f"><input class="docdata" type="file"
+                                                                                  name="path[0]"
+                                                                                  id="path"
+                                                                                  value="{{{ old('path[0]') }}}">
+                                                                </td>
+                                                                <td><input class="docdata" type='text' id='doc_name'
+                                                                           name='doc_name[0]'
+                                                                           value="{{{ old('doc_name[0]') }}}"/></td>
+                                                                <td><textarea class="docdata" style="width:150px"
+                                                                              name="description[0]"
+                                                                              id="description">{{{ old('description[0]') }}}</textarea>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="right-inner-addon">
+                                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                                        <input class="form-control expiry"
+                                                                               readonly="readonly" placeholder=""
+                                                                               type="text" name="fdate[0]" id="fdate"
+                                                                               value="">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="right-inner-addon">
+                                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                                        <input class="form-control expiry"
+                                                                               readonly="readonly" placeholder=""
+                                                                               type="text" name="edate[0]" id="edate"
+                                                                               value="">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <button type="button"
+                                                                class="btn btn-primary waves-effect waves-light add daddmore">
+                                                            Add Row
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-danger waves-effect waves-light ddelete">
+                                                            Delete Rows
+                                                        </button>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <button class="btn btn-success rounded-pill"
+                                                                onclick="event.preventDefault(); nexts(12)">&nbsp;Previous
+                                                        </button>&nbsp;
+                                                        <button class="float-right btn btn-success rounded-pill">&nbsp;Submit
+                                                        </button>&nbsp;
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div id="page5" style="display: none">
-                                            <div class="form-group col-md-12">
-                                                <button class="btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(8)">&nbsp;Previous
-                                                </button>&nbsp;
-                                                <button class="float-right btn btn-success rounded-pill"
-                                                        onclick="event.preventDefault(); nexts(9)">&nbsp;Next
-                                                </button>&nbsp;
-                                            </div>
-                                        </div>
-                                        <div id="page6" style="display: none"></div>
-                                        <div id="page7" style="display: none"></div>
                                     </form>
                                 </div>
                             </div>
@@ -491,6 +823,7 @@
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         function nexts(id) {
             if (id === 1) {
@@ -504,14 +837,15 @@
                 if (firstName.length !== 0 && surname.length !== 0 && dob.length !== 0 && gender.length !== 0 && identity_number.length !== 0 && personal_file_number.length !== 0) {
                     // if (isNaN(idNumber)) {
                     $("#emptyErr2").fadeOut();
-                    document.getElementById("contactBtn").disabled = false;
+                    document.getElementById("contactBtn").disabled = true;
                     document.getElementById("hrBtn").disabled = true;
                     // document.getElementById("finish").disabled = true;
                     $("#page1").hide();
                     $("#page2").fadeIn();
                     $("#page3").hide();
                     $("#page4").hide();
-                    document.getElementById('progressBtn').style.background = " #1b4a6f";
+                    $("#page5").hide();
+                    document.getElementById('progressBtn').style.background = "#644ec5";
                     setInterval(Incrementer, 40);
                     var x = 0 + 14;
 
@@ -534,7 +868,8 @@
                 $("#page2").hide();
                 $("#page3").hide();
                 $("#page4").hide();
-                document.getElementById('progressBtn').style.background = "#1b4a6f";
+                $("#page5").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
                 setInterval(Incrementer, 40);
                 var x = 0;
 
@@ -559,7 +894,8 @@
                     $("#page1").hide();
                     $("#page3").fadeIn();
                     $("#page4").hide();
-                    document.getElementById('progressBtn').style.background = "#1b4a6f";
+                    $("#page5").hide();
+                    document.getElementById('progressBtn').style.background = "#644ec5";
                     setInterval(Incrementer, 40);
                     var x = 0 + 28;
 
@@ -567,7 +903,7 @@
                         x = x + 1;
                         if (x <= ((100 / 7) * 3)) {
                             document.getElementById('progressBtn').innerHTML = x + "%";
-                            document.getElementById('progressBtn').style.background = "#1b4a6f";
+                            document.getElementById('progressBtn').style.background = "#644ec5";
                             //document.getElementById("progressBtn").innerHTML = '<i class="text-white fa fa-check fa-2x"></i>';
                         }
                     }
@@ -585,7 +921,8 @@
                 $("#page2").fadeIn();
                 $("#page3").hide();
                 $("#page4").hide();
-                document.getElementById('progressBtn').style.background = "#1b4a6f";
+                $("#page5").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
                 setInterval(Incrementer, 40);
                 var x = 0 + 14;
 
@@ -613,7 +950,8 @@
                     $("#page1").hide();
                     $("#page2").hide();
                     $("#page3").hide();
-                    document.getElementById('progressBtn').style.background = "#1b4a6f";
+                    $("#page5").hide();
+                    document.getElementById('progressBtn').style.background = "#644ec5";
                     setInterval(Incrementer, 40);
                     var x = 0 + 42;
 
@@ -621,7 +959,7 @@
                         x = x + 1;
                         if (x <= ((100 / 7) * 4)) {
                             document.getElementById('progressBtn').innerHTML = x + "%";
-                            document.getElementById('progressBtn').style.background = "#1b4a6f";
+                            document.getElementById('progressBtn').style.background = "#644ec5";
                         }
                     }
 
@@ -639,7 +977,7 @@
                 $("#page1").hide();
                 $("#page2").hide();
                 $("#page4").hide();
-                document.getElementById('progressBtn').style.background = "#1b4a6f";
+                document.getElementById('progressBtn').style.background = "#644ec5";
                 setInterval(Incrementer, 40);
                 var x = 0 + 28;
 
@@ -662,7 +1000,7 @@
                 var job_title = $('#job_title').val();
                 var pay = $('#pay').val();
                 var djoined = $('#djoined').val();
-                if (branch_id.length !==0&& department_id !==0&& jgroup_id !==0&&  type_id !==0&& startdate !==0 && enddate!==0 && work_permit_number !==0 && job_title !==0 && job_title !==0 && pay !==0 && djoined !==0){
+                if (branch_id.length !== 0 && department_id !== 0 && jgroup_id !== 0 && type_id !== 0 && startdate !== 0 && enddate !== 0 && work_permit_number !== 0 && job_title !== 0 && job_title !== 0 && pay !== 0 && djoined !== 0) {
                     document.getElementById("contactBtn").disabled = false;
                     document.getElementById("hrBtn").disabled = false;
                     $('#page5').fadeIn();
@@ -670,6 +1008,124 @@
                     $("#page1").hide();
                     $("#page2").hide();
                     $("#page3").hide();
+                    document.getElementById('progressBtn').style.background = "#644ec5";
+                    setInterval(Incrementer, 40);
+                    var x = 0 + 57;
+
+                    function Incrementer() {
+                        x = x + 1;
+                        if (x <= ((100 / 7) * 5)) {
+                            document.getElementById('progressBtn').innerHTML = x + "%";
+                            document.getElementById("progressBtn").style.background = "#644ec5";
+                        }
+                    }
+                }
+            }
+            if (id === 8) {
+                console.log(id)
+                $("#page4").fadeIn()
+                $("#page1").hide()
+                $("#page2").hide()
+                $("#page3").hide()
+                $("#page5").hide()
+                $("#page6").hide()
+                $("#page7").hide()
+                document.getElementById('progressBtn').style.background = "#644ec5";
+                setInterval(Incrementer, 40);
+                var x = 0 + 42;
+
+                function Incrementer() {
+                    x = x + 1;
+                    if (x <= ((100 / 7) * 4)) {
+                        document.getElementById('progressBtn').innerHTML = x + "%";
+                    }
+                }
+            }
+            if (id === 9) {
+                console.log(id)
+                var email_office = $("#email_office").val();
+                if (email_office.length !== 0) {
+                    document.getElementById('contactBtn').disabled = false;
+                    document.getElementById('hrBtn').disabled = false;
+                    $('#page6').fadeIn();
+                    $("#page4").hide();
+                    $("#page1").hide();
+                    $("#page2").hide();
+                    $("#page3").hide();
+                    $("#page5").hide();
+                    document.getElementById('progressBtn').style.background = "#644ec5";
+                    setInterval(Incrementer, 40);
+                    var x = 0 + 71;
+
+                    function Incrementer() {
+                        x = x + 1;
+                        if (x <= ((100 / 7) * 6)) {
+                            document.getElementById('progressBtn').innerHTML = x + "%";
+                            document.getElementById('progressBtn').style.background = "#644ec5"
+                        }
+                    }
+                }
+            }
+            if (id === 10) {
+                console.log(id)
+                $("#page5").fadeIn();
+                $('#page6').hide();
+                $("#page4").hide();
+                $("#page1").hide();
+                $("#page2").hide();
+                $("#page3").hide();
+                $("#page7").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
+                setInterval(Incrementer, 40);
+                var x = 0 + 57;
+
+                function Incrementer() {
+                    x = x + 1;
+                    if (x <= ((100 / 7) * 5)) {
+                        document.getElementById('progressBtn').innerHTML = x + "%";
+                    }
+                }
+            }
+            if (id === 11) {
+                console.log(id)
+                $("#page7").fadeIn();
+                $('#page6').hide();
+                $("#page4").hide();
+                $("#page1").hide();
+                $("#page2").hide();
+                $("#page3").hide();
+                $("#page5").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
+                setInterval(Incrementer, 40);
+                var x = 0 + 71;
+
+                function Incrementer() {
+                    x = x + 1;
+                    if (x <= ((100 / 7) * 6)) {
+                        //document.getElementById('progressBtn').innerHTML=x+"%";
+                        document.getElementById('progressBtn').style.background = "#6dd144"
+                        document.getElementById("progressBtn").innerHTML = '<i class="text-white fa fa-check fa-2x"></i>';
+                    }
+                }
+            }
+            if (id === 12) {
+                console.log(id);
+                $("#page6").fadeIn();
+                $('#page7').hide();
+                $("#page4").hide();
+                $("#page1").hide();
+                $("#page2").hide();
+                $("#page3").hide();
+                $("#page5").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
+                setInterval(Incrementer, 40);
+                var x = 0 + 71;
+
+                function Incrementer() {
+                    x = x + 1;
+                    if (x <= ((100 / 7) * 6)) {
+                        document.getElementById('progressBtn').innerHTML = x + "%";
+                    }
                 }
             }
         }
@@ -681,9 +1137,13 @@
                 $("#page2").hide();
                 $("#page3").hide();
                 $("#page4").hide();
-                document.getElementById('progressBtn').style.background = "#1b4a6f";
+                $("#page5").hide();
+                $("#page6").hide();
+                $("#page7").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
                 setInterval(Incrementer, 40);
                 var x = 0;
+
                 function Incrementer() {
                     x = x + 1;
                     if (x <= (100 / 7)) {
@@ -695,7 +1155,10 @@
                 $("#page1").hide();
                 $("#page3").hide();
                 $("#page4").hide();
-                document.getElementById('progressBtn').style.background = "#1b4a6f";
+                $("#page5").hide();
+                $("#page6").hide();
+                $("#page7").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
                 setInterval(Incrementer, 40);
                 var x = 0 + 14;
 
@@ -710,7 +1173,10 @@
                 $("#page1").hide();
                 $("#page2").hide();
                 $("#page4").hide();
-                document.getElementById('progressBtn').style.background = "#1b4a6f";
+                $("#page5").hide();
+                $("#page6").hide();
+                $("#page7").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
                 setInterval(Incrementer, 40);
                 var x = 0 + 28;
 
@@ -719,18 +1185,48 @@
                     if (x <= ((100 / 7) * 3)) {
 
                         document.getElementById('progressBtn').innerHTML = x + "%";
-                        document.getElementById('progressBtn').style.background = "#1b4a6f";
-                        //document.getElementById("progressBtn").innerHTML = '<i class="text-white fa fa-check fa-2x"></i>';
+                        document.getElementById('progressBtn').style.background = "#644ec5";
                     }
                 }
             } else if (id === 4) {
-                $("#page3").fadeIn();
-                $("#page4").hide();
+                console.log(id);
+                $("#page4").fadeIn();
+                $("#page3").hide();
                 $("#page1").hide();
                 $("#page2").hide();
-                document.getElementById('progressBtn').style.background = "#28a745";
-                document.getElementById("progressBtn").innerHTML = '<i class="text-white fa fa-check fa-2x"></i>';
-                // document.getElementById('progressBtn').innerHTML=100;
+                $("#page5").hide();
+                $("#page6").hide();
+                $("#page7").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
+                setInterval(Incrementer, 40);
+                var x = 0 + 42;
+
+                function Incrementer() {
+                    x = x + 1;
+                    if (x <= ((100 / 7) * 4)) {
+                        document.getElementById('progressBtn').innerHTML = x + "%";
+                        document.getElementById('progressBtn').style.background = "#644ec5";
+                    }
+                }
+            } else if (id === 5) {
+                $("#page5").fadeIn();
+                $("#page3").hide();
+                $("#page1").hide();
+                $("#page2").hide();
+                $("#page4").hide();
+                $("#page6").hide();
+                $("#page7").hide();
+                document.getElementById('progressBtn').style.background = "#644ec5";
+                setInterval(Incrementer, 40);
+                var x = 0 + 57;
+
+                function Incrementer() {
+                    x = x + 1;
+                    if (x <= ((100 / 7) * 5)) {
+                        document.getElementById('progressBtn').innerHTML = x + "%";
+                        document.getElementById('progressBtn').style.background = "#644ec5";
+                    }
+                }
             }
         }
 
@@ -804,10 +1300,7 @@
                     function (data) {
                         $('#bbranch_id').empty();
                         $('#bbranch_id').append("<option>----------------select Bank Branch--------------------</option>");
-                        if (data.branches.length > 0) {
-                        } else {
-                            $('#bbranch_id').append("<option value='cnew'>Create New</option>");
-                        }
+                        $('#bbranch_id').append("<option value='cnew'>Create New</option>");
                         for (var x = 0; x < data.branches.length; x++) {
                             $('#bbranch_id').append("<option value='" + data.branches[x]['id'] + "'>" + data.branches[x]['bank_branch_name'] + "</option>");
                         }
@@ -1188,14 +1681,15 @@
                       }
        });
        }*/
-
+                    const citizenData = {
+                        'name': document.getElementById('cname').value,
+                        "_token": "{{csrf_token()}}",
+                    }
                     $.ajax({
                         url: "{{url('createCitizenship')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': cname.val()
-                        },
+                        data: citizenData,
                         success: function (s) {
                             $('#citizenship').append($('<option>', {
                                 value: s,
@@ -1221,32 +1715,27 @@
                         dialog.dialog("close");
                     }
                 },
-                close: function () {
-                    form[0].reset();
-                    allFields.removeClass("ui-state-error");
-                }
+                // close: function () {
+                //     form[0].reset();
+                //     allFields.removeClass("ui-state-error");
+                // }
             });
-
             form = dialog.find("form").on("submit", function (event) {
                 event.preventDefault();
                 addUser();
             });
-
             $('#citizenship').change(function () {
-                if ($(this).val() == "cnew") {
+                if ($(this).val() === "cnew") {
                     dialog.dialog("open");
                 }
-
             });
         });
     </script>
     <script>
         $(function () {
             var dialog, form,
-
                 // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
                 ename = $("#ename"),
-
                 allFields = $([]).add(ename),
                 tips = $(".validateTips2");
 
@@ -1289,28 +1778,30 @@
 
                 if (valid) {
 
-                    /* displaydata();
+                    //displaydata();
 
-                    function displaydata(){
-                     $.ajax({
-                                    url     : "{{url('reloaddata')}}",
-                      type    : "POST",
-                      async   : false,
-                      data    : { },
-                      success : function(s){
-                        var data = JSON.parse(s)
-                        //alert(data.id);
-                      }
-       });
-       }*/
+                    /*function displaydata() {
+                        $.ajax({
+                            url: "{{url('reloaddata')}}",
+                            type: "POST",
+                            async: false,
+                            data: {},
+                            success: function (s) {
+                                var data = JSON.parse(s)
+                                alert(data.id);
+                            }
+                        });
+                    }*/
 
+                    const Formdata = {
+                        'name': document.getElementById('ename').value,
+                        "_token": "{{csrf_token()}}",
+                    }
                     $.ajax({
                         url: "{{url('createEducation')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': ename.val()
-                        },
+                        data: Formdata,
                         success: function (s) {
                             $('#education').append($('<option>', {
                                 value: s,
@@ -1348,7 +1839,7 @@
             });
 
             $('#education').change(function () {
-                if ($(this).val() == "cnew") {
+                if ($(this).val() === "cnew") {
                     dialog.dialog("open");
                 }
 
@@ -1375,7 +1866,7 @@
             }
 
             function checkLength(o) {
-                if (o.val().length == 0) {
+                if (o.val().length === 0) {
                     o.addClass("ui-state-error");
                     updateTips("Please insert bank name!");
                     return false;
@@ -1418,15 +1909,16 @@
                       }
        });
        }*/
-
+                    const bankData = {
+                        'name': document.getElementById('bname').value,
+                        'code': document.getElementById('bcode').value,
+                        "_token": "{{csrf_token()}}",
+                    }
                     $.ajax({
                         url: "{{url('createBank')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': bname.val(),
-                            'code': bcode.val()
-                        },
+                        data: bankData,
                         success: function (s) {
                             $('#bank_id').append($('<option>', {
                                 value: s,
@@ -1483,8 +1975,8 @@
             var dialog, form,
 
                 // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-                bname = $("#bname"),
-                bcode = $("#bcode"),
+                bname = $("#brname"),
+                bcode = $("#brcode"),
                 bid = $("#bid"),
                 allFields = $([]).add(bname).add(bcode).add(bid),
                 tips = $(".validateTips4");
@@ -1544,16 +2036,18 @@
                       }
        });
        }*/
+                    const bankBranchName = {
+                        'bid':document.getElementById('bid').value,
+                        'name': document.getElementById('brname').value,
+                        'code': document.getElementById('brcode').value,
+                        "_token": "{{csrf_token()}}"
 
+                    }
                     $.ajax({
                         url: "{{url('createBankBranch')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': bname.val(),
-                            'code': bcode.val(),
-                            'bid': bid.val()
-                        },
+                        data: bankBranchName,
                         success: function (s) {
                             $('#bbranch_id').append($('<option>', {
                                 value: s,
@@ -1605,7 +2099,7 @@
             var dialog, form,
 
                 // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-                bname = $("#bname"),
+                bname = $("#ebname"),
                 allFields = $([]).add(bname),
                 tips = $(".validateTips5");
 
@@ -1664,14 +2158,16 @@
                       }
        });
        }*/
+                    const EmployeeBranch = {
+                        'name': document.getElementById('ebname').value,
+                        "_token": "{{csrf_token()}}"
 
+                    }
                     $.ajax({
                         url: "{{url('createBranch')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': bname.val()
-                        },
+                        data: EmployeeBranch,
                         success: function (s) {
                             $('#branch_id').append($('<option>', {
                                 value: s,
@@ -1782,15 +2278,16 @@
                     {{--        }--}}
                     {{--    });--}}
                     {{--}--}}
-
+                        const departmentData = {
+                            'name': document.getElementById('dname').value,
+                            'code': document.getElementById('dcode').value,
+                            "_token": "{{csrf_token()}}"
+                        }
                     $.ajax({
                         url: "{{url('createDepartment')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': dname.val(),
-                            'code': dcode.val()
-                        },
+                        data: departmentData,
                         success: function (s) {
                             $('#department_id').append($('<option>', {
                                 value: s,
@@ -1807,7 +2304,7 @@
 
             dialog = $("#dialog-form").dialog({
                 autoOpen: false,
-                height: 280,
+                height: 320,
                 width: 350,
                 modal: true,
                 buttons: {
@@ -1900,14 +2397,15 @@
                       }
        });
        }*/
-
+                    const jobGroup  = {
+                        "name":document.getElementById('jname').value,
+                        "_token":"{{csrf_token()}}"
+                    }
                     $.ajax({
                         url: "{{url('createGroup')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': jname.val()
-                        },
+                        data: jobGroup,
                         success: function (s) {
                             $('#jgroup_id').append($('<option>', {
                                 value: s,
@@ -2017,14 +2515,15 @@
                       }
        });
        }*/
-
+                    const empType = {
+                        "name": document.getElementById('tname').value,
+                        "_token": "{{csrf_token()}}"
+                    }
                     $.ajax({
                         url: "{{url('createType')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': tname.val()
-                        },
+                        data: empType,
                         success: function (s) {
                             $('#type_id').append($('<option>', {
                                 value: s,
@@ -2133,14 +2632,15 @@
                       }
        });
        }*/
-
+                    const jobTitle = {
+                        'name': document.getElementById('jtitle').value,
+                        "_token": "{{csrf_token()}}"
+                    }
                     $.ajax({
                         url: "{{url('createJobtitle')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': jtitle.val()
-                        },
+                        data: jobTitle,
                         success: function (s) {
                             $('#job_title').append($('<option>', {
                                 value: s,

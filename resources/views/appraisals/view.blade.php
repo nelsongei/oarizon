@@ -29,7 +29,7 @@
                                     {{ Session::get('delete_message') }}
                                 </div>
                             @endif
-                            <h5>Members</h5>
+                            <h5>Employees</h5>
 
                             <div class="card-header-right">
                                 <a class="dt-button btn-sm" href="{{ url('Appraisals/edit/'.$appraisal->id)}}">update details</a>
@@ -39,9 +39,9 @@
 
                         </div>
                         <div class="card-block">
-                            <img src="{{asset('/public/uploads/employees/photo/'.$appraisal->employee->photo) }}" width="150px" height="130px" alt=""><br>
+                            <img src="{{asset($appraisal->employee->photo) }}" width="150px" height="130px" alt=""><br>
                             <br>
-                            <img src="{{asset('/public/uploads/employees/signature/'.$appraisal->employee->signature) }}" width="120px" height="50px" alt="">
+                            <img src="{{asset('images/sign_av.jpg') }}" width="120px" height="50px" alt="">
                         </div>
                         <div class="card-block">
                             <div class="dt-responsive table-responsive">
@@ -53,9 +53,9 @@
                                                 <td><strong>Employee: </strong></td><td> {{$appraisal->employee->last_name.' '.$appraisal->employee->first_name}}</td>
                                             @endif
                                         </tr>
-                                        <tr><td><strong>Question: </strong></td><td>{{App\models\Appraisalquestion::getQuestion($appraisal->appraisalquestion_id)}}</td></tr>
+                                        <tr><td><strong>Question: </strong></td><td>{{App\Models\Appraisalquestion::getQuestion($appraisal->appraisalquestion_id)}}</td></tr>
                                         <tr><td><strong>Performance: </strong></td><td>{{$appraisal->performance}}</td></tr>
-                                        <tr><td><strong>Score: </strong></td><td>{{$appraisal->rate.' / '.App\models\Appraisalquestion::getScore($appraisal->appraisalquestion_id)}}</td></tr>
+                                        <tr><td><strong>Score: </strong></td><td>{{$appraisal->rate.' / '.App\Models\Appraisalquestion::getScore($appraisal->appraisalquestion_id)}}</td></tr>
                                         <tr><td><strong>Examiner: </strong></td><td>{{$user->username}}</td></tr>
                                         <?php
                                         $d=strtotime($appraisal->appraisaldate);

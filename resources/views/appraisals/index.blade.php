@@ -58,9 +58,9 @@
                                             @else
                                                 <td>{{ $appraisal->first_name.' '.$appraisal->middle_name.' '.$appraisal->last_name }}</td>
                                             @endif
-                                            <td>{{ App\models\Appraisalquestion::getQuestion($appraisal->appraisalquestion_id) }}</td>
+                                            <td>{{ App\Models\Appraisalquestion::getQuestion($appraisal->appraisalquestion_id) }}</td>
                                             <td>{{ $appraisal->performance }}</td>
-                                            <td>{{ $appraisal->rate.' / '. App\models\Appraisalquestion::getScore($appraisal->appraisalquestion_id) }}</td>
+                                            <td>{{ $appraisal->rate.' / '. App\Models\Appraisalquestion::getScore($appraisal->appraisalquestion_id) }}</td>
                                             <td>
 
                                                 <div class="btn-group">

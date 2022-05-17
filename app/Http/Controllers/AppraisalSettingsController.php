@@ -1,8 +1,9 @@
-<?php namespace App\Http\Controllers;
+<?php
+namespace App\Http\Controllers;
 
-use App\models\Appraisalcategory;
-use App\models\Appraisalquestion;
-use App\models\Audit;
+use App\Models\Appraisalcategory;
+use App\Models\Appraisalquestion;
+use App\Models\Audit;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

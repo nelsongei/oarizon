@@ -51,6 +51,7 @@ use App\Models\Account;
 use App\Models\AccountTransaction;
 use App\Models\Audit;
 use App\Models\Bank;
+use App\Models\Appraisalquestion;
 use App\Models\BankAccount;
 use App\Models\Client;
 use App\Models\Erporder;
@@ -163,7 +164,11 @@ Route::resource('appraisalcategories', AppraisalCategoryController::class);
 Route::post('appraisalcategories/update/{id}', [AppraisalCategoryController::class, 'update']);
 Route::get('appraisalcategories/delete/{id}', [AppraisalCategoryController::class, 'destroy']);
 Route::get('appraisalcategories/edit/{id}', [AppraisalCategoryController::class, 'edit']);
-
+Route::get('api/score', function () {
+    $id = request('option');
+    $rate = Appraisalquestion::find($id);
+    return $rate->rate;
+});
 /**
  * occurence settings routes
  */

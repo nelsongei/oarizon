@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\models\Appraisalcategory;
-use App\models\Audit;
+use App\Models\Appraisalcategory;
+use App\Models\Audit;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +55,7 @@ class AppraisalCategoryController extends Controller {
 
 		$category = new Appraisalcategory;
 
-		$category->name = Input::get('name');
+		$category->name = request('name');
 
         $category->organization_id = Auth::user()->organization_id;
 

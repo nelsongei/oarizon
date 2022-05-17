@@ -38,7 +38,7 @@ class EmployeeTypeController extends Controller {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), EType::$rules,EType::$messages);
+		$validator = Validator::make($data = request()->all(), EType::$rules,EType::$messages);
 
 		if ($validator->fails())
 		{
@@ -47,7 +47,7 @@ class EmployeeTypeController extends Controller {
 
 		$etype = new EType;
 
-		$etype->employee_type_name = Input::get('name');
+		$etype->employee_type_name = request('name');
 
         $etype->organization_id = '1';
 

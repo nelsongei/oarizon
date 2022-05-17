@@ -32,13 +32,13 @@ class Appraisal extends Model
     public function employee()
     {
 
-        return $this->belongsTo('Employee');
+        return $this->belongsTo(Employee::class);
     }
 
     public function appraisalquestion()
     {
 
-        return $this->hasOne('Appraisalquestion');
+        return $this->hasOne(Appraisalquestion::class);
     }
 
 }

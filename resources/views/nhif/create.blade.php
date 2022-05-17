@@ -27,13 +27,13 @@
 
                                             <div class="form-group">
                                                 <label for="username">Income From <span style="color:red">*</span> </label>
-                                                <input class="form-control" placeholder="" type="date" name="i_from" id="i_from"
+                                                <input class="form-control" placeholder="" type="text" name="i_from" id="i_from"
                                                        value="{{{ old('i_from') }}}">
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="username">Income To <span style="color:red">*</span> </label>
-                                                <input class="form-control" placeholder="" type="date" name="i_to" id="i_to"
+                                                <input class="form-control" placeholder="" type="text" name="i_to" id="i_to"
                                                        value="{{{ old('i_to') }}}">
                                             </div>
 

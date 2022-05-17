@@ -1,5 +1,8 @@
 @extends('layouts.main_hr')
 @section('xara_cbs')
+    <?php
+        use App\Models\Appraisalcategory;
+    ?>
     @include('partials.breadcrumbs')
     <div class="pcoded-inner-content">
         <div class="main-body">

@@ -15,7 +15,8 @@ class NhifController extends BaseController {
      */
 	public function index()
 	{
-		$nrates = DB::table('x_hospital_insurance')->where('income_from', '!=', 0.00)->get();
+		$nrates = DB::table('x_hospital_insurance')->get();
+//		$nrates = DB::table('x_hospital_insurance')->where('income_from', '!=', 0)->get();
 //        dd($nrates);
 
 		return View::make('nhif.index', compact('nrates'));

@@ -187,7 +187,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('currencies') }}" class="waves-effect waves-dark">
+                                    <a href="{{ url('occurencesettings') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Occurrence Settings</span>
                                     </a>
                                 </li>
@@ -202,12 +202,12 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('banks') }}" class="waves-effect waves-dark">
+                                    <a href="{{ url('appraisalcategories') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Appraisal Category</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('bankbranches') }}" class="waves-effect waves-dark">
+                                    <a href="{{ url('AppraisalSettings') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Appraisal Settings</span>
                                     </a>
                                 </li>
