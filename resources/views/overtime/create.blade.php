@@ -59,7 +59,6 @@ function asMoney($value)
                                                 <input class="form-control" placeholder="" type="text" name="period"
                                                        onkeypress="totalB()"
                                                        onkeyup="totalB()" id="period" value="{{{ old('period') }}}">
-
                                             </div>
 
                                             <div class="form-group">
@@ -183,6 +182,7 @@ function asMoney($value)
                     function (data) {
                     console.log(data);
                         console.log(data.replace(/,/g, ''));
+                        console.log(((data.replace(/,/g, '')) / 24/30));
                         if ($('#type').val() === '' || $('#period').val() === '') {
                             $('#amount').val(0.00);
                             $('#total').val(0.00);

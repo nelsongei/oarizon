@@ -155,7 +155,6 @@ class Leaveapplication extends Model
     public static function rejectLeaveApplication($id)
     {
 
-
         $application = Leaveapplication::find($id);
 
 
