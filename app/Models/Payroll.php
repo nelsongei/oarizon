@@ -116,6 +116,7 @@ class Payroll extends Model
      $pay = $employee->basic_pay;
     }*/
         $pay = $employee->basic_pay;
+        //Wdd($pay);
         return round($pay, 2);
 
     }
@@ -1386,7 +1387,6 @@ class Payroll extends Model
         $total_deds = 0.00;
 
         $total_deds = static::tax($id, $period) + static::nssf($id, $period) + static::nhif($id, $period) + static::deductionall($id, $period) + static::pension($id, $period);
-
         return round($total_deds, 2);
 
     }

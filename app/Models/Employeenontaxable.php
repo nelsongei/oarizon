@@ -41,13 +41,13 @@ class Employeenontaxable extends Model
     public function employee()
     {
 
-        return $this->belongsTo('Employee');
+        return $this->belongsTo(Employee::class);
     }
 
     public function nontaxable()
     {
 
-        return $this->hasMany('Nontaxable');
+        return $this->hasMany(Nontaxable::class);
     }
 
 }

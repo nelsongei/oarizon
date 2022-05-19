@@ -177,30 +177,30 @@ class EmployeeNonTaxableController extends Controller
     {
         $nontaxable = Employeenontaxable::findOrFail($id);
 
-        $validator = Validator::make($data = Input::all(), Employeenontaxable::$rules, Employeenontaxable::$messages);
+        $validator = Validator::make($data = request()->all(), Employeenontaxable::$rules, Employeenontaxable::$messages);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $nontaxable->nontaxable_id = Input::get('income');
+        $nontaxable->nontaxable_id = request('income');
 
-        $nontaxable->formular = Input::get('formular');
+        $nontaxable->formular = request('formular');
 
-        if (Input::get('formular') == 'Instalments') {
-            $nontaxable->instalments = Input::get('instalments');
-            $insts = Input::get('instalments');
+        if (request('formular') == 'Instalments') {
+            $nontaxable->instalments = request('instalments');
+            $insts = request('instalments');
 
-            $a = str_replace(',', '', Input::get('amount'));
+            $a = str_replace(',', '', request('amount'));
             $nontaxable->nontaxable_amount = $a;
 
-            $d = strtotime(Input::get('idate'));
+            $d = strtotime(request('idate'));
 
             $nontaxable->nontaxable_date = date("Y-m-d", $d);
 
-            $effectiveDate = date('Y-m-d', strtotime("+" . ($insts - 1) . " months", strtotime(Input::get('idate'))));
+            $effectiveDate = date('Y-m-d', strtotime("+" . ($insts - 1) . " months", strtotime(request('idate'))));
 
-            $First = date('Y-m-01', strtotime(Input::get('idate')));
+            $First = date('Y-m-01', strtotime(request('idate')));
             $Last = date('Y-m-t', strtotime($effectiveDate));
 
             $nontaxable->first_day_month = $First;
@@ -209,15 +209,15 @@ class EmployeeNonTaxableController extends Controller
 
         } else {
             $nontaxable->instalments = '1';
-            $a = str_replace(',', '', Input::get('amount'));
+            $a = str_replace(',', '', request('amount'));
             $nontaxable->nontaxable_amount = $a;
 
-            $d = strtotime(Input::get('idate'));
+            $d = strtotime(request('idate'));
 
             $nontaxable->nontaxable_date = date("Y-m-d", $d);
 
-            $First = date('Y-m-01', strtotime(Input::get('idate')));
-            $Last = date('Y-m-t', strtotime(Input::get('idate')));
+            $First = date('Y-m-01', strtotime(request('idate')));
+            $Last = date('Y-m-t', strtotime(request('idate')));
 
 
             $nontaxable->first_day_month = $First;
@@ -252,12 +252,12 @@ class EmployeeNonTaxableController extends Controller
     public function view($id)
     {
 
-        $nontaxable = DB::table('employee')
-            ->join('employeenontaxables', 'employee.id', '=', 'employeenontaxables.employee_id')
-            ->join('nontaxables', 'employeenontaxables.nontaxable_id', '=', 'nontaxables.id')
-            ->where('employeenontaxables.id', '=', $id)
-            ->where('employee.organization_id', Auth::user()->organization_id)
-            ->select('employeenontaxables.id', 'first_name', 'last_name', 'middle_name', 'formular', 'instalments', 'nontaxable_amount', 'name', 'nontaxable_date', 'last_day_month', 'photo', 'signature')
+        $nontaxable = DB::table('x_employee')
+            ->join('x_employeenontaxables', 'x_employee.id', '=', 'x_employeenontaxables.employee_id')
+            ->join('x_nontaxables', 'x_employeenontaxables.nontaxable_id', '=', 'x_nontaxables.id')
+            ->where('x_employeenontaxables.id', '=', $id)
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
+            ->select('x_employeenontaxables.id', 'first_name', 'last_name', 'middle_name', 'formular', 'instalments', 'nontaxable_amount', 'name', 'nontaxable_date', 'last_day_month', 'photo', 'signature')
             ->first();
 
         $organization = Organization::find(Auth::user()->organization_id);

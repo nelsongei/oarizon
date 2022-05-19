@@ -40,9 +40,7 @@ function asMoney($value)
                                         <a class="btn btn-info btn-sm" href="{{ URL::to('overtimes/create')}}">new
                                             overtime earning</a>
                                     </div>
-                                    <table id="users" class="table table-condensed table-bordered table-hover">
-
-
+                                    <table class="table table-condensed table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th>#</th>
@@ -55,7 +53,6 @@ function asMoney($value)
                                         </tr>
                                         </thead>
                                         <tbody>
-
                                         <?php $i = 1; ?>
                                         @foreach($overtimes as $overtime)
 
@@ -93,19 +90,11 @@ function asMoney($value)
 
                                                         </ul>
                                                     </div>
-
                                                 </td>
-
-
                                             </tr>
-
                                             <?php $i++; ?>
                                         @endforeach
-
-
                                         </tbody>
-
-
                                     </table>
                                 </div>
                             </div>
@@ -115,21 +104,4 @@ function asMoney($value)
             </div>
         </div>
     </div>
-    <div class="row">
-    </div>
-
-
-    <div class="row">
-        <div class="col-lg-12">
-
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                </div>
-
-
-            </div>
-
-        </div>
-
 @stop

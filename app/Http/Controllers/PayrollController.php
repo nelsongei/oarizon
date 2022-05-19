@@ -177,7 +177,6 @@ class PayrollController extends Controller
         }
 
         $period = request('period');
-
         $start = date('Y-m-01', strtotime ($period));
         $end = date('Y-m-t', strtotime($period));
 //        dd($start);
@@ -1129,6 +1128,7 @@ $display .="
 
         $period = request('period');
 
+
         $start = date('Y-m-01', strtotime("01-" . $period));
         $end = date('Y-m-t', strtotime("01-" . $period));
 
@@ -1168,7 +1168,6 @@ $display .="
                 ->whereDate('date_joined', '<=', $end)
                 ->get();
         }
-
         foreach ($employees as $employee) {
             $payroll = new Payroll;
 
