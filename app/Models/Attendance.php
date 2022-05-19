@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
@@ -7,11 +9,12 @@ use Illuminate\Support\Facades\Config;
 class Attendance extends Model
 {
     protected $guarded = [];
-
+    protected $table='employee_attendance';
     public $timestamps = false;
 
-    public function employee(){
-        return $this->belongsTo('Employee');
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     public function setAttendanceAttribute($value)

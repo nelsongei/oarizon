@@ -1,4 +1,5 @@
-<?php namespace Traits;
+<?php
+namespace App\Http\Traits;
 
 use \Crypt;
 

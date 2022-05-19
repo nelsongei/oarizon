@@ -110,7 +110,6 @@ function asMoney($value)
                                                            name="odate" id="odate" value="{{{ old('odate') }}}">
                                                 </div>
                                             </div>
-
                                             <div class="form-actions form-group">
 
                                                 <button type="submit" class="btn btn-primary btn-sm">Create Overtime

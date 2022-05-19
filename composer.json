@@ -20,7 +20,7 @@
         "psr/simple-cache": "^1.0",
         "spatie/laravel-permission": "^5.5",
         "symfony/psr-http-message-bridge": "^2.1",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "^9.20"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
