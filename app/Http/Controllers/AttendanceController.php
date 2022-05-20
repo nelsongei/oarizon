@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\traits\MonthlyWorkedHours;
+use App\Models\Attendance;
 use App\Models\Employee;
+use App\Models\FingerPrints;
 use App\Models\Holiday;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -187,9 +190,7 @@ class AttendanceController extends BaseController
 //                ->rawColumns(['action'])
                 ->make(true);
 
-
         }
-
         // echo "<pre>"; print_r(json_decode($holidays)); echo "</pre>"; die();
 
 
@@ -228,7 +229,7 @@ class AttendanceController extends BaseController
             $shift_in = new DateTime($shift_in);
             $shift_out = new DateTime($shift_out);
             $current_time = new DateTime(Carbon::now());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 
@@ -357,7 +358,7 @@ class AttendanceController extends BaseController
         try {
             $clock_in = new DateTime($clock_in);
             $clock_out = new DateTime($clock_out);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $e;
         }
 
@@ -391,7 +392,7 @@ class AttendanceController extends BaseController
         try {
             $shift_in = new DateTime($shift_in);
             $shift_out = new DateTime($shift_out);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $e;
         }
 

@@ -1,20 +1,23 @@
-@extends('layouts.main')
-<style type="text/css"></style>
+@extends('layouts.main_hr')
 @section('xara_cbs')
     @include('partials.breadcrumbs')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <div class="pcoded-inner-content">
         <div class="main-body">
             <div class="page-wrapper">
                 <div class="page-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            Attendance
+                            Employee Attendance
                             <hr>
                         </div>
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
+                                    <div class="mb-2">
+                                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal">
+                                            Add Attendace Manually
+                                        </button>
+                                    </div>
                                     <table id="daily_attendance-tbl" class="table table-condensed table-bordered table-hover">
                                         <thead>
                                         <tr>
@@ -41,35 +44,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="addModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="">
+                    <div class="modal-body">
+                        <div class="">
+                            <div class="form-group">
+                                <label for="" class="col-form-label">Employee</label>
+                                <select name="employee_id" class="form-control">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-warning" data-dismiss="modal">
+                            Not Now
+                        </button>
+                        <button class="btn btn-primary" data-dismiss="modal">
+                            Add Shift
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <link href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}" rel="stylesheet">
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('media/js/jquery.dataTables.js')}}"></script>
-
-
-{{--    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">--}}
-{{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>--}}
-
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>--}}
-{{--    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>--}}
-
-{{--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>--}}
-
-{{--    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>--}}
-{{--    <script>--}}
-{{--        $(function (){--}}
-{{--            var table = $('#daily_attendance-tbl').DataTable({--}}
-{{--                processing: true,--}}
-{{--                serverSide: true,--}}
-{{--                ajax: "{{url('timesheet/attendances')}}",--}}
-{{--                columns:[--}}
-{{--                    {data: 'id',name:'id'},--}}
-{{--                    {data: 'employee_name',name: 'first_name'}--}}
-{{--                ]--}}
-{{--            })--}}
-{{--        })--}}
-{{--    </script>--}}
     <script>
         (function ($){
             "use strict";
@@ -88,13 +93,13 @@
                             this.api().columns([2, 4]).every(function (){
                                 var column = this;
                                 var select = $('<select><option value=""></option></select>')
-                                .appendTo($(column.footer()).empty())
-                                .on('change',function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-                                    column.search(val ? '^' + val + '$' : '', true, false).draw()
-                                });
+                                    .appendTo($(column.footer()).empty())
+                                    .on('change',function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw()
+                                    });
                                 column.data().unique().sort().each(function (d, j) {
                                     select.append('<option value="'+d+ '">' + d + '</option>');
                                     //$('select').selectpicker('refresh');
@@ -194,4 +199,6 @@
         })(jQuery)
 
     </script>
-@stop
+@endsection
+
+
