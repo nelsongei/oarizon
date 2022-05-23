@@ -87,12 +87,12 @@ body {
       <tr>
 
 
-       
+
         <td style="width:150px">
 
-           <img src="{{public_path().'/uploads/logo/'.$organization->logo}}" alt="logo" width="80%">
+           <img src="{{asset('images/logo.png')}}" alt="logo" width="80%">
 
-    
+
         </td>
 
         <td>
@@ -103,10 +103,10 @@ body {
           {{ $organization->email}}<br>
           {{ $organization->website}}<br>
           {{ $organization->address}}
-       
+
 
         </td>
-        
+
 
       </tr>
 
@@ -135,19 +135,19 @@ body {
      <tr><td width='50'><strong>Department:</strong></td><td>All</td></tr>
     <?php }else if($selBranch == 'All'){?>
      <tr><td width='50'><strong>Branch:</strong></td><td>All</td></tr>
-     <tr><td width='50'><strong>Department:</strong></td><td>{{$sels->department_name}}</td></tr>
+     <tr><td width='50'><strong>Department:</strong></td><td>{{$sels->name}}</td></tr>
     <?php }else if($selDept == 'All'){?>
      <tr><td width='50'><strong>Branch:</strong></td><td>{{$sels->name}}</td></tr>
      <tr><td width='50'><strong>Department:</strong></td><td>All</td></tr>
      <?php }else if($selDept != 'Áll' && $selBranch !='All'){?>
      <tr><td width='50'><strong>Branch:</strong></td><td>{{$selBr->name}}</td></tr>
-     <tr><td width='50'><strong>Department:</strong></td><td>{{$selDt->department_name}}</td></tr>
-    <?php } ?> 
+     <tr><td width='50'><strong>Department:</strong></td><td>{{$selDt->name}}</td></tr>
+    <?php } ?>
     <tr><td width='50'>
      <strong>Currency:</strong></td>
       @foreach($currencies as $currency)
      <td>{{$currency->shortname}}</td>
-      @endforeach   
+      @endforeach
       </tr>
       <tr><td width='50'><strong>Period:</strong></td><td>{{$period}}</td></tr>
       </table>
@@ -167,8 +167,8 @@ body {
         <td><strong>Nssf Amount</strong></td>
         <td><strong>Nhif Amount</strong></td>
         <td><strong>Other Deductions</strong></td>
-        <td><strong>Total Deductions </strong></td>  
-        <td><strong>Net Pay </strong></td>    
+        <td><strong>Total Deductions </strong></td>
+        <td><strong>Net Pay </strong></td>
       </tr>
       <?php $i =1; ?>
       @foreach($sums as $sum)
@@ -193,9 +193,9 @@ body {
         <td align="right"> {{ asMoney($sum->net ) }}</td>
         </tr>
       <?php $i++; ?>
-   
+
     @endforeach
-    
+
     <tr><td colspan='3' align="right"><strong>Total: </strong></td>
 
     <td align="right" width="69">{{ asMoney($total_pay ) }}</td>
@@ -208,7 +208,7 @@ body {
     <td align="right" width="78">{{ asMoney($total_deds ) }}</td>
     <td align="right" width="68">{{ asMoney($total_net ) }}</td></tr>
 
-     
+
    <tr> <td align="right" colspan='11'><strong>Total net:</strong></td><td align="right" width="68">{{ asMoney($total_net ) }}</td></tr>
 
     </table>
@@ -228,7 +228,7 @@ body {
 
 <br><br>
 
-   
+
 </div>
 
 

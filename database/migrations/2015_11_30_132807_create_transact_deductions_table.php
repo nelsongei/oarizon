@@ -18,6 +18,7 @@ class CreateTransactDeductionsTable extends Migration {
 			$table->increments('id');
 			$table->integer('employee_id')->unsigned()->default('0')->index('transact_deductions_employee_id_foreign');
 			$table->integer('deduction_id')->unsigned()->default('0')->index('transact_deductions_deduction_id_foreign');
+            $table->integer('organization_id')->unsigned()->default('0')->index('transact_deductions_organization_id_foreign');
 			$table->string('deduction_name');
 			$table->string('deduction_amount')->default('0.00');
 			$table->string('financial_month_year');

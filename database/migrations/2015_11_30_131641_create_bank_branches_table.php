@@ -19,6 +19,7 @@ class CreateBankBranchesTable extends Migration {
 			$table->string('branch_code',30);
 			$table->string('bank_branch_name');
 			$table->integer('organization_id')->unsigned()->default('0')->index('bank_branches_organization_id_foreign');
+			$table->integer('bank_id')->unsigned()->default('0')->index('bank_branches_bank_id_foreign');
 			$table->timestamps();
 		});
 	}

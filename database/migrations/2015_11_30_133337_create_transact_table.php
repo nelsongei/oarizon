@@ -22,6 +22,7 @@ class CreateTransactTable extends Migration {
 			$table->string('earning_amount')->default('0.00');
 			$table->string('taxable_income')->default('0.00');
 			$table->string('paye')->default('0.00');
+			$table->string('relief')->default('0.00');
 			$table->string('nssf_amount')->default('0.00');
 			$table->string('vol_amount')->default('0.00');
 			$table->string('nhif_amount')->default('0.00');

@@ -7796,84 +7796,84 @@ class ReportsController extends Controller
                 return $pdf->stream('Payroll_summary_' . $month . '.pdf');
 
             } else if ($request->get('branch') == 'All') {
-                $sels = DB::table('departments')->find($request->get('department'));
+                $sels = DB::table('x_departments')->find($request->get('department'));
 
                 if ($request->get('type') == 'All') {
-                    $total_pay = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_pay = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
-                        ->sum('transact.basic_pay');
+                        ->sum('x_transact.basic_pay');
 
-                    $total_earning = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_earning = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('earning_amount');
 
-                    $total_gross = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_gross = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('taxable_income');
 
-                    $total_paye = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_paye = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('paye');
 
-                    $total_nssf = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_nssf = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('nssf_amount');
 
-                    $total_nhif = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_nhif = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('nhif_amount');
 
-                    $total_others = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_others = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('other_deductions');
 
-                    $total_deds = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_deds = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('total_deductions');
 
-                    $total_net = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
+                    $total_net = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
                         ->sum('net');
 
-                    $currencies = DB::table('currencies')
+                    $currencies = DB::table('x_currencies')
                         ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
                         ->select('shortname')
                         ->get();
 
-                    $sums = DB::table('transact')
-                        ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                        ->join('departments', 'employee.department_id', '=', 'departments.id')
+                    $sums = DB::table('x_transact')
+                        ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                        ->join('x_departments', 'x_employee.department_id', '=', 'x_departments.id')
                         ->where('department_id', '=', $request->get('department'))
-                        ->where('employee.organization_id', Auth::user()->organization_id)
+                        ->where('x_employee.organization_id', Auth::user()->organization_id)
                         ->where('financial_month_year', '=', $request->get('period'))
-                        ->select('personal_file_number', 'first_name', 'middle_name', 'last_name', 'transact.basic_pay', 'taxable_income', 'paye', 'nssf_amount', 'nhif_amount', 'earning_amount', 'relief', 'other_deductions', 'total_deductions', 'net', 'employee.id', 'income_tax_applicable', 'income_tax_relief_applicable')
+                        ->select('personal_file_number', 'first_name', 'middle_name', 'last_name', 'x_transact.basic_pay', 'taxable_income', 'paye', 'nssf_amount', 'nhif_amount', 'earning_amount', 'relief', 'other_deductions', 'total_deductions', 'net', 'x_employee.id', 'income_tax_applicable', 'income_tax_relief_applicable')
                         ->get();
                 } else {
                     $total_pay = DB::table('transact')
