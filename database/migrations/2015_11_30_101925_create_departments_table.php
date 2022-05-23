@@ -17,17 +17,18 @@ class CreateDepartmentsTable extends Migration {
 		Schema::create('x_departments', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('department_name');
+			$table->string('name');
+			$table->string('codes');
 			$table->integer('organization_id')->unsigned()->default('0')->index('departments_organization_id_foreign');
 			$table->timestamps();
 		});
 
 		DB::table('x_departments')->insert(array(
-            array('department_name' => 'Information Technology','organization_id' => '1'),
-            array('department_name' => 'Management','organization_id' => '1'),
-            array('department_name' => 'Marketing','organization_id' => '1'),
-            array('department_name' => 'Finance','organization_id' => '1'),
-            array('department_name' => 'Human Resource','organization_id' => '1'),
+            array('name' => 'Information Technology','organization_id' => '1','codes'=>'001'),
+            array('name' => 'Management','organization_id' => '1','codes'=>'002'),
+            array('name' => 'Marketing','organization_id' => '1','codes'=>'003'),
+            array('name' => 'Finance','organization_id' => '1','codes'=>'004'),
+            array('name' => 'Human Resource','organization_id' => '1','codes'=>'005'),
         ));
 	}
 

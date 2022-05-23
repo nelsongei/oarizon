@@ -20,6 +20,7 @@ class CreateXAccountsTable extends Migration {
 			$table->string('name');
 			$table->double('balance');
 			$table->boolean('active');
+            $table->integer('organization_id')->unsigned()->default('0')->index('accounts_organization_id_foreign');
 			$table->timestamps();
 		});
 	}

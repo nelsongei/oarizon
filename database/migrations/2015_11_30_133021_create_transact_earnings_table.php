@@ -18,6 +18,7 @@ class CreateTransactEarningsTable extends Migration {
 			$table->increments('id');
 			$table->integer('employee_id')->unsigned()->default('0')->index('transact_earnings_employee_id_foreign');
 			$table->string('earning_name');
+            $table->integer('organization_id')->unsigned()->default('0')->index('transact_earnings_oranization_id_foreign');
 			$table->string('earning_amount')->default('0.00');
 			$table->string('financial_month_year');
 			$table->timestamps();

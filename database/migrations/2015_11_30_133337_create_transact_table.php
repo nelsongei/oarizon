@@ -17,6 +17,7 @@ class CreateTransactTable extends Migration {
 			$table->increments('id');
 			$table->string('employee_id')->index('transact_employee_id_foreign');
 			$table->integer('account_id')->unsigned()->default('0')->index('transact_account_id_foreign');
+            $table->integer('organization_id')->unsigned()->default('0')->index('transact_organization_id_foreign');
 			$table->string('basic_pay')->default('0.00');
 			$table->string('earning_amount')->default('0.00');
 			$table->string('taxable_income')->default('0.00');

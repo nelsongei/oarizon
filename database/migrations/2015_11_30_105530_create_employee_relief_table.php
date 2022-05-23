@@ -18,6 +18,8 @@ class CreateEmployeeReliefTable extends Migration {
 			$table->integer('relief_id')->unsigned()->default('0')->index('employee_relief_relief_id_foreign');
 			$table->integer('employee_id')->unsigned()->default('0')->index('employee_relief_employee_id_foreign');
 			$table->string('relief_amount')->default('0.00');
+            $table->double('percentage',2);
+            $table->double('premium',2);
 			$table->timestamps();
 		});
 	}

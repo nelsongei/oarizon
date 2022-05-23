@@ -26,6 +26,7 @@ class AdvanceController extends Controller
     public function index()
     {
         $accounts = Account::where('organization_id', Auth::user()->organization_id)->where('active', true)->get();
+
         return View::make('advances.index', compact('accounts'));
     }
 

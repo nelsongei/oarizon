@@ -59,9 +59,9 @@ class PayrollController extends Controller
 
     public function unlockindex()
     {
-
-        $transacts = DB::table('x_transact')->where('organization_id', Auth::user()->organization_id)->orderBy('id', 'Desc')->simplepaginate(10);
-//        $transacts = DB::table('x_transact')->where('organization_id',Auth::user()->organization_id)->groupBy('financial_month_year','id','organization_id')->orderBy('id','Desc')->get();
+        DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
+//        $transacts = DB::table('x_transact')->where('organization_id', Auth::user()->organization_id)->orderBy('id', 'Desc')->simplepaginate(10);
+        $transacts = DB::table('x_transact')->where('organization_id',Auth::user()->organization_id)->groupBy('financial_month_year','id','organization_id')->orderBy('id','Desc')->simplepaginate(10);
 
         return View::make('payroll.unlockindex', compact('transacts'));
     }

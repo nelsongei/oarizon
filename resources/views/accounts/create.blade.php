@@ -44,13 +44,13 @@
 
                                     <div class="form-group">
                                         <label for="username">Account Name</label>
-                                        <input class="form-control" placeholder="" type="text" name="name" id="name" value="{{{ Input::old('name') }}}">
+                                        <input class="form-control" placeholder="" type="text" name="name" id="name" value="{{{ old('name') }}}">
                                     </div>
 
 
                                     <div class="form-group">
                                         <label for="username">GL Code</label>
-                                        <input class="form-control" placeholder="" type="text" name="code" id="code" value="{{{ Input::old('code') }}}">
+                                        <input class="form-control" placeholder="" type="text" name="code" id="code" value="{{{ old('code') }}}">
                                     </div>
 
 

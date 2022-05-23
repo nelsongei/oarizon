@@ -21,6 +21,7 @@ class CreateTransactAllowancesTable extends Migration {
 			$table->string('allowance_name');
 			$table->string('allowance_amount')->default('0.00');
 			$table->string('financial_month_year');
+            $table->integer('organization_id')->unsigned()->default('0')->index('transact_allowances_organization_id_foreign');
 			$table->timestamps();
 		});
 	}
