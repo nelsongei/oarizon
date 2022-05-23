@@ -15,8 +15,8 @@
             }
         }
         //dd($pfn[0].$pfn[1].$pfn[2]+1);
-//        return $ret . '.' . ($pfn + 1);
-        return $ret.'.'.($pfn[0].$pfn[1].$pfn[2]+1);
+        return $ret . '.' . ($pfn + 1);
+        //return $ret.'.'.($pfn[0].$pfn[1].$pfn[2]+1);
     }
 
     ?>

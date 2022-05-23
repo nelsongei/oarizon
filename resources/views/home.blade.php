@@ -84,7 +84,7 @@
                                         <div class="row align-items-center m-b-30">
                                             <div class="col">
                                                 <h6 class="m-b-5 text-white">Payroll</h6>
-                                                <h3 class="m-b-0 f-w-700 text-white">15</h3>
+                                                <h3 class="m-b-0 f-w-700 text-white">0</h3>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-print text-c-blue f-18"></i>

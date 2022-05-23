@@ -890,10 +890,11 @@ class Payroll extends Model
 
     public static function overtimes($id, $overtime, $period)
     {
+//        dd($overtime);
         $part = explode("-", $period);
         $start = $part[1] . "-" . $part[0] . "-01";
         //$start = $part[0] . "-" . $part[1] . "-01";
-//        dd($start);
+      //  dd($start);
         $end = date('Y-m-t', strtotime($start));
 
         $otime = 0.00;
@@ -915,7 +916,6 @@ class Payroll extends Model
                     ->where('first_day_month', '<=', $start)
                     ->where('last_day_month', '>=', $start);
             })->get();
-//        dd($total_overtimes);
         foreach ($total_overtimes as $total_overtime) {
             $otime = $total_overtime->overtimes;
         }

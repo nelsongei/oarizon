@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Currency;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -21,14 +23,21 @@ class UsersTableSeeder extends Seeder
         $user = User::create([
             'name'=>'Nelson Sammy',
             'email'=>'nelson@lixnet.net',
-            'password'=>Hash::make('secret')
+            'password'=>Hash::make('secret'),
+            'organization_id'=>1
+        ]);
+        $org = Organization::create([
+            'name'=>'Oarizon',
+            'email'=>'info@oarizon.net',
+            'installation_date'=>'2020-07-04',
+            'licensed'=>100
+        ]);
+        $cur = Currency::create([
+            'name'=>'Kenyan Shilling',
+            'shortname'=>'KES',
+            'organization_id'=>1,
         ]);
         //
-//        $role  = Role::create(['name'=>'Super Administrator']);
-//        $permissions = Permission::pluck('id','id')->all();
-//        $role->syncPermissions($permissions);
-////        $user->assignRole([$role->id]);
-//        $user->assignRole([$role->id]);
         //
         $role = Role::create(['name'=>'Admin']);
         $permissions = Permission::pluck('id','id')->all();
