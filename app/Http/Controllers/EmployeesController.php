@@ -1,4 +1,5 @@
-<?php namespace App\Http\Controllers;
+<?php
+namespace App\Http\Controllers;
 
 use App\Models\Appraisal;
 use App\Models\Audit;
@@ -463,58 +464,59 @@ class EmployeesController extends Controller
 
 
             //parse_str($request->get('docinfo'),$data);
-
-            for ($i = 0; $i < count($request->get('kin_first_name')); $i++) {
-                if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
-                    $kin = new Nextofkin;
-                    $kin->employee_id = $insertedId;
-                    $kin->kin_name = $request->get('kin_first_name')[$i].' '.$request->get('kin_last_name')[$i].' '.$request->get('kin_middle_name')[$i];
+//            dd(count($request->get('kin_first_name')));
+            if (count($request->get('kin_first_name'))>0){
+                for ($i = 0; $i < count($request->get('kin_first_name')); $i++) {
+                    if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
+                        $kin = new Nextofkin;
+                        $kin->employee_id = $insertedId;
+                        $kin->kin_name = $request->get('kin_first_name')[$i].' '.$request->get('kin_last_name')[$i].' '.$request->get('kin_middle_name')[$i];
 //                    $kin->last_name = $request->get('kin_last_name')[$i];
 //                    $kin->middle_name = $request->get('kin_middle_name')[$i];
-                    $kin->relation = $request->get('relationship')[$i];
-                    $kin->contact = $request->get('contact')[$i];
-                    $kin->id_number = $request->get('id_number')[$i];
+                        $kin->relation = $request->get('relationship')[$i];
+                        $kin->contact = $request->get('contact')[$i];
+                        $kin->id_number = $request->get('id_number')[$i];
 
-                    $kin->save();
+                        $kin->save();
 
-                    Audit::logaudit('NextofKins', 'create', 'created: ' . $request->get('kin_first_name')[$i] . ' for ' . Employee::getEmployeeName($insertedId));
+                        Audit::logaudit('NextofKins', 'create', 'created: ' . $request->get('kin_first_name')[$i] . ' for ' . Employee::getEmployeeName($insertedId));
+                    }
                 }
             }
 
             $files = $request->file('path');
             $j = 0;
+            if (count($files)>0){
+                foreach ($files as $file) {
 
-            foreach ($files as $file) {
+                    if ($request->hasFile('path') && ($request->get('doc_name')[$j] != null || $request->get('doc_name')[$j] != '')) {
+                        $document = new Document;
 
-                if ($request->hasFile('path') && ($request->get('doc_name')[$j] != null || $request->get('doc_name')[$j] != '')) {
-                    $document = new Document;
+                        $document->employee_id = $insertedId;
 
-                    $document->employee_id = $insertedId;
+                        $name = time() . '-' . $file->getClientOriginalName();
+                        $file = $file->move('public/uploads/employees/documents/', $name);
+                        $input['file'] = '/public/uploads/employees/documents/' . $name;
+                        $extension = pathinfo($name, PATHINFO_EXTENSION);
+                        $document->document_path = $name;
+                        $document->document_name = $request->get('doc_name')[$j] . '.' . $extension;
+                        // $document->description = $request->get('description')[$j];
 
-                    $name = time() . '-' . $file->getClientOriginalName();
-                    $file = $file->move('public/uploads/employees/documents/', $name);
-                    $input['file'] = '/public/uploads/employees/documents/' . $name;
-                    $extension = pathinfo($name, PATHINFO_EXTENSION);
-                    $document->document_path = $name;
-                    $document->document_name = $request->get('doc_name')[$j] . '.' . $extension;
+                        //    $document->from_date = $request->get('fdate')[$j];
 
+                        //  $document->expiry_date = $request->get('edate')[$j];
 
-                    $document->description = $request->get('description')[$j];
+                        $document->save();
 
-                    $document->from_date = $request->get('fdate')[$j];
-
-                    $document->expiry_date = $request->get('edate')[$j];
-
-                    $document->save();
-
-                    Audit::logaudit('Documents', 'create', 'created: ' . $request->get('doc_name')[$j] . ' for ' . Employee::getEmployeeName($insertedId));
-                    $j = $j + 1;
+                        Audit::logaudit('Documents', 'create', 'created: ' . $request->get('doc_name')[$j] . ' for ' . Employee::getEmployeeName($insertedId));
+                        $j = $j + 1;
+                    }
                 }
             }
 
             return Redirect::route('employees.index')->withFlashMessage('Employee successfully created!');
-        } catch (FormValidationException $e) {
-            return Redirect::back()->withInput()->withErrors($e->getErrors());
+        } catch (\Exception $e) {
+            return Redirect::back()->withInput()->withErrors($e);
         }
     }
 

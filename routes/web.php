@@ -875,6 +875,7 @@ Route::group(['prefix' => 'timesheet'], function () {
     Route::get('work_shift/create', [OfficeShiftController::class,'create']);
     Route::post('work_shift/save', [OfficeShiftController::class,'store']);
     Route::post('work_shift/deactivate', [OfficeShiftController::class,'destroy']);
+    Route::get('officeshift/{id}/{clock_in}/{clock_out}',[OfficeShiftController::class,'getShift']);
     //Route::resource('attendances','AttendanceController');
     Route::get('attendances', [AttendanceController::class,'index']);
 

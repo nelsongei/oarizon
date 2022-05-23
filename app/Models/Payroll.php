@@ -891,7 +891,8 @@ class Payroll extends Model
     public static function overtimes($id, $overtime, $period)
     {
         $part = explode("-", $period);
-        $start = $part[0] . "-" . $part[1] . "-01";
+        $start = $part[1] . "-" . $part[0] . "-01";
+        //$start = $part[0] . "-" . $part[1] . "-01";
 //        dd($start);
         $end = date('Y-m-t', strtotime($start));
 

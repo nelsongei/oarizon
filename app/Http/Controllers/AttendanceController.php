@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Employee;
 use App\Models\FingerPrints;
 use App\Models\Holiday;
+use App\Models\OfficeShift;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
@@ -192,9 +193,9 @@ class AttendanceController extends BaseController
 
         }
         // echo "<pre>"; print_r(json_decode($holidays)); echo "</pre>"; die();
-
-
-        return View::make('timesheet.attendance.attendances');
+        $employees = Employee::orderBy('id','asc')->get(['id','first_name','last_name']);
+        $shifts = OfficeShift::orderBy('id')->get();
+        return View::make('timesheet.attendance.attendances',compact('employees','shifts'));
     }
 
     public function collectBioAtt($id)

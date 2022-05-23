@@ -70,4 +70,8 @@ class OfficeShiftController extends BaseController
         OfficeShift::where('id',$id)->delete();
         return Redirect::to('timesheet/work_shift')->with('success','Data created Successfully');
     }
+    public function getShift($id,$clock_in,$clock_out)
+    {
+        return  OfficeShift::where('id',$id)->get([$clock_in,$clock_out]);
+    }
 }

@@ -106,7 +106,7 @@ function asMoney($value)
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input class="form-control expiry"
-                                                           placeholder="" type="date"
+                                                           placeholder="" type="text"
                                                            name="odate" id="odate" value="{{{ old('odate') }}}">
                                                 </div>
                                             </div>
@@ -127,6 +127,22 @@ function asMoney($value)
         </div>
     </div>
     <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+            $('.expiry').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '0y',
+                autoclose: true
+            });
+        });
+    </script>
     <script type="text/javascript">
         document.getElementById("odate").value = '';
 

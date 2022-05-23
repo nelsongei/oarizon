@@ -130,7 +130,6 @@ class PayrollController extends Controller
 
     public function preview_payroll()
     {
-
         $employees = DB::table('employee')
             ->where('in_employment', '=', 'Y')
             ->where('employee.organization_id', Auth::user()->organization_id)
