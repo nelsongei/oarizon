@@ -145,7 +145,7 @@
                                 </li>
                                 <li class="">
                                     <a href="{{ url('deactives') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Activate Employee</span>
+                                        <span class="pcoded-mtext">Deactivated Employees</span>
                                     </a>
                                 </li>
                                 <li class="">

@@ -12,7 +12,7 @@ class CreateNextOfKinTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('x_next_of_kin', function(Blueprint $table)
+		Schema::create('x_nextofkins', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('employee_id')->unsigned()->default('0')->index('next_of_kin_employee_id_foreign');

@@ -19,6 +19,11 @@ class CreateEmployeeAllowancesTable extends Migration {
 			$table->integer('employee_id')->unsigned()->default('0')->index('employee_allowances_employee_id_foreign');
 			$table->integer('allowance_id')->unsigned()->default('0')->index('employee_allowances_allowance_id_foreign');
 			$table->string('allowance_amount')->default('0.00');
+			$table->string('formular');
+			$table->integer('instalments');
+			$table->date('allowance_date');
+			$table->date('first_day_month');
+			$table->date('last_day_month');
 			$table->timestamps();
 		});
 	}

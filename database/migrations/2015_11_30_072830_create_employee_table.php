@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEmployeeTable extends Migration {
 
@@ -33,12 +34,13 @@ class CreateEmployeeTable extends Migration {
 			$table->integer('department_id')->unsigned()->default('0')->index('employee_department_id_foreign');
 			$table->integer('job_group_id')->unsigned()->default('0')->index('employee_job_group_id_foreign');
 			$table->integer('type_id')->unsigned()->default('0')->index('employee_type_id_foreign');
+			$table->integer('citizenship_id')->unsigned()->default('0')->index('employee_citizenship_id_foreign');
 			$table->string('photo')->nullable();
 			$table->string('signature')->nullable();
 			$table->string('gender',6)->nullable();
 			$table->string('marital_status',15)->nullable();
 			$table->date('yob')->nullable();
-			$table->string('citizenship',15)->nullable();
+			//$table->string('citizenship',15)->nullable();
 			$table->integer('education_type_id')->unsigned()->default('0')->index('employee_education_type_id_foreign');
 			$table->integer('income_tax_applicable')->default('0');
 			$table->integer('income_tax_relief_applicable')->default('0');
@@ -70,6 +72,9 @@ class CreateEmployeeTable extends Migration {
             $table->string('telephone_extension_office',30)->nullable()->unique();
             $table->string('telephone_mobile',30)->nullable()->unique();
             $table->string('postal_address')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->date('termination_date')->nullable();
             $table->string('postal_zip',30)->nullable();
             $table->string('date_joined',30)->nullable();
             $table->integer('bf_leave_days')->default('0');

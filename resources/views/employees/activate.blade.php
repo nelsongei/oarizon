@@ -80,12 +80,12 @@
                                                     <td>{{ $employee->hospital_insurance_number }}</td>
                                                     <td>{{ $employee->gender }}</td>
                                                     <?php if( $employee->branch_id!=0){ ?>
-                                                    <td>{{ App\models\Branch::getName($employee->branch_id) }}</td>
+                                                    <td>{{ App\Models\Branch::getName($employee->branch_id) }}</td>
                                                     <?php }else{?>
                                                     <td></td>
                                                     <?php } ?>
                                                     <?php if( $employee->department_id!= 0){ ?>
-                                                    <td>{{ App\models\Department::getName($employee->department_id) }}</td>
+                                                    <td>{{ App\Models\Department::getName($employee->department_id) }}</td>
                                                     <?php }else{?>
                                                     <td></td>
                                                     <?php } ?>
@@ -110,8 +110,6 @@
 
                                                 <?php $i++; ?>
                                             @endforeach
-
-
                                             </tbody>
                                         </table>
                                     </div>

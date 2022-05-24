@@ -26,6 +26,7 @@ class PermissionTableSeeder extends Seeder
             ['name'=>'manage_benefit','guard_name'=>'web','display_name'=>'Manage Benefits','Category'=>'Payroll'],
             ['name'=>'process_payroll','guard_name'=>'web','display_name'=>'Process Payroll','Category'=>'Payroll'],
             ['name'=>'view_payroll_report','guard_name'=>'web','display_name'=>'View Payroll Report','Category'=>'Payroll'],
+            ['name'=>'manager_payroll','guard_name'=>'web','display_name'=>'Manage Payroll','Category'=>'Payroll'],
             ['name'=>'manage_settings','guard_name'=>'web','display_name'=>'Manage Settings','Category'=>'Payroll'],
             ['name'=>'view_application','guard_name'=>'web','display_name'=>'View Application','Category'=>'Leave'],
             ['name'=>'amend_application','guard_name'=>'web','display_name'=>'Amend Application','Category'=>'Leave'],

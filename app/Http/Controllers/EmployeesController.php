@@ -463,8 +463,7 @@ class EmployeesController extends Controller
 
 
             //parse_str($request->get('docinfo'),$data);
-//            dd(count($request->get('kin_first_name')));
-            if (count($request->get('kin_first_name'))>0){
+            if (($request->get('kin_first_name')[0]) !==null){
                 for ($i = 0; $i < count($request->get('kin_first_name')); $i++) {
                     if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
                         $kin = new Nextofkin;
@@ -482,10 +481,10 @@ class EmployeesController extends Controller
                     }
                 }
             }
-
             $files = $request->file('path');
             $j = 0;
-            if (count($files)>0){
+//            dd($files);
+            if (($request->get('doc_name')[0]) !==null){
                 foreach ($files as $file) {
 
                     if ($request->hasFile('path') && ($request->get('doc_name')[$j] != null || $request->get('doc_name')[$j] != '')) {
@@ -515,7 +514,8 @@ class EmployeesController extends Controller
 
             return Redirect::route('employees.index')->withFlashMessage('Employee successfully created!');
         } catch (\Exception $e) {
-            return Redirect::back()->withInput()->withErrors($e);
+//            return Redirect::back()->withInput()->withErrors($e);
+            return  $e;
         }
     }
 
@@ -594,14 +594,14 @@ class EmployeesController extends Controller
 
         //$validator = Employee::validateUpdate($request->all(), $id);
 
-        /*	$validator = Validator::make($request->all(), Employee::rolesUpdate($employee->id),Employee::$messages);
+        	//$validator = Validator::make($request->all(), Employee::rolesUpdate($employee->id),Employee::$messages);
 
-            //$validator = Validator::make($data = $request->all(), Employee::$rules,Employee::$messages);
+            $validator = Validator::make($data = $request->all(), Employee::$rules,Employee::$messages);
 
             if ($validator->fails())
             {
                 return Redirect::back()->withErrors($validator)->withInput();
-            }*/
+            }
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');

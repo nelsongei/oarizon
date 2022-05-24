@@ -22,6 +22,8 @@ class CreateEmployeeDeductionsTable extends Migration {
             $table->integer('instalments')->default('0')->nullable();
 			$table->string('deduction_amount')->default('0.00');
 			$table->date('deduction_date');
+			$table->date('first_day_month');
+			$table->date('last_day_month');
 			$table->timestamps();
 		});
 	}

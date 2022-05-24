@@ -108,7 +108,7 @@ class PayrollController extends Controller
 
     public function createaccount()
     {
-        $postaccount = Input::all();
+        $postaccount = request()->all();
         $data = array('name' => $postaccount['name'],
             'code' => $postaccount['code'],
             'category' => $postaccount['category'],
@@ -116,7 +116,7 @@ class PayrollController extends Controller
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('accounts')->insertGetId($data);
+        $check = DB::table('x_accounts')->insertGetId($data);
 
         if ($check > 0) {
 

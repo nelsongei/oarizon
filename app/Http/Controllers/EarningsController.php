@@ -43,7 +43,6 @@ class EarningsController extends Controller
      */
     public function create()
     {
-
         $employees = DB::table('x_employee')
             ->where('in_employment', '=', 'Y')
             ->where('x_employee.organization_id', Auth::user()->organization_id)
@@ -60,7 +59,7 @@ class EarningsController extends Controller
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('earningsettings')->insertGetId($data);
+        $check = DB::table('x_earningsettings')->insertGetId($data);
         // $id = DB::table('earningsettings')->insertGetId( $data );
 
         if ($check > 0) {

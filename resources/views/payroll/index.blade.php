@@ -33,25 +33,25 @@
             width: 100%;
         }
 
-        div#users-contain table td, div#users-contain table th {
-            border: 1px solid #eee;
-            padding: .6em 10px;
-            text-align: left;
-        }
+        /*div#users-contain table td, div#users-contain table th {*/
+        /*    border: 1px solid #eee;*/
+        /*    padding: .6em 10px;*/
+        /*    text-align: left;*/
+        /*}*/
 
-        .ui-dialog .ui-state-error {
-            padding: .3em;
-        }
+        /*.ui-dialog .ui-state-error {*/
+        /*    padding: .3em;*/
+        /*}*/
 
-        .validateTips {
-            border: 1px solid transparent;
-            padding: 0.3em;
-        }
+        /*.validateTips {*/
+        /*    border: 1px solid transparent;*/
+        /*    padding: 0.3em;*/
+        /*}*/
 
-        .ui-dialog {
-            position: fixed;
-            margin-bottom: 850px;
-        }
+        /*.ui-dialog {*/
+        /*    position: fixed;*/
+        /*    margin-bottom: 850px;*/
+        /*}*/
 
 
         .ui-dialog-titlebar-close {
@@ -258,16 +258,17 @@
                       }
        });
        }*/
-
+                    const createAccount = {
+                        "name":document.getElementById('name').value,
+                        "code":document.getElementById('code').value,
+                        "category":document.getElementById('category').value,
+                        "_token":"{{csrf_token()}}"
+                    }
                     $.ajax({
                         url: "{{URL::to('createNewAccount')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': name.val(),
-                            'code': code.val(),
-                            'category': category.val()
-                        },
+                        data: createAccount,
                         success: function (s) {
                             $('#account').append($('<option>', {
                                 value: s,
