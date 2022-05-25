@@ -80,6 +80,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;

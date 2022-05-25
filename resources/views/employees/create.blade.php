@@ -43,13 +43,13 @@
                                     <form method="POST" action="{{{ url('employees') }}}" enctype="multipart/form-data"
                                           data-parsley-validate>
                                         @csrf
-                                        <button class="btn btn-default" id="progressBtn"
-                                                style="position: absolute; width: 65px; height: 65px; left:47%; margin-top: -70px; border-radius: 50%; font-size: 15px; font-weight: bold; font-family:sans-serif; color: #fff; background: #1b01fa; border-color: transparent;">
+                                        <div class="btn btn-default" id="progressBtn"
+                                             style="position: absolute; width: 65px; height: 65px; left:47%; margin-top: -75px; border-radius: 50%; font-size: 15px; font-weight: bold; font-family:sans-serif; color: #fff; background: #1b01fa; border-color: transparent; padding-top:20px">
                                             <span id="cNo">
                                                 0
                                             </span>
                                             %
-                                        </button>
+                                        </div>
                                         <center class="mt-4 mb-2">
                                             <button class="btn btn-info btn-md rounded-pill"
                                                     onclick="event.preventDefault(); tabControl(1)"> Personal Details
@@ -133,7 +133,7 @@
                                                                class="form-control">
 
                                                         <!-- Allow form submission with keyboard without duplicating the dialog button -->
-                                                       <input type="submit" tabindex="-1"
+                                                        <input type="submit" tabindex="-1"
                                                                style="position:absolute; top:-1000px">
                                                     </fieldset>
                                                 </form>
@@ -287,10 +287,16 @@
                                                                type="text" name="mname" id="mname"
                                                                value="{{{ old('mname') }}}">
                                                     </div>
-
                                                     <div class="form-group col-sm-4">
-                                                        <label for="identity_number">ID Number <span
-                                                                style="color:red">*</span></label>
+                                                        <label for="TypeId">Select Type Of Id</label>
+                                                        <select id="TypeId" class="form-control">
+                                                            <option>National ID</option>
+                                                            <option>Passport</option>
+                                                            <option>Military ID</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-4" id="idNum">
+                                                        <label for="identity_number">ID Number</label>
                                                         <input class="form-control" placeholder=""
                                                                data-parsley-trigger="change focusout"
                                                                data-parsley-type="number" data-parsley-minlength="8"
@@ -298,11 +304,17 @@
                                                                value="{{{ old('identity_number') }}}">
                                                     </div>
 
-                                                    <div class="form-group col-sm-4">
+                                                    <div class="form-group col-sm-4" id="passNum">
                                                         <label for="passport_number">Passport number</label>
                                                         <input class="form-control" placeholder="" type="number"
                                                                name="passport_number" id="passport_number"
                                                                value="{{{ old('passport_number') }}}">
+                                                    </div>
+                                                    <div class="form-group col-sm-4" id="millitaryNum">
+                                                        <label for="military_id">Military ID</label>
+                                                        <input class="form-control" placeholder="" type="number"
+                                                               name="military_id" id="military_id"
+                                                               value="{{{ old('military_id') }}}">
                                                     </div>
                                                     <div class="form-group col-sm-4">
                                                         <label for="dob">Date of birth <span
@@ -315,7 +327,6 @@
                                                                    value="{{{ old('dob') }}}">
                                                         </div>
                                                     </div>
-
                                                     <div class="form-group col-sm-4">
                                                         <label for="status">Marital Status</label>
                                                         <select name="status" id="status" class="form-control">
@@ -820,23 +831,47 @@
             </div>
         </div>
     </div>
-    {{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
     <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+        $(document).ready(function () {
+            $('#idNum').hide();
+            $('#passNum').hide();
+            $('#millitaryNum').hide();
+            $('#TypeId').change(function () {
+                if ($(this).val() === "Passport") {
+                    $('#passNum').show();
+                    $('#idNum').hide();
+                    $('#millitaryNum').hide();
+                } else if ($(this).val() === "National ID") {
+                    $('#idNum').show();
+                    $('#passNum').hide();
+                    $('#millitaryNum').hide();
+                } else if ($(this).val() === "Military ID") {
+                    $('#millitaryNum').show();
+                    $('#idNum').hide();
+                    $('#passNum').hide();
+                } else {
+                    $('#idNum').hide();
+                    $('#passNum').hide();
+                    $('#millitaryNum').hide();
+                }
+            });
+        })
+    </script>
+    <script>
         function nexts(id) {
             if (id === 1) {
                 console.log(id);
                 var personal_file_number = $("#personal_file_number").val();
-                var identity_number = $("#identity_number").val();
                 var firstName = $("#fname").val();
                 var surname = $("#lname").val();
                 var dob = $("#dob").val();
                 var gender = $("#gender").val();
-                if (firstName.length !== 0 && surname.length !== 0 && dob.length !== 0 && gender.length !== 0 && identity_number.length !== 0 && personal_file_number.length !== 0) {
+                if (firstName.length !== 0 && surname.length !== 0 && dob.length !== 0 && gender.length !== 0 && personal_file_number.length !== 0) {
                     // if (isNaN(idNumber)) {
                     $("#emptyErr2").fadeOut();
                     document.getElementById("contactBtn").disabled = true;
@@ -2076,7 +2111,7 @@
        });
        }*/
                     const bankBranchName = {
-                        'bid':document.getElementById('bid').value,
+                        'bid': document.getElementById('bid').value,
                         'name': document.getElementById('brname').value,
                         'code': document.getElementById('brcode').value,
                         "_token": "{{csrf_token()}}"
@@ -2317,11 +2352,11 @@
                     {{--        }--}}
                     {{--    });--}}
                     {{--}--}}
-                        const departmentData = {
-                            'name': document.getElementById('dname').value,
-                            'code': document.getElementById('dcode').value,
-                            "_token": "{{csrf_token()}}"
-                        }
+                    const departmentData = {
+                        'name': document.getElementById('dname').value,
+                        'code': document.getElementById('dcode').value,
+                        "_token": "{{csrf_token()}}"
+                    }
                     $.ajax({
                         url: "{{url('createDepartment')}}",
                         type: "POST",
@@ -2436,9 +2471,9 @@
                       }
        });
        }*/
-                    const jobGroup  = {
-                        "name":document.getElementById('jname').value,
-                        "_token":"{{csrf_token()}}"
+                    const jobGroup = {
+                        "name": document.getElementById('jname').value,
+                        "_token": "{{csrf_token()}}"
                     }
                     $.ajax({
                         url: "{{url('createGroup')}}",

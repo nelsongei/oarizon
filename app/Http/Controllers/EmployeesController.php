@@ -319,6 +319,7 @@ class EmployeesController extends Controller
             $employee->last_name = $request->get('lname');
             $employee->middle_name = $request->get('mname');
             $employee->identity_number = $request->get('identity_number');
+            $employee->military_id = $request->get('military_id');
             if ($request->get('passport_number') != null) {
                 $employee->passport_number = $request->get('passport_number');
             } else {

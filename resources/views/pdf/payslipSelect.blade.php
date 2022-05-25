@@ -164,6 +164,7 @@
                         type: $('#type').val()
                     },
                     function (data1) {
+                    console.log(data1);
                         $('#employeeid').empty();
                         $('#employeeid').append("<option value='All'>All</option>");
                         $.each(data1, function (key, element) {

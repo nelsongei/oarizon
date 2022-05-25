@@ -1,5 +1,4 @@
 @extends('layouts.main_hr')
-{{-- {{HTML::script('') }} --}}
 <link rel="stylesheet" href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}"/>
 @section('xara_cbs')
     <style>
@@ -49,13 +48,6 @@
             border: 1px solid transparent;
             padding: 0.3em;
         }
-
-        .ui-dialog {
-            position: fixed;
-            margin-bottom: 950px;
-        }
-
-
         .ui-dialog-titlebar-close {
             background: url("{{ URL::asset('jquery-ui-1.11.4.custom/images/ui-icons_888888_256x240.png') }}") repeat scroll -93px -128px rgba(0, 0, 0, 0);
             border: medium none;
@@ -363,14 +355,15 @@
                           }
            });
            }*/
-
+                    const createJobtitle={
+                        "name": document.getElementById('jtitle').value,
+                        "_token": "{{csrf_token()}}",
+                    }
                     $.ajax({
                         url: "{{URL::to('createJobtitle')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': jtitle.val()
-                        },
+                        data: createJobtitle,
                         success: function (s) {
                             $('#job_title').append($('<option>', {
                                 value: s,

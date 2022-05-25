@@ -37,7 +37,7 @@
                                                 <div class="right-inner-addon ">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                     <input required class="form-control datepicker2" placeholder=""
-                                                           type="date" name="period" id="period" value="{{{ date('m') }}}">
+                                                           type="text" name="period" id="period" value="{{{ date('m') }}}">
                                                 </div>
                                             </div>
 
@@ -75,16 +75,17 @@
             </div>
         </div>
     </div>
-    <div class="row">
-    </div>
-
-
-    <div class="row">
-        <div class="col-lg-5">
-
-
-        </div>
-
-    </div>
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker2').datepicker({
+                format: "mm-yyyy",
+                startView: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+        });
+    </script>
 
 @stop

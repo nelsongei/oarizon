@@ -21,7 +21,8 @@ class CreateEmployeeTable extends Migration {
 			$table->string('first_name');
 			$table->string('last_name');
 			$table->string('middle_name')->nullable();
-			$table->string('identity_number')->unique();
+			$table->string('identity_number')->unique()->nullable();
+			$table->string('military_id')->unique()->nullable();
 			$table->string('passport_number')->nullable()->unique();
 			$table->string('basic_pay')->default('0.00');
 			$table->string('vol_amount')->default('0.00');
