@@ -1,7 +1,5 @@
 @extends('layouts.main_hr')
 @section('xara_cbs')
-
-
     <div class="pcoded-inner-content">
         <div class="main-body">
             <div class="page-wrapper">
@@ -20,7 +18,7 @@
                             </div>
                         @endif
                         <div class="card-header">
-                            <h3>Employee Occurences</h3>
+                            <h3>Employee Occurrences</h3>
                             <div class="card-header-right">
                                 <a class="dt-button btn-sm" href="{{ url('occurences/create')}}">New Occurence</a>
                             </div>

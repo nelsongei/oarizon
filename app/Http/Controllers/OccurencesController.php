@@ -59,7 +59,7 @@ class OccurencesController extends Controller {
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('occurencesettings')->insertGetId( $data );
+        $check = DB::table('x_occurencesettings')->insertGetId( $data );
         // $id = DB::table('earningsettings')->insertGetId( $data );
 
         $user = Auth::user()->username;

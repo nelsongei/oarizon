@@ -69,7 +69,7 @@ class AppraisalsController extends Controller {
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('appraisalquestions')->insertGetId( $data );
+        $check = DB::table('x_appraisalquestions')->insertGetId( $data );
         $user = Auth::user()->username;
         $date = date('Y-m-d');
 
