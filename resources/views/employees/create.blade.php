@@ -841,7 +841,11 @@
                     $("#emptyErr2").fadeOut();
                     document.getElementById("contactBtn").disabled = true;
                     document.getElementById("hrBtn").disabled = true;
-                    // document.getElementById("finish").disabled = true;
+                    document.getElementById("company").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("docs").disabled = true;
                     $("#page1").hide();
                     $("#page2").fadeIn();
                     $("#page3").hide();
@@ -861,7 +865,11 @@
                     $("#emptyErr").fadeIn();
                     document.getElementById("contactBtn").disabled = true;
                     document.getElementById("hrBtn").disabled = true;
-                    // document.getElementById("finish").disabled = true;
+                    document.getElementById("company").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("docs").disabled = true;
                 }
             }
             if (id === 2) {
@@ -891,7 +899,11 @@
                     $("#emptyErr1").fadeOut();
                     document.getElementById("contactBtn").disabled = false;
                     document.getElementById("hrBtn").disabled = false;
-                    // document.getElementById("finish").disabled = true;
+                    document.getElementById("company").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("docs").disabled = true;
                     $("#page2").hide();
                     $("#page1").hide();
                     $("#page3").fadeIn();
@@ -912,8 +924,12 @@
                 } else {
                     $("#emptyErr1").fadeIn();
                     document.getElementById("contactBtn").disabled = false;
-                    document.getElementById("hrBtn").disabled = true;
-                    // document.getElementById("finish").disabled = true;
+                    document.getElementById("hrBtn").disabled = false;
+                    document.getElementById("company").disabled = false;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("docs").disabled = true;
 
                 }
             }
@@ -947,7 +963,11 @@
                     $("#emptyErr21").fadeOut();
                     document.getElementById("contactBtn").disabled = false;
                     document.getElementById("hrBtn").disabled = false;
-                    // document.getElementById("finish").disabled = false;
+                    document.getElementById("company").disabled = false;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("docs").disabled = true;
                     $("#page4").fadeIn();
                     $("#page1").hide();
                     $("#page2").hide();
@@ -1005,6 +1025,11 @@
                 if (branch_id.length !== 0 && department_id !== 0 && jgroup_id !== 0 && type_id !== 0 && startdate !== 0 && enddate !== 0 && work_permit_number !== 0 && job_title !== 0 && job_title !== 0 && pay !== 0 && djoined !== 0) {
                     document.getElementById("contactBtn").disabled = false;
                     document.getElementById("hrBtn").disabled = false;
+                    document.getElementById("company").disabled = false;
+                    document.getElementById("contact").disabled = false;
+                    document.getElementById("contact").disabled = true;
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("docs").disabled = true;
                     $('#page5').fadeIn();
                     $("#page4").hide();
                     $("#page1").hide();
@@ -1047,8 +1072,13 @@
                 console.log(id)
                 var email_office = $("#email_office").val();
                 if (email_office.length !== 0) {
-                    document.getElementById('contactBtn').disabled = false;
-                    document.getElementById('hrBtn').disabled = false;
+                    document.getElementById("contactBtn").disabled = false;
+                    document.getElementById("hrBtn").disabled = false;
+                    document.getElementById("company").disabled = false;
+                    document.getElementById("contact").disabled = false;
+                    document.getElementById("contact").disabled = false;
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("docs").disabled = true;
                     $('#page6').fadeIn();
                     $("#page4").hide();
                     $("#page1").hide();
@@ -1090,6 +1120,13 @@
             }
             if (id === 11) {
                 console.log(id)
+                document.getElementById("contactBtn").disabled = false;
+                document.getElementById("hrBtn").disabled = false;
+                document.getElementById("company").disabled = false;
+                document.getElementById("contact").disabled = false;
+                document.getElementById("contact").disabled = false;
+                document.getElementById("next").disabled = false;
+                document.getElementById("docs").disabled = true;
                 $("#page7").fadeIn();
                 $('#page6').hide();
                 $("#page4").hide();

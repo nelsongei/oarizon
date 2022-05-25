@@ -1969,16 +1969,20 @@ class Payroll extends Model
 
     public static function netcalc($gross)
     {
-        $total_net = 0.00;
-        $gross=0.00;
-        $total_net = $gross - static::payecalc($gross) - static::nssfcalc($gross) - static::nhifcalc($gross);
-        if ($total_net < 0) {
-            $total_net = 0;
-        } else {
+        try {
+            $total_net = 0.00;
+            //$gross=0.00;
             $total_net = $gross - static::payecalc($gross) - static::nssfcalc($gross) - static::nhifcalc($gross);
-        }
+            if ($total_net < 0) {
+                $total_net = 0;
+            } else {
+                $total_net = $gross - static::payecalc($gross) - static::nssfcalc($gross) - static::nhifcalc($gross);
+            }
 
-        return round($total_net, 2);
+            return round($total_net, 2);
+        }catch (\Exception $e){
+
+        }
 
     }
 

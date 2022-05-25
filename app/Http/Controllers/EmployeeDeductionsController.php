@@ -57,7 +57,7 @@ class EmployeeDeductionsController extends Controller {
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('deductions')->insertGetId( $data );
+        $check = DB::table('x_deductions')->insertGetId( $data );
 
         if($check > 0){
 

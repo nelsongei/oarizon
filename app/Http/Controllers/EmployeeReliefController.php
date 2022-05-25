@@ -53,12 +53,12 @@ class EmployeeReliefController extends Controller {
 
 	public function createrelief()
 	{
-      $postrelief = Input::all();
+      $postrelief = request()->all();
       $data = array('relief_name' => $postrelief['name'],
       	            'organization_id' => Auth::user()->organization_id,
       	            'created_at' => DB::raw('NOW()'),
       	            'updated_at' => DB::raw('NOW()'));
-      $check = DB::table('relief')->insertGetId( $data );
+      $check = DB::table('x_relief')->insertGetId( $data );
 
 		if($check > 0){
 

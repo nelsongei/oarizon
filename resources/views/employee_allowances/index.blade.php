@@ -12,10 +12,10 @@
                     <!-- [ page content ] start -->
                     <div class="card">
                         <div class="card-header">
-                            <h3>Employee Allowance</h3>
+                            <h3>Employee Allowances</h3>
 
                             <div class="card-header-right">
-                                <a class="dt-button btn-sm" href="{{ url('employee_allowances/create')}}">new employee allowance</a>
+                                <a class="dt-button btn-sm" href="{{ url('employee_allowances/create')}}">New employee allowance</a>
                             </div>
                             @if (Session::has('flash_message'))
 

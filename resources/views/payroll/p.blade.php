@@ -8,6 +8,89 @@
 }
 
 ?>
+
+<script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+{{--{{HTML::script('') }}--}}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#grossform').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "{{URL::to('shownet')}}",
+                type: "POST",
+                dataType: "JSON",
+                async: false,
+                data: {
+                    'formdata': $('#grossform').serialize(),
+                    '_token':'<?php echo csrf_token()?>'
+                }
+            }).done(function (data) {
+                //alert(data.gross1);
+                $('#gross').val(data.gross);
+                $('#paye').val(data.paye);
+                $('#nssf').val(data.nssf);
+                $('#nhif').val(data.nhif);
+                $('#net').val(data.net);
+            });
+        });
+
+
+        /*$('#gross').keypress(function(event){
+           var keycode = (event.keyCode ? event.keyCode : event.which);
+            if(keycode == '13'){
+            var gross = $(this).val();
+
+             displaydata();
+
+            function displaydata(){
+             $.ajax({
+                            url     : "{{URL::to('shownet')}}",
+                      type    : "POST",
+                      async   : false,
+                      data    : {
+                              'gross'  : gross
+                      },
+                      success : function(s){
+
+                      }
+       });
+       }
+    }
+    });
+*/
+
+        var net = $('#net1').val();
+
+        // displaygross();
+
+
+        $('#netform').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "{{URL::to('showgross')}}",
+                type: "POST",
+                dataType: "JSON",
+                async: false,
+                data: {
+                    'formdata': $('#netform').serialize(),
+                    '_token':'<?php echo csrf_token()?>'
+                }
+            }).done(function (data) {
+                console.log(data);
+                $('#gross1').val(data.gross1);
+                $('#paye1').val(data.paye1);
+                $('#nssf1').val(data.nssf1);
+                $('#nhif1').val(data.nhif1);
+                $('#net1').val(data.netv);
+            });
+        });
+    });
+
+</script>
+
+
 @section('xara_cbs')
     @include('partials.breadcrumbs')
     <div class="pcoded-inner-content">
@@ -292,82 +375,4 @@
             </div>
         </div>
     </div>
-    <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#grossform').submit(function (event) {
-                event.preventDefault();
-                $.ajax({
-                    url: "{{URL::to('shownet')}}",
-                    type: "POST",
-                    dataType: "JSON",
-                    async: false,
-                    data: {
-                        'formdata': $('#grossform').serialize(),
-                        '_token':'<?php echo csrf_token()?>'
-                    }
-                }).done(function (data) {
-                    //alert(data.gross1);
-                    $('#gross').val(data.gross);
-                    $('#paye').val(data.paye);
-                    $('#nssf').val(data.nssf);
-                    $('#nhif').val(data.nhif);
-                    $('#net').val(data.net);
-                });
-            });
-
-
-            /*$('#gross').keypress(function(event){
-               var keycode = (event.keyCode ? event.keyCode : event.which);
-                if(keycode == '13'){
-                var gross = $(this).val();
-
-                 displaydata();
-
-                function displaydata(){
-                 $.ajax({
-                                url     : "{{URL::to('shownet')}}",
-                      type    : "POST",
-                      async   : false,
-                      data    : {
-                              'gross'  : gross
-                      },
-                      success : function(s){
-
-                      }
-       });
-       }
-    }
-    });
-*/
-
-            var net = $('#net1').val();
-
-            // displaygross();
-
-
-            $('#netform').submit(function (event) {
-                event.preventDefault();
-                $.ajax({
-                    url: "{{URL::to('showgross')}}",
-                    type: "POST",
-                    dataType: "JSON",
-                    async: false,
-                    data: {
-                        'formdata': $('#netform').serialize(),
-                        '_token':'<?php echo csrf_token()?>'
-                    }
-                }).done(function (data) {
-                    console.log(data);
-                    $('#gross1').val(data.gross1);
-                    $('#paye1').val(data.paye1);
-                    $('#nssf1').val(data.nssf1);
-                    $('#nhif1').val(data.nhif1);
-                    $('#net1').val(data.netv);
-                });
-            });
-        });
-
-    </script>
 @endsection

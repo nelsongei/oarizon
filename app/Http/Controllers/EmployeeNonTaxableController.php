@@ -59,7 +59,7 @@ class EmployeeNonTaxableController extends Controller
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('nontaxables')->insertGetId($data);
+        $check = DB::table('x_nontaxables')->insertGetId($data);
 
         if ($check > 0) {
 
@@ -134,7 +134,7 @@ class EmployeeNonTaxableController extends Controller
 
         $nontaxable->save();
 
-        Audit::logaudit(date('Y-m-d'),Auth::user()->username,'Employeenontaxables',  'assigned: ' . $nontaxable->nontaxable_amount . ' to ' . Employee::getEmployeeName(request('employee')));
+        Audit::logaudit(date('Y-m-d'), Auth::user()->username, 'Employeenontaxables', 'assigned: ' . $nontaxable->nontaxable_amount . ' to ' . Employee::getEmployeeName(request('employee')));
 
         return Redirect::route('employeenontaxables.index')->withFlashMessage('Employee non taxable income successfully created!');
     }

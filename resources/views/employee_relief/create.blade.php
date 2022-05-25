@@ -1,70 +1,6 @@
 @extends('layouts.main_hr')
 @section('xara_cbs')
     <link rel="stylesheet" href="{{asset('jquery-ui-1.11.4.custom/jquery-ui.css')}}">
-    <style>
-        label, input {
-            display: block;
-        }
-
-        input.text {
-            margin-bottom: 12px;
-            width: 95%;
-            padding: .4em;
-        }
-
-        fieldset {
-            padding: 0;
-            border: 0;
-            margin-top: 25px;
-        }
-
-        h1 {
-            font-size: 1.2em;
-            margin: .6em 0;
-        }
-
-        div#users-contain {
-            width: 350px;
-            margin: 20px 0;
-        }
-
-        div#users-contain table {
-            margin: 1em 0;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        div#users-contain table td, div#users-contain table th {
-            border: 1px solid #eee;
-            padding: .6em 10px;
-            text-align: left;
-        }
-
-        .ui-dialog .ui-state-error {
-            padding: .3em;
-        }
-
-        .validateTips {
-            border: 1px solid transparent;
-            padding: 0.3em;
-        }
-
-        .ui-dialog {
-            position: fixed;
-            margin-bottom: 950px;
-        }
-
-
-        .ui-dialog-titlebar-close {
-            background: url("{{ URL::asset('jquery-ui-1.11.4.custom/images/ui-icons_888888_256x240.png') }}") repeat scroll -93px -128px rgba(0, 0, 0, 0);
-            border: medium none;
-        }
-
-        .ui-dialog-titlebar-close:hover {
-            background: url("{{ URL::asset('jquery-ui-1.11.4.custom/images/ui-icons_222222_256x240.png') }}") repeat scroll -93px -128px rgba(0, 0, 0, 0);
-        }
-
-    </style>
     @include('partials.breadcrumbs')
     <div class="pcoded-inner-content">
         <div class="main-body">
@@ -276,14 +212,15 @@
                       }
        });
        }*/
-
+                    const relief  = {
+                        "name": document.getElementById('name').value,
+                        "_token": "{{csrf_token()}}"
+                    }
                     $.ajax({
                         url: "{{URL::to('createRelief')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': name.val()
-                        },
+                        data: relief,
                         success: function (s) {
                             $('#relief').append($('<option>', {
                                 value: s,

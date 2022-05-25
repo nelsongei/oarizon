@@ -165,7 +165,6 @@ class PayrollController extends Controller
         $unlock = Lockpayroll::where('user_id', Auth::user()->id)->where('period', request('period'))->count();
 
         if (!Auth::user()->can('reprocess_payroll') && $unlock == 0) {
-
             $check = DB::table('x_transact')
                 ->where('financial_month_year', '=', request('period'))
                 ->count();
@@ -1126,8 +1125,6 @@ $display .="
     {
 
         $period = request('period');
-
-
         $start = date('Y-m-01', strtotime("01-" . $period));
         $end = date('Y-m-t', strtotime("01-" . $period));
 

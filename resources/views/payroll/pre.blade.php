@@ -76,6 +76,7 @@ if($per > 0){?>
 
 </script>
 <?php } ?>
+
 <?php
 function asMoney($value)
 {
@@ -83,6 +84,45 @@ function asMoney($value)
 }
 
 ?>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        $(".wmd-view-topscroll").scroll(function () {
+            $(".wmd-view")
+                .scrollLeft($(".wmd-view-topscroll").scrollLeft());
+        });
+
+        $(".wmd-view").scroll(function () {
+            $(".wmd-view-topscroll")
+                .scrollLeft($(".wmd-view").scrollLeft());
+        });
+
+    });
+
+    $(window).load(function () {
+        $('.scroll-div').css('width', $('.dynamic-div').outerWidth());
+    });
+</script>
+
+<style type="text/css">
+    .wmd-view-topscroll, .wmd-view {
+        overflow-x: auto;
+        overflow-y: hidden;
+        width: 1040px;
+    }
+
+    .wmd-view-topscroll {
+        height: 16px;
+    }
+
+    .dynamic-div {
+        display: inline-block;
+    }
+
+</style>
+
 @section('xara_cbs')
     @include('partials.breadcrumbs')
     <div class="pcoded-inner-content">
@@ -92,20 +132,19 @@ function asMoney($value)
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h3 align="left">Payroll Preview for {{ $period}}
-                                    </h3>
-                                </div>
                                 <div class="card-body">
                                     <form method="POST" action="{{{ URL::to('payroll') }}}" accept-charset="UTF-8">
                                         @csrf
-                                        <div class="form-actions form-group float-right">
+                                        <div align="right" style="margin-top:50px;" class="form-actions form-group">
 
                                             <input type="hidden" value="{{ $period }}" name="period"/>
 
-                                            <button class="btn btn-primary btn-sm process" style="margin-left:670px;">
-                                                Process
-                                            </button>
+
+                                            <h3 align="left">Payroll Preview for {{ $period }}
+                                                <button class="btn btn-primary btn-sm process" style="margin-left:670px;">
+                                                    Process
+                                                </button>
+                                            </h3>
                                         </div>
                                         <hr>
 
@@ -113,10 +152,8 @@ function asMoney($value)
                                         <input type="hidden" name="account" value="{{ $account }}">
                                         <input type="hidden" value="{{ $type }}" name="type"/>
                                         <div class="table-responsive">
-                                            <table id="example" data-show-refresh="true"
+                                            <table data-show-refresh="true"
                                                    class="table table-condensed table-bordered tab table-hover nowrap">
-
-
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -358,4 +395,5 @@ function asMoney($value)
             </div>
         </div>
     </div>
-@endsection
+
+@stop

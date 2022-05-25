@@ -249,16 +249,17 @@
                       }
        });
        }*/
-
+                    const advance ={
+                        "name": document.getElementById('name').value,
+                        "code": document.getElementById('code').value,
+                        "category": document.getElementById('category').value,
+                        "_token": "{{csrf_token()}}"
+                    }
                     $.ajax({
                         url: "{{URL::to('createAccount')}}",
                         type: "POST",
                         async: false,
-                        data: {
-                            'name': name.val(),
-                            'code': code.val(),
-                            'category': category.val()
-                        },
+                        data: advance,
                         success: function (s) {
                             $('#account').append($('<option>', {
                                 value: s,

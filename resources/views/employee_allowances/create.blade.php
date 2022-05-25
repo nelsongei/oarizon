@@ -72,8 +72,8 @@
 
                                     <div class="form-group insts" id="insts">
                                         <label for="username">Instalments </label>
-                                        <input class="form-control" placeholder="" onkeypress="totalB(),getdate()"
-                                               onkeyup="totalB(),getdate()" type="text" name="instalments" id="instalments"
+                                        <input class="form-control" placeholder="" onkeypress="totalB()"
+                                               onkeyup="totalB()" type="text" name="instalments" id="instalments"
                                                value="{{{ old('instalments') }}}">
                                     </div>
 
