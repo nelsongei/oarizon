@@ -37,7 +37,7 @@ class AttendanceController extends BaseController
         $day = strtolower(Carbon::parse(request('filter_month_year'))->format('l')) . '_in' ?? strtolower(Carbon::now()->format('l')) . '_in';
         if ($request->ajax()) {
             $employee = Employee::with(['office_shift', 'employee_attendance' => function ($query) use ($selected_date) {
-                $query->where('attendance_date', $selected_date);
+                $query->where('attendace_date', $selected_date);
             },
                 'office_shift',
                 'organization',

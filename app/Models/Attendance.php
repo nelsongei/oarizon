@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 class Attendance extends Model
 {
     protected $guarded = [];
-    protected $table='employee_attendance';
+    protected $table='employee_attendace';
     public $timestamps = false;
 
     public function employee()
