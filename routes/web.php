@@ -118,6 +118,7 @@ Route::resource('roles', RoleController::class);
  * */
 Route::resource('employees', EmployeesController::class);
 Route::get('employees/show/{id}', [EmployeesController::class, 'show']);
+Route::get('v1/employees',[EmployeesController::class,'getEmployees']);
 
 
 Route::get('employees/create', [EmployeesController::class, 'create']);

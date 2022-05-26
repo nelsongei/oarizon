@@ -48,7 +48,10 @@ class EmployeesController extends Controller
 
         return view('employees.index', compact('employees'));
     }
-
+    public function getEmployees()
+    {
+        return Employee::getActiveEmployee();
+    }
     public function createcitizenship(Request $request)
     {
         $postcitizen = $request->all();

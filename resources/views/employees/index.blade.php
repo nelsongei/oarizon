@@ -21,6 +21,9 @@
                             <h4>Active Employees</h4>
                             <div class="card-header-right">
                                 <a class="dt-button btn-sm" href="{{ url('employees/create')}}">New Employee</a>
+                                <button id="refresh" class="btn btn-sm btn-success">
+                                    Refresh
+                                </button>
                             </div>
                         </div>
                         <div class="card-block">
@@ -173,7 +176,7 @@
                                                                 contain the list of Employees.</label></div>
                                                         <div class="mt-6">
                                                             <a href="{{url('employees/create')}}"
-                                                                class="btn btn-sm btn-success">
+                                                               class="btn btn-sm btn-success">
                                                                 Onboard Employees.
                                                             </a>
                                                         </div>
@@ -197,18 +200,37 @@
                                         <th>Department</th>
                                         <th></th>
                                     </tr>
-
-
                                     </tfoot>
-
-
                                 </table>
                             </div>
                         </div>
-
+                            <div id="processing" style="display: none">
+                                <img src="{{asset('images/loader.gif')}}" style="height: 50px; width: 50px">
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
+    <script>
+        let apiRequest = new XMLHttpRequest();
+        document.getElementById('refresh').addEventListener('click', (event) => {
+            event.preventDefault();
+            apiRequest.open('GET', 'http://127.0.0.1/oarizon/public/v1/employees')
+            apiRequest.send();
+        });
+        apiRequest.onreadystatechange = () => {
+            if (apiRequest.readyState === 4) {
+                if (apiRequest.status === 404) {
+                    console.log('No Data')
+                } else {
+                    console.log(JSON.parse(apiRequest.response))
+                    $('#processing').hide()
+                }
+            } else {
+                $('#processing').show()
+            }
+        }
+    </script>
 @stop
