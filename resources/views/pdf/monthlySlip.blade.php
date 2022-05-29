@@ -309,49 +309,49 @@
                 </tr>
                 <tr>
                     <td>Payroll Number:</td>
-                    <td>{{$transacts->personal_file_number}}</td>
+                    <td>{{$transacts[0]->personal_file_number}}</td>
                 </tr>
 
                 <tr>
                     <td>Employee Name:</td>
-                    <td> {{$transacts->first_name}}</td>
+                    <td> {{$transacts[0]->first_name}}</td>
 
                 </tr>
                 <tr>
                     <td>Identity Number:</td>
-                    <td>{{$transacts->identity_number}}</td>
+                    <td>{{$transacts[0]->identity_number}}</td>
                 </tr>
                 <tr>
                     <td>Kra Pin:</td>
-                    @if($transacts->pin != null || $transacts->pin != '')
-                        <td>{{$transacts->pin}}</td>
+                    @if($transacts[0]->pin != null || $transacts[0]->pin != '')
+                        <td>{{$transacts[0]->pin}}</td>
                     @else
                         <td></td>
                     @endif
                 </tr>
                 <tr>
                     <td>Nssf Number:</td>
-                    @if($transacts->social_security_number != null || $transacts->social_security_number != '')
-                        <td>{{$transacts->social_security_number}}</td>
+                    @if($transacts[0]->social_security_number != null || $transacts[0]->social_security_number != '')
+                        <td>{{$transacts[0]->social_security_number}}</td>
                     @else
                         <td></td>
                     @endif
                 </tr>
                 <tr>
                     <td>Nhif Number:</td>
-                    @if($transacts->hospital_insurance_number != null || $transacts->hospital_insurance_number != '')
-                        <td>{{$transacts->hospital_insurance_number}}</td>
+                    @if($transacts[0]->hospital_insurance_number != null || $transacts[0]->hospital_insurance_number != '')
+                        <td>{{$transacts[0]->hospital_insurance_number}}</td>
                     @else
                         <td></td>
                     @endif
                 </tr>
                 <tr>
                     <td><strong>EARNINGS</strong></td>
-                    <td><strong>Amount ({{$currency->shortname}})</strong></td>
+                    <td><strong>Amount ({{\App\Models\Currency::pluck('shortname')->first()}})</strong></td>
                 </tr>
                 <tr>
                     <td>Basic Pay:</td>
-                    <td align='right'>{{ App\Models\Payroll::asMoney($transacts->basic_pay) }}</td>
+                    <td align='right'>{{ App\Models\Payroll::asMoney($transacts[0]->basic_pay) }}</td>
                 </tr>
             @else
             @foreach($transacts as $transact)
@@ -444,7 +444,7 @@
 
             <tr>
                 <td><strong>GROSS PAY: </strong></td>
-                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts->taxable_income) }}</strong></td>
+                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts[0]->taxable_income) }}</strong></td>
             </tr>
 
             @foreach($nontaxables as $nontaxable)
@@ -472,15 +472,15 @@
             </tr>
             <tr>
                 <td>Paye:</td>
-                <td align='right'>{{ App\Models\Payroll::asMoney($transacts->paye) }}</td>
+                <td align='right'>{{ App\Models\Payroll::asMoney($transacts[0]->paye) }}</td>
             </tr>
             <tr>
                 <td>Nssf:</td>
-                <td align='right'>{{ App\Models\Payroll::asMoney($transacts->nssf_amount) }}</td>
+                <td align='right'>{{ App\Models\Payroll::asMoney($transacts[0]->nssf_amount) }}</td>
             </tr>
             <tr>
                 <td>Nhif:</td>
-                <td align='right'>{{ App\Models\Payroll::asMoney($transacts->nhif_amount) }}</td>
+                <td align='right'>{{ App\Models\Payroll::asMoney($transacts[0]->nhif_amount) }}</td>
             </tr>
 
             @foreach($deds as $ded)
@@ -492,32 +492,30 @@
                 @else
                 @endif
             @endforeach
-
             <tr>
                 <td>Pension Contribution
                     :
                 </td>
+                @if($pension == null)
+                @else
                 <td align='right'>{{ App\Models\Payroll::asMoney($pension->employee_amount) }}</td>
+                @endif
             </tr>
-
             <tr>
                 <td><strong>TOTAL DEDUCTIONS
                         : </strong></td>
-                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts->total_deductions) }}</strong></td>
+                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts[0]->total_deductions) }}</strong></td>
             </tr>
-
             <tr>
                 <td><strong>NET PAY: </strong></td>
-                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts->net) }}</strong></td>
+                <td align='right'><strong>{{ App\Models\Payroll::asMoney($transacts[0]->net) }}</strong></td>
             </tr>
-
         </table>
         <br>
         <div style='width:300px'>I certify that the above information is correct and I have received the payment, in
             full and final settlement
         </div>
         <br>
-
         <table>
             <tr>
                 <td width="100"><strong>Employee Sign</strong>......................................................

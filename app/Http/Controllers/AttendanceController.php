@@ -316,14 +316,12 @@ class AttendanceController extends BaseController
                 $data['clock_in'] = $current_time->format('H:i');
                 // $data['clock_in_ip'] = $request->ip();
                 $data['clock_in_out'] = 1;
-
                 try {
                     //last check out (needed for calculation of rest time)
                     $employee_last_clock_out = new DateTime($employee_last_attendance->clock_out);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     return $e;
                 }
-
                 //calculating total rest (last clock out ~ current clock in)
                 $data['total_rest'] = $employee_last_clock_out->diff($current_time)->format('%H:%I');
 
@@ -341,35 +339,28 @@ class AttendanceController extends BaseController
             'status' => 'Success'
         ]);
     }
-
     public function updateAttendanceStore()
     {
         $data = $this->attendanceHandler(Input::all());
         Attendance::create($data);
         return Response::json(['success' => 'Data is Successfully Updated']);
     }
-
     public function attendanceHandler($request)
     {
         $employee_id = $request->employee_id;
         $attendance_date = $request->attendance_date;
         $clock_in = $request->clock_in;
         $clock_out = $request->clock_out;
-
         try {
             $clock_in = new DateTime($clock_in);
             $clock_out = new DateTime($clock_out);
         } catch (\Exception $e) {
             return $e;
         }
-
         $att_date_day = Carbon::parse($request->attendance_date)->format('l');
-
         $employee = Employee::with('office_shift')->findOrFail($employee_id);
-
         $current_day_in = strtolower($att_date_day) . '_in';
         $current_day_out = strtolower($att_date_day) . '_out';
-
         $shift_in = $employee->office_shift->$current_day_in;
         $shift_out = $employee->office_shift->$current_day_out;
 
@@ -389,7 +380,6 @@ class AttendanceController extends BaseController
 
             return $data;
         }
-
         try {
             $shift_in = new DateTime($shift_in);
             $shift_out = new DateTime($shift_out);

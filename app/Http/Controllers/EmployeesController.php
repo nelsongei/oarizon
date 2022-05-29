@@ -272,8 +272,6 @@ class EmployeesController extends Controller
             return View::make('employees.create', compact('currency', 'citizenships', 'pfn', 'branches', 'departments', 'jobtitles', 'etypes', 'jgroups', 'banks', 'bbranches', 'educations'));
         }
     }
-
-
     /*
      * Store a newly created resource in storage.
      *
@@ -284,14 +282,13 @@ class EmployeesController extends Controller
         //
         $validator  = Validator::make($request->all(),[
             'fname'=>'required',
-            'education'=>'required'
+            'education'=>'required',
+            'pin'=>'required|unique:x_employee',
+            'swift_code'=>'unique:x_employee',
         ]);
-
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
-
-
         try {
             $employee = new Employee;
 
@@ -316,7 +313,6 @@ class EmployeesController extends Controller
             } else {
                 $employee->signature = 'sign_av.jpg';
             }
-
             $employee->personal_file_number = $request->get('personal_file_number');
             $employee->first_name = $request->get('fname');
             $employee->last_name = $request->get('lname');
@@ -462,19 +458,12 @@ class EmployeesController extends Controller
             Audit::logaudit('Employee', 'create', 'created: ' . $employee->personal_file_number . '-' . $employee->first_name . ' ' . $employee->last_name);
 
             $insertedId = $employee->id;
-
-            //parse_str($request->get('kindata'),$output);
-
-
-            //parse_str($request->get('docinfo'),$data);
             if (($request->get('kin_first_name')[0]) !==null){
                 for ($i = 0; $i < count($request->get('kin_first_name')); $i++) {
                     if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
                         $kin = new Nextofkin;
                         $kin->employee_id = $insertedId;
                         $kin->kin_name = $request->get('kin_first_name')[$i].' '.$request->get('kin_last_name')[$i].' '.$request->get('kin_middle_name')[$i];
-//                    $kin->last_name = $request->get('kin_last_name')[$i];
-//                    $kin->middle_name = $request->get('kin_middle_name')[$i];
                         $kin->relation = $request->get('relationship')[$i];
                         $kin->contact = $request->get('contact')[$i];
                         $kin->id_number = $request->get('id_number')[$i];
@@ -487,7 +476,6 @@ class EmployeesController extends Controller
             }
             $files = $request->file('path');
             $j = 0;
-//            dd($files);
             if (($request->get('doc_name')[0]) !==null){
                 foreach ($files as $file) {
 
@@ -502,12 +490,7 @@ class EmployeesController extends Controller
                         $extension = pathinfo($name, PATHINFO_EXTENSION);
                         $document->document_path = $name;
                         $document->document_name = $request->get('doc_name')[$j] . '.' . $extension;
-                        // $document->description = $request->get('description')[$j];
-
-                        //    $document->from_date = $request->get('fdate')[$j];
-
-                        //  $document->expiry_date = $request->get('edate')[$j];
-
+                        $document->type = $request->get('type')[$j];
                         $document->save();
 
                         Audit::logaudit('Documents', 'create', 'created: ' . $request->get('doc_name')[$j] . ' for ' . Employee::getEmployeeName($insertedId));

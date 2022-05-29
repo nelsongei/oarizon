@@ -764,9 +764,7 @@
                                                                 <th>#</th>
                                                                 <th style="width: 200px;">Document</th>
                                                                 <th>Name</th>
-                                                                <th>Description</th>
-                                                                <th>Date From</th>
-                                                                <th>End Date</th>
+                                                                <th>Type</th>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type='checkbox' class='dcase'/></td>
@@ -774,32 +772,19 @@
                                                                 <td id="f"><input class="docdata" type="file"
                                                                                   name="path[0]"
                                                                                   id="path"
+                                                                                  class="form-control"
                                                                                   value="{{{ old('path[0]') }}}">
                                                                 </td>
                                                                 <td><input class="docdata" type='text' id='doc_name'
                                                                            name='doc_name[0]'
+                                                                           class="form-control"
                                                                            value="{{{ old('doc_name[0]') }}}"/></td>
-                                                                <td><textarea class="docdata" style="width:150px"
-                                                                              name="description[0]"
-                                                                              id="description">{{{ old('description[0]') }}}</textarea>
-                                                                </td>
                                                                 <td>
-                                                                    <div class="right-inner-addon">
-                                                                        <i class="glyphicon glyphicon-calendar"></i>
-                                                                        <input class="form-control expiry"
-                                                                               readonly="readonly" placeholder=""
-                                                                               type="text" name="fdate[0]" id="fdate"
-                                                                               value="">
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="right-inner-addon">
-                                                                        <i class="glyphicon glyphicon-calendar"></i>
-                                                                        <input class="form-control expiry"
-                                                                               readonly="readonly" placeholder=""
-                                                                               type="text" name="edate[0]" id="edate"
-                                                                               value="">
-                                                                    </div>
+                                                                    <select name="type" class="form-control">
+                                                                        <option>CV</option>
+                                                                        <option>Academic Certificate</option>
+                                                                        <option>Good Conduct</option>
+                                                                    </select>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -1370,7 +1355,7 @@
 
             $('#bank_id').change(function () {
                 $.get("{{ url('api/dropdown')}}",
-                    {option: $(this).val()},
+                    {name: $(this).val()},
                     function (data) {
                         $('#bbranch_id').empty();
                         $('#bbranch_id').append("<option>----------------select Bank Branch--------------------</option>");
@@ -1399,7 +1384,7 @@
         $(".daddmore").on('click', function () {
             count = $('#docEmp tr').length;
             var data = "<tr><td><input type='checkbox' class='dcase'/></td><td><span id='dsnum" + j + "'>" + count + ".</span></td>";
-            data += "<td id='f'><input class='docdata' type='file' id='path" + j + "' name='path[" + (j - 1) + "]' value='{{{ old('path["+(j-1)+"]') }}}'/></td><td><input class='docdata' type='text' id='doc_name" + j + "' name='doc_name[" + (j - 1) + "]' value='{{{ old('doc_name["+(j-1)+"]') }}}'/></td><td><textarea class='docdata' name='description[" + (j - 1) + "]' id='description" + j + "'>{{{ old('description["+(j-1)+"]') }}}</textarea></td><td><div class='right-inner-addon'><i class='glyphicon glyphicon-calendar'></i><input class='form-control expiry' readonly='readonly' placeholder='' type='text' name='fdate[" + (j - 1) + "]' id='fdate" + j + "' value='{{{ old('fdate["+(j-1)+"]') }}}'></div></td><td><div class='right-inner-addon'><i class='glyphicon glyphicon-calendar'></i><input class='form-control expiry' readonly='readonly' placeholder='' type='text' name='edate[" + (j - 1) + "]' id='edate" + j + "' value='{{{ old('edate["+(j-1)+"]') }}}'></div></td>";
+            data += "<td id='f'><input class='docdata' type='file' id='path" + j + "' name='path[" + (j - 1) + "]' value='{{{ old('path["+(j-1)+"]') }}}'/></td><td><input class='docdata' type='text' id='doc_name" + j + "' name='doc_name[" + (j - 1) + "]' value='{{{ old('doc_name["+(j-1)+"]') }}}'/></td><td><select name='type[" + (j - 1) + "]' id='type" + j + "' class='form-control'><option>CV</option><option>Academic Certificates</option><option>Good Conduct</option></select></td>";
             $('#docEmp').append(data);
             j++;
         });

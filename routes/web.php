@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\AdvanceController;
+use App\Http\Controllers\BiometricsController;
 use App\Http\Controllers\Api\MpesaController;
 use App\Http\Controllers\AppraisalCategoryController;
 use App\Http\Controllers\AppraisalsController;
@@ -316,8 +317,8 @@ Route::get('EmployeeForm', function () {
 
 
 });
-Route::get('api/dropdown', function (Request $request) {
-    $id = request()->option;
+Route::get('api/dropdown', function () {
+    $id = request()->name;
     $bbranch = Bank::find($id)->bankbranch;
     //$branches = $bbranch->pluck('id','bank_branch_name');
     $branches = $bbranch->all();
@@ -3096,5 +3097,16 @@ Route::get('erppurchases/payment/{id}', function($id){
     $account = Accounts::all();
 
     return View::make('erppurchases.payment', compact('payments', 'purchase', 'account'));
+
+});
+/**
+ * API ROUTES
+ */
+Route::group(['prefix' => 'api/v1'], function () {
+    Route::post('fp', [BiometricsController::class,'store']);
+    Route::get('prints', [BiometricsController::class,'getfp']);
+    Route::get('size', [BiometricsController::class,'getPrintCount']);
+    Route::post('attendance/employee/{id}', [AttendanceController::class,'collectBioAtt']);
+    Route::get("employees", [BiometricsController::class,'employees']);
 
 });

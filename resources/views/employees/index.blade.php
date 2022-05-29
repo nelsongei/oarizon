@@ -24,6 +24,12 @@
                                 <button id="refresh" class="btn btn-sm btn-success">
                                     Refresh
                                 </button>
+                                <button class="btn btn-sm btn-info">
+                                    Upload Employees
+                                </button>
+                                <button class="btn btn-sm btn-warning">
+                                    Download Template
+                                </button>
                             </div>
                         </div>
                         <div class="card-block">
