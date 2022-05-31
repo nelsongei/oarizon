@@ -118,6 +118,8 @@ Route::resource('roles', RoleController::class);
  * Employees
  * */
 Route::resource('employees', EmployeesController::class);
+Route::get('employee/template',[EmployeesController::class,'exportTemplate']);
+Route::post('employee/import',[EmployeesController::class,'importEmployees']);
 Route::get('employees/show/{id}', [EmployeesController::class, 'show']);
 Route::get('v1/employees',[EmployeesController::class,'getEmployees']);
 

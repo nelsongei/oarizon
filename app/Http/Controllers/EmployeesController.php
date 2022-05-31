@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Exports\EmployeeExport;
+use App\Imports\EmployeeImport;
 use App\Models\Appraisal;
 use App\Models\Audit;
 use App\Models\Bank;
@@ -30,6 +32,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeesController extends Controller
 {
@@ -508,9 +511,25 @@ class EmployeesController extends Controller
 
     public function getIndex()
     {
-
         return Redirect::route('employees.index')->withFlashMessage('Employee successfully created!');
-
+    }
+    public function exportTemplate()
+    {
+        return Excel::download(new EmployeeExport,'EmployeeTemplate.xlsx');
+    }
+    /*
+     * Import Employees
+     * */
+    public function importEmployees()
+    {
+        $import =  Excel::import(new EmployeeImport,request()->file('file'));
+        if ($import)
+        {
+            return redirect()->back()->withFlashMessage('Employee successfully Uploaded!');
+        }
+        else{
+            return redirect()->back()->withFlashMessage('Employee successfully Uploaded!');
+        }
 
     }
 
@@ -520,10 +539,7 @@ class EmployeesController extends Controller
         parse_str($request->get('docinfo'), $data);
 
         return $data;
-
-
     }
-
     /*
      * Display the specified branch.
      *

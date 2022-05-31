@@ -106,7 +106,21 @@ class Employee extends Model
     );
 
     // Don't forget to fill this array
-    protected $fillable = [];
+    protected $fillable = [
+        'personal_file_number',
+        'first_name',
+        'last_name',
+        'email_office',
+        'basic_pay',
+        'pin',
+        'social_security_number',
+        'identity_number',
+        'hospital_insurance_number',
+        'gender',
+        'mode_of_payment',
+        'bank_account_number',
+        'organization_id',
+    ];
 
 
     public function branch()
@@ -133,13 +147,15 @@ class Employee extends Model
 
         return $this->belongsTo(Jobgroup::class);
     }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);
     }
+
     public function leaves()
     {
-        return $this->hasMany(Leaveapplication::class,'employee_id');
+        return $this->hasMany(Leaveapplication::class, 'employee_id');
     }
 
     public function office_shift()

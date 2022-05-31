@@ -24,12 +24,35 @@
                                 <button id="refresh" class="btn btn-sm btn-success">
                                     Refresh
                                 </button>
-                                <button class="btn btn-sm btn-info">
+                                <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#importEmployees">
                                     Upload Employees
                                 </button>
-                                <button class="btn btn-sm btn-warning">
+                                <a href="{{url('employee/template')}}" class="btn btn-sm btn-warning">
                                     Download Template
-                                </button>
+                                </a>
+                                <div class="modal fade" id="importEmployees">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="{{url('employee/import')}}" method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Import Employees</label>
+                                                        <input type="file" class="form-control" name="file">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer justify-content-center">
+                                                    <button class="btn btn-sm btn-warning" data-dismiss="modal">
+                                                        Not Now
+                                                    </button>
+                                                    <button type="submit" class="btn btn-sm btn-info">
+                                                        Upload
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-block">
