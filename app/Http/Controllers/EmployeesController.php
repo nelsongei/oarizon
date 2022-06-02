@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Exports\EmployeeExport;
@@ -51,10 +52,12 @@ class EmployeesController extends Controller
 
         return view('employees.index', compact('employees'));
     }
+
     public function getEmployees()
     {
         return Employee::getActiveEmployee();
     }
+
     public function createcitizenship(Request $request)
     {
         $postcitizen = $request->all();
@@ -250,7 +253,7 @@ class EmployeesController extends Controller
 
         $employees = count(Employee::where('organization_id', Auth::user()->organization_id)->get());
 
-       #echo "<pre>"; print_r($organization->licensed); echo "</pre>"; die;
+        #echo "<pre>"; print_r($organization->licensed); echo "</pre>"; die;
         if ($organization->licensed <= $employees) {
             return View::make('employees.employeelimit');
         } else {
@@ -275,6 +278,7 @@ class EmployeesController extends Controller
             return View::make('employees.create', compact('currency', 'citizenships', 'pfn', 'branches', 'departments', 'jobtitles', 'etypes', 'jgroups', 'banks', 'bbranches', 'educations'));
         }
     }
+
     /*
      * Store a newly created resource in storage.
      *
@@ -283,11 +287,11 @@ class EmployeesController extends Controller
     public function store(Request $request)
     {
         //
-        $validator  = Validator::make($request->all(),[
-            'fname'=>'required',
-            'education'=>'required',
-            'pin'=>'required|unique:x_employee',
-            'swift_code'=>'unique:x_employee',
+        $validator = Validator::make($request->all(), [
+            'fname' => 'required',
+            'education' => 'required',
+            'pin' => 'required|unique:x_employee',
+            'swift_code' => 'unique:x_employee',
         ]);
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -461,12 +465,12 @@ class EmployeesController extends Controller
             Audit::logaudit('Employee', 'create', 'created: ' . $employee->personal_file_number . '-' . $employee->first_name . ' ' . $employee->last_name);
 
             $insertedId = $employee->id;
-            if (($request->get('kin_first_name')[0]) !==null){
+            if (($request->get('kin_first_name')[0]) !== null) {
                 for ($i = 0; $i < count($request->get('kin_first_name')); $i++) {
                     if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
                         $kin = new Nextofkin;
                         $kin->employee_id = $insertedId;
-                        $kin->kin_name = $request->get('kin_first_name')[$i].' '.$request->get('kin_last_name')[$i].' '.$request->get('kin_middle_name')[$i];
+                        $kin->kin_name = $request->get('kin_first_name')[$i] . ' ' . $request->get('kin_last_name')[$i] . ' ' . $request->get('kin_middle_name')[$i];
                         $kin->relation = $request->get('relationship')[$i];
                         $kin->contact = $request->get('contact')[$i];
                         $kin->id_number = $request->get('id_number')[$i];
@@ -479,7 +483,7 @@ class EmployeesController extends Controller
             }
             $files = $request->file('path');
             $j = 0;
-            if (($request->get('doc_name')[0]) !==null){
+            if (($request->get('doc_name')[0]) !== null) {
                 foreach ($files as $file) {
 
                     if ($request->hasFile('path') && ($request->get('doc_name')[$j] != null || $request->get('doc_name')[$j] != '')) {
@@ -505,7 +509,7 @@ class EmployeesController extends Controller
             return Redirect::route('employees.index')->withFlashMessage('Employee successfully created!');
         } catch (\Exception $e) {
 //            return Redirect::back()->withInput()->withErrors($e);
-            return  $e;
+            return $e;
         }
     }
 
@@ -513,21 +517,21 @@ class EmployeesController extends Controller
     {
         return Redirect::route('employees.index')->withFlashMessage('Employee successfully created!');
     }
+
     public function exportTemplate()
     {
-        return Excel::download(new EmployeeExport,'EmployeeTemplate.xlsx');
+        return Excel::download(new EmployeeExport, 'EmployeeTemplate.xlsx');
     }
+
     /*
      * Import Employees
      * */
     public function importEmployees()
     {
-        $import =  Excel::import(new EmployeeImport,request()->file('file'));
-        if ($import)
-        {
+        $import = Excel::import(new EmployeeImport, request()->file('file'));
+        if ($import) {
             return redirect()->back()->withFlashMessage('Employee successfully Uploaded!');
-        }
-        else{
+        } else {
             return redirect()->back()->withFlashMessage('Employee successfully Uploaded!');
         }
 
@@ -540,6 +544,7 @@ class EmployeesController extends Controller
 
         return $data;
     }
+
     /*
      * Display the specified branch.
      *
@@ -592,19 +597,11 @@ class EmployeesController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        dd($request->all());
         $employee = Employee::findOrFail($id);
-
-        //$validator = Employee::validateUpdate($request->all(), $id);
-
-        	//$validator = Validator::make($request->all(), Employee::rolesUpdate($employee->id),Employee::$messages);
-
-            $validator = Validator::make($data = $request->all(), Employee::$rules,Employee::$messages);
-
-            if ($validator->fails())
-            {
-                return Redirect::back()->withErrors($validator)->withInput();
-            }
+        $validator = Validator::make($request->all(), Employee::rolesUpdate($employee->id), Employee::$messages);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -769,61 +766,62 @@ class EmployeesController extends Controller
 
         $employee->update();
 
-        Audit::logaudit(date('Y-m-d'),Auth::user()->name,'update', 'updated: ' . $employee->personal_file_number . '-' . $employee->first_name . ' ' . $employee->last_name);
+        Audit::logaudit(date('Y-m-d'), Auth::user()->name, 'update', 'updated: ' . $employee->personal_file_number . '-' . $employee->first_name . ' ' . $employee->last_name);
 
         Nextofkin::where('employee_id', $id)->delete();
         for ($i = 0; $i < count($request->get('kin_first_name')); $i++) {
             if (($request->get('kin_first_name')[$i] != '' || $request->get('kin_first_name')[$i] != null) && ($request->get('kin_last_name')[$i] != '' || $request->get('kin_last_name')[$i] != null)) {
                 $kin = new Nextofkin;
                 $kin->employee_id = $id;
-                $kin->kin_name = $request->get('kin_first_name')[$i].' '.$request->get('kin_last_name')[$i].' '.$request->get('kin_middle_name')[$i];
-//                $kin->last_name = $request->get('kin_last_name')[$i];
-//                $kin->middle_name = $request->get('kin_middle_name')[$i];
+                $kin->kin_name = $request->get('kin_first_name')[$i] . ' ' . $request->get('kin_last_name')[$i] . ' ' . $request->get('kin_middle_name')[$i];
                 $kin->relation = $request->get('relationship')[$i];
                 $kin->contact = $request->get('contact')[$i];
                 $kin->id_number = $request->get('id_number')[$i];
                 $kin->save();
 
-                Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'create', 'created: ' . $request->get('kin_first_name')[$i] . ' for ' . Employee::getEmployeeName($id));
+                Audit::logaudit(date('Y-m-d'), Auth::user()->name, 'create', 'created: ' . $request->get('kin_first_name')[$i] . ' for ' . Employee::getEmployeeName($id));
             }
         }
 
         Document::where('employee_id', $id)->delete();
         $files = $request->file('path');
         $j = 0;
-        //($files);
-        foreach ($files as $file) {
-            if ($request->get('doc_name')[$j] != null || $request->get('doc_name')[$j] != '') {
-                $document = new Document;
-                $document->employee_id = $id;
-                if ($file) {
+        if ($files === null) {
 
-                    $name = time() . '-' . $file->getClientOriginalName();
-                    //dd($name);
-                    $file = $file->store('uploads/employees/documents','public', $name);
-                    $input['file'] = '/public/uploads/employees/documents/' . $name;
-                    $extension = pathinfo($name, PATHINFO_EXTENSION);
-                    $document->document_path = $name;
-                    $document->document_name = $request->get('doc_name')[$j] . '.' . $extension;
+        } else {
+            foreach ($files as $file) {
+                if ($request->get('doc_name')[$j] != null || $request->get('doc_name')[$j] != '') {
+                    $document = new Document;
+                    $document->employee_id = $id;
+                    if ($file) {
 
-                } else {
-                    $name = $request->get('curpath')[$j];
-                    $extension = pathinfo($name, PATHINFO_EXTENSION);
-                    $document->document_path = $name;
-                    $document->document_name = $request->get('doc_name')[$j] . '.' . $extension;
+                        $name = time() . '-' . $file->getClientOriginalName();
+                        //dd($name);
+                        $file = $file->store('uploads/employees/documents', 'public', $name);
+                        $input['file'] = '/public/uploads/employees/documents/' . $name;
+                        $extension = pathinfo($name, PATHINFO_EXTENSION);
+                        $document->document_path = $name;
+                        $document->document_name = $request->get('doc_name')[$j] . '.' . $extension;
 
+                    } else {
+                        $name = $request->get('curpath')[$j];
+                        $extension = pathinfo($name, PATHINFO_EXTENSION);
+                        $document->document_path = $name;
+                        $document->document_name = $request->get('doc_name')[$j] . '.' . $extension;
+
+                    }
+
+                    //$document->description = $request->get('description')[$j];
+
+                    //$document->from_date = $request->get('fdate')[$j];
+
+                    //$document->expiry_date = $request->get('edate')[$j];
+
+                    $document->save();
+
+                    Audit::logaudit(date('Y-m-d'), Auth::user()->name, 'create', 'created: ' . $request->get('doc_name')[$j] . ' for ' . Employee::getEmployeeName($id));
+                    $j = $j + 1;
                 }
-
-                //$document->description = $request->get('description')[$j];
-
-                //$document->from_date = $request->get('fdate')[$j];
-
-                //$document->expiry_date = $request->get('edate')[$j];
-
-                $document->save();
-
-                Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'create', 'created: ' . $request->get('doc_name')[$j] . ' for ' . Employee::getEmployeeName($id));
-                $j = $j + 1;
             }
         }
 

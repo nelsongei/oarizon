@@ -8,16 +8,6 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card">
-                                @if (count($errors) > 0)
-                                    <div class="alert alert-danger">
-                                        @foreach ($errors->all() as $error)
-                                            {{ $error }}<br>
-                                        @endforeach
-                                    </div>
-                                @endif
-                                <div class="card-header">
-                                    <h3>Update Employee</h3>
-                                </div>
                                 <div class="card-block">
                                     <div id="dialog-forms" style="display: none" title="Create new citizenship name">
                                         <p class="validateTips1">Please insert citizenship name.</p>
@@ -662,43 +652,38 @@
                                                     </div>
 
                                                     {{-- TODO: Check proper way of using policies--}}
-                                                    {{--                                                    @can('manager_payroll')--}}
-                                                    <div class="form-group">
+                                                    @can('manager_payroll')
+                                                        <div class="form-group">
 
-                                                        <label for="username">Basic Salary <span
-                                                                style="color:red">*</span></label>
-                                                        <div class="input-group">
+                                                            <label for="username">Basic Salary <span
+                                                                    style="color:red">*</span></label>
+                                                            <div class="input-group">
                                                             <span
                                                                 class="input-group-addon">{{$currency->shortname}}</span>
 
-                                                            <input class="form-control" placeholder="" type="number"
-                                                                   name="pay" id="pay"
-                                                                   @if($employee->basic_pay==='') value="{{$employee->basic_pay*100}}"
-                                                                   @else value="{{$employee->basic_type*100}}" @endif>
+                                                                <input class="form-control" placeholder="" type="text"
+                                                                       name="pay" id="pay"
+                                                                       @if($employee->basic_pay==='') value="{{$employee->basic_pay}}"
+                                                                       @else value="{{$employee->basic_pay}}" @endif>
+                                                            </div>
                                                         </div>
-                                                        {{--                                                            <script type="text/javascript">--}}
-                                                        {{--                                                                $(document).ready(function() {--}}
-                                                        {{--                                                                    $('#pay').priceFormat();--}}
-                                                        {{--                                                                });--}}
-                                                        {{--                                                            </script>--}}
-                                                    </div>
-                                                    {{--                                                    @elsecan--}}
-                                                    @if($employee->job_group_id != 4)
-                                                        {{--                                                            <div class="form-group">--}}
+                                                    @elsecan
+                                                        @if($employee->job_group_id != 4)
+                                                            <div class="form-group">
 
-                                                        {{--                                                                <label for="username">Basic Salary <span style="color:red">*</span></label>--}}
-                                                        {{--                                                                <div class="input-group">--}}
-                                                        {{--                                                                    <span class="input-group-addon">{{$currency->shortname}}</span>--}}
-                                                        {{--                                                                    <input class="form-control" placeholder="" type="text" name="pay" id="pay" value="{{ $employee->basic_pay * 100 }}">--}}
-                                                        {{--                                                                </div>--}}
-                                                        {{--                                                                <script type="text/javascript">--}}
-                                                        {{--                                                                    $(document).ready(function() {--}}
-                                                        {{--                                                                        $('#pay').priceFormat();--}}
-                                                        {{--                                                                    });--}}
-                                                        {{--                                                                </script>--}}
-                                                        {{--                                                            </div>--}}
-                                                    @endif
-                                                    {{--                                                    @endcan--}}
+                                                                <label for="username">Basic Salary <span
+                                                                        style="color:red">*</span></label>
+                                                                <div class="input-group">
+                                                                <span
+                                                                    class="input-group-addon">{{$currency->shortname}}</span>
+                                                                    <input class="form-control" placeholder=""
+                                                                           type="text"
+                                                                           name="pay" id="pay"
+                                                                           value="{{ $employee->basic_pay * 100 }}">
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endcan
                                                     <div class="form-group">
                                                         <label for="username">Date joined <span
                                                                 style="color:red">*</span></label>
@@ -971,6 +956,35 @@
     <script src="{{asset('media/jquery-1.12.0.min.js')}}"></script>
     <script src="{{asset('jquery-ui-1.11.4.custom/jquery-ui.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker1').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '-60y',
+                endDate: '-18y',
+                autoclose: true
+            });
+
+            $('.expiry').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '0y',
+                autoclose: true
+            });
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker21').datepicker({
+                format: "yyyy-mm-dd",
+                assumeNearbyYear: true,
+                autoclose: true,
+                todayBtn: 'linked',
+                todayHighlight: true
+            });
+
+        });
+    </script>
     <script type="text/javascript">
         $(function () {
 

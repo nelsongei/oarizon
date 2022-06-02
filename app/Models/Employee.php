@@ -10,69 +10,62 @@ use App\Http\traits\Encryptable;
 
 class Employee extends Model
 {
-
-
-    public $table = "x_employee";
+    protected $table = "x_employee";
 
     protected $encryptable = [
 
-
         'basic_pay',
-
-
     ];
-
-
     // Add your validation rules here
     public static $rules = [
-        'personal_file_number' => 'required|unique:employee',
+        'personal_file_number' => 'required|unique:x_employee,personal_file_number',
         'lname' => 'required',
         'fname' => 'required',
-        'identity_number' => 'required|unique:employee',
+        'identity_number' => 'required|unique:x_employee,identity_number',
         'dob' => 'required',
         'gender' => 'required',
         'jgroup_id' => 'required',
         'type_id' => 'required',
         'pay' => 'required|regex:/^(\$?(?(?=\()(\())\d+(?:,\d+)?(?:\.\d+)?(?(2)\)))$/',
         'djoined' => 'required',
-        'email_office' => 'required|email|unique:employee',
-        'email_personal' => 'email|unique:employee',
-        'passport_number' => 'unique:employee',
-        'work_permit_number' => 'unique:employee',
-        'pin' => 'unique:employee',
-        'social_security_number' => 'unique:employee',
-        'hospital_insurance_number' => 'unique:employee',
-        'telephone_mobile' => 'unique:employee',
-        'swift_code' => 'unique:employee',
-        'bank_account_number' => 'unique:employee',
-        'bank_eft_code' => 'unique:employee'
+        'email_office' => 'required|email|unique:x_employee,email_office',
+        'email_personal' => 'email|unique:x_employee,email_personal',
+        'passport_number' => 'unique:x_employee,passport_number',
+        'work_permit_number' => 'unique:x_employee,work_permit_number',
+        'pin' => 'unique:x_employee,pin',
+        'social_security_number' => 'unique:x_employee',
+        'hospital_insurance_number' => 'unique:x_employee,hospital_insurance_number',
+        'telephone_mobile' => 'unique:x_employee,telephone_mobile',
+        'swift_code' => 'unique:x_employee,swift_code',
+        'bank_account_number' => 'unique:x_employee,bank_account_number',
+        'bank_eft_code' => 'unique:x_employee,bank_eft_code'
 
     ];
 
     public static function rolesUpdate($id)
     {
         return array(
-            'personal_file_number' => 'required|unique:employee,personal_file_number,' . $id,
+            'personal_file_number' => 'required|unique:x_employee,personal_file_number,' . $id,
             'lname' => 'required',
             'fname' => 'required',
-            'identity_number' => 'required|unique:employee,identity_number,' . $id,
+            'identity_number' => 'required|unique:x_employee,identity_number,' . $id,
             'dob' => 'required',
             'gender' => 'required',
             'pay' => 'required|regex:/^(\$?(?(?=\()(\())\d+(?:,\d+)?(?:\.\d+)?(?(2)\)))$/',
             'jgroup_id' => 'required',
             'type_id' => 'required',
             'djoined' => 'required',
-            'email_office' => 'required|email|unique:employee,email_office,' . $id,
-            'email_personal' => 'email|unique:employee,email_personal,' . $id,
-            'passport_number' => 'unique:employee,passport_number,' . $id,
-            'work_permit_number' => 'unique:employee,work_permit_number,' . $id,
-            'pin' => 'unique:employee,pin,' . $id,
-            'social_security_number' => 'unique:employee,social_security_number,' . $id,
-            'hospital_insurance_number' => 'unique:employee,hospital_insurance_number,' . $id,
-            'telephone_mobile' => 'unique:employee,telephone_mobile,' . $id,
-            'swift_code' => 'unique:employee,swift_code,' . $id,
-            'bank_account_number' => 'unique:employee,bank_account_number,' . $id,
-            'bank_eft_code' => 'unique:employee,bank_eft_code,' . $id
+            'email_office' => 'required|email|unique:x_employee,email_office,' . $id,
+            'email_personal' => 'email|unique:x_employee,email_personal,' . $id,
+            'passport_number' => 'unique:x_employee,passport_number,' . $id,
+            'work_permit_number' => 'unique:x_employee,work_permit_number,' . $id,
+            'pin' => 'unique:x_employee,pin,' . $id,
+            'social_security_number' => 'unique:x_employee,social_security_number,' . $id,
+            'hospital_insurance_number' => 'unique:x_employee,hospital_insurance_number,' . $id,
+            'telephone_mobile' => 'unique:x_employee,telephone_mobile,' . $id,
+            'swift_code' => 'unique:x_employee,swift_code,' . $id,
+            'bank_account_number' => 'unique:x_employee,bank_account_number,' . $id,
+            'bank_eft_code' => 'unique:x_employee,bank_eft_code,' . $id
         );
     }
 
