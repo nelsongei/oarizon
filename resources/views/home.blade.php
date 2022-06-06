@@ -188,6 +188,7 @@
             data:{
                 labels: ['IT','HR'],
                 datasets:[{
+                    label:"Department Report",
                     data:[20,31],
                     backgroundColor: [
                         '#6dd144',
