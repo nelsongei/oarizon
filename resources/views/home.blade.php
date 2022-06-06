@@ -159,7 +159,7 @@
                             <div class="col-xl-6 col-md-12">
                                 <div class="card">
                                     <div class="card-body">
-
+                                        <canvas id="departmentData" height="150px" width="400vw"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -181,6 +181,26 @@
     }
     ?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const department = document.getElementById('departmentData').getContext('2d');
+        const departmentChart = new Chart(department,{
+            type:'bar',
+            data:{
+                labels: ['IT','HR'],
+                datasets:[{
+                    data:[20,31],
+                    backgroundColor: [
+                        '#6dd144',
+                        '#644ec5'
+                    ],
+                    borderColor: [
+                        '#6dd144',
+                        '#644ec5'
+                    ]
+                }]
+            }
+        })
+    </script>
     <script>
         const gender = document.getElementById('genderChart').getContext('2d');
         const genderChart = new Chart(gender, {

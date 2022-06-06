@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\Leaveapplication;
 use App\Models\Transact;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -67,7 +68,8 @@ class HomeController extends Controller
         $employees = Employee::count();
         $leaves = Leaveapplication::count();
         $users = User::count();
-        return view('home', compact('male', 'female', 'approved', 'applied', 'cancelled','month1','month2','month3','month4','month5'
+        $departments = Department::with('employees')->get();
+        return view('home', compact('male', 'female','departments', 'approved', 'applied', 'cancelled','month1','month2','month3','month4','month5'
         ,'month6','month7','month8','month9','month10','month11','month12','employees','users','leaves','monthss1','monthss2','monthss3','monthss4','monthss5'
             ,'monthss6','monthss7','monthss8','monthss9','monthss10','monthss11','monthss12'));
     }
