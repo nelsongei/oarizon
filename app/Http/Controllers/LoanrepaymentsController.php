@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use AfricasTalkingGatewayException;
+use App\Exports\LoanAccountExport;
 use App\Exports\LoanRepayments;
 use App\Models\AfricasTalkingGateway;
 use App\Models\Audit;
@@ -72,8 +73,11 @@ class LoanrepaymentsController extends Controller
     {
         return view('loanrepayments.import');
     }
-
     public function createTemplate()
+    {
+        return Excel::download(new LoanAccountExport,'LoanRepayments.xlsx');
+    }
+    public function createTemplate1()
     {
 //        return Excel::download(function ($excel){
 //            $excel->sheet('LOans.xlsx',function ($sheet){
@@ -117,14 +121,11 @@ class LoanrepaymentsController extends Controller
                         $row++;
                     }
                 }
-
                 $sheet->_parent->addNamedRange(
                     new NamedRange(
                         'accounts', $sheet, 'Y2:Y' . (count($loanAccounts) + 1)
                     )
                 );
-
-
                 for ($i = 2; $i <= 100; $i++) {
                     $objValidation = $sheet->getCell('A' . $i)->getDataValidation();
                     $objValidation->setType(DataValidation::TYPE_LIST);
