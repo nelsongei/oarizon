@@ -17,6 +17,7 @@ class CreateXChargeLoanproductTable extends Migration {
 			$table->increments('id');
 			$table->integer('charge_id')->unsigned()->index('loancharges_charge_id_foreign');
 			$table->integer('loanproduct_id')->unsigned()->index('loancharges_loanproduct_id_foreign');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

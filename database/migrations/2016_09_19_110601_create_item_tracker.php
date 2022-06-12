@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateItemTracker extends Migration {
 
@@ -27,6 +28,7 @@ class CreateItemTracker extends Migration {
 			$table->foreign('item_id')->references('id')->on('items');
 			$table->foreign('location_id')->references('id')->on('locations');
 			$table->foreign('client_id')->references('id')->on('clients');
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

@@ -27,6 +27,7 @@ class CreateAssigndriversTable extends Migration {
 			$table->string('fuel_level')->nullable();
 			$table->string('tire_pressure')->nullable();
 			$table->string('general_comments')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

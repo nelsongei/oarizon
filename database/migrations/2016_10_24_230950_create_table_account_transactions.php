@@ -23,6 +23,7 @@ class CreateTableAccountTransactions extends Migration {
 			$table->integer('bank_statement_id')->unsigned();
 			$table->float('transaction_amount');
 			$table->string('status', 50);
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 
 			$table->foreign('account_debited')->references('id')->on('x_accounts')->onDelete('cascade')->onUpdate('cascade');

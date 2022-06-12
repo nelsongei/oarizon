@@ -24,6 +24,7 @@ class CreateXOrdersTable extends Migration {
 			$table->string('customer_number')->nullable();
 			$table->string('status')->default('new');
 			$table->timestamps();
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

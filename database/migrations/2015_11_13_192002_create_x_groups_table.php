@@ -18,6 +18,7 @@ class CreateXGroupsTable extends Migration {
 			$table->string('name');
 			$table->text('description', 65535)->nullable();
 			$table->timestamps();
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

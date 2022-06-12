@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateStocksTable extends Migration {
 
@@ -23,6 +24,7 @@ class CreateStocksTable extends Migration {
 			$table->boolean('is_confirmed')->default(false);
 			$table->integer('quantity_out')->nullable();
 			$table->date('date')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

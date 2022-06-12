@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEmployeeNonTaxablesTable extends Migration {
 
@@ -23,6 +24,7 @@ class CreateEmployeeNonTaxablesTable extends Migration {
 			$table->date('nontaxable_date');
 			$table->date('first_day_month');
 			$table->date('last_day_month');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

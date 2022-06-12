@@ -19,8 +19,9 @@ class CreateXSavingproductsTable extends Migration {
 			$table->string('shortname');
 			$table->float('opening_balance', 10, 0);
 			$table->string('type');
+            $table->string('currency');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
-			$table->string('currency');
 		});
 	}
 

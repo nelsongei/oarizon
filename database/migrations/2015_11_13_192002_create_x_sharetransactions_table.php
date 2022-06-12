@@ -21,6 +21,7 @@ class CreateXSharetransactionsTable extends Migration {
 			$table->string('type');
 			$table->string('description');
 			$table->float('amount', 10, 0);
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

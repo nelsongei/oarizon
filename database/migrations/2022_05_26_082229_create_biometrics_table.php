@@ -18,6 +18,7 @@ class CreateBiometricsTable extends Migration
             $table->binary('fingerprint');
             $table->integer('fid');
             $table->integer('file_number');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

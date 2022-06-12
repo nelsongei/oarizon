@@ -20,6 +20,7 @@ class CreateXVendorsTable extends Migration {
 			$table->string('phone')->nullable();
 			$table->text('description', 65535)->nullable();
 			$table->string('status')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

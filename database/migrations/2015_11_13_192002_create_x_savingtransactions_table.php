@@ -20,8 +20,9 @@ class CreateXSavingtransactionsTable extends Migration {
 			$table->float('amount', 12);
 			$table->string('type');
 			$table->string('description')->nullable();
+            $table->integer('organization_id')->nulable();
+            $table->string('transacted_by')->nullable();
 			$table->timestamps();
-			$table->string('transacted_by')->nullable();
 		});
 	}
 

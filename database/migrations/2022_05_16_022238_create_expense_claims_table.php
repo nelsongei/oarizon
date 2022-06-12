@@ -17,6 +17,7 @@ class CreateExpenseClaimsTable extends Migration
             $table->id();
             $table->string('claimer');
             $table->string('status');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

@@ -24,6 +24,7 @@ class CreateXChargesTable extends Migration {
 			$table->boolean('fee');
 			$table->timestamps();
 			$table->boolean('disabled')->nullable()->default(0);
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

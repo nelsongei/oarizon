@@ -20,7 +20,7 @@ class CreateXAccountTable extends Migration {
 			$table->string('category');
 			$table->double('balance');
 			$table->boolean('confirmed')->default(false);
-
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

@@ -23,6 +23,7 @@ class CreateMailsTable extends Migration {
 			$table->string('port')->nullable();
 			$table->string('encryption')->nullablle();
 			$table->string('sender_name')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

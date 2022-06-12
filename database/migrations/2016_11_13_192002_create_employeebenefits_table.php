@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEmployeeBenefitsTable extends Migration {
 
@@ -18,6 +19,7 @@ class CreateEmployeeBenefitsTable extends Migration {
             $table->integer('jobgroup_id')->unsigned()->default('0')->index('employeebenefits_jobgroup_id_foreign');
             $table->integer('benefit_id')->unsigned()->default('0')->index('employeebenefits_benefit_id_foreign');
 			$table->string('amount')->default('0.00');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

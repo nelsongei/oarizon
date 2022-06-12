@@ -17,6 +17,7 @@ class CreateXChargeSavingproductTable extends Migration {
 			$table->increments('id');
 			$table->integer('charge_id')->unsigned()->index('savingcharges_charge_id_foreign');
 			$table->integer('savingproduct_id')->unsigned()->index('savingcharges_savingproduct_id_foreign');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

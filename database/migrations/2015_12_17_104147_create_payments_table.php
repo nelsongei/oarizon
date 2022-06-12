@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePaymentsTable extends Migration {
 
@@ -26,6 +27,7 @@ class CreatePaymentsTable extends Migration {
 			$table->string('prepared_by')->nullable();
 			$table->integer('paymentmethod_id')->unsigned();
 			$table->foreign('paymentmethod_id')->references('id')->on('paymentmethods');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

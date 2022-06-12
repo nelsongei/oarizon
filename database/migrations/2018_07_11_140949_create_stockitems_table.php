@@ -20,6 +20,7 @@ class CreateStockitemsTable extends Migration
             $table->integer('erporderitem_id');
             $table->string('code')->unique();
             $table->date('date');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

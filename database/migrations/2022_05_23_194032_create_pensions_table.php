@@ -22,6 +22,7 @@ class CreatePensionsTable extends Migration
             $table->float('employee_percentage',);
             $table->float('monthly_deduction',2);
             $table->string('type');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

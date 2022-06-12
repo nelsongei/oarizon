@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateErpordersTable extends Migration {
 
@@ -30,6 +31,7 @@ class CreateErpordersTable extends Migration {
 			$table->string('inv_number')->nullable();
 			$table->date('due_date')->nullable();
 			$table->string('ordered_by')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCompanyPropertyTable extends Migration {
 
@@ -29,6 +30,7 @@ class CreateCompanyPropertyTable extends Migration {
 			$table->char('returned',1);
 			$table->date('return_date');
 			$table->string('received_by');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

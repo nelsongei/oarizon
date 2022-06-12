@@ -43,6 +43,7 @@ class CreateXLoanaccountsTable extends Migration {
 			$table->boolean('is_top_up')->nullable()->default(0);
 			$table->float('top_up_amount', 15, 3)->nullable()->default(0.000);
 			$table->string('loan_purpose')->nullable();
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

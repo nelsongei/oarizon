@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddForeignKeysToXChargeLoanproductTable extends Migration {
 
@@ -16,6 +17,7 @@ class AddForeignKeysToXChargeLoanproductTable extends Migration {
 		{
 			$table->foreign('charge_id', 'loancharges_charge_id_foreign')->references('id')->on('charges')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('loanproduct_id', 'loancharges_loanproduct_id_foreign')->references('id')->on('loanproducts')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+
 		});
 	}
 

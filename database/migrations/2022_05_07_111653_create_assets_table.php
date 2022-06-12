@@ -31,6 +31,7 @@ class CreateAssetsTable extends Migration
             $table->double('rate',3,2);
             $table->smallInteger('years');
             $table->string('status');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

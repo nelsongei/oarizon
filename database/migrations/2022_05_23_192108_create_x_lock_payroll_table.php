@@ -18,6 +18,7 @@ class CreateXLockPayrollTable extends Migration
             $table->integer('user_id')->unsigned()->default('0')->index('lock_payroll_user_id_foreign');
             $table->date('period');
             $table->string('authorized_by');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

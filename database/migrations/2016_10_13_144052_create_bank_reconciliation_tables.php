@@ -18,6 +18,7 @@ class CreateBankReconciliationTables extends Migration {
 			$table->string('bank_name', 100);
 			$table->string('account_name', 100);
 			$table->string('account_number', 20);
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 
@@ -29,6 +30,7 @@ class CreateBankReconciliationTables extends Migration {
 			$table->float('adj_bal_bd');
 			$table->string('stmt_month');
 			$table->boolean('is_reconciled');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 
 			$table->foreign('bank_account_id')->references('id')->on('bank_accounts')->onUpdate('cascade');
@@ -44,6 +46,7 @@ class CreateBankReconciliationTables extends Migration {
 			$table->float('transaction_amnt');
 			$table->string('check_no')->nullable();
 			$table->string('status', 50);
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 
 			$table->foreign('bank_statement_id')->references('id')->on('bank_statements')->onDelete('cascade')->onUpdate('cascade');

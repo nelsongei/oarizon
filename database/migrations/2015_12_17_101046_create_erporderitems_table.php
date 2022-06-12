@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateErporderitemsTable extends Migration {
 
@@ -29,6 +30,7 @@ class CreateErporderitemsTable extends Migration {
 			$table->foreign('erporder_id')->references('id')->on('erporders');
 			$table->double('price')->nullable();
 			$table->double('client_discount')->default(0);
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

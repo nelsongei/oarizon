@@ -19,6 +19,7 @@ class CreateAutoprocessesTable extends Migration {
 			$table->boolean('is_completed')->default(0);
 			$table->string('category');
 			$table->integer('product_id');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

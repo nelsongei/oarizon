@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXCategoriesTable extends Migration {
 
@@ -17,6 +18,7 @@ class CreateXCategoriesTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->text('description', 65535)->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

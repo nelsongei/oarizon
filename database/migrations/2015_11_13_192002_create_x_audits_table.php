@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXAuditsTable extends Migration {
 
@@ -21,6 +22,7 @@ class CreateXAuditsTable extends Migration {
 			$table->string('entity')->nullable();
 			$table->float('amount', 10, 0)->nullable();
 			$table->string('description')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

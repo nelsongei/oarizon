@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXSavingpostingsTable extends Migration {
 
@@ -19,6 +20,7 @@ class CreateXSavingpostingsTable extends Migration {
 			$table->string('transaction');
 			$table->integer('debit_account');
 			$table->integer('credit_account');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXLoanpostingsTable extends Migration {
 
@@ -20,6 +21,7 @@ class CreateXLoanpostingsTable extends Migration {
 			$table->string('debit_account');
 			$table->string('credit_account');
 			$table->timestamps();
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

@@ -21,6 +21,7 @@ class CreateXProductsTable extends Migration {
 			$table->text('description', 65535);
 			$table->float('price', 10, 0);
 			$table->string('status');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

@@ -18,6 +18,7 @@ class CreateXBankingTable extends Migration {
 			$table->string('account_from');
 			$table->string('account_to');
 			$table->double('amount');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

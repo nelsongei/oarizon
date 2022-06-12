@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXShareaccountsTable extends Migration {
 
@@ -18,6 +19,7 @@ class CreateXShareaccountsTable extends Migration {
 			$table->integer('member_id')->unsigned()->index('shareaccounts_member_id_foreign');
 			$table->string('account_number');
 			$table->date('opening_date');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

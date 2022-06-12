@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXLoantransactionsTable extends Migration {
 
@@ -22,6 +23,7 @@ class CreateXLoantransactionsTable extends Migration {
 			$table->float('amount', 10, 0)->default(0);
 			$table->string('type');
 			$table->timestamps();
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

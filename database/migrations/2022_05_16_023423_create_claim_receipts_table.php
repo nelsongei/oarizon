@@ -19,6 +19,7 @@ class CreateClaimReceiptsTable extends Migration
             $table->string('receipt_from');
             $table->date('transaction_date');
             $table->string('status');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

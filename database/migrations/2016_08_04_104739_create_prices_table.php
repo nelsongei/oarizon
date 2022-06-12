@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePricesTable extends Migration {
 
@@ -18,7 +19,8 @@ class CreatePricesTable extends Migration {
 			$table->string('client_id');
 			$table->date('date');
 			$table->string('Item_id')->nullable();
-			$table->string('Discount')->nullable();			
+			$table->string('Discount')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

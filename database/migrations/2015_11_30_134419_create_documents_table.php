@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDocumentsTable extends Migration {
 
@@ -19,6 +20,7 @@ class CreateDocumentsTable extends Migration {
 			$table->string('document_name')->nullable();
 			$table->string('document_path')->nullable();
             $table->string('type')->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

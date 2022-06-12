@@ -17,6 +17,7 @@ class CreateCronjobsTable extends Migration
             $table->id();
             $table->dateTime('scheduled_time');
             $table->string('task');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXSavingaccountsTable extends Migration {
 
@@ -18,6 +19,7 @@ class CreateXSavingaccountsTable extends Migration {
 			$table->integer('member_id')->unsigned()->index('savingaccounts_member_id_foreign');
 			$table->integer('savingproduct_id')->unsigned()->index('x_savingaccounts_fk');
 			$table->string('account_number')->unique('account_number');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXTaxOrdersTable extends Migration {
 
@@ -18,6 +19,7 @@ class CreateXTaxOrdersTable extends Migration {
 			$table->integer('tax_id')->nullable();
 			$table->string('order_number')->nullable();
 			$table->double('amount',15,2)->nullable();
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}

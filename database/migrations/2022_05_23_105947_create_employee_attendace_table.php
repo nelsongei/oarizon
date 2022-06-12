@@ -28,6 +28,7 @@ class CreateEmployeeAttendaceTable extends Migration
             $table->integer('overtime');
             $table->integer('total_work');
             $table->integer('total_rest');
+            $table->integer('organization_id')->nulable();
             $table->timestamps();
         });
     }

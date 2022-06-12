@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXMembersTable extends Migration {
 
@@ -30,6 +31,7 @@ class CreateXMembersTable extends Migration {
 			$table->timestamps();
 			$table->boolean('is_active')->nullable()->default(1);
 			$table->boolean('is_css_active')->nullable()->default(0);
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

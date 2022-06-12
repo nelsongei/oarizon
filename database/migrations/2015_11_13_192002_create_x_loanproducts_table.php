@@ -23,6 +23,7 @@ class CreateXLoanproductsTable extends Migration {
 			$table->string('amortization')->nullable()->default('EI');
 			$table->integer('period')->nullable();
 			$table->string('currency');
+            $table->integer('organization_id')->nulable();
 		});
 	}
 

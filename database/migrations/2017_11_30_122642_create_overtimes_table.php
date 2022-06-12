@@ -24,6 +24,7 @@ class CreateOvertimesTable extends Migration {
 			$table->date('overtime_date');
 			$table->date('first_day_month');
 			$table->date('last_day_month');
+            $table->integer('organization_id')->nulable();
 			$table->timestamps();
 		});
 	}
