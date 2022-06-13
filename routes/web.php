@@ -44,6 +44,7 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\payslipEmailController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\PropertiesController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ReliefsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RoleController;
@@ -100,6 +101,7 @@ use Illuminate\Support\Facades\View;
 Route::get('/', function () {
     return redirect('login');
 });
+Route::get('/register_organization',[RegisterController::class,'index']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

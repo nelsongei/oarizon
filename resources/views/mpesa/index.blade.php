@@ -395,7 +395,7 @@
                 paid_via: document.getElementById('paid_via').value,
                 trxn_id: document.getElementById('trxn_id').value,
             }
-            axios.post("https://127.0.0.1/orizon/public/create/organization", requestOrganization)
+            axios.post("http://example.com/oarizon/public/create/organization", requestOrganization)
                 .then((response) => {
                     console.log(response)
                     toastr.success('Organization Data Saved');
@@ -418,7 +418,7 @@
                 phone: document.getElementById('phone').value,
                 amount: document.getElementById('amount').value,
             }
-            axios.post("https://127.0.0.1/orizon/public/stkPush", requestBody)
+            axios.post("http://example.com/oarizon/public/stkPush", requestBody)
                 .then((response) => {
                     if (response.data.ResponseDescription) {
                         let CheckoutRequestID = response.data.CheckoutRequestID;
@@ -438,7 +438,7 @@
         function callBackStatus(CheckoutRequestID) {
             console.log(CheckoutRequestID)
             $.ajax({
-                url: "https://127.0.0.1/licensemanager/public/api/v1/data/" + CheckoutRequestID,
+                url: "http://example.com/licensemanager/public/api/v1/data/" + CheckoutRequestID,
                 type: "GET",
                 success: function (data) {
                     console.log(data.transaction.length);
@@ -465,10 +465,10 @@
             var organizationId = document.getElementById('organizationId').value;
             var moduleId = document.getElementById('module_id').value;
             var endDate = document.getElementById('end_dates').value;
-            axios.post("https://127.0.0.1/licensemanager/public/api/v1/update/organization/" + CheckoutRequestID + "/" + organizationId + "/" + moduleId + "/" + endDate, {})
+            axios.post("http://example.com/licensemanager/public/api/v1/update/organization/" + CheckoutRequestID + "/" + organizationId + "/" + moduleId + "/" + endDate, {})
                 .then((response) => {
                     if (response) {
-                        axios.get("https://127.0.0.1/orizon/public/license/date/" + organizationId + "/" + moduleId + "/" + endDate, {})
+                        axios.get("http://example.com/oarizonoarizon/public/license/date/" + organizationId + "/" + moduleId + "/" + endDate, {})
                             .then((response) => {
                                 if (response) {
                                     window.location.reload()
@@ -492,7 +492,7 @@
                 $('#loaderField').show();
             }
             $.ajax({
-                url: "https://127.0.0.1/orizon/public/license/data/" + path,
+                url: "http://example.com/oarizon/public/license/data/" + path,
                 type: 'GET',
                 data: '_token=<?php echo csrf_token()?>',
                 success: function (data) {
