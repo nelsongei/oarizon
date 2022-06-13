@@ -102,6 +102,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 Route::get('/register_organization',[RegisterController::class,'index']);
+Route::post('createOrganizations',[RegisterController::class,'store']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

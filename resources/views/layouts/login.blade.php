@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="{{asset('assets/assets/css/waves.min.css')}}" type="text/css" media="all">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/icon/feather/css/feather.css')}}">
 
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/icon/themify-icons/css/themify-icons.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/icon/themify-icons/themify-icons.css')}}">
 
     <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/icon/icofont/css/icofont.css')}}">
 
