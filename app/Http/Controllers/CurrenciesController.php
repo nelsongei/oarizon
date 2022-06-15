@@ -3,6 +3,7 @@
 use App\Models\Currency;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -16,7 +17,7 @@ class CurrenciesController extends Controller {
 	 */
 	public function index()
 	{
-		$currencies = Currency::all();
+		$currencies = Currency::where('organization_id',Auth::user()->organization_id)->get();
 
 		return View::make('currencies.index', compact('currencies'));
 	}
@@ -49,6 +50,7 @@ class CurrenciesController extends Controller {
 
 		$currency->name = $request->get('name');
 		$currency->shortname = $request->get('shortname');
+        $currency->organization_id = Auth::user()->organization_id;
 		$currency->save();
 
 		return Redirect::route('currencies.index');

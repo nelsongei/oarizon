@@ -19,8 +19,7 @@ $organization = App\Models\Organization::find(1);
 
 <!-- Your logo on the top left -->
 <a href="#" class="logo-link" title="back home">
-
-    <img src="{{asset('uploads/logo/'.$organization->logo)}}" class="logo" alt="Company's logo" />
+    <img src="{{asset('media/logo/logo.png')}}" class="logo" alt="Company's logo" />
 
 </a>
 

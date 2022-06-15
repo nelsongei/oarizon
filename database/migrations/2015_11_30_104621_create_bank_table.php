@@ -3,6 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBankTable extends Migration {
 
@@ -17,6 +18,7 @@ class CreateBankTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('bank_name');
+			$table->integer('bank_code')->nullable();
 			$table->integer('organization_id')->unsigned()->default('0')->index('banks_organization_id_foreign');
 			$table->timestamps();
 		});

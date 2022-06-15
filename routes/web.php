@@ -11,6 +11,7 @@ use App\Http\Controllers\AuditsController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\BanksController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfficeShiftController;
 use App\Http\Controllers\BenefitSettingsController;
 use App\Http\Controllers\BranchesController;
@@ -105,7 +106,7 @@ Route::get('/register_organization',[RegisterController::class,'index']);
 Route::post('createOrganizations',[RegisterController::class,'store']);
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 /*
  * Users
  * */

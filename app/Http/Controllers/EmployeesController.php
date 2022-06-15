@@ -114,13 +114,11 @@ class EmployeesController extends Controller
         }
 
     }
-
-
     public function createbank(Request $request)
     {
         $postbank = $request->all();
         $data = array('bank_name' => $postbank['name'],
-            'bank_code' => $postbank['code'],
+            //'bank_code' => $postbank['code'],
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
@@ -252,30 +250,35 @@ class EmployeesController extends Controller
         $organization = Organization::find(Auth::user()->organization_id);
 
         $employees = count(Employee::where('organization_id', Auth::user()->organization_id)->get());
-
+//        dd($employees);
         #echo "<pre>"; print_r($organization->licensed); echo "</pre>"; die;
         if ($organization->licensed <= $employees) {
             return View::make('employees.employeelimit');
         } else {
-            $currency = Currency::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->first();
-            $branches = Branch::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $departments = Department::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $jgroups = Jobgroup::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $jobtitles = JobTitle::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $etypes = EType::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $banks = Bank::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $bbranches = BBranch::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $educations = Education::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $citizenships = Citizenship::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
-            $pfn = 0;
-            if (Employee::where('organization_id', Auth::user()->organization_id)->orderBy('id', 'DESC')->count() == 0) {
+            try {
+                $currency = Currency::where('organization_id', Auth::user()->organization_id)->first();
+//            $currency = Currency::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->first();
+//            dd($currency);
+                $branches = Branch::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $departments = Department::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $jgroups = Jobgroup::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $jobtitles = JobTitle::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $etypes = EType::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $banks = Bank::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $bbranches = BBranch::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $educations = Education::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
+                $citizenships = Citizenship::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
                 $pfn = 0;
-            } else {
-                $pfn = Employee::where('organization_id', Auth::user()->organization_id)->orderBy('id', 'DESC')->pluck('personal_file_number');
-                $pfn = preg_replace('/\D/', '', $pfn);
+                if (Employee::where('organization_id', Auth::user()->organization_id)->orderBy('id', 'DESC')->count() == 0) {
+                    $pfn = 0;
+                } else {
+                    $pfn = Employee::where('organization_id', Auth::user()->organization_id)->orderBy('id', 'DESC')->pluck('personal_file_number');
+                    $pfn = preg_replace('/\D/', '', $pfn);
 
+                }
+                return View::make('employees.create', compact('currency', 'citizenships', 'pfn', 'branches', 'departments', 'jobtitles', 'etypes', 'jgroups', 'banks', 'bbranches', 'educations'));
             }
-            return View::make('employees.create', compact('currency', 'citizenships', 'pfn', 'branches', 'departments', 'jobtitles', 'etypes', 'jgroups', 'banks', 'bbranches', 'educations'));
+            catch (\Exception $e){}
         }
     }
 

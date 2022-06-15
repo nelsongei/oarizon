@@ -616,8 +616,20 @@
                                                         <label for="pay">Basic Salary <span
                                                                 style="color:red">*</span></label>
                                                         <div class="input-group">
-                                                            <span
-                                                                class="input-group-addon">{{$currency->shortname}}</span>
+                                                            <?php
+                                                                try{
+                                                                    ?>
+
+                                                                <span
+                                                                    class="input-group-addon">{{$currency->shortname}}</span>
+                                                            <?php
+                                                                }
+                                                                catch (\Exception $e){
+                                                                    ?>
+                                                                <span
+                                                                    class="input-group-addon">Create Currency</span>
+                                                                <?php }
+                                                            ?>
                                                             <input class="form-control" placeholder="" type="text"
                                                                    name="pay" id="pay" value="{{{ old('pay') }}}">
                                                         </div>

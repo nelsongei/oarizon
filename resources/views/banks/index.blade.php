@@ -13,8 +13,8 @@
 
 
                             <div class="card-header-right">
-                                <a class="dt-button btn-sm" href="{{ url('banks/create')}}">new branch</a>
-                                <a class="dt-button btn-sm" href="{{ url('banksimport')}}">Import</a>
+                                <a class="dt-button btn-sm" href="{{ url('banks/create')}}">New Bank</a>
+                                {{--                                <a class="dt-button btn-sm" href="{{ url('banksimport')}}">Import</a>--}}
                             </div>
 
                             @if (Session::has('flash_message'))
@@ -36,12 +36,12 @@
                             <div class="dt-responsive table-responsive">
                                 <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                                     <thead>
-
-                                    <th>#</th>
-                                    <th>Bank Code</th>
-                                    <th>Bank Name</th>
-                                    <th>Action</th>
-
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Bank Code</th>
+                                        <th>Bank Name</th>
+                                        <th>Action</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
 
@@ -56,14 +56,17 @@
                                             <td>
 
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false">
                                                         Action <span class="caret"></span>
                                                     </button>
 
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li><a href="{{url('banks/edit/'.$bank->id)}}">Update</a></li>
 
-                                                        <li><a href="{{url('banks/delete/'.$bank->id)}}" onclick="return (confirm('Are you sure you want to delete this bank?'))">Delete</a></li>
+                                                        <li><a href="{{url('banks/delete/'.$bank->id)}}"
+                                                               onclick="return (confirm('Are you sure you want to delete this bank?'))">Delete</a>
+                                                        </li>
 
                                                     </ul>
                                                 </div>

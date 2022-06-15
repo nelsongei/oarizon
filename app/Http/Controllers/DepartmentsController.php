@@ -18,7 +18,7 @@ class DepartmentsController extends Controller {
 	 */
 	public function index()
 	{
-		$departments = Department::whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)->get();
+		$departments = Department::where('organization_id',Auth::user()->organization_id)->get();
 
 		$date = now();
 		$user = Auth::user()->username;

@@ -46,15 +46,12 @@ function asMoney($value) {
                                         <th>Employee</th>
                                         <th>Name</th>
                                         <th>Amount</th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
-
-
                                     <tbody>
-
                                     <?php $i = 1; ?>
-                                    @foreach($properties as $property)
+                                    @forelse($properties as $property)
 
                                         <tr>
 
@@ -67,29 +64,31 @@ function asMoney($value) {
                                             <td>{{ $property->name }}</td>
                                             <td align="right">{{ asMoney((double)$property->monetary) }}</td>
                                             <td>
-
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                         Action <span class="caret"></span>
                                                     </button>
-
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li><a href="{{url('Properties/view/'.$property->id)}}">View</a></li>
-
                                                         <li><a href="{{url('Properties/edit/'.$property->id)}}">Update</a></li>
-
                                                         <li><a href="{{url('Properties/delete/'.$property->id)}}" onclick="return (confirm('Are you sure you want to delete this property?'))">Delete</a></li>
-
                                                     </ul>
                                                 </div>
-
                                             </td>
                                         </tr>
-
                                         <?php $i++; ?>
-                                    @endforeach
-
-
+                                    @empty
+                                        <tr>
+                                            <td colspan="5">
+                                                <center>
+                                                    <h1>
+                                                        <i class="fa fa-certificate ffa-5x" style="color: #7DA0B1"></i>
+                                                    </h1>
+                                                    <p>No Property Assigned</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>

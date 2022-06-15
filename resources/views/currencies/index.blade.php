@@ -24,13 +24,13 @@
                                         <th>#</th>
                                         <th>Currency Name</th>
                                         <th>Currency Code</th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
 
                                     <?php $i = 1; ?>
-                                    @foreach($currencies as $currency)
+                                    @forelse($currencies as $currency)
 
                                         <tr>
 
@@ -46,22 +46,24 @@
 
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li><a href="{{url('currencies/edit/'.$currency->id)}}">Update</a></li>
-
                                                         <li><a href="{{url('currencies/delete/'.$currency->id)}}">Delete</a></li>
-
                                                     </ul>
                                                 </div>
-
                                             </td>
-
-
-
                                         </tr>
-
                                         <?php $i++; ?>
-                                    @endforeach
-
-
+                                    @empty
+                                        <tr>
+                                            <td colspan="4">
+                                                <center>
+                                                    <h1>
+                                                        <i class="fa fa-money-bill-alt fa-5x" style="color: greenyellow"></i>
+                                                    </h1>
+                                                    <p>No Currency for your Organization</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>

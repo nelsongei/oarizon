@@ -46,7 +46,7 @@
                                                 <tbody>
 
                                                 <?php $i = 1; ?>
-                                                @foreach($departments as $department)
+                                                @forelse($departments as $department)
 
                                                     <tr>
 
@@ -60,27 +60,31 @@
                                                                         data-toggle="dropdown" aria-expanded="false">
                                                                     Action <span class="caret"></span>
                                                                 </button>
-
                                                                 <ul class="dropdown-menu" role="menu">
                                                                     <li>
                                                                         <a href="{{URL::to('departments/edit/'.$department->id)}}">Update</a>
                                                                     </li>
-
                                                                     <li>
                                                                         <a href="{{URL::to('departments/delete/'.$department->id)}}"
                                                                            onclick="return (confirm('Are you sure you want to delete this departments?'))">Delete</a>
                                                                     </li>
-
                                                                 </ul>
                                                             </div>
-
                                                         </td>
-
-
                                                     </tr>
-
                                                     <?php $i++; ?>
-                                                @endforeach
+                                                    @empty
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <center>
+                                                                <h2>
+                                                                    <i class="fa fa-archive fa-5x" style="color: yellowgreen"></i>
+                                                                </h2>
+                                                                <p>Add Departments</p>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
 
 
                                                 </tbody>

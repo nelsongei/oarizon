@@ -21,7 +21,7 @@ class BanksController extends Controller {
      */
     public function index()
     {
-        $banks = Bank::all();
+        $banks = Bank::where('organization_id',Auth::user()->organization_id)->get();
 
         Audit::logaudit(date('Y-m-d'), Auth::user()->username, 'view', 'viewed banks');
 
@@ -63,7 +63,7 @@ class BanksController extends Controller {
 
         $bank->bank_code = $request->get('code');
 
-        $bank->organization_id = '1';
+        $bank->organization_id = Auth::user()->organization_id;
 
         $bank->save();
 
