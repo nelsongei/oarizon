@@ -19,13 +19,8 @@ class AppraisalCategoryController extends Controller {
      */
 	public function index()
 	{
-		$categories = Appraisalcategory::whereNull('organization_id')
-		->orWhere('organization_id',Auth::user()->organization_id)->get();
-
-
+		$categories = Appraisalcategory::where('organization_id',Auth::user()->organization_id)->get();
 		Audit::logaudit(now('Africa/Nairobi'),Auth::user()->username, 'view', 'viewed appraisal categories');
-
-
 		return View::make('appraisalcategories.index', compact('categories'));
 	}
 
@@ -103,14 +98,14 @@ class AppraisalCategoryController extends Controller {
 	{
 		$category = Appraisalcategory::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), Appraisalcategory::$rules, Appraisalcategory::$messsages);
+		$validator = Validator::make($data = request()->all(), Appraisalcategory::$rules, Appraisalcategory::$messsages);
 
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$category->name = Input::get('name');
+		$category->name = request()->get('name');
 		$category->update();
 
 		Audit::logaudit('Appraisalcategories', 'update', 'updated: '.$category->name);

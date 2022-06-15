@@ -31,6 +31,7 @@ class AppraisalsController extends Controller {
             ->join('x_appraisalquestions', 'x_appraisals.appraisalquestion_id', '=', 'x_appraisalquestions.id')
             ->where('in_employment','=','Y')
             ->where('x_employee.organization_id',Auth::user()->organization_id)
+            ->where('x_appraisals.organization_id',Auth::user()->organization_id)
             ->select('x_appraisals.id','appraisalquestion_id','first_name','middle_name','last_name','question','performance','x_appraisals.rate')
             ->get();
 

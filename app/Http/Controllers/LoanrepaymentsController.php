@@ -19,6 +19,7 @@ use App\Models\Savingaccount;
 use App\Models\Smslog;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -479,9 +480,9 @@ class LoanrepaymentsController extends Controller
         $loanbalance = Loantransaction::getLoanBalance($loan);
         $loanbalance = $this->asMoney($loanbalance);
         if ($loanbalance > 0) {
-            $message = "Confirmed. Loan repayment of ksh " . array_get($data, 'amount') . " to loan account " . $loan->account_number . " on " . array_get($data, 'date') . ". Your new loan balance is ksh" . $loanbalance . "\nThank you! \n Regards, motosacco.";
+            $message = "Confirmed. Loan repayment of ksh " . Arr::get($data, 'amount') . " to loan account " . $loan->account_number . " on " . Arr::get($data, 'date') . ". Your new loan balance is ksh" . $loanbalance . "\nThank you! \n Regards, motosacco.";
         } else {
-            $message = "Confirmed. Loan repayment of ksh " . array_get($data, 'amount') . " to loan account " . $loan->account_number . " on " . array_get($data, 'date') . ". Your loan balance is now fully repaid. \nThank you. \n Regards, motosacco.";
+            $message = "Confirmed. Loan repayment of ksh " . Arr::get($data, 'amount') . " to loan account " . $loan->account_number . " on " . Arr::get($data, 'date') . ". Your loan balance is now fully repaid. \nThank you. \n Regards, motosacco.";
         }
         $member = Member::findOrFail($loan->member_id);
         // include(app_path() . '/views/AfricasTalkingGateway.php');

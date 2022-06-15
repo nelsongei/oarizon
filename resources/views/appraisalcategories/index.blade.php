@@ -38,7 +38,7 @@
                                         </thead>
                                         <tbody>
                                         <?php $i = 1; ?>
-                                        @foreach($categories as $category)
+                                        @forelse($categories as $category)
                                             <tr>
                                                 <td> {{ $i }}</td>
                                                 <td>{{ $category->name }}</td>
@@ -66,7 +66,18 @@
                                                 </td>
                                             </tr>
                                             <?php $i++; ?>
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="3">
+                                                    <center>
+                                                        <h1>
+                                                            <i class="fa fa-file fa-5x" style="color: indianred"></i>
+                                                        </h1>
+                                                        <p>Create New Appraisal Categories</p>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                         </tbody>
                                     </table>
                                 </div>
