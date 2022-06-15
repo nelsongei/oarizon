@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
-class OccurencesController extends Controller {
+class OccurencesController extends Controller
+{
 
     /*
      * Display a listing of branches
@@ -25,15 +26,12 @@ class OccurencesController extends Controller {
     {
         $occurences = DB::table('x_employee')
             ->join('x_occurences', 'x_employee.id', '=', 'x_occurences.employee_id')
-            ->where('in_employment','=','Y')
-            ->where('x_employee.organization_id',Auth::user()->organization_id)
+            ->where('in_employment', '=', 'Y')
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
             ->get();
-
         $date = now();
         $user = Auth::user()->name;
-
         Audit::logaudit($date, $user, 'viewed occurences');
-
         return View::make('occurences.index', compact('occurences'));
     }
 
@@ -45,11 +43,11 @@ class OccurencesController extends Controller {
     public function create()
     {
         $employees = DB::table('x_employee')
-            ->where('in_employment','=','Y')
-            ->where('organization_id',Auth::user()->organization_id)
+            ->where('in_employment', '=', 'Y')
+            ->where('organization_id', Auth::user()->organization_id)
             ->get();
         $occurences = Occurencesetting::all();
-        return View::make('occurences.create',compact('employees','occurences'));
+        return View::make('occurences.create', compact('employees', 'occurences'));
     }
 
     public function createoccurence(Request $request)
@@ -59,17 +57,17 @@ class OccurencesController extends Controller {
             'organization_id' => Auth::user()->organization_id,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'));
-        $check = DB::table('x_occurencesettings')->insertGetId( $data );
+        $check = DB::table('x_occurencesettings')->insertGetId($data);
         // $id = DB::table('earningsettings')->insertGetId( $data );
 
         $user = Auth::user()->username;
         $date = now();
 
-        if($check > 0){
+        if ($check > 0) {
 
-            Audit::logaudit($date, $user, 'created: '.$postocc['name']);
+            Audit::logaudit($date, $user, 'created: ' . $postocc['name']);
             return $check;
-        }else{
+        } else {
             return 1;
         }
 
@@ -84,44 +82,34 @@ class OccurencesController extends Controller {
     {
         $validator = Validator::make($data = $request->all(), Occurence::$rules, Occurence::$messsages);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
         $occurence = new Occurence;
-
         $occurence->occurence_brief = $request->get('brief');
-
         $occurence->employee_id = $request->get('employee');
-
         $occurence->occurencesetting_id = $request->get('type');
-
         $occurence->narrative = $request->get('narrative');
-
         $occurence->occurence_date = $request->get('date');
-
-        if ( $request->hasFile('path')) {
-
+        if ($request->hasFile('path')) {
             $file = $request->file('path');
             $name = $file->getClientOriginalName();
             $file = $file->move('public/uploads/employees/documents/', $name);
-            $input['file'] = '/public/uploads/employees/documents/'.$name;
+            $input['file'] = '/public/uploads/employees/documents/' . $name;
             $extension = pathinfo($name, PATHINFO_EXTENSION);
             $occurence->doc_path = $name;
         }
-
         $occurence->organization_id = Auth::user()->organization_id;
-
         $occurence->save();
 
         $date = now();
         $user = Auth::user()->username;
 
-        Audit::logaudit($date, $user, 'created: '.$occurence->occurence_brief.' for '.Employee::getEmployeeName($request->get('employee')));
+        Audit::logaudit($date, $user, 'created: ' . $occurence->occurence_brief . ' for ' . Employee::getEmployeeName($request->get('employee')));
 
 
-        return Redirect::to('occurences/view/'.$occurence->id)->withFlashMessage('Occurence successfully created!');
+        return Redirect::to('occurences/view/' . $occurence->id)->withFlashMessage('Occurence successfully created!');
     }
 
     /*
@@ -151,7 +139,7 @@ class OccurencesController extends Controller {
 
         $employees = Employee::all();
 
-        return View::make('occurences.edit', compact('occurence','employees','occurencesettings'));
+        return View::make('occurences.edit', compact('occurence', 'employees', 'occurencesettings'));
     }
 
     /*
@@ -160,14 +148,13 @@ class OccurencesController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $occurence = Occurence::findOrFail($id);
 
         $validator = Validator::make($data = $request->all(), Occurence::$rules, Occurence::$messsages);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
@@ -179,21 +166,21 @@ class OccurencesController extends Controller {
 
         $occurence->occurence_date = $request->get('date');
 
-        if ( $request->hasFile('path')) {
+        if ($request->hasFile('path')) {
 
             $file = $request->file('path');
             $name = $file->getClientOriginalName();
             $file = $file->move('public/uploads/employees/documents/', $name);
-            $input['file'] = '/public/uploads/employees/documents/'.$name;
+            $input['file'] = '/public/uploads/employees/documents/' . $name;
             $extension = pathinfo($name, PATHINFO_EXTENSION);
             $occurence->doc_path = $name;
         }
 
         $occurence->update();
 
-        Audit::logaudit('Occurences', 'update', 'updated: '.$occurence->occurence_brief.' for '.Employee::getEmployeeName($request->get('employee')));
+        Audit::logaudit('Occurences', 'update', 'updated: ' . $occurence->occurence_brief . ' for ' . Employee::getEmployeeName($request->get('employee')));
 
-        return Redirect::to('occurences/view/'.$id)->withFlashMessage('Occurence successfully updated!');
+        return Redirect::to('occurences/view/' . $id)->withFlashMessage('Occurence successfully updated!');
     }
 
     /*
@@ -207,12 +194,13 @@ class OccurencesController extends Controller {
         $occurence = Occurence::findOrFail($id);
         Occurence::destroy($id);
 
-        Audit::logaudit('Occurences', 'delete', 'deleted: '.$occurence->occurence_brief.' for '.Employee::getEmployeeName($occurence->employee_id));
+        Audit::logaudit('Occurences', 'delete', 'deleted: ' . $occurence->occurence_brief . ' for ' . Employee::getEmployeeName($occurence->employee_id));
 
-        return Redirect::to('employees/view/'.$occurence->employee_id)->withDeleteMessage('Occurence successfully deleted!');
+        return Redirect::to('employees/view/' . $occurence->employee_id)->withDeleteMessage('Occurence successfully deleted!');
     }
 
-    public function view($id){
+    public function view($id)
+    {
 
         $occurence = Occurence::find($id);
 
@@ -222,10 +210,11 @@ class OccurencesController extends Controller {
 
     }
 
-    public function getDownload($id){
+    public function getDownload($id)
+    {
         //PDF file is stored under project/public/download/info.pdf
         $occurence = Occurence::findOrFail($id);
-        $file= public_path(). "/uploads/employees/documents/".$occurence->doc_path;
+        $file = public_path() . "/uploads/employees/documents/" . $occurence->doc_path;
 
         return Response::download($file, $occurence->doc_path);
     }

@@ -33,7 +33,8 @@
                                 <div class="modal fade" id="importEmployees">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{url('employee/import')}}" method="post" enctype="multipart/form-data">
+                                            <form action="{{url('employee/import')}}" method="post"
+                                                  enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="form-group">
@@ -233,9 +234,9 @@
                                 </table>
                             </div>
                         </div>
-                            <div id="processing" style="display: none">
-                                <img src="{{asset('images/loader.gif')}}" style="height: 50px; width: 50px">
-                            </div>
+                        <div id="processing" style="display: none">
+                            <img src="{{asset('images/loader.gif')}}" style="height: 50px; width: 50px">
+                        </div>
                     </div>
                 </div>
             </div>

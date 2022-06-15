@@ -28,25 +28,18 @@
                         <div class="card-block">
                             <div class="dt-responsive table-responsive">
                                 <table id="order-table" class="table table-striped table-bordered nowrap">
-
                                     <thead>
-
                                     <tr>
                                         <th>#</th>
                                         <th>Employee</th>
-                                        <th>Occurence</th>
+                                        <th>Occurrence</th>
                                         <th>Action</th>
                                     </tr>
-
                                     </thead>
-
                                     <tbody>
-
                                     <?php $i = 1; ?>
-                                    @foreach($occurences as $occurence)
-
+                                    @forelse($occurences as $occurence)
                                         <tr>
-
                                             <td> {{ $i }}</td>
                                             @if($occurence->middle_name == null || $occurence->middle_name == '')
                                                 <td>{{ $occurence->first_name.' '.$occurence->last_name }}</td>
@@ -55,18 +48,25 @@
                                             @endif
                                             <td>{{ $occurence->occurence_brief }}</td>
                                             <td>
-
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false">
                                                         Action <span class="caret"></span>
                                                     </button>
 
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="{{url('occurences/view/'.$occurence->id)}}">View</a></li>
-                                                        <li><a href="{{url('occurences/download/'.$occurence->id)}}">Download</a></li>
-                                                        <li><a href="{{url('occurences/edit/'.$occurence->id)}}">Update</a></li>
+                                                        <li>
+                                                            <a href="{{url('occurences/view/'.$occurence->id)}}">View</a>
+                                                        </li>
+                                                        <li><a href="{{url('occurences/download/'.$occurence->id)}}">Download</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{url('occurences/edit/'.$occurence->id)}}">Update</a>
+                                                        </li>
 
-                                                        <li><a href="{{url('occurences/delete/'.$occurence->id)}}" onclick="return (confirm('Are you sure you want to delete this employee`s occurence?'))">Delete</a></li>
+                                                        <li><a href="{{url('occurences/delete/'.$occurence->id)}}"
+                                                               onclick="return (confirm('Are you sure you want to delete this employee`s occurence?'))">Delete</a>
+                                                        </li>
 
                                                     </ul>
                                                 </div>
@@ -74,16 +74,20 @@
                                             </td>
 
 
-
                                         </tr>
 
                                         <?php $i++; ?>
-                                    @endforeach
-
-
+                                    @empty
+                                        <tr>
+                                            <td colspan="4">
+                                                <center>
+                                                    <h3><i class="fa fa-users fa-5x"></i></h3>
+                                                    <p>No Occurrence</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
-
-
                                 </table>
                             </div>
                         </div>

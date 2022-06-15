@@ -25,7 +25,6 @@ class AppraisalsController extends Controller {
     public function index()
     {
         $employees = Appraisal::where('organization_id',Auth::user()->organization_id)->get();
-
         $appraisals = DB::table('x_employee')
             ->join('x_appraisals', 'x_employee.id', '=', 'x_appraisals.employee_id')
             ->join('x_appraisalquestions', 'x_appraisals.appraisalquestion_id', '=', 'x_appraisalquestions.id')
@@ -34,15 +33,11 @@ class AppraisalsController extends Controller {
             ->where('x_appraisals.organization_id',Auth::user()->organization_id)
             ->select('x_appraisals.id','appraisalquestion_id','first_name','middle_name','last_name','question','performance','x_appraisals.rate')
             ->get();
-
         $user = Auth::user()->name;
         $date = now();
-
         Audit::logaudit($date, $user, 'viewed appraisals');
-
         return View::make('appraisals.index', compact('appraisals'));
     }
-
     /*
      * Show the form for creating a new branch
      *
