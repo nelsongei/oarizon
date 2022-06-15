@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \App\Http\Controllers\Controller;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +19,7 @@ class GroupsController extends Controller {
 	 */
 	public function index()
 	{
-		$groups = Group::all();
+		$groups = Group::where('organization_id',Auth::user()->organization_id)->get();
 
 		return view('groups.index', compact('groups'));
 	}
@@ -41,16 +42,14 @@ class GroupsController extends Controller {
 	public function store(Request $request)
 	{
 		$validator = Validator::make($data = $request->all(), Group::$rules);
-
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
-
 		$group = new Group;
-
 		$group->name = $request->get('name');
 		$group->description = $request->get('description');
+        $group->organization_id  = Auth::user()->organization_id;
 		$group->save();
 
 		return Redirect::route('groups.index');

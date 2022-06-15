@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Organization;
 //use App\Models\Smslog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -19,7 +20,7 @@ class OrganizationsController extends Controller {
      */
     public function index()
     {
-        $organization = DB::table('x_organizations')->where('id', '=', 1)->first();
+        $organization = DB::table('x_organizations')->where('id', '=', Auth::user()->organization_id)->first();
         return View::make('organizations.index', compact('organization'));
     }
 
@@ -267,9 +268,6 @@ class OrganizationsController extends Controller {
         return Redirect::action('OrganizationsController@index');
 
     }
-
-
-
     public function language($lang){
         Session::put('lang', $lang);
 

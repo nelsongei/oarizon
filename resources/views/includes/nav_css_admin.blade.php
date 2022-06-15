@@ -280,7 +280,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ url('groups') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Groups</span>
+                                        <span class="pcoded-mtext">Job Groups</span>
                                     </a>
                                 </li>
                                 <li>

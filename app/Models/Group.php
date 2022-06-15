@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    protected $table='x_groups';
+    protected $table = 'x_groups';
     // Add your validation rules here
     public static $rules = [
         'name' => 'required'

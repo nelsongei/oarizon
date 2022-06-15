@@ -23,13 +23,13 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Branch Name</th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
 
                                     <?php $i = 1; ?>
-                                    @foreach($branches as $branch)
+                                    @forelse($branches as $branch)
 
                                         <tr>
 
@@ -38,28 +38,35 @@
                                             <td>
 
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false">
                                                         Action <span class="caret"></span>
                                                     </button>
 
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="{{url('branches/edit/'.$branch->id)}}">Update</a></li>
+                                                        <li><a href="{{url('branches/edit/'.$branch->id)}}">Update</a>
+                                                        </li>
 
-                                                        <li><a href="{{url('branches/delete/'.$branch->id)}}">Delete</a></li>
+                                                        <li><a href="{{url('branches/delete/'.$branch->id)}}">Delete</a>
+                                                        </li>
 
                                                     </ul>
                                                 </div>
-
                                             </td>
-
-
-
                                         </tr>
 
                                         <?php $i++; ?>
-                                    @endforeach
-
-
+                                    @empty
+                                        <tr>
+                                            <td colspan="3">
+                                                <center>
+                                                    <h3><i class="fa fa-code fa-5x" style="color: blue"></i>
+                                                    </h3>
+                                                    <p>Your Organization <strong>{{Auth::user()->organization->name}}</strong> Has No Branches.</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>

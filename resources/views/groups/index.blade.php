@@ -24,40 +24,41 @@
                                         <th>#</th>
                                         <th>Group Name</th>
                                         <th>Description</th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
-
-
                                     </thead>
                                     <tbody>
-
                                     <?php $i = 1; ?>
-                                    @foreach($groups as $group)
-
+                                    @forelse($groups as $group)
                                         <tr>
-
                                             <td> {{ $i }}</td>
                                             <td>{{ $group->name }}</td>
                                             <td>{{ $group->description }}</td>
                                             <td>
-
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                         Action <span class="caret"></span>
                                                     </button>
-
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li><a href="{{url('groups/edit/'.$group->id)}}">Update</a></li>
-
                                                         <li><a href="{{url('groups/delete/'.$group->id)}}">Delete</a></li>
-
                                                     </ul>
                                                 </div>
-
                                             </td>
                                         </tr>
                                         <?php $i++; ?>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="4">
+                                                <center>
+                                                    <h3>
+                                                        <i class="fa fa-print fa-5x" style="color:green"></i>
+                                                    </h3>
+                                                    <p>You have no Job Groups</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>

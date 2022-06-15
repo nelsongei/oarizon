@@ -17,8 +17,7 @@ class BranchesController extends Controller {
 	 */
 	public function index()
 	{
-		$branches = Branch::all();
-
+		$branches = Branch::where('organization_id',Auth::user()->organization_id)->get();
 		return View::make('branches.index', compact('branches'));
 	}
 
@@ -114,7 +113,6 @@ class BranchesController extends Controller {
 	public function destroy($id)
 	{
 		Branch::destroy($id);
-
 		return Redirect::route('branches.index');
 	}
 
