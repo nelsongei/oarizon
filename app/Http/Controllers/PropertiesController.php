@@ -25,7 +25,7 @@ class PropertiesController extends Controller {
         $properties = DB::table('x_employee')
             ->join('x_properties', 'x_employee.id', '=', 'x_properties.employee_id')
             ->where('in_employment','=','Y')
-            ->where('organization_id',Auth::user()->organization_id)
+            ->where('x_properties.organization_id',Auth::user()->organization_id)
             ->get();
 
         $date = now();
@@ -44,7 +44,7 @@ class PropertiesController extends Controller {
     public function create()
     {
         $currency = Currency::whereNull('organization_id')->orWhere('organization_id',Auth::user()->organization_id)->first();
-        $employees = DB::table('employee')
+        $employees = DB::table('x_employee')
             ->where('in_employment','=','Y')
             ->where('organization_id',Auth::user()->organization_id)
             ->get();

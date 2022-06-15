@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -57,7 +59,16 @@ class RegisterController extends Controller
             $user->user_type = 'admin';
             $user->organization_id = $orgId;
             $user->save();
+            //Role Assign
+            //$this->roleAssign($user);
         }
         return $data;
+    }
+    public function roleAssign($user)
+    {
+        $role = Role::create(['name'=>'Admin']);
+        $permissions = Permission::pluck('id','id')->all();
+        $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
     }
 }

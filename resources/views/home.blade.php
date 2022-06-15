@@ -21,7 +21,7 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Dashboard</h5>
+                        <h5>{{Auth::user()->organization->name}}</h5>
                         <span>Cbs Dashboard</span>
                     </div>
                 </div>

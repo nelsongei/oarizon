@@ -7,7 +7,7 @@ $organization = DB::table('x_organizations')
     <div class="navbar-wrapper">
         <div class="navbar-logo">
             <a href="{{url('/')}}">
-                <h1>XARA CBS</h1>
+                <h1>Payroll</h1>
             </a>
             <a class="mobile-menu" id="mobile-collapse" href="#!">
                 <i class="feather icon-menu icon-toggle-right"></i>

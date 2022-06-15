@@ -49,7 +49,7 @@ class EmployeeImport implements ToModel,WithStartRow
             'gender'=>$row[8],
             'mode_of_payment'=>$row[9],
             'bank_account_number'=>$row[10],
-            'organization_id'=>1
+            'organization_id'=>Auth::user()->organization_id
         ]);
     }
 }
