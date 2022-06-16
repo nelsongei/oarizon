@@ -8,10 +8,7 @@
                     <!-- [ page content ] start -->
                     <div class="card">
                         <div class="card-header">
-
                             <h3>Leave Applications</h3>
-
-
                             <div class="card-header-right">
                                 <a class="dt-button btn-sm" href="{{ url('leaveapplications/create')}}">new
                                     Application</a>
@@ -21,7 +18,6 @@
                             @if (Session::get('notice'))
                                 <div class="alert alert-info">{{ Session::get('notice') }}</div>
                             @endif
-
                         </div>
                         <div class="card-block">
                             <div class="dt-responsive table-responsive">
@@ -40,8 +36,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($leaveapplications as $leaveapplication)
-{{--                                        @if($leaveapplication->status == 'applied')--}}
+                                    @forelse($leaveapplications as $leaveapplication)
+                                        @if($leaveapplication->status == 'applied')
                                             <?php
                                                 $employeeCount = App\Models\Employee::where("id", $leaveapplication->employee_id)->count();
                                             ?>
@@ -69,8 +65,17 @@
                                                     </td>
                                                 </tr>
                                             @endif
-{{--                                        @endif--}}
-                                    @endforeach
+                                        @endif
+                                    @empty
+                                        <tr>
+                                            <td colspan="9">
+                                                <center>
+                                                    <h1><i class="fa fa-copy fa-5x" style="color: darkolivegreen"></i></h1>
+                                                    <p>No Leaves Applied So Far</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
