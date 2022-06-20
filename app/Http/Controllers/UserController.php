@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -19,7 +20,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        $users = User::orderBy('id','desc')->simplePaginate(5);
+        $users = User::where('organization_id', Auth::user()->organization_id)->orderBy('id','desc')->simplePaginate(5);
         return view('admin.index',compact('users'))->with('i',($request->input('page',1)-1)*5);
     }
 

@@ -2,6 +2,7 @@
 
 use App\Models\Holiday;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,8 +15,7 @@ class HolidaysController extends Controller {
 	 */
 	public function index()
 	{
-		$holidays = Holiday::all();
-
+		$holidays = Holiday::where('organization_id',Auth::user()->organization_id)->get();
 		return view('holidays.index', compact('holidays'));
 	}
 

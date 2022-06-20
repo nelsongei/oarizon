@@ -18,7 +18,8 @@ class LeaveapplicationsController extends Controller
      */
     public function index()
     {
-        $leaveapplications = Leaveapplication::all();
+        $leaveapplications = Leaveapplication::where('organization_id',Auth::user()->organization_id)->get();
+        dd('Hello');
 
         return Redirect::to('leavemgmt');
     }
@@ -30,10 +31,8 @@ class LeaveapplicationsController extends Controller
      */
     public function create()
     {
-        $employees = Employee::all();
-
-        $leavetypes = Leavetype::all();
-
+        $employees = Employee::where('organization_id',Auth::user()->organization_id)->get();
+        $leavetypes = Leavetype::where('organization_id',Auth::user()->organization_id)->get();
         return view('leaveapplications.create', compact('employees', 'leavetypes'));
     }
 
@@ -49,13 +48,11 @@ class LeaveapplicationsController extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
-
         Leaveapplication::createLeaveApplication($data);
 
         if (Auth::user()->user_type == 'admin') {
             return Redirect::to('leavemgmt');
         } else {
-
             return Redirect::to('css/leave')->with('notice', 'Successfully applied vacation');
         }
     }

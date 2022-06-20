@@ -1,7 +1,5 @@
 @extends('layouts.main_hr')
 @section('xara_cbs')
-
-
     <div class="pcoded-inner-content">
         <div class="main-body">
             <div class="page-wrapper">
@@ -27,7 +25,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($leaveapplications as $leaveapplication)
+                                    @forelse($leaveapplications as $leaveapplication)
                                         @if($leaveapplication->status == 'rejected')
                                             <tr>
                                                 <td>{{$leaveapplication->employee->personal_file_number}}</td>
@@ -42,7 +40,16 @@
                                                 </td>
                                             </tr>
                                         @endif
-                                    @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="7">
+                                                <center>
+                                                    <h1><i class="fa fa-cogs fa-5x"></i></h1>
+                                                    <p>No Rejected Leaves</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>

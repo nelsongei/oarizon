@@ -18,8 +18,7 @@ class LeavetypesController extends Controller {
 	 */
 	public function index()
 	{
-		$leavetypes= Leavetype::all();
-
+		$leavetypes= Leavetype::where('organization_id',Auth::user()->organization_id)->get();
 		return View::make('leavetypes.index',compact('leavetypes'));
 	}
 

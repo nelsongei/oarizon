@@ -26,16 +26,10 @@
                                         <th>Leave Days</th>
                                         <th></th>
                                     </tr>
-
-
-
                                     </thead>
 
                                     <tbody>
-
-
-
-                                    @foreach($leaveapplications as $leaveapplication)
+                                    @forelse($leaveapplications as $leaveapplication)
                                         @if($leaveapplication->status == 'amended')
                                             <tr>
 
@@ -57,7 +51,16 @@
 
                                             </tr>
                                         @endif
-                                    @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="7">
+                                                <center>
+                                                    <h2><i class="fa fa-cogs fa-5x" style="color: goldenrod"></i></h2>
+                                                    <p>No Amended Leaves</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>

@@ -62,17 +62,17 @@ class Leaveapplication extends Model
         $application->employee()->associate($employee);
         $application->leavetype()->associate($leavetype);
         $application->organization()->associate($organization);
-        $application->is_supervisor_approved = 0;
-        if (Arr::get($data, 'weekends') == null) {
-            $application->is_weekend = 0;
-        } else {
-            $application->is_weekend = 1;
-        }
-        if (Arr::get($data, 'holidays') == null) {
-            $application->is_holiday = 0;
-        } else {
-            $application->is_holiday = 1;
-        }
+//        $application->is_supervisor_approved = 0;
+//        if (Arr::get($data, 'weekends') == null) {
+//            $application->is_weekend = 0;
+//        } else {
+//            $application->is_weekend = 1;
+//        }
+//        if (Arr::get($data, 'holidays') == null) {
+//            $application->is_holiday = 0;
+//        } else {
+//            $application->is_holiday = 1;
+//        }
 
         $application->save();
 

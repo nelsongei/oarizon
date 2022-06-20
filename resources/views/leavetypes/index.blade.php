@@ -32,7 +32,7 @@
                                     <tbody>
 
                                     <?php $i = 1; ?>
-                                    @foreach($leavetypes as $leavetype)
+                                    @forelse($leavetypes as $leavetype)
 
                                         <tr>
 
@@ -40,12 +40,22 @@
                                             <td>{{ $leavetype->name }}</td>
                                             <td>{{ $leavetype->days }}</td>
                                             <td>
-                                                <a href="{{URL::to('leavetypes/edit/'.$leavetype->id)}}">Update</a>| &nbsp;
+                                                <a href="{{URL::to('leavetypes/edit/'.$leavetype->id)}}">Update</a>|
+                                                &nbsp;
                                                 <a href="{{URL::to('leavetypes/delete/'.$leavetype->id)}}">Delete</a>
                                             </td>
                                         </tr>
                                         <?php $i++; ?>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="4">
+                                                <center>
+                                                    <h3><i class="fa fa-plus-circle fa-5x" style="color: darkgreen"></i></h3>
+                                                    <p>Add Leave Types</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>

@@ -337,22 +337,21 @@ Route::get('leavemgmt', function () {
 
 Route::get('leaveamends', function () {
 
-    $leaveapplications = Leaveapplication::all();
-
+    $leaveapplications = Leaveapplication::where('organization_id',Auth::user()->organization_id)->where('status','amended')->get();
+    
     return View::make('leaveapplications.amended', compact('leaveapplications'));
 
 });
 
 Route::get('leaveapprovals', function () {
 
-    $leaveapplications = Leaveapplication::all();
-
+    $leaveapplications = Leaveapplication::where('organization_id',Auth::user()->organization_id)->where('status','approved')->get();
     return View::make('leaveapplications.approved', compact('leaveapplications'));
 
 });
 Route::get('leaverejects', function () {
 
-    $leaveapplications = Leaveapplication::all();
+    $leaveapplications = Leaveapplication::where('organization_id',Auth::user()->organization_id)->where('status','rejected')->get();
 
     return View::make('leaveapplications.rejected', compact('leaveapplications'));
 

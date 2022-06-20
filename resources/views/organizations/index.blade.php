@@ -12,7 +12,6 @@
 
                             <img src="{{asset('/assets/logo/'.$organization->logo)}}" alt="logo" width="80%">
 
-
                         </div>
                         <div class="card-header">
                             <button class="btn btn-info btn-xs " data-toggle="modal" data-target="#logo">update logo</button>

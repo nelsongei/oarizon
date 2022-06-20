@@ -38,7 +38,7 @@
 
                                     <tbody>
 
-                                    @foreach($leaveapplications as $leaveapplication)
+                                    @forelse($leaveapplications as $leaveapplication)
                                         @if($leaveapplication->status == 'approved')
 
                                             <?php $employeeCount= App\Models\Employee::where("id",$leaveapplication->employee_id)->count(); ?>
@@ -60,7 +60,16 @@
                                                 </tr>
                                             @endif
                                         @endif
-                                    @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="7">
+                                                <center>
+                                                    <h2><i class="fa fa-cogs fa-5x"></i></h2>
+                                                    <p>No Approved Leaves</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
 
                                     </tbody>
                                 </table>

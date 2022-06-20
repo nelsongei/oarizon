@@ -20,17 +20,17 @@
                             <div class="dt-responsive table-responsive">
                                 <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                                     <thead>
-
-                                    <th>#</th>
-                                    <th>Holiday Name</th>
-                                    <th>Holiday Date</th>
-                                    <th>Action</th>
-
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Holiday Name</th>
+                                        <th>Holiday Date</th>
+                                        <th>Action</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
 
                                     <?php $i = 1; ?>
-                                    @foreach($holidays as $holiday)
+                                    @forelse($holidays as $holiday)
 
                                         <tr>
 
@@ -45,7 +45,16 @@
                                             </td>
                                         </tr>
                                         <?php $i++; ?>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="4">
+                                                <center>
+                                                    <h3><i class="fa fa-plus-circle fa-5x" style="color: darkgreen"></i></h3>
+                                                    <p>Add Holidays</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
