@@ -9,9 +9,11 @@
                     <!-- [ page content ] start -->
                     <div class="card">
                         <div class="col-lg-3">
-
-                            <img src="{{asset('/assets/logo/'.$organization->logo)}}" alt="logo" width="80%">
-
+                            @if ($organization->logo == null)
+                            Upload Your Company Logo
+                            @else
+                            <img src="{{asset('/uploads/logo/'.$organization->logo)}}" alt="logo" width="">
+                            @endif
                         </div>
                         <div class="card-header">
                             <button class="btn btn-info btn-xs " data-toggle="modal" data-target="#logo">update logo</button>
@@ -68,7 +70,6 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Update Organization Details</h4>
                 </div>
                 <div class="modal-body">
@@ -95,25 +96,16 @@
                                 <label > Organization Website</label>
                                 <input class="form-control" placeholder="" type="text" name="website" id="website" value="{{ $organization->website }}">
                             </div>
-
                             <div class="form-group">
                                 <label > Organization Address</label>
                                 <textarea class="form-control" name="address" id="address" >{{ $organization->address }}</textarea>
-
                             </div>
-
-
-                            <div class="modal-footer">
-
+                            <div class="modal-footer justify-content-center">
                                 <div class="form-actions form-group">
-                                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary btn-sm">Update Details</button>
+                                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Not Now</button>
                                 </div>
-
-
                             </div>
-
-
                         </fieldset>
                     </form>
 
@@ -122,16 +114,11 @@
             </div>
         </div>
     </div>
-
-
-
-
     <!-- logo Modal -->
     <div class="modal fade" id="logo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Update Organization Logo</h4>
                 </div>
                 <div class="modal-body">
@@ -159,24 +146,16 @@
                                 <div class="alert">{{ Session::get('notice') }}</div>
                             @endif
 
-                            <div class="modal-footer">
-
+                            <div class="modal-footer justify-content-center">
                                 <div class="form-actions form-group">
-                                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary btn-sm">Update Logo</button>
+                                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Not Now</button>
                                 </div>
-
-
                             </div>
-
                         </fieldset>
                     </form>
-
                 </div>
-
-
             </div>
-
         </div>
     </div>
 @stop

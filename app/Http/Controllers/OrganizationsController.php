@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Models\Organization;
 //use App\Models\Smslog;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -251,7 +252,7 @@ class OrganizationsController extends Controller {
 
             $destination = public_path().'/uploads/logo/';
 
-            $filename = str_random(12);
+            $filename = Str::random(12);
 
             $ext = $request->file('photo')->getClientOriginalExtension();
             $photo = $filename.'.'.$ext;
@@ -265,7 +266,7 @@ class OrganizationsController extends Controller {
             $organization->logo = $photo;
             $organization->update();
         }
-        return Redirect::action('OrganizationsController@index');
+        return redirect('/organizations');
 
     }
     public function language($lang){

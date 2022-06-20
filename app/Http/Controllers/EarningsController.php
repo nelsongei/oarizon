@@ -61,11 +61,8 @@ class EarningsController extends Controller
             'updated_at' => DB::raw('NOW()'));
         $check = DB::table('x_earningsettings')->insertGetId($data);
         // $id = DB::table('earningsettings')->insertGetId( $data );
-
         if ($check > 0) {
-
             Audit::logaudit(date('Y-m-d'), Auth::user()->username, 'created: ' . $postearning['name'], 'Earningsettings', 0);
-
             return $check;
         } else {
             return 1;

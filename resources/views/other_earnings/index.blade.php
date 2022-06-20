@@ -51,7 +51,7 @@
                                     <tbody>
 
                                     <?php $i = 1; ?>
-                                    @foreach($earnings as $earning)
+                                    @forelse($earnings as $earning)
 
                                         <tr>
 
@@ -92,7 +92,16 @@
                                         </tr>
 
                                         <?php $i++; ?>
-                                    @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="5">
+                                                <center>
+                                                    <h1><i class="fa fa-plus fa-5x" style="color: rgb(22, 138, 28)"></i></h1>
+                                                    <p>Add Earnings</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
 
 
                                     </tbody>
