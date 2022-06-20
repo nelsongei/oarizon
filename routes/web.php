@@ -111,6 +111,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
  * Users
  * */
 Route::resource('users', UserController::class);
+Route::post('users/update/{id}',[UserController::class, 'update']);
 /*
  * Roles
  * */

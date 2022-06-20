@@ -83,7 +83,15 @@ function asMoney($value)
                                             <div class="form-group">
                                                 <label for="username">Amount </label>
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                    <?php 
+                                                        try{
+                                                            ?>
+                                                            <span class="input-group-addon">{{$currency->shortname}}</span>  
+                                                            <?php
+                                                            
+                                                        }
+                                                        catch (\Exception $e){}
+                                                        ?>
                                                     <input class="form-control" placeholder="" type="text" name="amount"
                                                            id="amount"
                                                            onkeypress="totalBalance()" onkeyup="totalBalance()">
@@ -93,7 +101,15 @@ function asMoney($value)
                                             <div class="form-group">
                                                 <label for="username">Total amount </label>
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                    <?php 
+                                                        try{
+                                                            ?>
+                                                            <span class="input-group-addon">{{$currency->shortname}}</span>  
+                                                            <?php
+                                                            
+                                                        }
+                                                        catch (\Exception $e){}
+                                                        ?>
                                                     <input class="form-control" placeholder="" readonly type="text"
                                                            name="total" id="total"
                                                            value="{{{ old('total') }}}">

@@ -66,6 +66,167 @@
                                             </button>&nbsp;
                                         </center>
                                         <div class="card">
+                                            <div id="dialog-form" title="Create new citizenship name">
+                                                <p class="validateTips1">Please insert citizenship name.</p>
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="cname" id="cname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                            <div id="dialog-form" title="Create new education level">
+                                                <p class="validateTips2">Please insert education level.</p>
+
+                                                <form>
+                                                    @csrf
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="ename" id="ename" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new bank">
+                                                <p class="validateTips3">Please insert bank name.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="bname" id="bname" value=""
+                                                               class="form-control">
+
+                                                        <label for="name">Code<span style="color:red"></span></label>
+                                                        <input type="text" name="bcode" id="bcode" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new bank branch">
+                                                <p class="validateTips4">Please Insert Bank Branch.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="bname" id="brname" value=""
+                                                               class="form-control">
+
+                                                        <label for="name">Code<span style="color:red"></span></label>
+                                                        <input type="text" name="bcode" id="brcode" value=""
+                                                               class="form-control">
+
+                                                        <input type="hidden" name="bid" id="bid" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new branch">
+                                                <p class="validateTips5">Please insert branch.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label for="name">Name <span
+                                                                    style="color:red">*</span></label>
+                                                            <input type="text" name="ebname" id="ebname" value=""
+                                                                   class="form-control">
+
+                                                            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                            <input type="submit" tabindex="-1"
+                                                                   style="position:absolute; top:-1000px">
+
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new department">
+                                                <p class="validateTips6">Please insert Department fields in *.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Code <span style="color:red">*</span></label>
+                                                        <input type="text" name="dcode" id="dcode" value=""
+                                                               class="form-control">
+
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="dname" id="dname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new job group">
+                                                <p class="validateTips7">Please insert job group.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="jname" id="jname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new employee type">
+                                                <p class="validateTips8">Please insert employee type.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="tname" id="tname" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div id="dialog-form" title="Create new job title" class="mb-5 mb-lg-2">
+                                                <p class="validateTips9">Please insert job title.</p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label for="name">Name <span style="color:red">*</span></label>
+                                                        <input type="text" name="jtitle" id="jtitle" value=""
+                                                               class="form-control">
+
+                                                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                                                        <input type="submit" tabindex="-1"
+                                                               style="position:absolute; top:-1000px">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
                                             <div class="card-body" style="border: 1px solid blue">
                                                 <div id="page1" class="row">
                                                     <input class="form-control" placeholder="" type="hidden" name="photo"

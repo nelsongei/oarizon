@@ -54,7 +54,7 @@ function asMoney($value)
                                         </thead>
                                         <tbody>
                                         <?php $i = 1; ?>
-                                        @foreach($overtimes as $overtime)
+                                        @forelse($overtimes as $overtime)
 
                                             <tr>
 
@@ -93,7 +93,16 @@ function asMoney($value)
                                                 </td>
                                             </tr>
                                             <?php $i++; ?>
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="7">
+                                                    <center>
+                                                        <h3><i class="fa fa-database fa-5x" style="color: blue"></i></h3>
+                                                        <p>Add Overtime</p>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                         </tbody>
                                     </table>
                                 </div>

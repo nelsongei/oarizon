@@ -56,8 +56,7 @@ function asMoney($value)
                                         <tbody>
 
                                         <?php $i = 1; ?>
-                                        @foreach($deds as $ded)
-
+                                        @forelse($deds as $ded)
                                             <tr>
 
                                                 <td> {{ $i }}</td>
@@ -100,7 +99,16 @@ function asMoney($value)
                                             </tr>
 
                                             <?php $i++; ?>
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="5">
+                                                    <center>
+                                                        <h1><i class="fa fa-list fa-5x"></i></h1>
+                                                        <p>Add Deduction</p>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        @endforelse
 
 
                                         </tbody>

@@ -83,7 +83,15 @@
                                                 <label for="username">Insurance Premium <span style="color:red">*</span>
                                                 </label>
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                    <?php 
+                                                    try{
+                                                        ?>
+                                                        <span class="input-group-addon">{{$currency->shortname}}</span>  
+                                                        <?php
+                                                        
+                                                    }
+                                                    catch (\Exception $e){}
+                                                    ?>
                                                     <input class="form-control" placeholder=""
                                                            onkeypress="totalBalance()"
                                                            onkeyup="totalBalance()" type="text" name="premium"
@@ -95,7 +103,15 @@
                                                 <label for="username">Relief Amount <span style="color:red">*</span>
                                                 </label>
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                    <?php 
+                                                    try{
+                                                        ?>
+                                                        <span class="input-group-addon">{{$currency->shortname}}</span>  
+                                                        <?php
+                                                        
+                                                    }
+                                                    catch (\Exception $e){}
+                                                    ?>
                                                     <input class="form-control" placeholder="" type="text" readonly
                                                            name="amount" id="amount"
                                                            value="{{{ old('amount') }}}">

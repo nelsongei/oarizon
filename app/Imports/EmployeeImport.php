@@ -3,9 +3,10 @@
 namespace App\Imports;
 
 use App\Models\Employee;
+use App\Models\Jobgroup;
 use App\Models\Organization;
-use Illuminate\Support\Collection;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -32,6 +33,8 @@ class EmployeeImport implements ToModel,WithStartRow
 
     public function model(array $row)
     {
+        $job_group_id = Jobgroup::pluck('id')->first();
+        // dd($job_group_id);
         $organization = Organization::find(Auth::user()->organization_id);
         $string = $organization->name;
         $str = strtoupper($string[0].',');
@@ -49,7 +52,8 @@ class EmployeeImport implements ToModel,WithStartRow
             'gender'=>$row[8],
             'mode_of_payment'=>$row[9],
             'bank_account_number'=>$row[10],
-            'organization_id'=>Auth::user()->organization_id
+            'organization_id'=>Auth::user()->organization_id,
+            'job_group_id'=>$job_group_id,
         ]);
     }
 }

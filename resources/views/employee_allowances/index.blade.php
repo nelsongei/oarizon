@@ -46,8 +46,7 @@
                                     <tbody>
 
                                     <?php $i = 1; ?>
-                                    @foreach($eallws as $eallw)
-
+                                    @forelse($eallws as $eallw)
                                         <tr>
 
                                             <td> {{ $i }}</td>
@@ -82,7 +81,16 @@
                                         </tr>
 
                                         <?php $i++; ?>
-                                    @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="5">
+                                                <center>
+                                                    <h1><i class="fa fa-server fa-5x" style="color: green"></i></h1>
+                                                    <p>Add Employee Allowances</p>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endforelse
 
 
                                     </tbody>

@@ -601,10 +601,10 @@ class EmployeesController extends Controller
     public function update(Request $request, $id)
     {
         $employee = Employee::findOrFail($id);
-        $validator = Validator::make($request->all(), Employee::rolesUpdate($employee->id), Employee::$messages);
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->withInput();
-        }
+        // $validator = Validator::make($request->all(), Employee::rolesUpdate($employee->id), Employee::$messages);
+        // if ($validator->fails()) {
+        //     return Redirect::back()->withErrors($validator)->withInput();
+        // }
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');

@@ -82,7 +82,15 @@
                                                 <div class="form-group">
                                                     <label for="username">Amount <span style="color:red">*</span> </label>
                                                     <div class="input-group">
-                                                        <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                        <?php 
+                                                        try{
+                                                            ?>
+                                                            <span class="input-group-addon">{{$currency->shortname}}</span>  
+                                                            <?php
+                                                            
+                                                        }
+                                                        catch (\Exception $e){}
+                                                        ?>
                                                         <input class="form-control" placeholder="" type="text" onkeypress="totalBalance()"
                                                                onkeyup="totalBalance()" name="amount" id="amount"
                                                                value="{{{ old('amount') }}}">
@@ -92,7 +100,15 @@
                                                 <div class="form-group bal_amt" id="bal">
                                                     <label for="username">Total </label>
                                                     <div class="input-group">
-                                                        <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                        <?php 
+                                                        try{
+                                                            ?>
+                                                            <span class="input-group-addon">{{$currency->shortname}}</span>  
+                                                            <?php
+                                                            
+                                                        }
+                                                        catch (\Exception $e){}
+                                                        ?>
                                                         <input class="form-control" placeholder="" readonly="readonly" type="text" name="balance"
                                                                id="balance" value="{{{ old('balance') }}}">
                                                     </div>

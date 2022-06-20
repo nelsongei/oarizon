@@ -20,8 +20,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
+        $roles= Role::pluck('name','name')->all();
         $users = User::where('organization_id', Auth::user()->organization_id)->orderBy('id','desc')->simplePaginate(5);
-        return view('admin.index',compact('users'))->with('i',($request->input('page',1)-1)*5);
+        return view('admin.index',compact('users','roles'))->with('i',($request->input('page',1)-1)*5);
     }
 
     /**
@@ -83,6 +84,8 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+        $roles= Role::pluck('name','name')->all();
+        return view('admin.edit',compact('roles'));
     }
 
     /**
@@ -95,6 +98,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $user = User::where('id',$id)->findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->assignRole($request->input('roles'));
+        $user->push();
+        return  redirect()->route('users.index')->with('success','User Updated');
     }
 
     /**
