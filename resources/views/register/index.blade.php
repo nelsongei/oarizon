@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form class="md-float-material form-material" method="post" id="create_organization">
-                        @csrf
+{{--                        @csrf--}}
                         <div class="text-center">
                             <img src="{{asset('media/logo/logo.png')}}" alt="logo.png">
                         </div>
@@ -81,8 +81,18 @@
                                 <input type="hidden" id="trxn_id" name="trxn_id" value="">
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                                        <button class="btn btn-success btn-md btn-block waves-effect text-center m-b-20">
                                             Sign up now
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                                            Facebook Signup
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-danger btn-md btn-block waves-effect text-center m-b-20">
+                                            Google Signup
                                         </button>
                                     </div>
                                 </div>
@@ -111,16 +121,26 @@
                 module_id: document.getElementById('module_id').value,
                 paid_via: document.getElementById('paid_via').value,
                 trxn_id: document.getElementById('trxn_id').value,
+                _token: "{{csrf_token()}}"
             };
-            axios.post("http://example.com/oarizon/public/createOrganizations",requestOrganization)
-                .then((response)=>{
-                    console.log(response);
-                    toastr.success('Success, Proceed to login');
+            $.ajax({
+                url:"http://127.0.0.1/oarizon/public/createOrganizations",
+                type: "POST",
+                data: requestOrganization,
+                success: function (data) {
                     window.location = '/oarizon/public/login';
-                })
-                .catch((error)=>{
-                    console.log(error);
-                })
+                    toastr.success('Success');
+                }
+            })
+            // axios.post("Access-Control-Allow-Origin: http://example.com/oarizon/public/createOrganizations",requestOrganization)
+            //     .then((response)=>{
+            //         console.log(response);
+            //         toastr.success('Success, Proceed to login');
+
+            //     })
+            //     .catch((error)=>{
+            //         console.log(error);
+            //     })
         })
     </script>
 @endsection

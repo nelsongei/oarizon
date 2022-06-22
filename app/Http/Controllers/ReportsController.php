@@ -4509,6 +4509,7 @@ class ReportsController extends Controller
                         ->select('shortname')
                         ->first();
 
+
                     $pension = DB::table('x_transact_pensions')
                         ->join('x_employee', 'x_transact_pensions.employee_id', '=', 'x_employee.id')
                         ->where('financial_month_year', '=', $request->get('period'))
@@ -13470,10 +13471,9 @@ class ReportsController extends Controller
             }
             $month = $m . "_" . $part[1];
 
-
             $pdf = PDF::loadView('pdf.nssfReport', compact('nssfs', 'total', 'currencies', 'period', 'organization'))->setPaper('a4');
-
-            return $pdf->stream('nssf_Report_' . $month . '.pdf');
+//            return $pdf->stream('nssf_Report_' . $month . '.pdf');
+            return $pdf->stream();
 
         }
     }

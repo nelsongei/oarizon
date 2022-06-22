@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RegisterController extends Controller
+class RegistrationController extends Controller
 {
     //
     public function index()

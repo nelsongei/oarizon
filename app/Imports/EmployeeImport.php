@@ -34,7 +34,6 @@ class EmployeeImport implements ToModel,WithStartRow
     public function model(array $row)
     {
         $job_group_id = Jobgroup::pluck('id')->first();
-        // dd($job_group_id);
         $organization = Organization::find(Auth::user()->organization_id);
         $string = $organization->name;
         $str = strtoupper($string[0].',');

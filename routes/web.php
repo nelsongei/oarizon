@@ -45,7 +45,7 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\payslipEmailController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\PropertiesController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReliefsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RoleController;
@@ -102,8 +102,8 @@ use Illuminate\Support\Facades\View;
 Route::get('/', function () {
     return redirect('login');
 });
-Route::get('/register_organization',[RegisterController::class,'index']);
-Route::post('createOrganizations',[RegisterController::class,'store']);
+Route::get('/register_organization', [RegistrationController::class, 'index']);
+Route::post('createOrganizations', [RegistrationController::class, 'store']);
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -111,7 +111,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
  * Users
  * */
 Route::resource('users', UserController::class);
-Route::post('users/update/{id}',[UserController::class, 'update']);
+Route::post('users/update/{id}', [UserController::class, 'update']);
 /*
  * Roles
  * */
@@ -122,10 +122,10 @@ Route::resource('roles', RoleController::class);
  * Employees
  * */
 Route::resource('employees', EmployeesController::class);
-Route::get('employee/template',[EmployeesController::class,'exportTemplate']);
-Route::post('employee/import',[EmployeesController::class,'importEmployees']);
+Route::get('employee/template', [EmployeesController::class, 'exportTemplate']);
+Route::post('employee/import', [EmployeesController::class, 'importEmployees']);
 Route::get('employees/show/{id}', [EmployeesController::class, 'show']);
-Route::get('v1/employees',[EmployeesController::class,'getEmployees']);
+Route::get('v1/employees', [EmployeesController::class, 'getEmployees']);
 
 
 Route::get('employees/create', [EmployeesController::class, 'create']);
@@ -338,21 +338,21 @@ Route::get('leavemgmt', function () {
 
 Route::get('leaveamends', function () {
 
-    $leaveapplications = Leaveapplication::where('organization_id',Auth::user()->organization_id)->where('status','amended')->get();
-    
+    $leaveapplications = Leaveapplication::where('organization_id', Auth::user()->organization_id)->where('status', 'amended')->get();
+
     return View::make('leaveapplications.amended', compact('leaveapplications'));
 
 });
 
 Route::get('leaveapprovals', function () {
 
-    $leaveapplications = Leaveapplication::where('organization_id',Auth::user()->organization_id)->where('status','approved')->get();
+    $leaveapplications = Leaveapplication::where('organization_id', Auth::user()->organization_id)->where('status', 'approved')->get();
     return View::make('leaveapplications.approved', compact('leaveapplications'));
 
 });
 Route::get('leaverejects', function () {
 
-    $leaveapplications = Leaveapplication::where('organization_id',Auth::user()->organization_id)->where('status','rejected')->get();
+    $leaveapplications = Leaveapplication::where('organization_id', Auth::user()->organization_id)->where('status', 'rejected')->get();
 
     return View::make('leaveapplications.rejected', compact('leaveapplications'));
 
@@ -562,12 +562,12 @@ Route::post('payrollReports/nhifReturns', [ReportsController::class, 'nhifReturn
 Route::get('payrollReports/selectNssfExcelPeriod', [ReportsController::class, 'period_excel']);
 Route::post('payrollReports/nssfExcel', [ReportsController::class, 'export']);
 Route::post('payrollReports/pensions', [ReportsController::class, 'pensions']);
-Route::get('mergeStatutory/selectPeriod', [ReportsController::class,'mergeperiod']);
-Route::post('mergeStatutory/report', [ReportsController::class,'mergestatutory']);
-Route::get('advanceReports/selectRemittancePeriod', [ReportsController::class,'period_advrem']);
-Route::post('advanceReports/advanceRemittances', [ReportsController::class,'payeAdvRems']);
-Route::get('itax/download', [ReportsController::class,'getDownload']);
-Route::get('reports/blank', [ReportsController::class,'template']);
+Route::get('mergeStatutory/selectPeriod', [ReportsController::class, 'mergeperiod']);
+Route::post('mergeStatutory/report', [ReportsController::class, 'mergestatutory']);
+Route::get('advanceReports/selectRemittancePeriod', [ReportsController::class, 'period_advrem']);
+Route::post('advanceReports/advanceRemittances', [ReportsController::class, 'payeAdvRems']);
+Route::get('itax/download', [ReportsController::class, 'getDownload']);
+Route::get('reports/blank', [ReportsController::class, 'template']);
 /*
  * Pension
  * */
@@ -737,7 +737,7 @@ Route::get('/license/date/{id}/{module}/{end}', [LicenseController::class, 'upda
 Route::get('/license/data/{id}', [MpesaController::class, 'getModuleData']);
 Route::post('/stkPush', [LicenseController::class, 'stkPush']);
 Route::get('mpesaTransactions/{id}/{transaction}', [MpesaController::class, 'view']);
-Route::post('create/organization',[LicenseController::class,'createOrganization']);
+Route::post('create/organization', [LicenseController::class, 'createOrganization']);
 /*
  * Employees Apis
  * */
@@ -758,26 +758,26 @@ Route::get('api/branchemployee', function () {
             ->orWhere('organization_id', Auth::user()->organization_id);
     })->where('job_group_name', 'Management')
         ->first();
-
+    //dd('bid=>'.$bid.' did=>'.$did);
     if (($bid == 'All' || $bid == '' || $bid == 0) && ($did == 'All' || $did == '' || $did == 0)) {
-        if (Gate::allows('manager_payroll')) {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+        if (Auth::user()->can('manager_payroll')) {
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('organization_id', Auth::user()->organization_id)
                 ->pluck('full_name', 'id');
         } else {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('job_group_id', '!=', $jgroup->id)
                 ->pluck('full_name', 'id');
         }
     } else if (($bid != 'All' || $bid != '' || $bid != 0) && ($did == 'All' || $did == '' || $did == 0)) {
         if (Gate::allows('manager_payroll')) {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('branch_id', $bid)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->pluck('full_name', 'id');
         } else {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('branch_id', $bid)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('job_group_id', '!=', $jgroup->id)
@@ -785,13 +785,13 @@ Route::get('api/branchemployee', function () {
         }
     } else if (($did != 'All' || $did != '' || $did != 0) && ($bid != 'All' || $bid != '' || $bid != 0)) {
         if (Gate::allows('manager_payroll')) {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('branch_id', $bid)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('department_id', $did)
                 ->pluck('full_name', 'id');
         } else {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('branch_id', $bid)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('job_group_id', '!=', $jgroup->id)
@@ -800,12 +800,12 @@ Route::get('api/branchemployee', function () {
         }
     } else if (($did != 'All' || $did != '' || $did != 0) && ($bid == 'All' || $bid == '' || $bid == 0)) {
         if (Gate::allows('manager_payroll')) {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('department_id', $did)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->pluck('full_name', 'id');
         } else {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('department_id', $did)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('job_group_id', '!=', $jgroup->id)
@@ -834,23 +834,23 @@ Route::get('api/deptemployee', function () {
 
     if (($did == 'All' || $did == '' || $did == 0) && ($bid == 'All' || $bid == '' || $bid == 0)) {
         if (Gate::allows('manager_payroll')) {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('organization_id', Auth::user()->organization_id)
                 ->pluck('full_name', 'id');
         } else {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('job_group_id', '!=', $jgroup->id)
                 ->pluck('full_name', 'id');
         }
     } else if (($did != 'All' || $did != '' || $did != 0) && ($bid == 'All' || $bid == '' || $bid == 0)) {
         if (Gate::allows('manager_payroll')) {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('department_id', $did)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->pluck('full_name', 'id');
         } else {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('department_id', $did)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('job_group_id', '!=', $jgroup->id)
@@ -858,13 +858,13 @@ Route::get('api/deptemployee', function () {
         }
     } else if (($did != 'All' || $did != '' || $did != 0) && ($bid != 'All' || $bid != '' || $bid != 0)) {
         if (Gate::allows('manager_payroll')) {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('branch_id', $bid)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('department_id', $did)
                 ->pluck('full_name', 'id');
         } else {
-            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",middle_name," ",last_name) AS full_name'))
+            $employee = Employee::select('id', DB::raw('CONCAT(personal_file_number, " : ", first_name," ",last_name) AS full_name'))
                 ->where('branch_id', $bid)
                 ->where('organization_id', Auth::user()->organization_id)
                 ->where('job_group_id', '!=', $jgroup->id)
@@ -879,13 +879,13 @@ Route::get('api/deptemployee', function () {
  * Timesheet
  */
 Route::group(['prefix' => 'timesheet'], function () {
-    Route::get('work_shift', [OfficeShiftController::class,'index']);
-    Route::get('work_shift/create', [OfficeShiftController::class,'create']);
-    Route::post('work_shift/save', [OfficeShiftController::class,'store']);
-    Route::post('work_shift/deactivate', [OfficeShiftController::class,'destroy']);
-    Route::get('officeshift/{id}/{clock_in}/{clock_out}',[OfficeShiftController::class,'getShift']);
+    Route::get('work_shift', [OfficeShiftController::class, 'index']);
+    Route::get('work_shift/create', [OfficeShiftController::class, 'create']);
+    Route::post('work_shift/save', [OfficeShiftController::class, 'store']);
+    Route::post('work_shift/deactivate', [OfficeShiftController::class, 'destroy']);
+    Route::get('officeshift/{id}/{clock_in}/{clock_out}', [OfficeShiftController::class, 'getShift']);
     //Route::resource('attendances','AttendanceController');
-    Route::get('attendances', [AttendanceController::class,'index']);
+    Route::get('attendances', [AttendanceController::class, 'index']);
 
     Route::get('monthlyAttendance', 'AttendanceController@monthlyAttendance');
     Route::get('dailyAttendance', 'AttendanceController@dateWiseAttendance');
@@ -1269,7 +1269,7 @@ Route::get('api/totalsales', function () {
     //return ($price->total) - $payment - $p->discount;
     return ($price->total_amount) - $payment - $p->discount;
 });
-Route::post('erporders/create', function(){
+Route::post('erporders/create', function () {
 
     $data = request()->all();
 
@@ -1284,7 +1284,7 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => Arr::get($data, 'order_number'),
             'client' => $client,
             'date' => Arr::get($data, 'date'),
@@ -1296,7 +1296,7 @@ $erporder = array(
     );
     Session::put('orderitems', []);
 
-    $orderitems =Session::get('orderitems');
+    $orderitems = Session::get('orderitems');
 
     /*
 $erporder = new Erporder;
@@ -1314,38 +1314,51 @@ $erporder->save();
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erporders.orderitems', compact( 'items', 'locations', 'taxes','orderitems'));
+    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
 
-Route::post('erporders/returnInwards',function(){
-    $quantity = Input::get('quantity'); $item_id=Input::get('item_id');
-    $orderitem_id=Input::get('erporder_id'); $payment_type=Input::get('payment_type');
-    $pay_method=Input::get('pay_method'); $credit=Input::get('incredit');
-    $item=Item::find($item_id); $orderitem=Erporderitem::find($orderitem_id);
-    $total_price=(int)$item->selling_price*(int)$quantity;
-    if($quantity>$orderitem->quantity){
+Route::post('erporders/returnInwards', function () {
+    $quantity = Input::get('quantity');
+    $item_id = Input::get('item_id');
+    $orderitem_id = Input::get('erporder_id');
+    $payment_type = Input::get('payment_type');
+    $pay_method = Input::get('pay_method');
+    $credit = Input::get('incredit');
+    $item = Item::find($item_id);
+    $orderitem = Erporderitem::find($orderitem_id);
+    $total_price = (int)$item->selling_price * (int)$quantity;
+    if ($quantity > $orderitem->quantity) {
         return Redirect::back()->with('delete_message', 'Quantity submitted is more than what was ordered');
     }
-    $oitem=Erporderitem::find($orderitem_id); $oitem->last_return=$quantity; $oitem->update();
+    $oitem = Erporderitem::find($orderitem_id);
+    $oitem->last_return = $quantity;
+    $oitem->update();
     Erporderitem::where('id', $orderitem_id)->decrement('quantity', $quantity);
     Erporderitem::where('id', $orderitem_id)->increment('total_return', $quantity);
 
 
-    if($credit=="yes"){
-        $credit_acc=16; $debit_acc=15;
-    }else{
-        if($pay_method==2 || $pay_method==1){
-            $credit_acc=3; $debit_acc=15;
-        }else if($pay_method==4){
-            $credit_acc=14; $debit_acc=15;
-        }else if($pay_method==3){
-            $credit_acc=14; $debit_acc=15;
-        }else{ $credit_acc=14; $debit_acc=15;}
+    if ($credit == "yes") {
+        $credit_acc = 16;
+        $debit_acc = 15;
+    } else {
+        if ($pay_method == 2 || $pay_method == 1) {
+            $credit_acc = 3;
+            $debit_acc = 15;
+        } else if ($pay_method == 4) {
+            $credit_acc = 14;
+            $debit_acc = 15;
+        } else if ($pay_method == 3) {
+            $credit_acc = 14;
+            $debit_acc = 15;
+        } else {
+            $credit_acc = 14;
+            $debit_acc = 15;
+        }
     }
     $data = array(
-        'credit_account' =>$credit_acc,
-        'debit_account' =>$debit_acc,
+        'credit_account' => $credit_acc,
+        'debit_account' => $debit_acc,
         'date' => date('Y-m-d'),
         'amount' => $total_price,
         'initiated_by' => 'system',
@@ -1358,30 +1371,41 @@ Route::post('erporders/returnInwards',function(){
     return Redirect::back()->with('flash_message', 'Items successfully received from client');
 });
 
-Route::post('erporders/returnOutwards',function(){
-    $quantity = Input::get('quantity'); $item_id=Input::get('item_id');
-    $orderitem_id=Input::get('erporder_id'); $payment_type=Input::get('payment_type');
-    $pay_method=Input::get('pay_method'); $item=Item::find($item_id);
-    $total_price=(int)$item->selling_price*(int)$quantity; $credit=Input::get('outcredit');
-    $orderitem=Erporderitem::find($orderitem_id);
-    if($quantity>$orderitem->quantity){
+Route::post('erporders/returnOutwards', function () {
+    $quantity = Input::get('quantity');
+    $item_id = Input::get('item_id');
+    $orderitem_id = Input::get('erporder_id');
+    $payment_type = Input::get('payment_type');
+    $pay_method = Input::get('pay_method');
+    $item = Item::find($item_id);
+    $total_price = (int)$item->selling_price * (int)$quantity;
+    $credit = Input::get('outcredit');
+    $orderitem = Erporderitem::find($orderitem_id);
+    if ($quantity > $orderitem->quantity) {
         return Redirect::back()->with('delete_message', 'Quantity submitted is more than what was ordered');
     }
     Erporderitem::where('id', $orderitem_id)->decrement('quantity', $quantity);
-    if($credit=="yes"){
-        $credit_acc=15; $debit_acc=17;
-    }else{
-        if($pay_method==2 || $pay_method==1){
-            $credit_acc=15; $debit_acc=3;
-        }else if($pay_method==4){
-            $credit_acc=15; $debit_acc=14;
-        }else if($pay_method==3){
-            $credit_acc=15; $debit_acc=14;
-        }else{$credit_acc=15; $debit_acc=14;}
+    if ($credit == "yes") {
+        $credit_acc = 15;
+        $debit_acc = 17;
+    } else {
+        if ($pay_method == 2 || $pay_method == 1) {
+            $credit_acc = 15;
+            $debit_acc = 3;
+        } else if ($pay_method == 4) {
+            $credit_acc = 15;
+            $debit_acc = 14;
+        } else if ($pay_method == 3) {
+            $credit_acc = 15;
+            $debit_acc = 14;
+        } else {
+            $credit_acc = 15;
+            $debit_acc = 14;
+        }
     }
     $data = array(
-        'credit_account' =>$credit_acc,
-        'debit_account' =>$debit_acc,
+        'credit_account' => $credit_acc,
+        'debit_account' => $debit_acc,
         'date' => date('Y-m-d'),
         'amount' => $total_price,
         'initiated_by' => 'system',
@@ -1394,14 +1418,14 @@ Route::post('erporders/returnOutwards',function(){
     return Redirect::back()->with('flash_message', 'Items successfully returned to supplier');
 });
 
-Route::get('api/getQuantity', function(){
+Route::get('api/getQuantity', function () {
     $id = request('item');
     $item = Item::find($id);
     return $item->type;
 });
 
 
-Route::post('erppurchases/create', function(){
+Route::post('erppurchases/create', function () {
 
     $data = Input::all();
 
@@ -1416,7 +1440,7 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => array_get($data, 'order_number'),
             'client' => $client,
             'payment_type' => array_get($data, 'payment_type'),
@@ -1429,7 +1453,7 @@ $erporder = array(
     );
     Session::put('purchaseitems', []);
 
-    $orderitems =Session::get('purchaseitems');
+    $orderitems = Session::get('purchaseitems');
 
     /*
 $erporder = new Erporder;
@@ -1447,16 +1471,16 @@ $erporder->save();
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erppurchases.purchaseitems', compact('items', 'locations','taxes','orderitems'));
+    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
 
-Route::post('erpquotations/create', function(){
+Route::post('erpquotations/create', function () {
 
     $data = Input::all();
     $client = Client::findOrFail(array_get($data, 'client'));
-    $service = Item::find(array_get($data,'service'));
-    $bank_account=BankAccount::find(array_get($data,'bank'));
+    $service = Item::find(array_get($data, 'service'));
+    $bank_account = BankAccount::find(array_get($data, 'bank'));
 
     /*
 $erporder = array(
@@ -1467,12 +1491,12 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => array_get($data, 'order_number'),
             'lpo_no' => array_get($data, 'lpo_no'),
             'client' => $client,
             'date' => array_get($data, 'date'),
-            'bank' =>array_get($data,'bank'),
+            'bank' => array_get($data, 'bank'),
             'type' => $data['type']
         )
     );
@@ -1496,7 +1520,7 @@ $erporder->save();
 
 */
 
-    $items = Item::where('type','=','product')->get();
+    $items = Item::where('type', '=', 'product')->get();
     Session::put('items', $items);
 
     $locations = Location::all();
@@ -1505,24 +1529,24 @@ $erporder->save();
     $taxes = Tax::all();
     Session::put('taxes', $taxes);
 
-    $servall = Item::where('type','=','service')->get();
+    $servall = Item::where('type', '=', 'service')->get();
     Session::put('servall', $servall);
 
     $allItems = Item::all();
     Session::put('allItems', $allItems);
 
 
-    if($data['type']=='product'){
+    if ($data['type'] == 'product') {
         $client = Client::findOrFail(array_get($data, 'client'));
-        $service = Item::find(array_get($data,'product'));
-        $bank_account=BankAccount::find(array_get($data,'bank'));
+        $service = Item::find(array_get($data, 'product'));
+        $bank_account = BankAccount::find(array_get($data, 'bank'));
 // return $data;
 
-        Session::put( 'erporder', array(
+        Session::put('erporder', array(
                 'order_number' => array_get($data, 'order_number'),
                 'lpo_no' => array_get($data, 'lpo_no'),
                 'client' => $client,
-                'bank'=>array_get($data,'bank'),
+                'bank' => array_get($data, 'bank'),
                 'date' => array_get($data, 'date'),
                 'type' => $data['type']
             )
@@ -1530,7 +1554,7 @@ $erporder->save();
 
         Session::put('quotationitems', []);
 
-        $items = Item::where('type','=','product')->get();
+        $items = Item::where('type', '=', 'product')->get();
         Session::put('items', $items);
 
         $locations = Location::all();
@@ -1539,7 +1563,7 @@ $erporder->save();
         $taxes = Tax::all();
         Session::put('taxes', $taxes);
 
-        $servall = Item::where('type','=','service')->get();
+        $servall = Item::where('type', '=', 'service')->get();
         Session::put('servall', $servall);
 
         return View::make('erpquotations.product2');
@@ -1548,13 +1572,13 @@ $erporder->save();
     return View::make('erpquotations.quotationitems');
 
 });
-Route::post('erpquotations/create2', function(){
+Route::post('erpquotations/create2', function () {
 
     $data = Input::all();
 
     $client = Client::findOrFail(array_get($data, 'client'));
-    $service = Item::find(array_get($data,'service'));
-    $bank_account=BankAccount::find(array_get($data,'bank'));
+    $service = Item::find(array_get($data, 'service'));
+    $bank_account = BankAccount::find(array_get($data, 'bank'));
 
     /*
 $erporder = array(
@@ -1565,9 +1589,9 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => array_get($data, 'order_number'),
-            'bank'=> array_get($data,'bank'),
+            'bank' => array_get($data, 'bank'),
             'lpo_no' => array_get($data, 'lpo_no'),
             'client' => $client,
             'date' => array_get($data, 'date'),
@@ -1595,7 +1619,7 @@ $erporder->save();
 
 */
 
-    $items = Item::where('type','=','product')->get();
+    $items = Item::where('type', '=', 'product')->get();
     Session::put('items', $items);
 
     $locations = Location::all();
@@ -1604,23 +1628,23 @@ $erporder->save();
     $taxes = Tax::all();
     Session::put('taxes', $taxes);
 
-    $servall = Item::where('type','=','service')->get();
+    $servall = Item::where('type', '=', 'service')->get();
     Session::put('servall', $servall);
 
     $allItems = Item::all();
     Session::put('allItems', $allItems);
 
-    if($data['type']=='product'){
+    if ($data['type'] == 'product') {
         $client = Client::findOrFail(array_get($data, 'client'));
-        $service = Item::find(array_get($data,'product'));
-        $bank_account=BankAccount::find(array_get($data,'bank'));
+        $service = Item::find(array_get($data, 'product'));
+        $bank_account = BankAccount::find(array_get($data, 'bank'));
 // return $data;
 
-        Session::put( 'erporder', array(
+        Session::put('erporder', array(
                 'order_number' => array_get($data, 'order_number'),
                 'lpo_no' => array_get($data, 'lpo_no'),
                 'client' => $client,
-                'bank'=>array_get($data,'bank'),
+                'bank' => array_get($data, 'bank'),
                 'date' => array_get($data, 'date'),
                 'type' => $data['type']
             )
@@ -1628,7 +1652,7 @@ $erporder->save();
 
         Session::put('quotationitems', []);
 
-        $items = Item::where('type','=','product')->get();
+        $items = Item::where('type', '=', 'product')->get();
         Session::put('items', $items);
 
         $locations = Location::all();
@@ -1637,7 +1661,7 @@ $erporder->save();
         $taxes = Tax::all();
         Session::put('taxes', $taxes);
 
-        $servall = Item::where('type','=','service')->get();
+        $servall = Item::where('type', '=', 'service')->get();
         Session::put('servall', $servall);
 
         return View::make('erpquotations.product');
@@ -1647,24 +1671,24 @@ $erporder->save();
     return View::make('erpquotations.invoiceitems');
 
 });
-Route::get('api/getmax', function(){
+Route::get('api/getmax', function () {
     $id = request('option');
-    $item  = Item::find($id);
-    if($item->type == 'product'){
+    $item = Item::find($id);
+    if ($item->type == 'product') {
         $stock_in = DB::table('stocks')
             ->join('items', 'stocks.item_id', '=', 'items.id')
-            ->where('item_id',$id)
+            ->where('item_id', $id)
             ->sum('quantity_in');
 
         $stock_out = DB::table('stocks')
             ->join('items', 'stocks.item_id', '=', 'items.id')
-            ->where('item_id',$id)
+            ->where('item_id', $id)
             ->sum('quantity_out');
-        return $stock_in-$stock_out;
+        return $stock_in - $stock_out;
     }
 });
 
-Route::post('erporders/create', function(){
+Route::post('erporders/create', function () {
 
     $data = request()->all();
 
@@ -1679,7 +1703,7 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => Arr::get($data, 'order_number'),
             'client' => $client,
             'date' => Arr::get($data, 'date'),
@@ -1691,7 +1715,7 @@ $erporder = array(
     );
     Session::put('orderitems', []);
 
-    $orderitems =Session::get('orderitems');
+    $orderitems = Session::get('orderitems');
 
     /*
 $erporder = new Erporder;
@@ -1709,38 +1733,51 @@ $erporder->save();
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erporders.orderitems', compact( 'items', 'locations', 'taxes','orderitems'));
+    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
 
-Route::post('erporders/returnInwards',function(){
-    $quantity = Input::get('quantity'); $item_id=Input::get('item_id');
-    $orderitem_id=Input::get('erporder_id'); $payment_type=Input::get('payment_type');
-    $pay_method=Input::get('pay_method'); $credit=Input::get('incredit');
-    $item=Item::find($item_id); $orderitem=Erporderitem::find($orderitem_id);
-    $total_price=(int)$item->selling_price*(int)$quantity;
-    if($quantity>$orderitem->quantity){
+Route::post('erporders/returnInwards', function () {
+    $quantity = Input::get('quantity');
+    $item_id = Input::get('item_id');
+    $orderitem_id = Input::get('erporder_id');
+    $payment_type = Input::get('payment_type');
+    $pay_method = Input::get('pay_method');
+    $credit = Input::get('incredit');
+    $item = Item::find($item_id);
+    $orderitem = Erporderitem::find($orderitem_id);
+    $total_price = (int)$item->selling_price * (int)$quantity;
+    if ($quantity > $orderitem->quantity) {
         return Redirect::back()->with('delete_message', 'Quantity submitted is more than what was ordered');
     }
-    $oitem=Erporderitem::find($orderitem_id); $oitem->last_return=$quantity; $oitem->update();
+    $oitem = Erporderitem::find($orderitem_id);
+    $oitem->last_return = $quantity;
+    $oitem->update();
     Erporderitem::where('id', $orderitem_id)->decrement('quantity', $quantity);
     Erporderitem::where('id', $orderitem_id)->increment('total_return', $quantity);
 
 
-    if($credit=="yes"){
-        $credit_acc=16; $debit_acc=15;
-    }else{
-        if($pay_method==2 || $pay_method==1){
-            $credit_acc=3; $debit_acc=15;
-        }else if($pay_method==4){
-            $credit_acc=14; $debit_acc=15;
-        }else if($pay_method==3){
-            $credit_acc=14; $debit_acc=15;
-        }else{ $credit_acc=14; $debit_acc=15;}
+    if ($credit == "yes") {
+        $credit_acc = 16;
+        $debit_acc = 15;
+    } else {
+        if ($pay_method == 2 || $pay_method == 1) {
+            $credit_acc = 3;
+            $debit_acc = 15;
+        } else if ($pay_method == 4) {
+            $credit_acc = 14;
+            $debit_acc = 15;
+        } else if ($pay_method == 3) {
+            $credit_acc = 14;
+            $debit_acc = 15;
+        } else {
+            $credit_acc = 14;
+            $debit_acc = 15;
+        }
     }
     $data = array(
-        'credit_account' =>$credit_acc,
-        'debit_account' =>$debit_acc,
+        'credit_account' => $credit_acc,
+        'debit_account' => $debit_acc,
         'date' => date('Y-m-d'),
         'amount' => $total_price,
         'initiated_by' => 'system',
@@ -1753,30 +1790,41 @@ Route::post('erporders/returnInwards',function(){
     return Redirect::back()->with('flash_message', 'Items successfully received from client');
 });
 
-Route::post('erporders/returnOutwards',function(){
-    $quantity = Input::get('quantity'); $item_id=Input::get('item_id');
-    $orderitem_id=Input::get('erporder_id'); $payment_type=Input::get('payment_type');
-    $pay_method=Input::get('pay_method'); $item=Item::find($item_id);
-    $total_price=(int)$item->selling_price*(int)$quantity; $credit=Input::get('outcredit');
-    $orderitem=Erporderitem::find($orderitem_id);
-    if($quantity>$orderitem->quantity){
+Route::post('erporders/returnOutwards', function () {
+    $quantity = Input::get('quantity');
+    $item_id = Input::get('item_id');
+    $orderitem_id = Input::get('erporder_id');
+    $payment_type = Input::get('payment_type');
+    $pay_method = Input::get('pay_method');
+    $item = Item::find($item_id);
+    $total_price = (int)$item->selling_price * (int)$quantity;
+    $credit = Input::get('outcredit');
+    $orderitem = Erporderitem::find($orderitem_id);
+    if ($quantity > $orderitem->quantity) {
         return Redirect::back()->with('delete_message', 'Quantity submitted is more than what was ordered');
     }
     Erporderitem::where('id', $orderitem_id)->decrement('quantity', $quantity);
-    if($credit=="yes"){
-        $credit_acc=15; $debit_acc=17;
-    }else{
-        if($pay_method==2 || $pay_method==1){
-            $credit_acc=15; $debit_acc=3;
-        }else if($pay_method==4){
-            $credit_acc=15; $debit_acc=14;
-        }else if($pay_method==3){
-            $credit_acc=15; $debit_acc=14;
-        }else{$credit_acc=15; $debit_acc=14;}
+    if ($credit == "yes") {
+        $credit_acc = 15;
+        $debit_acc = 17;
+    } else {
+        if ($pay_method == 2 || $pay_method == 1) {
+            $credit_acc = 15;
+            $debit_acc = 3;
+        } else if ($pay_method == 4) {
+            $credit_acc = 15;
+            $debit_acc = 14;
+        } else if ($pay_method == 3) {
+            $credit_acc = 15;
+            $debit_acc = 14;
+        } else {
+            $credit_acc = 15;
+            $debit_acc = 14;
+        }
     }
     $data = array(
-        'credit_account' =>$credit_acc,
-        'debit_account' =>$debit_acc,
+        'credit_account' => $credit_acc,
+        'debit_account' => $debit_acc,
         'date' => date('Y-m-d'),
         'amount' => $total_price,
         'initiated_by' => 'system',
@@ -1789,14 +1837,14 @@ Route::post('erporders/returnOutwards',function(){
     return Redirect::back()->with('flash_message', 'Items successfully returned to supplier');
 });
 
-Route::get('api/getQuantity', function(){
+Route::get('api/getQuantity', function () {
     $id = request('item');
     $item = Item::find($id);
     return $item->type;
 });
 
 
-Route::post('erppurchases/create', function(){
+Route::post('erppurchases/create', function () {
 
     $data = Input::all();
 
@@ -1811,7 +1859,7 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => array_get($data, 'order_number'),
             'client' => $client,
             'payment_type' => array_get($data, 'payment_type'),
@@ -1824,7 +1872,7 @@ $erporder = array(
     );
     Session::put('purchaseitems', []);
 
-    $orderitems =Session::get('purchaseitems');
+    $orderitems = Session::get('purchaseitems');
 
     /*
 $erporder = new Erporder;
@@ -1842,20 +1890,17 @@ $erporder->save();
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erppurchases.purchaseitems', compact('items', 'locations','taxes','orderitems'));
+    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
 
 
-
-
-
-Route::post('erpquotations/create', function(){
+Route::post('erpquotations/create', function () {
 
     $data = Input::all();
     $client = Client::findOrFail(array_get($data, 'client'));
-    $service = Item::find(array_get($data,'service'));
-    $bank_account=BankAccount::find(array_get($data,'bank'));
+    $service = Item::find(array_get($data, 'service'));
+    $bank_account = BankAccount::find(array_get($data, 'bank'));
 
     /*
 $erporder = array(
@@ -1866,12 +1911,12 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => array_get($data, 'order_number'),
             'lpo_no' => array_get($data, 'lpo_no'),
             'client' => $client,
             'date' => array_get($data, 'date'),
-            'bank' =>array_get($data,'bank'),
+            'bank' => array_get($data, 'bank'),
             'type' => $data['type']
         )
     );
@@ -1895,7 +1940,7 @@ $erporder->save();
 
 */
 
-    $items = Item::where('type','=','product')->get();
+    $items = Item::where('type', '=', 'product')->get();
     Session::put('items', $items);
 
     $locations = Location::all();
@@ -1904,24 +1949,24 @@ $erporder->save();
     $taxes = Tax::all();
     Session::put('taxes', $taxes);
 
-    $servall = Item::where('type','=','service')->get();
+    $servall = Item::where('type', '=', 'service')->get();
     Session::put('servall', $servall);
 
     $allItems = Item::all();
     Session::put('allItems', $allItems);
 
 
-    if($data['type']=='product'){
+    if ($data['type'] == 'product') {
         $client = Client::findOrFail(array_get($data, 'client'));
-        $service = Item::find(array_get($data,'product'));
-        $bank_account=BankAccount::find(array_get($data,'bank'));
+        $service = Item::find(array_get($data, 'product'));
+        $bank_account = BankAccount::find(array_get($data, 'bank'));
 // return $data;
 
-        Session::put( 'erporder', array(
+        Session::put('erporder', array(
                 'order_number' => array_get($data, 'order_number'),
                 'lpo_no' => array_get($data, 'lpo_no'),
                 'client' => $client,
-                'bank'=>array_get($data,'bank'),
+                'bank' => array_get($data, 'bank'),
                 'date' => array_get($data, 'date'),
                 'type' => $data['type']
             )
@@ -1929,7 +1974,7 @@ $erporder->save();
 
         Session::put('quotationitems', []);
 
-        $items = Item::where('type','=','product')->get();
+        $items = Item::where('type', '=', 'product')->get();
         Session::put('items', $items);
 
         $locations = Location::all();
@@ -1938,7 +1983,7 @@ $erporder->save();
         $taxes = Tax::all();
         Session::put('taxes', $taxes);
 
-        $servall = Item::where('type','=','service')->get();
+        $servall = Item::where('type', '=', 'service')->get();
         Session::put('servall', $servall);
 
         return View::make('erpquotations.product2');
@@ -1947,13 +1992,13 @@ $erporder->save();
     return View::make('erpquotations.quotationitems');
 
 });
-Route::post('erpquotations/create2', function(){
+Route::post('erpquotations/create2', function () {
 
     $data = Input::all();
 
     $client = Client::findOrFail(array_get($data, 'client'));
-    $service = Item::find(array_get($data,'service'));
-    $bank_account=BankAccount::find(array_get($data,'bank'));
+    $service = Item::find(array_get($data, 'service'));
+    $bank_account = BankAccount::find(array_get($data, 'bank'));
 
     /*
 $erporder = array(
@@ -1964,9 +2009,9 @@ $erporder = array(
 );
 */
 
-    Session::put( 'erporder', array(
+    Session::put('erporder', array(
             'order_number' => array_get($data, 'order_number'),
-            'bank'=> array_get($data,'bank'),
+            'bank' => array_get($data, 'bank'),
             'lpo_no' => array_get($data, 'lpo_no'),
             'client' => $client,
             'date' => array_get($data, 'date'),
@@ -1994,7 +2039,7 @@ $erporder->save();
 
 */
 
-    $items = Item::where('type','=','product')->get();
+    $items = Item::where('type', '=', 'product')->get();
     Session::put('items', $items);
 
     $locations = Location::all();
@@ -2003,23 +2048,23 @@ $erporder->save();
     $taxes = Tax::all();
     Session::put('taxes', $taxes);
 
-    $servall = Item::where('type','=','service')->get();
+    $servall = Item::where('type', '=', 'service')->get();
     Session::put('servall', $servall);
 
     $allItems = Item::all();
     Session::put('allItems', $allItems);
 
-    if($data['type']=='product'){
+    if ($data['type'] == 'product') {
         $client = Client::findOrFail(array_get($data, 'client'));
-        $service = Item::find(array_get($data,'product'));
-        $bank_account=BankAccount::find(array_get($data,'bank'));
+        $service = Item::find(array_get($data, 'product'));
+        $bank_account = BankAccount::find(array_get($data, 'bank'));
 // return $data;
 
-        Session::put( 'erporder', array(
+        Session::put('erporder', array(
                 'order_number' => array_get($data, 'order_number'),
                 'lpo_no' => array_get($data, 'lpo_no'),
                 'client' => $client,
-                'bank'=>array_get($data,'bank'),
+                'bank' => array_get($data, 'bank'),
                 'date' => array_get($data, 'date'),
                 'type' => $data['type']
             )
@@ -2027,7 +2072,7 @@ $erporder->save();
 
         Session::put('quotationitems', []);
 
-        $items = Item::where('type','=','product')->get();
+        $items = Item::where('type', '=', 'product')->get();
         Session::put('items', $items);
 
         $locations = Location::all();
@@ -2036,7 +2081,7 @@ $erporder->save();
         $taxes = Tax::all();
         Session::put('taxes', $taxes);
 
-        $servall = Item::where('type','=','service')->get();
+        $servall = Item::where('type', '=', 'service')->get();
         Session::put('servall', $servall);
 
         return View::make('erpquotations.product');
@@ -2051,7 +2096,7 @@ $erporder->save();
  * =====================================
  * ORDERITEMS {SALES ORDER}
  */
-Route::post('orderitems/create', function(){
+Route::post('orderitems/create', function () {
 
     $data = request()->all();
 
@@ -2070,9 +2115,8 @@ Route::post('orderitems/create', function(){
         'price' => $price,
         'quantity' => $quantity,
         'duration' => $duration,
-        'location' =>$location
+        'location' => $location
     ]);
-
 
 
     $orderitems = Session::get('orderitems');
@@ -2081,7 +2125,7 @@ Route::post('orderitems/create', function(){
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes','orderitems'));
+    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
 
@@ -2091,21 +2135,21 @@ Route::post('orderitems/create', function(){
  * ORDERITEMS EDITING
  * Editing order item session
  */
-Route::get('orderitems/edit/{count}', function($count){
+Route::get('orderitems/edit/{count}', function ($count) {
     $editItem = Session::get('orderitems')[$count];
 
     return View::make('erporders.edit', compact('editItem', 'count'));
 });
 
-Route::post('orderitems/edit/{count}', function($sesItemID){
+Route::post('orderitems/edit/{count}', function ($sesItemID) {
     $quantity = request('qty');
-    $price = (float) request('price');
+    $price = (float)request('price');
     //return $data['qty'].' - '.$data['price'];
 
     $ses = Session::get('orderitems');
     //unset($ses);
-    $ses[$sesItemID]['quantity']=$quantity;
-    $ses[$sesItemID]['price']=$price;
+    $ses[$sesItemID]['quantity'] = $quantity;
+    $ses[$sesItemID]['price'] = $price;
     Session::put('orderitems', $ses);
 
     $orderitems = Session::get('orderitems');
@@ -2113,7 +2157,7 @@ Route::post('orderitems/edit/{count}', function($sesItemID){
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes','orderitems'));
+    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
 
@@ -2122,7 +2166,7 @@ Route::post('orderitems/edit/{count}', function($sesItemID){
  * =====================================
  * Deleting an order item session item
  */
-Route::get('orderitems/remove/{count}', function($count){
+Route::get('orderitems/remove/{count}', function ($count) {
     $item = Session::get('orderitems');
     unset($item[$count]);
     $newItems = array_values($item);
@@ -2134,16 +2178,15 @@ Route::get('orderitems/remove/{count}', function($count){
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes','orderitems'));
+    return View::make('erporders.orderitems', compact('items', 'locations', 'taxes', 'orderitems'));
 });
-
 
 
 /**
  * =========================
  * PURCHASES
  */
-Route::post('purchaseitems/create', function(){
+Route::post('purchaseitems/create', function () {
 
     $data = Input::all();
 
@@ -2166,17 +2209,15 @@ Route::post('purchaseitems/create', function(){
     ]);
 
 
-
     $orderitems = Session::get('purchaseitems');
 
     $items = Item::where('type', 'product')->get();
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes','orderitems'));
+    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
-
 
 
 /**
@@ -2184,21 +2225,21 @@ Route::post('purchaseitems/create', function(){
  * EDITING PURCHASE ORDER SESSION
  * Editing a purchase order session item
  */
-Route::get('purchaseitems/edit/{count}', function($count){
+Route::get('purchaseitems/edit/{count}', function ($count) {
     $editItem = Session::get('purchaseitems')[$count];
 
     return View::make('erppurchases.edit', compact('editItem', 'count'));
 });
 
-Route::post('erppurchases/edit/{count}', function($sesItemID){
+Route::post('erppurchases/edit/{count}', function ($sesItemID) {
     $quantity = Input::get('qty');
-    $price = (float) Input::get('price');
+    $price = (float)Input::get('price');
     //return $data['qty'].' - '.$data['price'];
 
     $ses = Session::get('purchaseitems');
     //unset($ses);
-    $ses[$sesItemID]['quantity']=$quantity;
-    $ses[$sesItemID]['price']=$price;
+    $ses[$sesItemID]['quantity'] = $quantity;
+    $ses[$sesItemID]['price'] = $price;
     Session::put('purchaseitems', $ses);
 
     $orderitems = Session::get('purchaseitems');
@@ -2206,7 +2247,7 @@ Route::post('erppurchases/edit/{count}', function($sesItemID){
     $locations = Location::all();
     $taxes = Tax::all();
 
-    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes','orderitems'));
+    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes', 'orderitems'));
 
 });
 
@@ -2215,7 +2256,7 @@ Route::post('erppurchases/edit/{count}', function($sesItemID){
  * =========================================================================
  * Deleting a purchase order session
  */
-Route::get('purchaseitems/remove/{count}', function($count){
+Route::get('purchaseitems/remove/{count}', function ($count) {
     $items = Session::get('purchaseitems');
     unset($items[$count]);
     $newItems = array_values($items);
@@ -2228,7 +2269,7 @@ Route::get('purchaseitems/remove/{count}', function($count){
     $taxes = Tax::all();
 
 
-    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes','orderitems'));
+    return View::make('erppurchases.purchaseitems', compact('items', 'locations', 'taxes', 'orderitems'));
 });
 
 
@@ -2236,7 +2277,7 @@ Route::get('purchaseitems/remove/{count}', function($count){
  * ===================
  * QUOTATION
  */
-Route::post('quotationitems/create', function(){
+Route::post('quotationitems/create', function () {
     // if (Input::get('saveservice')) {
     //   $data = Input::all();
     // }
@@ -2244,7 +2285,7 @@ Route::post('quotationitems/create', function(){
     $data = Input::all();
 
     $item = Item::findOrFail(array_get($data, 'item'));
-    $services = Item::where('type','=','service')->get();
+    $services = Item::where('type', '=', 'service')->get();
     $item_name = $item->name;
     $price = $item->selling_price;
     $quantity = Input::get('quantity');
@@ -2273,7 +2314,7 @@ Route::post('quotationitems/create', function(){
     return View::make('erpquotations.quotationitems');
 
 });
-Route::post('invoiceitems/create', function(){
+Route::post('invoiceitems/create', function () {
     // if (Input::get('saveservice')) {
     //   $data = Input::all();
     // }
@@ -2281,11 +2322,12 @@ Route::post('invoiceitems/create', function(){
     $data = Input::all();
 
     $item = Item::findOrFail(array_get($data, 'item'));
-    $services = Item::where('type','=','service')->get();
+    $services = Item::where('type', '=', 'service')->get();
     $item_name = $item->name;
     $price = $item->selling_price;
     $quantity = Input::get('quantity');
-    $duration = Input::get('duration'); $description=Input::get('description');
+    $duration = Input::get('duration');
+    $description = Input::get('description');
     $item_id = $item->id;
     $service = "none";//Item::find($data['service']);
 
@@ -2310,7 +2352,7 @@ Route::post('invoiceitems/create', function(){
 
 });
 
-Route::post('invoiceitems/create2', function(){
+Route::post('invoiceitems/create2', function () {
     // if (Input::get('saveservice')) {
     //   $data = Input::all();
     // }
@@ -2318,18 +2360,16 @@ Route::post('invoiceitems/create2', function(){
     $data = Input::all();
 
     $item = Item::findOrFail(array_get($data, 'item'));
-    $services = Item::where('type','=','service')->get();
+    $services = Item::where('type', '=', 'service')->get();
     $item_name = $item->name;
     $price = $item->selling_price;
     $quantity = Input::get('quantity');
-    $duration = Input::get('duration'); $description=Input::get('description');
+    $duration = Input::get('duration');
+    $description = Input::get('description');
     $item_id = $item->id;
-    if(!empty(array_get($data,'service')))
-    {
+    if (!empty(array_get($data, 'service'))) {
         $service = Item::find($data['service']);
-    }
-    else
-    {
+    } else {
         $service = "";
     }
 
@@ -2354,17 +2394,17 @@ Route::post('invoiceitems/create2', function(){
 
 });
 
-Route::post('quotationitems/create2', function(){
+Route::post('quotationitems/create2', function () {
 
     $data = Input::all();
 
     $item = Item::findOrFail(array_get($data, 'item'));
-    $services = Item::where('type','=','service')->get();
+    $services = Item::where('type', '=', 'service')->get();
     $item_name = $item->name;
     $price = $item->selling_price;
     $quantity = Input::get('quantity');
     $duration = Input::get('duration');
-    $description=Input::get('description');
+    $description = Input::get('description');
     $item_id = $item->id;
 
 
@@ -2387,7 +2427,7 @@ Route::post('quotationitems/create2', function(){
     return View::make('erpquotations.product2');
 
 });
-Route::post('erporder/commit', function(){
+Route::post('erporder/commit', function () {
 
     $erporder = Session::get('erporder');
 
@@ -2418,7 +2458,7 @@ Route::post('erporder/commit', function(){
     $order->date = date('Y-m-d', strtotime(Arr::get($erporder, 'date')));
     $order->status = 'new';
     $order->discount_amount = Arr::get($total, 'discount');
-    $order->payment_type = Arr::get($erporder,'payment_type');
+    $order->payment_type = Arr::get($erporder, 'payment_type');
     $order->type = 'sales';
     $order->save();
 
@@ -2434,13 +2474,12 @@ Route::post('erporder/commit', function(){
 
 
     // Insert data into Erporderitem table
-    foreach($erporderitems as $item){
+    foreach ($erporderitems as $item) {
 
         $itm = Item::findOrFail($item['itemid']);
 
 
         $ord = Erporder::findOrFail($order->id);
-
 
 
         $location_id = $item['location'];
@@ -2458,10 +2497,9 @@ Route::post('erporder/commit', function(){
         $orderitem->save();
 
 
-        if($itm->type=='product')
-        {
+        if ($itm->type == 'product') {
 
-            Stock::removeStock($itm,$location, $item['quantity'], $date);
+            Stock::removeStock($itm, $location, $item['quantity'], $date);
 
         }
 
@@ -2472,8 +2510,7 @@ Route::post('erporder/commit', function(){
     $rate = request('rate');
 
 
-
-    for($i=0; $i < count([$rate]);  $i++){
+    for ($i = 0; $i < count([$rate]); $i++) {
 
         $txOrder = new TaxOrder;
 
@@ -2489,22 +2526,16 @@ Route::post('erporder/commit', function(){
 //Session::flush('erporder');
 
 
-    $order_no=Arr::get($erporder, 'order_number');
+    $order_no = Arr::get($erporder, 'order_number');
 
-    Audit::logaudit('ERP Orders', 'created sales order ', 'Placed  sales order no. '.$order_no.' in the system');
+    Audit::logaudit('ERP Orders', 'created sales order ', 'Placed  sales order no. ' . $order_no . ' in the system');
     return redirect('salesorders')->withFlashMessage('Order Successfully Placed!');
-
 
 
 });
 
 
-
-
-
-
-
-Route::post('erppurchase/commit', function(){
+Route::post('erppurchase/commit', function () {
 
     //$orderitems = Session::get('erppurchase');
 
@@ -2537,9 +2568,9 @@ Route::post('erppurchase/commit', function(){
     //$order->discount_amount = array_get($total, 'discount');
     $order->total_amount = array_get($total, 'grand');
     $order->payment_type = array_get($erporder, 'payment_type');
-    $order->lpo_no =array_get($erporder, 'lpo_no');
-    $order->debit_account = array_get($erporder,'debit_ac' );
-    $order->credit_account =array_get($erporder,'credit_ac' );
+    $order->lpo_no = array_get($erporder, 'lpo_no');
+    $order->debit_account = array_get($erporder, 'debit_ac');
+    $order->credit_account = array_get($erporder, 'credit_ac');
     $order->type = 'purchases';
     $order->save();
 
@@ -2555,7 +2586,7 @@ Route::post('erppurchase/commit', function(){
 
 
     // Insert data into Erporderitem table
-    foreach($orderitems as $item){
+    foreach ($orderitems as $item) {
 
 
         $itm = Item::findOrFail($item['itemid']);
@@ -2573,15 +2604,15 @@ Route::post('erppurchase/commit', function(){
     }
 
 
-    $order_no=array_get($erporder, 'order_number');
+    $order_no = array_get($erporder, 'order_number');
 
-    Audit::logaudit('ERP Orders', 'created a purchase order ', 'Placed  sales order no. '.$order_no.' in the system');
+    Audit::logaudit('ERP Orders', 'created a purchase order ', 'Placed  sales order no. ' . $order_no . ' in the system');
     return Redirect::to('purchaseorders')->withFlashMessage('Order Successfully Placed!');;
 
 });
 
 
-Route::post('erpquotation/commit', function(){
+Route::post('erpquotation/commit', function () {
     $data = Input::all();
 
     $erporder = Session::get('erporder');
@@ -2599,18 +2630,18 @@ Route::post('erpquotation/commit', function(){
     $order = new Erporder;
     $order->order_number = array_get($erporder, 'order_number');
     $order->bankaccount_id = array_get($erporder, 'bank');
-    $order->client()->associate(array_get($erporder,'client'));      // }
+    $order->client()->associate(array_get($erporder, 'client'));      // }
     $order->date = date('Y-m-d', strtotime(array_get($erporder, 'date')));
-    $order->lpo_no =array_get($erporder, 'lpo_no');
+    $order->lpo_no = array_get($erporder, 'lpo_no');
     $order->status = 'new';
     $order->discount_amount = array_get($data, 'discount');
-    $order->total_amount = array_get($data,'grand');
+    $order->total_amount = array_get($data, 'grand');
     $order->type = 'quotations';
     $order->ordered_by = Auth::user()->id;
     $order->organization_id = $organization->id;
-    if(array_get($erporder, 'type') == 'service')
+    if (array_get($erporder, 'type') == 'service')
         $order->service = 1;
-    elseif(array_get($erporder, 'type') == 'product')
+    elseif (array_get($erporder, 'type') == 'product')
         $order->service = 0;
     else {
         $order->service = 2;
@@ -2619,16 +2650,12 @@ Route::post('erpquotation/commit', function(){
     $order->save();
 
 
-
-
-
-    foreach($erporderitems as $item){
+    foreach ($erporderitems as $item) {
 
 
         $itm = Item::findOrFail($item['itemid']);
 
         $ord = Erporder::findOrFail($order->id);
-
 
 
         //$location_id = $item['location'];
@@ -2664,7 +2691,7 @@ Route::post('erpquotation/commit', function(){
     $tax = Input::get('tax');
     $rate = Input::get('rate');
 
-    for($i=0; $i < count($rate);  $i++){
+    for ($i = 0; $i < count($rate); $i++) {
 
         $txOrder = new TaxOrder;
 
@@ -2677,15 +2704,15 @@ Route::post('erpquotation/commit', function(){
 
     //Session::flush('orderitems');
     //Session::flush('erporder');
-    $order_no=array_get($erporder, 'order_number');
+    $order_no = array_get($erporder, 'order_number');
 
-    Audit::logaudit('ERP Orders', 'created a Quotation ', 'Created a Quotation no. '.$order_no.' in the system');
+    Audit::logaudit('ERP Orders', 'created a Quotation ', 'Created a Quotation no. ' . $order_no . ' in the system');
     return Redirect::to('quotationorders');
 
 });
 
 
-Route::post('erpquotation/commit2', function(){
+Route::post('erpquotation/commit2', function () {
     $data = Input::all();
 
     $erporder = Session::get('erporder');
@@ -2695,10 +2722,10 @@ Route::post('erpquotation/commit2', function(){
     $orderservice = Session::get('orderservice');
 
     // $client = Client::findorfail(array_get($erporder, 'client'));
-    $od=array_get($erporder, 'order_number');
+    $od = array_get($erporder, 'order_number');
 
-    $orderno=Erporder::where('order_number','=',$od)->count();
-    if($orderno>0){
+    $orderno = Erporder::where('order_number', '=', $od)->count();
+    if ($orderno > 0) {
         return Redirect::to('quotations1')->withErrors('Order number already exists.Please try another one !');
     }
 
@@ -2708,20 +2735,20 @@ Route::post('erpquotation/commit2', function(){
     $order = new Erporder;
     $order->order_number = array_get($erporder, 'order_number');
     $order->bankaccount_id = array_get($erporder, 'bank');
-    $order->client()->associate(array_get($erporder,'client'));      // }
+    $order->client()->associate(array_get($erporder, 'client'));      // }
     $order->date = date('Y-m-d', strtotime(array_get($erporder, 'date')));
-    $order->lpo_no =array_get($erporder, 'lpo_no');
+    $order->lpo_no = array_get($erporder, 'lpo_no');
     $order->status = 'new';
     $order->discount_amount = array_get($data, 'discount');
-    $order->total_amount = array_get($data,'grand');
+    $order->total_amount = array_get($data, 'grand');
     $order->type = 'invoice';
-    $order->approved=0;
+    $order->approved = 0;
     $order->ordered_by = Auth::user()->id;
     $order->organization_id = $organization->id;
-    $order->payment_type = array_get($data,'payment_type');
-    if(array_get($erporder, 'type') == 'service')
+    $order->payment_type = array_get($data, 'payment_type');
+    if (array_get($erporder, 'type') == 'service')
         $order->service = 1;
-    elseif(array_get($erporder, 'type') == 'product')
+    elseif (array_get($erporder, 'type') == 'product')
         $order->service = 0;
     else {
         $order->service = 2;
@@ -2731,10 +2758,10 @@ Route::post('erpquotation/commit2', function(){
 
     $erporderitems = Session::get('quotationitems');
     $type = 'pr';
-    if(empty($erporderitems))
+    if (empty($erporderitems))
         $erporderitems = Session::get('invoiceitems');
 
-    if(empty($erporderitems))
+    if (empty($erporderitems))
         $type = 'se';
 
     $date = date('Y-m-d', strtotime(array_get($erporder, 'date')));
@@ -2742,8 +2769,8 @@ Route::post('erpquotation/commit2', function(){
     $erporderitems;
 
     $date = date('Y-m-d', strtotime(array_get($erporder, 'date')));
-    $totalp_price=0;
-    foreach($erporderitems as $item){
+    $totalp_price = 0;
+    foreach ($erporderitems as $item) {
 
         //  return $item;
         $itm = Item::findOrFail($item['itemid']);
@@ -2768,21 +2795,26 @@ Route::post('erpquotation/commit2', function(){
         $orderitem->duration = $item['duration'];
         $orderitem->save();
 
-        $p_price=$itm->purchase_price; $quantity=$item['quantity'];
-        $purchase_price=(int)$p_price*(int)$quantity;
-        $totalp_price+=$purchase_price;
+        $p_price = $itm->purchase_price;
+        $quantity = $item['quantity'];
+        $purchase_price = (int)$p_price * (int)$quantity;
+        $totalp_price += $purchase_price;
 
-        if($itm->type=='product')
-        { $location = Location::find(1);
-            Stock::removeStock($itm,$location, $item['quantity'], $date);
+        if ($itm->type == 'product') {
+            $location = Location::find(1);
+            Stock::removeStock($itm, $location, $item['quantity'], $date);
         }
     }
 
-    $totals_price=array_get($data,'grand');
-    $accs=Particular::where("name","like","%"."Sales invoice"."%")->get();
-    foreach($accs as $acc){
-        if(count($accs)>0){
-            if($acc->name=="Sales invoice2"){$total=$totalp_price;}else{$total=$totals_price;}
+    $totals_price = array_get($data, 'grand');
+    $accs = Particular::where("name", "like", "%" . "Sales invoice" . "%")->get();
+    foreach ($accs as $acc) {
+        if (count($accs) > 0) {
+            if ($acc->name == "Sales invoice2") {
+                $total = $totalp_price;
+            } else {
+                $total = $totals_price;
+            }
             $data = array(
                 'credit_account' => $acc->creditaccount_id,
                 'debit_account' => $acc->debitaccount_id,
@@ -2808,8 +2840,8 @@ Route::post('erpquotation/commit2', function(){
 
     $tax = Input::get('tax');
     $rate = Input::get('rate');
-    if(!empty($rate) && $rate != ""){
-        for($i=0; $i < count($rate);  $i++){
+    if (!empty($rate) && $rate != "") {
+        for ($i = 0; $i < count($rate); $i++) {
 
             $txOrder = new TaxOrder;
 
@@ -2821,9 +2853,9 @@ Route::post('erpquotation/commit2', function(){
         }
     }
 
-    $order_no=array_get($erporder, 'order_number');
+    $order_no = array_get($erporder, 'order_number');
 
-    Audit::logaudit('ERP Orders', 'created an Invoice ', 'Created an Invoice no. '.$order_no.' in the system');
+    Audit::logaudit('ERP Orders', 'created an Invoice ', 'Created an Invoice no. ' . $order_no . ' in the system');
 
     $quotations = Erporder::all();
     $items = Item::all();
@@ -2835,7 +2867,6 @@ Route::post('erpquotation/commit2', function(){
     return View::make('erpquotations.index', compact('items', 'locations', 'quotations', 'invoices'));
 
 
-
     //Session::flush('orderitems');
     //Session::flush('erporder');
     //return Redirect::to('quotationorders');
@@ -2843,7 +2874,7 @@ Route::post('erpquotation/commit2', function(){
 
 });
 
-Route::post('erpquotation/commit3', function(){
+Route::post('erpquotation/commit3', function () {
     $data = Input::all();
 
     $erporder = Session::get('erporder');
@@ -2860,27 +2891,23 @@ Route::post('erpquotation/commit3', function(){
     $order = new Erporder;
     $order->order_number = array_get($erporder, 'order_number');
     $order->bankaccount_id = array_get($erporder, 'bank');
-    $order->client()->associate(array_get($erporder,'client'));      // }
+    $order->client()->associate(array_get($erporder, 'client'));      // }
     $order->date = date('Y-m-d', strtotime(array_get($erporder, 'date')));
     $order->status = 'new';
     $order->discount_amount = array_get($data, 'discount');
-    $order->total_amount = array_get($data,'grand');
+    $order->total_amount = array_get($data, 'grand');
     $order->type = 'invoice';
     $order->ordered_by = Auth::user()->id;
     $order->organization_id = $organization->id;
     $order->save();
 
 
-
-
-
-    foreach($erporderitems as $item){
+    foreach ($erporderitems as $item) {
 
 
         $itm = Item::findOrFail($item['itemid']);
 
         $ord = Erporder::findOrFail($order->id);
-
 
 
         //$location_id = $item['location'];
@@ -2899,11 +2926,10 @@ Route::post('erpquotation/commit3', function(){
     }
 
 
-
     $tax = Input::get('tax');
     $rate = Input::get('rate');
-    if(!empty($rate) && $rate != ""){
-        for($i=0; $i < count($rate);  $i++){
+    if (!empty($rate) && $rate != "") {
+        for ($i = 0; $i < count($rate); $i++) {
 
             $txOrder = new TaxOrder;
 
@@ -2918,13 +2944,13 @@ Route::post('erpquotation/commit3', function(){
 
     //Session::flush('orderitems');
     //Session::flush('erporder');
-    $order_no=array_get($erporder, 'order_number');
+    $order_no = array_get($erporder, 'order_number');
 
-    Audit::logaudit('ERP Orders', 'created an Invoice ', 'Created an Invoice no. '.$order_no.' in the system');
+    Audit::logaudit('ERP Orders', 'created an Invoice ', 'Created an Invoice no. ' . $order_no . ' in the system');
     return Redirect::to('quotationorders');
 });
 
-Route::post('erpquotation/commit4', function(){
+Route::post('erpquotation/commit4', function () {
     $data = Input::all();
     // return $data = Input::all();
 
@@ -2935,27 +2961,21 @@ Route::post('erpquotation/commit4', function(){
     $erporderitems = Session::get('quotationitems');
 
 
-
-
-
     $order = new Erporder;
     $order->order_number = array_get($erporder, 'order_number');
     $order->bankaccount_id = array_get($erporder, 'bank');
-    $order->client()->associate(array_get($erporder,'client'));      // }
+    $order->client()->associate(array_get($erporder, 'client'));      // }
     $order->date = date('Y-m-d', strtotime(array_get($erporder, 'date')));
     $order->status = 'new';
     $order->discount_amount = array_get($data, 'discount');
-    $order->total_amount = array_get($data,'grand');
+    $order->total_amount = array_get($data, 'grand');
     $order->type = 'quotations';
     $order->ordered_by = Auth::user()->id;
     $order->organization_id = $organization->id;
     $order->save();
 
 
-
-
-
-    foreach($erporderitems as $item){
+    foreach ($erporderitems as $item) {
 
 
         $itm = Item::findOrFail($item['itemid']);
@@ -2975,11 +2995,10 @@ Route::post('erpquotation/commit4', function(){
     }
 
 
-
     $tax = Input::get('tax');
     $rate = Input::get('rate');
-    if(!empty($rate) && $rate != ""){
-        for($i=0; $i < count($rate);  $i++){
+    if (!empty($rate) && $rate != "") {
+        for ($i = 0; $i < count($rate); $i++) {
 
             $txOrder = new TaxOrder;
 
@@ -2990,21 +3009,17 @@ Route::post('erpquotation/commit4', function(){
 
         }
     }
-    $order_no=array_get($erporder, 'order_number');
+    $order_no = array_get($erporder, 'order_number');
 
-    Audit::logaudit('ERP Orders', 'created a Quotation ', 'Created a Quotation no. '.$order_no.' in the system');
+    Audit::logaudit('ERP Orders', 'created a Quotation ', 'Created a Quotation no. ' . $order_no . ' in the system');
 
     return Redirect::to('quotationorders');
 });
 
 
-
-
-
-Route::get('erporders/cancel/{id}', function($id){
+Route::get('erporders/cancel/{id}', function ($id) {
 
     $order = Erporder::findorfail($id);
-
 
 
     $order->status = 'cancelled';
@@ -3015,10 +3030,9 @@ Route::get('erporders/cancel/{id}', function($id){
 });
 
 
-Route::get('erporders/delivered/{id}', function($id){
+Route::get('erporders/delivered/{id}', function ($id) {
 
     $order = Erporder::findorfail($id);
-
 
 
     $order->status = 'delivered';
@@ -3029,12 +3043,9 @@ Route::get('erporders/delivered/{id}', function($id){
 });
 
 
-
-
-Route::get('erppurchases/cancel/{id}', function($id){
+Route::get('erppurchases/cancel/{id}', function ($id) {
 
     $order = Erporder::findorfail($id);
-
 
 
     $order->status = 'cancelled';
@@ -3045,8 +3056,7 @@ Route::get('erppurchases/cancel/{id}', function($id){
 });
 
 
-
-Route::get('erppurchases/delivered/{id}', function($id){
+Route::get('erppurchases/delivered/{id}', function ($id) {
 
     $order = Erporder::findorfail($id);
 
@@ -3058,12 +3068,9 @@ Route::get('erppurchases/delivered/{id}', function($id){
 });
 
 
-
-
-Route::get('erpquotations/cancel/{id}', function($id){
+Route::get('erpquotations/cancel/{id}', function ($id) {
 
     $order = Erporder::findorfail($id);
-
 
 
     $order->status = 'cancelled';
@@ -3074,9 +3081,7 @@ Route::get('erpquotations/cancel/{id}', function($id){
 });
 
 
-
-
-Route::get('erporders/show/{id}', function($id){
+Route::get('erporders/show/{id}', function ($id) {
 
     $order = Erporder::findorfail($id);
 //    dd($order);
@@ -3086,14 +3091,13 @@ Route::get('erporders/show/{id}', function($id){
 });
 
 
-
-Route::get('erppurchases/show/{id}', function($id){
+Route::get('erppurchases/show/{id}', function ($id) {
     $order = Erporder::findorfail($id);
     return View::make('erppurchases.show', compact('order'));
 });
 
 
-Route::get('erppurchases/payment/{id}', function($id){
+Route::get('erppurchases/payment/{id}', function ($id) {
 
     $payments = Payment::all();
 
@@ -3108,10 +3112,10 @@ Route::get('erppurchases/payment/{id}', function($id){
  * API ROUTES
  */
 Route::group(['prefix' => 'api/v1'], function () {
-    Route::post('fp', [BiometricsController::class,'store']);
-    Route::get('prints', [BiometricsController::class,'getfp']);
-    Route::get('size', [BiometricsController::class,'getPrintCount']);
-    Route::post('attendance/employee/{id}', [AttendanceController::class,'collectBioAtt']);
-    Route::get("employees", [BiometricsController::class,'employees']);
+    Route::post('fp', [BiometricsController::class, 'store']);
+    Route::get('prints', [BiometricsController::class, 'getfp']);
+    Route::get('size', [BiometricsController::class, 'getPrintCount']);
+    Route::post('attendance/employee/{id}', [AttendanceController::class, 'collectBioAtt']);
+    Route::get("employees", [BiometricsController::class, 'employees']);
 
 });

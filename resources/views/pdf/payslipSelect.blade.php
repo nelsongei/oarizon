@@ -148,6 +148,7 @@
                         type: $('#type').val()
                     },
                     function (data) {
+                    console.log(data);
                         $('#employeeid').empty();
                         $('#employeeid').append("<option value='All'>All</option>");
                         $.each(data, function (key, element) {
@@ -168,6 +169,7 @@
                         $('#employeeid').empty();
                         $('#employeeid').append("<option value='All'>All</option>");
                         $.each(data1, function (key, element) {
+
                             $('#employeeid').append("<option value='" + key + "'>" + element + "</option>");
                         });
                     });
