@@ -93,8 +93,6 @@
                                  style="height: 40px;">
                         </td>
                         <td><strong>{{strtoupper($organization->name)}}</strong><br>{{ $organization->phone}},
-
-
                             {{ $organization->website}} <br>{{ $organization->email}}<br>
                             {{ nl2br($organization->address)}}
                         </td>

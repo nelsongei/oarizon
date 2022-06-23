@@ -4396,10 +4396,10 @@ class ReportsController extends Controller
                     ->get();
 
                 Audit::logaudit('Payslip', 'view', 'viewed payslip for all employees for period ' . $request->get('period'));
-//return view('pdf.monthlySlip', compact('empall','select','period','currency', 'organization'));
-                $pdf = PDF::loadView('pdf.monthlySlip', compact('empall', 'select', 'period', 'currency', 'organization'))->setPaper('a4');
+return view('pdf.monthlySlip', compact('empall','select','period','currency', 'organization'));
+                //$pdf = PDF::loadView('pdf.monthlySlip', compact('empall', 'select', 'period', 'currency', 'organization'))->setPaper('a4');
 
-                return $pdf->stream('Payslips.pdf');
+                //return $pdf->stream('Payslips.pdf');
 
             } else {
 
