@@ -156,7 +156,10 @@
                                                         @if(Auth::user()->can('manager_payroll'))
                                                             <option value="management"> Management</option>
                                                         @endif
-                                                        <option value="normal"> Normal</option>
+                                                        @foreach($jgroups as $jgroup)
+                                                            <option>{{$jgroup->job_group_name}}</option>
+                                                        @endforeach
+{{--                                                        <option value="normal"> Normal</option>--}}
                                                     </select>
                                                 </div>
 

@@ -679,7 +679,6 @@
                                                                 <div class="input-group">
                                                             <span
                                                                 class="input-group-addon">{{$currency->shortname}}</span>
-
                                                                     <input class="form-control" placeholder="" type="text"
                                                                            name="pay" id="pay"
                                                                            @if($employee->basic_pay==='') value="{{$employee->basic_pay}}"

@@ -44,17 +44,16 @@ class PayrollController extends Controller
         $department = Department::whereNull('organization_id')
             ->orWhere('organization_id', Auth::user()->organization_id)
             ->where('name', 'Management')->first();
-        $jgroup = Jobgroup::where(function ($query) {
+        $jgroups = Jobgroup::where(function ($query) {
             $query->whereNull('organization_id')
                 ->orWhere('organization_id', Auth::user()->organization_id);
-        })->where('job_group_name', 'Management')
-            ->first();
-        if ($jgroup != null) {
-            $type = Employee::where('organization_id', Auth::user()->organization_id)->where('job_group_id', $jgroup->id)->where('personal_file_number', Auth::user()->username)->count();
-        } else {
-            $type = Employee::where('organization_id', Auth::user()->organization_id)->/*where('job_group_id',$jgroup->id)->*/ where('personal_file_number', Auth::user()->username)->count();
-        }
-        return View::make('payroll.index', compact('accounts', 'type'));
+        })->get();
+//        if ($jgroup != null) {
+//            $type = Employee::where('organization_id', Auth::user()->organization_id)->where('job_group_id', $jgroup->id)->where('personal_file_number', Auth::user()->username)->count();
+//        } else {
+//            $type = Employee::where('organization_id', Auth::user()->organization_id)->/*where('job_group_id',$jgroup->id)->*/ where('personal_file_number', Auth::user()->username)->count();
+//        }
+        return View::make('payroll.index', compact('accounts','jgroups' ));
     }
 
     public function unlockindex()
@@ -83,7 +82,7 @@ class PayrollController extends Controller
             return Redirect::to('unlockpayroll/index');
         }
 
-        $users = User::where('user_type', 'admin')->where('id', '!=', Auth::user()->id)->get();
+        $users = User::where('user_type', 'admin')->where('id', '!=', Auth::user()->id)->where('organization_id',Auth::user()->organization_id)->get();
         return View::make('payroll.unlockpayroll', compact('transact', 'users'));
     }
 
@@ -190,13 +189,12 @@ class PayrollController extends Controller
                 $query->whereNull('organization_id')
                     ->orWhere('organization_id', Auth::user()->organization_id);
             })->first();
-
-        $jgroup = Jobgroup::where('job_group_name', 'Management')
+        $jgroup = Jobgroup::where('job_group_name', request('type'))
             ->where(function ($query) {
                 $query->whereNull('organization_id')
                     ->orWhere('organization_id', Auth::user()->organization_id);
             })->first();
-        // dd($jgroup);
+//        dd($jgroup);
 
         if (request('type') == 'management') {
 
@@ -210,9 +208,10 @@ class PayrollController extends Controller
             $employees = DB::table('x_employee')
                 ->where('in_employment', '=', 'Y')
                 ->where('organization_id', Auth::user()->organization_id)
-                ->where('job_group_id', '!=', $jgroup->id)
+                ->where('job_group_id', '=', $jgroup->id)
                 ->whereDate('date_joined', '<=', $end)
                 ->get();
+//            dd($employees);
         }
 
 
