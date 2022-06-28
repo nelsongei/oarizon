@@ -56,7 +56,7 @@ function asMoney($value)
                                         </thead>
                                         <tbody>
                                         <?php $i = 1; ?>
-                                        @foreach($rels as $rel)
+                                        @forelse($rels as $rel)
                                             <tr>
                                                 <td> {{ $i }}</td>
                                                 @if($rel->middle_name == null || $rel->middle_name == '')
@@ -100,7 +100,16 @@ function asMoney($value)
                                             </tr>
 
                                             <?php $i++; ?>
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="7">
+                                                    <center>
+                                                        <h3><i class="fa fa-file fa-5x" style="color: brown"></i></h3>
+                                                        <p>No Employee Reliefs</p>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        @endforelse
 
 
                                         </tbody>
