@@ -13,6 +13,6 @@ class Currency extends Model
     ];
 
     // Don't forget to fill this array
-    protected $fillable = [];
+    protected $fillable = ['name','shortname','organization_id'];
 
 }

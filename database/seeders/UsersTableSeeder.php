@@ -32,11 +32,11 @@ class UsersTableSeeder extends Seeder
 //            'installation_date'=>'2020-07-04',
 //            'licensed'=>100
 //        ]);
-        $cur = Currency::create([
-            'name'=>'Kenyan Shilling',
-            'shortname'=>'KES',
-            'organization_id'=>1,
-        ]);
+//        $cur = Currency::create([
+//            'name'=>'Kenyan Shilling',
+//            'shortname'=>'KES',
+//            'organization_id'=>1,
+//        ]);
         $role = Role::create(['name'=>'Admin']);
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);

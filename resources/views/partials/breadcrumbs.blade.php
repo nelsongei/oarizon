@@ -21,10 +21,5 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="alert alert-info" role="alert">
-            My Alert
-        </div>
-    </div>
 </div>
 <!-- [ breadcrumb ] end -->

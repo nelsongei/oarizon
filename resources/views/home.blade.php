@@ -37,15 +37,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                @if ((Auth::user()->doesntHave('roles')->where('organization_id',Auth::user()->organization_id)->get()))
-                <div class="alert alert-info" role="alert">
-                    Assign Yourself Admin Role {{Auth::user()->doesntHave('roles')->where('organization_id',Auth::user()->organization_id)->get()}}
-                </div>
-                @endif
-            </div>
-        </div>
     </div>
     <div class="pcoded-inner-content">
         <div class="main-page">

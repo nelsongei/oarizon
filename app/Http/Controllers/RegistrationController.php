@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Currency;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -60,15 +61,20 @@ class RegistrationController extends Controller
             $user->organization_id = $orgId;
             $user->save();
             //Role Assign
-            //$this->roleAssign($user);
+            $this->roleAssign($user,$orgId);
         }
         return $data;
     }
-    public function roleAssign($user)
+    public function roleAssign($user,$orgId)
     {
-        $role = Role::create(['name'=>'Admin']);
+        $role = Role::first();
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
+        Currency::create([
+            'name'=>'Kenyan Shilling',
+            'shortname'=>'KES',
+            'organization_id'=>$orgId,
+        ]);
     }
 }

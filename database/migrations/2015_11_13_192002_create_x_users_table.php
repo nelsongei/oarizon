@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateXUsersTable extends Migration {
 
@@ -15,7 +16,7 @@ class CreateXUsersTable extends Migration {
 		Schema::create('users', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('username')->nullable()->unique('username');
+			$table->string('username')->nullable();
 			$table->string('name')->nullable();
 			$table->string('email')->nullable();
 			$table->string('password');
