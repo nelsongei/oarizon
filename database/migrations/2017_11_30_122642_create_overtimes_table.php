@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateOvertimesTable extends Migration {
 
@@ -24,7 +25,7 @@ class CreateOvertimesTable extends Migration {
 			$table->date('overtime_date');
 			$table->date('first_day_month');
 			$table->date('last_day_month');
-            $table->integer('organization_id')->nulable();
+            $table->integer('organization_id')->nullable();
 			$table->timestamps();
 		});
 	}

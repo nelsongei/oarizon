@@ -17,6 +17,7 @@ class CreateEmployeeTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('organization_id')->unsigned()->default('0')->index('employee_organization_id_foreign');
+            $table->integer('job_group_id')->unsigned()->default('0')->index('employee_job_group_id_foreign');
 			$table->string('personal_file_number')->unique();
 			$table->string('first_name');
 			$table->string('last_name');
@@ -33,7 +34,6 @@ class CreateEmployeeTable extends Migration {
 			$table->string('job_title',50)->nullable();
 			$table->integer('branch_id')->unsigned()->default('0')->index('employee_branch_id_foreign');
 			$table->integer('department_id')->unsigned()->default('0')->index('employee_department_id_foreign');
-			$table->integer('job_group_id')->unsigned()->default('0')->index('employee_job_group_id_foreign');
 			$table->integer('type_id')->unsigned()->default('0')->index('employee_type_id_foreign');
 			$table->integer('citizenship_id')->unsigned()->default('0')->index('employee_citizenship_id_foreign');
 			$table->string('photo')->nullable();

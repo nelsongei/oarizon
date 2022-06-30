@@ -22,11 +22,6 @@ class CreateEmployeeTypeTable extends Migration {
 			$table->timestamps();
 		});
 
-		DB::table('x_employee_type')->insert(array(
-            array('employee_type_name' => 'Full Time','organization_id' => '1'),
-            array('employee_type_name' => 'Contract','organization_id' => '1'),
-            array('employee_type_name' => 'Internship','organization_id' => '1'),
-        ));
 	}
 
 

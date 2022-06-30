@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEmployeeReliefTable extends Migration {
 
@@ -20,7 +21,7 @@ class CreateEmployeeReliefTable extends Migration {
 			$table->string('relief_amount')->default('0.00');
             $table->double('percentage',2);
             $table->double('premium',2);
-            $table->integer('organization_id')->nulable();
+            $table->integer('organization_id')->nullable();
 			$table->timestamps();
 		});
 	}

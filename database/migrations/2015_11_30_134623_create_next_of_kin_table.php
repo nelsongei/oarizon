@@ -22,7 +22,7 @@ class CreateNextOfKinTable extends Migration {
 			$table->string('contact')->unique()->nullable();
 			$table->string('id_number')->unique()->nullable();
 			$table->double('amount',15,2)->default('0.00');
-            $table->integer('organization_id')->nulable();
+            $table->integer('organization_id')->nullable();
 			$table->timestamps();
 		});
 	}

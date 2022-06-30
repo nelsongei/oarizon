@@ -89,7 +89,7 @@ class AdvanceController extends Controller
         $employees = DB::table('x_employee')
             ->join('x_employee_deductions', 'x_employee.id', '=', 'x_employee_deductions.employee_id')
             ->where('in_employment', '=', 'Y')
-            ->where('organization_id', '=', Auth::user()->organization_id)
+            ->where('x_employee.organization_id', '=', Auth::user()->organization_id)
             ->where('deduction_id', 1)
             ->where('instalments', '>', 0)
             ->get();

@@ -21,13 +21,6 @@ class CreateDeductionsTable extends Migration {
 			$table->integer('organization_id')->unsigned()->default('0')->index('deductions_organization_id_foreign');
 			$table->timestamps();
 		});
-
-		DB::table('x_deductions')->insert(array(
-            array('deduction_name' => 'Salary Advance','organization_id' => '1'),
-            array('deduction_name' => 'Loans','organization_id' => '1'),
-            array('deduction_name' => 'Savings','organization_id' => '1'),
-            array('deduction_name' => 'Breakages and spoilages','organization_id' => '1'),
-        ));
 	}
 
 

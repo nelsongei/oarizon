@@ -30,7 +30,7 @@ class CreateCompanyPropertyTable extends Migration {
 			$table->char('returned',1);
 			$table->date('return_date');
 			$table->string('received_by');
-            $table->integer('organization_id')->nulable();
+            $table->integer('organization_id')->nullable();
 			$table->timestamps();
 		});
 	}

@@ -219,6 +219,11 @@
                                         <span class="pcoded-mtext">Bank Branches</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ url('overtime_settings') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Overtime Settings</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

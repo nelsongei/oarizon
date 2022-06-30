@@ -25,11 +25,6 @@ class CreateNssfTable extends Migration {
 			$table->integer('organization_id');
 			$table->timestamps();
 		});
-
-		DB::table('x_social_security')->insert(array(
-            array('tier' => 'Tier I','income_from' => '0.00', 'income_to' => '0.00', 'ss_amount_employee' => '0.00', 'ss_amount_employer' => '0.00', 'organization_id' => '1'),
-            array('tier' => 'Tier I','income_from' => '1.00', 'income_to' => '99000000.00', 'ss_amount_employee' => '200.00', 'ss_amount_employer' => '200.00', 'organization_id' => '1'),
-        ));
 	}
 
 

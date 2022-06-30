@@ -18,7 +18,7 @@ class CreateLocationsTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('description')->nullable();
-            $table->integer('organization_id')->nulable();
+            $table->integer('organization_id')->nullable();
 			$table->timestamps();
 		});
 	}

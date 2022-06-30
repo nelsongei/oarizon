@@ -41,6 +41,7 @@ use App\Http\Controllers\OccurencesController;
 use App\Http\Controllers\OccurencesettingsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\OvertimesController;
+use App\Http\Controllers\OvertimeSettingsController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\payslipEmailController;
 use App\Http\Controllers\PromotionsController;
@@ -506,7 +507,10 @@ Route::resource('benefitsettings', BenefitSettingsController::class);
 Route::post('benefitsettings/update/{id}', [BenefitSettingsController::class, 'update']);
 Route::get('benefitsettings/delete/{id}', [BenefitSettingsController::class, 'destroy']);
 Route::get('benefitsettings/edit/{id}', [BenefitSettingsController::class, 'edit']);
-
+/*
+ * Overtime Settings
+ * */
+Route::get('overtime_settings',[OvertimeSettingsController::class,'index']);
 /*
  * Overtimes
  * */

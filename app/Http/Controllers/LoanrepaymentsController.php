@@ -80,13 +80,6 @@ class LoanrepaymentsController extends Controller
     }
     public function createTemplate1()
     {
-//        return Excel::download(function ($excel){
-//            $excel->sheet('LOans.xlsx',function ($sheet){
-//                $sheet->row(1 ,array(
-//                    'LOAN ACCOUNT', 'DATE', 'PRINCIPAL PAID', 'INTEREST PAID',
-//                ));
-//            });
-//        },'LOans.xlsx');
         return Excel::download(function ($excel) {
             require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
             require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/Cell/DataValidation.php");
@@ -114,7 +107,6 @@ class LoanrepaymentsController extends Controller
                 if (ob_get_level() > 0) {
                     ob_end_clean();
                 }
-
                 for ($i = 0; $i < count($loanAccounts); $i++) {
                     if (!empty($loanAccounts[$i])) {
                         $member = Member::find($loanAccounts[$i]->member_id);

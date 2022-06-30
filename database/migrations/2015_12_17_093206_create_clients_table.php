@@ -31,7 +31,7 @@ class CreateClientsTable extends Migration {
 			$table->string('credit_limit');
 			$table->string('credit_period');
 			$table->double('balance')->default(0);
-            $table->integer('organization_id')->nulable();
+            $table->integer('organization_id')->nullable();
 			$table->timestamps();
 		});
 	}
