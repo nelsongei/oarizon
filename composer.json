@@ -20,6 +20,7 @@
         "phpoffice/phpexcel": "^1.8",
         "phpoffice/phpspreadsheet": "^1.23",
         "psr/simple-cache": "^1.0",
+        "realrashid/sweet-alert": "^5.1",
         "spatie/laravel-permission": "^5.5",
         "symfony/psr-http-message-bridge": "^2.1",
         "yajra/laravel-datatables-oracle": "^9.20"

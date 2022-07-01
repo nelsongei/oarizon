@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\View;
 
 class OvertimesController extends Controller
 {
-
     /**
      * Display a listing of branches
      *

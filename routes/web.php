@@ -511,6 +511,10 @@ Route::get('benefitsettings/edit/{id}', [BenefitSettingsController::class, 'edit
  * Overtime Settings
  * */
 Route::get('overtime_settings',[OvertimeSettingsController::class,'index']);
+Route::post('overtime_setting/store',[OvertimeSettingsController::class,'store']);
+Route::post('overtime_setting/update',[OvertimeSettingsController::class,'update']);
+Route::get('overtime_setting/fetch/',[OvertimeSettingsController::class,'fetch']);
+Route::get('overtime_setting/fetch/{id}',[OvertimeSettingsController::class,'fetchSalary']);
 /*
  * Overtimes
  * */

@@ -55,9 +55,7 @@ function asMoney($value)
                                         <tbody>
                                         <?php $i = 1; ?>
                                         @forelse($overtimes as $overtime)
-
                                             <tr>
-
                                                 <td> {{ $i }}</td>
                                                 @if($overtime->middle_name == null || $overtime->middle_name == '')
                                                     <td>{{ $overtime->first_name.' '.$overtime->last_name }}</td>
@@ -69,7 +67,6 @@ function asMoney($value)
                                                 <td>{{$overtime->type}}</td>
                                                 <td align="right">{{ asMoney((double)$overtime->amount*(double)$overtime->period) }}</td>
                                                 <td>
-
                                                     <div class="btn-group">
                                                         <button type="button"
                                                                 class="btn btn-info btn-sm dropdown-toggle"

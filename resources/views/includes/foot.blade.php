@@ -1,3 +1,4 @@
+@include('sweetalert::alert')
 <script type="ce2668daaac54a74e9f6cdff-text/javascript" src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script type="ce2668daaac54a74e9f6cdff-text/javascript" src="{{asset('assets/js/jquery-ui.min.js')}}"></script>
 <script type="ce2668daaac54a74e9f6cdff-text/javascript" src="{{asset('assets/js/popper.min.js')}}"></script>

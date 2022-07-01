@@ -18,6 +18,8 @@ class CreateOvertimeSettingsTable extends Migration
             $table->integer('organization_id')->nullable();
             $table->string('type');
             $table->integer('rate');
+            $table->integer('min');
+            $table->integer('max');
             $table->timestamps();
         });
     }

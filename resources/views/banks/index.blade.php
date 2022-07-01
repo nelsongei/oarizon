@@ -10,11 +10,8 @@
                         <div class="card-header">
 
                             <h3>Banks</h3>
-
-
                             <div class="card-header-right">
                                 <a class="dt-button btn-sm" href="{{ url('banks/create')}}">New Bank</a>
-                                {{--                                <a class="dt-button btn-sm" href="{{ url('banksimport')}}">Import</a>--}}
                             </div>
 
                             @if (Session::has('flash_message'))

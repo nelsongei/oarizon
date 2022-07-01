@@ -25,16 +25,76 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <?php $count = 1?>
                                         @forelse($settings as $setting)
                                             <tr>
-                                                <td>#</td>
-                                                <td>#</td>
-                                                <td>#</td>
-                                                <td>#</td>
-                                                <td>#</td>
-                                                <td>#</td>
+                                                <td>{{$count++}}</td>
+                                                <td>{{$setting->type}}</td>
+                                                <td>{{$setting->rate}}</td>
+                                                <td>{{$setting->min}}</td>
+                                                <td>{{$setting->max}}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button type="button"
+                                                                class="btn btn-info btn-sm dropdown-toggle"
+                                                                data-toggle="dropdown" aria-expanded="false">
+                                                            Action <span class="caret"></span>
+                                                        </button>
+
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li><a data-toggle="modal"
+                                                                   data-target="#updateSettings{{$setting->id}}">Update</a>
+                                                            </li>
+                                                            <li><a data-toggle="modal"
+                                                                   data-target="#deleteSettings{{$setting->id}}">Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                            @empty
+                                            <div class="modal fade" id="updateSettings{{$setting->id}}">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <form action="{{url('overtime_setting/update')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{$setting->id}}">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="type">Type</label>
+                                                                    <select id="type" name="type" class="form-control">
+                                                                        <option>Daily</option>
+                                                                        <option>Hourly</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="min">Salary Range</label>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <input id="min" type="text" name="min" class="form-control" placeholder="Min" value="{{$setting->min}}">
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <input id="min" type="text" name="max" class="form-control" placeholder="Max" value="{{$setting->max}}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="cname">Rate</label>
+                                                                    <input id="cname" type="text" name="rate" class="form-control" value="{{$setting->rate}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-center">
+                                                                <button type="button" class="btn btn-sm btn-warning" data-dismiss="modal">
+                                                                    Not Now
+                                                                </button>
+                                                                <button type="submit" class="btn btn-sm btn-info">
+                                                                    Add Settings
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
                                             <tr>
                                                 <td colspan="6">
                                                     <center>
@@ -67,13 +127,13 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="cname">Salary Range</label>
+                                <label for="min">Salary Range</label>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <input id="cname" type="text" name="rate" class="form-control" placeholder="Min">
+                                        <input id="min" type="text" name="min" class="form-control" placeholder="Min">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input id="cname" type="text" name="rate" class="form-control" placeholder="Max">
+                                        <input id="min" type="text" name="max" class="form-control" placeholder="Max">
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +143,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="button" class="btn btn-sm btn-warning">
+                            <button type="button" class="btn btn-sm btn-warning" data-dismiss="modal">
                                 Not Now
                             </button>
                             <button type="submit" class="btn btn-sm btn-info">
@@ -95,4 +155,5 @@
             </div>
         </div>
     </div>
+    {{--    //@include('sweetalert::alert')--}}
 @endsection

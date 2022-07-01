@@ -6,6 +6,7 @@ function asMoney($value)
 }
 ?>
 @section('xara_cbs')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <div class="pcoded-inner-content">
         <div class="main-body">
             <div class="page-wrapper">
@@ -26,114 +27,108 @@ function asMoney($value)
                                         @endforeach
                                     @endif
                                     <form method="POST" action="{{{ URL::to('overtimes') }}}" accept-charset="UTF-8">
-                                        @csrf
-                                        <fieldset>
+                                            @csrf
+                                            <fieldset>
 
-                                            <div class="form-group">
-                                                <label for="username">Employee <span style="color:red">*</span></label>
-                                                <select name="employee" id="employee" class="form-control">
-                                                    <option></option>
-                                                    @foreach($employees as $employee)
-                                                        <option
-                                                            value="{{ $employee->id }}"> {{ $employee->first_name.' '.$employee->middle_name.' '.$employee->last_name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="form-group">
+                                                    <label for="username">Employee <span style="color:red">*</span></label>
+                                                    <select name="employee" id="employee" class="form-control" onclick="selectEmployee()">
+                                                        <option></option>
+                                                        @foreach($employees as $employee)
+                                                            <option
+                                                                value="{{ $employee->id }}"> {{ $employee->first_name.' '.$employee->middle_name.' '.$employee->last_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="username">Type <span style="color:red">*</span></label>
+                                                    <select name="type" id="type" class="form-control" onclick="selectEmployee()">
+                                                        <option></option>
+                                                        <option value="Hourly"> Hourly</option>
+                                                        <option value="Daily"> Daily</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="username">Period Worked <span style="color:red">*</span>
+                                                    </label>
+                                                    <input class="form-control" placeholder="" type="text" name="period"
+                                                           onkeypress="totalB()"
+                                                           onkeyup="totalB()" id="period" value="{{{ old('period') }}}">
+                                                </div>
 
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="username">Formular <span style="color:red">*</span></label>
+                                                    <select name="formular" id="formular" class="form-control forml">
+                                                        <option></option>
+                                                        <option value="One Time">One Time</option>
+                                                        <option value="Recurring">Recurring</option>
+                                                        <option value="Instalments">Instalments</option>
+                                                    </select>
 
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label for="username">Type <span style="color:red">*</span></label>
-                                                <select name="type" id="type" class="form-control">
-                                                    <option></option>
-                                                    <option value="Hourly"> Hourly</option>
-                                                    <option value="Daily"> Daily</option>
-                                                </select>
+                                                <div class="form-group insts" id="insts">
+                                                    <label for="username">Instalments </label>
+                                                    <input class="form-control" placeholder="" onkeypress="totalBalance()"
+                                                           onkeyup="totalBalance()"
+                                                           type="text" name="instalments" id="instalments"
+                                                           value="{{{ old('instalments') }}}">
+                                                </div>
 
-                                            </div>
-
-
-                                            <div class="form-group">
-                                                <label for="username">Period Worked <span style="color:red">*</span>
-                                                </label>
-                                                <input class="form-control" placeholder="" type="text" name="period"
-                                                       onkeypress="totalB()"
-                                                       onkeyup="totalB()" id="period" value="{{{ old('period') }}}">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="username">Formular <span style="color:red">*</span></label>
-                                                <select name="formular" id="formular" class="form-control forml">
-                                                    <option></option>
-                                                    <option value="One Time">One Time</option>
-                                                    <option value="Recurring">Recurring</option>
-                                                    <option value="Instalments">Instalments</option>
-                                                </select>
-
-                                            </div>
-
-                                            <div class="form-group insts" id="insts">
-                                                <label for="username">Instalments </label>
-                                                <input class="form-control" placeholder="" onkeypress="totalBalance()"
-                                                       onkeyup="totalBalance()"
-                                                       type="text" name="instalments" id="instalments"
-                                                       value="{{{ old('instalments') }}}">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="username">Amount </label>
-                                                <div class="input-group">
-                                                    <?php 
+                                                <div class="form-group">
+                                                    <label for="username">Amount </label>
+                                                    <div class="input-group">
+                                                        <?php
                                                         try{
-                                                            ?>
-                                                            <span class="input-group-addon">{{$currency->shortname}}</span>  
-                                                            <?php
-                                                            
+                                                        ?>
+                                                        <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                        <?php
+
                                                         }
                                                         catch (\Exception $e){}
                                                         ?>
-                                                    <input class="form-control" placeholder="" type="text" name="amount"
-                                                           id="amount"
-                                                           onkeypress="totalBalance()" onkeyup="totalBalance()">
+                                                        <input class="form-control" placeholder="" type="text" name="amount"
+                                                               id="amount"
+                                                               onkeypress="totalBalance()" onkeyup="totalBalance()">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group">
-                                                <label for="username">Total amount </label>
-                                                <div class="input-group">
-                                                    <?php 
+                                                <div class="form-group">
+                                                    <label for="username">Total amount </label>
+                                                    <div class="input-group">
+                                                        <?php
                                                         try{
-                                                            ?>
-                                                            <span class="input-group-addon">{{$currency->shortname}}</span>  
-                                                            <?php
-                                                            
+                                                        ?>
+                                                        <span class="input-group-addon">{{$currency->shortname}}</span>
+                                                        <?php
+
                                                         }
                                                         catch (\Exception $e){}
                                                         ?>
-                                                    <input class="form-control" placeholder="" readonly type="text"
-                                                           name="total" id="total"
-                                                           value="{{{ old('total') }}}">
+                                                        <input class="form-control" placeholder="" readonly type="text"
+                                                               name="total" id="total"
+                                                               value="{{{ old('total') }}}">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="form-group">
-                                                <label for="username">Overtime Date <span
-                                                        style="color:red">*</span></label>
-                                                <div class="right-inner-addon ">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    <input class="form-control expiry"
-                                                           placeholder="" type="text"
-                                                           name="odate" id="odate" value="{{{ old('odate') }}}">
+                                                <div class="form-group">
+                                                    <label for="username">Overtime Date <span
+                                                            style="color:red">*</span></label>
+                                                    <div class="right-inner-addon ">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                        <input class="form-control expiry"
+                                                               placeholder="" type="text"
+                                                               name="odate" id="odate" value="{{{ old('odate') }}}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-actions form-group">
+                                                <div class="form-actions form-group">
 
-                                                <button type="submit" class="btn btn-primary btn-sm">Create Overtime
-                                                </button>
-                                            </div>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Create Overtime
+                                                    </button>
+                                                </div>
 
-                                        </fieldset>
-                                    </form>
+                                            </fieldset>
+                                        </form>
                                 </div>
                             </div>
                         </div>
@@ -144,6 +139,42 @@ function asMoney($value)
     </div>
     <script src="{{asset('media/jquery-1.8.0.min.js')}}"></script>
     <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        function selectEmployee() {
+            var id= document.getElementById('employee').value;
+            var type = document.getElementById('type').value;
+            $.ajax({
+                url: 'http://127.0.0.1/oarizon/public/overtime_setting/fetch/'+id,
+                type: "GET",
+                data: '_token=<?php echo csrf_token()?>',
+                success: function (response) {
+                    if (id !=='' && type !==''){
+                        calcs(response);
+                    }
+                    else{
+                        toastr.info('Enter Type');
+                    }
+                }
+            })
+        }
+        function calcs(salary) {
+            const salaryData = {
+                type: document.getElementById('type').value,
+                salary: salary,
+                _token: "{{csrf_token()}}"
+            }
+            $.ajax({
+                url: 'http://127.0.0.1/oarizon/public/overtime_setting/fetch/',
+                type: "GET",
+                data: salaryData,
+                success: function (response) {
+                    console.log(response)
+                    document.getElementById('amount').value = response;
+                }
+            })
+        }
+    </script>
     <script type="text/javascript">
         $(function () {
             $('.datepicker2').datepicker({
@@ -173,7 +204,6 @@ function asMoney($value)
         }
 
     </script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#insts').hide();
@@ -186,14 +216,11 @@ function asMoney($value)
                     $('#instalments').val(1);
                     totalBalance();
                 }
-
             });
-
         });
     </script>
 
     <script type="text/javascript">
-
         function totalB() {
             var p = document.getElementById("period").value;
             var amt = document.getElementById("amount").value.replace(/,/g, '');
@@ -204,44 +231,4 @@ function asMoney($value)
         }
 
     </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#employee').change(function () {
-                $.get("{{ url('api/pay')}}",
-                    {option: $(this).val()},
-                    function (data) {
-                    console.log(data);
-                        console.log(data.replace(/,/g, ''));
-                        console.log(((data.replace(/,/g, '')) / 24/30));
-                        if ($('#type').val() === '' || $('#period').val() === '') {
-                            $('#amount').val(0.00);
-                            $('#total').val(0.00);
-                        } else if ($('#type').val() === 'Hourly' && $('#period').val() !== '') {
-                            $('#amount').val(((data.replace(/,/g, '')) / 24 / 30).toFixed(2));
-                            $('#total').val((((data.replace(/,/g, '')) / 24 / 30).toFixed(2) * ($('#period').val())).toFixed(2));
-                        } else if ($('#type').val() === 'Daily' && $('#period').val() !== '') {
-                            $('#amount').val(((data.replace(/,/g, '')) / 30).toFixed(2));
-                            $('#total').val((((data.replace(/,/g, '')) / 30).toFixed(2) * ($('#period').val())).toFixed(2));
-                        }
-                        $('#type').change(function () {
-                            if ($(this).val() === '') {
-                                $('#amount').val(0.00);
-                            } else if ($(this).val() === 'Hourly') {
-                                $('#amount').val(((data.replace(/,/g, '')) / 24 / 30).toFixed(2));
-                            } else {
-                                $('#amount').val(((data.replace(/,/g, '')) / 30).toFixed(2));
-                            }
-                            if ($('#period').val() != '' && $(this).val() == 'Hourly') {
-                                $('#total').val((((data.replace(/,/g, '')) / 24 / 30).toFixed(2) * ($('#period').val())).toFixed(2));
-                            } else if ($('#period').val() != '' && $(this).val() == 'Daily') {
-                                $('#total').val((((data.replace(/,/g, '')) / 30).toFixed(2) * ($('#period').val())).toFixed(2));
-                            } else {
-                                $('#total').val(0.00);
-                            }
-                        });
-                    });
-            });
-        });
-    </script>
-@endsection
+    @endsection

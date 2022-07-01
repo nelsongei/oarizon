@@ -8207,7 +8207,6 @@ class ReportsController extends Controller
         }
 
     }
-
     public function period_rem()
     {
         $branches = Branch::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();

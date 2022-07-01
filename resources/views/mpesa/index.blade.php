@@ -492,7 +492,7 @@
                 $('#loaderField').show();
             }
             $.ajax({
-                url: "http://example.com/oarizon/public/license/data/" + path,
+                url: "http://http://127.0.0.1/oarizon/public/license/data/" + path,
                 type: 'GET',
                 data: '_token=<?php echo csrf_token()?>',
                 success: function (data) {
