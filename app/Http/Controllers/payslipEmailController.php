@@ -20,7 +20,7 @@ class payslipEmailController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+        $employees = Employee::where('organization_id',Auth::user()->organization_id)->get();
         return View::make('payslips.index', compact('employees'));
     }
 
@@ -28,19 +28,20 @@ class payslipEmailController extends Controller
     {
         if (!empty(request()->input('sel'))) {
             $period = request()->input('period');
-            $employees = Employee::all();
+            $employees = Employee::where('organization_id',Auth::user()->organization_id)->get();
 
             $emps = DB::table('x_employee')->count();
-
             foreach ($employees as $user) {
 
                 $transacts = DB::table('x_transact')
                     ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                     ->where('financial_month_year', '=', request('period'))
+                    ->where('x_transact.organization_id',Auth::user()->organization_id)
                     ->where('x_employee.id', '=', $user->id)
                     ->get();
                 $allws = DB::table('x_transact_allowances')
                     ->join('x_employee', 'x_transact_allowances.employee_id', '=', 'x_employee.id')
+                    ->where('x_transact_allowances.organization_id',Auth::user()->organization_id)
                     ->where('financial_month_year', '=', request('period'))
                     ->where('x_employee.id', '=', $user->id)
                     ->groupBy('allowance_name')
@@ -122,12 +123,35 @@ class payslipEmailController extends Controller
                 } else if ($part[1] == 12) {
                     $fperiod = 'December-' . $part[0];
                 }
+                $overtimes = DB::table('x_transact_overtimes')
+                    ->join('x_employee', 'x_transact_overtimes.employee_id', '=', 'x_employee.id')
+                    ->where('financial_month_year', '=', request('period'))
+                    ->where('x_employee.id', '=', request('employeeid'))
+                    ->groupBy('employee_id')
+                    ->get();
+                $nontaxables = DB::table('x_transact_nontaxables')
+                    ->join('x_employee', 'x_transact_nontaxables.employee_id', '=', 'x_employee.id')
+                    ->where('financial_month_year', '=', request('period'))
+                    ->where('x_employee.id', '=', request('period'))
+                    ->groupBy('nontaxable_name')
+                    ->get();
+                $rels = DB::table('x_transact_reliefs')
+                    ->join('x_employee','x_transact_reliefs.employee_id','=','x_employee.id')
+                    ->where('financial_month_year','=',request('period'))
+                    ->where('x_employee.id','=',request('employeeid'))
+                    ->groupBy('relief_name')
+                    ->get();
+                $pension = DB::table('x_transact_pensions')
+                    ->join('x_employee','x_transact_pensions.employee_id','=','x_employee.id')
+                    ->where('financial_month_year','=',request('period'))
+                    ->where('x_employee.id','=',request('employeeid'))
+                    ->first();
 
                 $select = "ALL";
 
                 $fileName = $user->first_name . '_' . $user->last_name . '_' . $fyear . '.pdf';
                 $filePath = 'app/views/temp/';
-                $pdf = PDF::loadView('pdf.monthlySlip', compact('employees', 'select', 'transacts', 'allws', 'deds', 'earnings', 'period', 'currencies', 'organization'))->setPaper('a4')->setOrientation('potrait');
+                $pdf = PDF::loadView('pdf.monthlySlip', compact('pension','nontaxables','rels','employees', 'select', 'transacts', 'allws', 'deds', 'earnings', 'period', 'currencies', 'organization','overtimes'))->setPaper('a4');
 
                 $pdf->save($filePath . $fileName);
 
@@ -196,8 +220,7 @@ class payslipEmailController extends Controller
                 ->join('x_employee','x_transact_pensions.employee_id','=','x_employee.id')
                 ->where('financial_month_year','=',request('period'))
                 ->where('x_employee.id','=',request('employeeid'))
-                ->first()
-            ;
+                ->first();
 
             $currencies = DB::table('x_currencies')
                 ->pluck('shortname')
