@@ -75,7 +75,7 @@
                                 </div>
                                 <p class="text-inverse text-left">Don't have an account?<a
                                         href="{{url('register_organization')}}">
-                                        <b>Register here </b></a>for free!</p>
+                                        <b>Register here </b></a></p>
                             </div>
                         </div>
                     </form>

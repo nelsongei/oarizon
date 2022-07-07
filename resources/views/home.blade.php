@@ -21,8 +21,6 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <img src="{{asset('/uploads/logo/'.$organization->logo)}}" alt="logo"
-                             style="height: 40px;">
                         <h5>{{Auth::user()->organization->name}}</h5>
                         <span>Cbs Dashboard</span>
                     </div>

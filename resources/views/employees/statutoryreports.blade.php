@@ -48,9 +48,12 @@
                                                 PAYE Returns
                                             </td>
                                             <td>
-                                                <a style="text-decoration: none;"
-                                                   href="{{ URL::to('payrollReports/selectPayePeriod') }}">Download
-                                                    <span class="glyphicon glyphicon-download-alt"></span></a>
+{{--                                                <a style="text-decoration: none;"--}}
+{{--                                                   href="{{ URL::to('payrollReports/selectPayePeriod') }}">Download--}}
+{{--                                                    <span class="glyphicon glyphicon-download-alt"></span></a>--}}
+                                                <a href="#" data-toggle="modal" data-target="#downloadPayeReport">
+                                                    Download
+                                                </a>
                                             </td>
                                         </tr>
 
@@ -197,6 +200,61 @@
                                                                 <button type="submit"
                                                                         class="btn btn-primary btn-sm">Export
                                                                 </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="downloadPayeReport">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <img src="{{asset('images/print.gif')}}"
+                                                             style="height: 250px;width: 250px">
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <form method="POST" action="{{URL::to('payrollReports/payeReturns')}}"
+                                                              accept-charset="UTF-8">
+                                                            @csrf
+                                                            <div class="modal-body">
+                                                                <fieldset>
+
+                                                                    <div class="form-group">
+                                                                        <label for="username">Period <span style="color:red">*</span></label>
+                                                                        <div class="right-inner-addon ">
+                                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                                            <input required class="form-control datepicker2" readonly="readonly"
+                                                                                   placeholder=""
+                                                                                   type="text" name="period" id="period" value="{{{ old('period') }}}">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <div class="form-group">
+                                                                            <label for="username">Disabled: <span style="color:red">*</span></label><br>
+                                                                            <input class="" type="radio" required name="type" id="type" value="enabled">
+                                                                            No
+                                                                            <input class="" type="radio" required name="type" id="type"
+                                                                                   value="disabled"> Yes
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="username">Download as: <span style="color:red">*</span></label>
+                                                                            <select required name="format" class="form-control">
+                                                                                <option></option>
+                                                                                <option value="excel"> Excel</option>
+                                                                                <option value="csv"> CSV</option>
+                                                                                <option value="pdf"> PDF</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-center">
+                                                                <button type="button" class="btn btn-warning btn-sm " data-dismiss="modal">Not Now</button>
+                                                                <button type="submit" class="btn btn-primary btn-sm">Export</button>
                                                             </div>
                                                         </form>
                                                     </div>

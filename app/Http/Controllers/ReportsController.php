@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exports\DisbursedLoanListingExport;
 use App\Exports\MemberExport;
+use App\Exports\NhifReport;
 use App\Exports\NssfReport;
+use App\Exports\PayeReport;
 use Maatwebsite\Excel\Concerns\Exportable;
 use App\Exports\P9FormExports;
 use App\Models\Account;
@@ -13399,28 +13401,26 @@ class ReportsController extends Controller
         return view('pdf.nhifSelect');
     }
 
-    public function nhifReturns()
+    public function nhifReturns(Request $request)
     {
         if (request()->get('format') == "excel") {
 
-            $total = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $total = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('hospital_insurance_applicable', '=', 1)
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->sum('nhif_amount');
 
-            $data = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $data = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('hospital_insurance_applicable', '=', 1)
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->get();
 
             $organization = Organization::find(Auth::user()->organization_id);
-
             $part = explode("-", $request->get('period'));
-
             $m = "";
 
             if (strlen($part[0]) == 1) {
@@ -13433,98 +13433,7 @@ class ReportsController extends Controller
 
             $per = $part[1] . "-" . $m;
 
-
-            Excel::create('Nhif Report ' . $month, function ($excel) use ($per, $data, $total, $organization) {
-
-                require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
-                require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php");
-
-
-                $objPHPExcel = new Spreadsheet();
-                // Set the active Excel worksheet to sheet 0
-                $objPHPExcel->setActiveSheetIndex(0);
-
-
-                $excel->sheet('Nhif Report', function ($sheet) use ($per, $data, $total, $organization, $objPHPExcel) {
-
-                    $sheet->row(1, array(
-                        'EMPLOYER CODE', $organization->nhif_no
-                    ));
-
-                    $sheet->cell('A1', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-                    $sheet->row(2, array(
-                        'EMPLOYER NAME', $organization->name
-                    ));
-
-                    $sheet->cell('A2', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-
-                    $sheet->row(3, array(
-                        'MONTH OF CONTRIBUTION', $per
-                    ));
-
-                    $sheet->cell('A3', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-                    $sheet->row(5, array(
-                        'PAYROLL NO', 'LAST NAME', 'FIRST NAME', 'ID NO', 'NHIF NO', 'AMOUNT'
-                    ));
-
-                    $sheet->row(5, function ($r) {
-
-                        // call cell manipulation methods
-                        $r->setFontWeight('bold');
-
-                    });
-
-                    $row = 6;
-
-
-                    for ($i = 0; $i < count($data); $i++) {
-
-                        $name = '';
-
-                        if ($data[$i]->middle_name == '' || $data[$i]->middle_name == null) {
-                            $name = $data[$i]->first_name . ' ' . $data[$i]->last_name;
-                        } else {
-                            $name = $data[$i]->first_name . ' ' . $data[$i]->middle_name . ' ' . $data[$i]->last_name;
-                        }
-
-                        $sheet->row($row, array(
-                            $data[$i]->personal_file_number, $data[$i]->last_name, $data[$i]->first_name, $data[$i]->identity_number, $data[$i]->hospital_insurance_number, $data[$i]->nhif_amount
-                        ));
-
-                        $row++;
-
-                    }
-                    $sheet->row($row, array(
-                        '', '', '', '', 'Total', $total
-                    ));
-                    $sheet->cell('E' . $row, function ($r) {
-
-                        // call cell manipulation methods
-                        $r->setFontWeight('bold');
-
-                    });
-
-                });
-
-            })->download('xls');
+            return Excel::download(new NhifReport($total,$data,$organization,$month),'nhif_report.xls');
 
         } else {
             $period = request()->get("period");
@@ -13574,7 +13483,7 @@ class ReportsController extends Controller
         return view('pdf.payeSelect');
     }
 
-    public function payeReturns()
+    public function payeReturns(Request $request)
     {
         if (request()->get('format') == "excel") {
             $total_enabled = DB::table('x_transact')
@@ -13583,6 +13492,7 @@ class ReportsController extends Controller
                 ->where('financial_month_year', '=', request('period'))
                 ->where('income_tax_applicable', '=', 1)
                 ->sum('paye');
+
 
             $total_disabled = DB::table('transact')
                 ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
@@ -13623,145 +13533,10 @@ class ReportsController extends Controller
 
             $month = $m . "_" . $part[1];
 
+            return Excel::download(new PayeReport($total_enabled,$total_disabled,$payes_enabled,$payes_disabled,$organization,$period,$type,$month),'paye_report.xls');
 
-            Excel::create('Paye Report ' . $month, function ($excel) use ($type, $period, $total_enabled, $total_disabled, $payes_enabled, $payes_disabled, $organization) {
-
-                require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
-                require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php");
-
-
-                $objPHPExcel = new Spreadsheet();
-// Set the active Excel worksheet to sheet 0
-                $objPHPExcel->setActiveSheetIndex(0);
-
-
-                $excel->sheet('Paye Report', function ($sheet) use ($type, $period, $total_enabled, $total_disabled, $payes_enabled, $payes_disabled, $organization, $objPHPExcel) {
-
-
-                    $sheet->row(1, array(
-                        'Organization Name: ', $organization->name
-                    ));
-
-                    $sheet->cell('A1', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-
-                    $sheet->row(2, array(
-                        'Period: ', $period
-                    ));
-
-                    $sheet->cell('A2', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-                    $due = 0;
-                    $year = 0;
-                    $per = explode("-", $period);
-                    if ($per[0] == 12) {
-                        $due = 01;
-                        $year = $per[1] + 1;
-                    } else {
-                        $due = $per[0] + 1;
-                        if (strlen($due) == 1) {
-                            $due = "0" . $due;
-                        } else {
-                            $due = $due;
-                        }
-                        $year = $per[1];
-                    }
-
-                    $sheet->row(3, array(
-                        'Due Date: ', '09-' . $due . '-' . $year
-                    ));
-
-                    $sheet->cell('A3', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-                    $sheet->row(5, array(
-                        'PAYROLL NO.', 'EMPLOYEE NAME', 'ID Number', 'KRA Pin', 'Gross Pay', 'Paye'
-                    ));
-
-                    $sheet->row(5, function ($r) {
-
-                        // call cell manipulation methods
-                        $r->setFontWeight('bold');
-
-                    });
-
-                    $row = 6;
-
-                    if ($type == 'enabled') {
-                        for ($i = 0; $i < count($payes_enabled); $i++) {
-
-                            $name = '';
-
-                            if ($payes_enabled[$i]->middle_name == '' || $payes_enabled[$i]->middle_name == null) {
-                                $name = $payes_enabled[$i]->first_name . ' ' . $payes_enabled[$i]->last_name;
-                            } else {
-                                $name = $payes_enabled[$i]->first_name . ' ' . $payes_enabled[$i]->middle_name . ' ' . $payes_enabled[$i]->last_name;
-                            }
-
-                            $sheet->row($row, array(
-                                $payes_enabled[$i]->personal_file_number, $name, $payes_enabled[$i]->identity_number, $payes_enabled[$i]->pin, $payes_enabled[$i]->taxable_income, $payes_enabled[$i]->paye
-                            ));
-
-                            $row++;
-
-                        }
-                        $sheet->row($row, array(
-                            '', '', '', '', 'Total', $total_enabled
-                        ));
-                        $sheet->row($row, function ($r) {
-
-                            // call cell manipulation methods
-                            $r->setFontWeight('bold');
-
-                        });
-
-                    } else {
-                        for ($i = 0; $i < count($payes_disabled); $i++) {
-                            $name = '';
-
-                            if ($payes_disabled[$i]->middle_name == '' || $payes_disabled[$i]->middle_name == null) {
-                                $name = $payes_disabled[$i]->first_name . ' ' . $payes_disabled[$i]->last_name;
-                            } else {
-                                $name = $payes_disabled[$i]->first_name . ' ' . $payes_disabled[$i]->middle_name . ' ' . $payes_disabled[$i]->last_name;
-                            }
-
-                            $sheet->row($row, array(
-                                $payes_disabled[$i]->personal_file_number, $name, $payes_disabled[$i]->identity_number, $payes_disabled[$i]->pin, $payes_disabled[$i]->taxable_income, $payes_disabled[$i]->paye
-                            ));
-
-                            $row++;
-
-                        }
-                        $sheet->row($row, array(
-                            '', '', '', '', 'Total', $total_disabled
-                        ));
-                        $sheet->row($row, function ($r) {
-
-                            // call cell manipulation methods
-                            $r->setFontWeight('bold');
-
-                        });
-                    }
-
-                });
-
-            })->download('xls');
-
-        } else if (request()->get('format') == "csv") {
+        }
+        else if (request()->get('format') == "csv") {
 
             if ($request->get('type') == "enabled") {
 
@@ -13959,7 +13734,8 @@ class ReportsController extends Controller
 
             }
 
-        } else {
+        }
+        else {
 
             $type = request()->get('type');
 
