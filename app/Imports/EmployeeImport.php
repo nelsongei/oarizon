@@ -30,13 +30,12 @@ class EmployeeImport implements ToModel,WithStartRow
     {
         return 2;
     }
-
     public function model(array $row)
     {
         $job_group_id = Jobgroup::pluck('id')->first();
         $organization = Organization::find(Auth::user()->organization_id);
         $string = $organization->name;
-        $str = strtoupper($string[0].',');
+        $str = strtoupper($string[0].'.');
         $pfn = rand(1,1000);
         return new Employee([
             'personal_file_number'=>$str.$pfn,

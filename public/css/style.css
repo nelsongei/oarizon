@@ -1,0 +1,62 @@
+table {
+    max-width: 100%;
+    background-color: transparent;
+}
+
+th {
+    text-align: left;
+}
+
+td {
+    text-indent: 5px;
+}
+
+.table {
+    width: 100%;
+}
+
+hr {
+    margin-top: 1px;
+    margin-bottom: 2px;
+    border: 0;
+    border-top: 2px dotted #eee;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.428571429;
+    color: #333;
+    background-color: #fff;
+}
+
+
+.header {
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+
+.header1 {
+    width: 100%;
+    margin-top: -30px;
+    float: left;
+    text-align: center;
+    height: 120px;
+}
+
+.content {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.container {
+    width: 100%;
+    display: block;
+    margin: 5px 0;
+    float: left;
+    page-break-after: always;
+}

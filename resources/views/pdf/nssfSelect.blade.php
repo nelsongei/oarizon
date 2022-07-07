@@ -8,13 +8,11 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h3>Select Period</h3>
-
                             <hr>
                         </div>
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-
                                     @if ($errors)
                                         @foreach ($errors->all() as $error)
                                             <div class="alert alert-danger">
@@ -46,7 +44,6 @@
                                                     <option value="excel"> Excel</option>
                                                     <option value="pdf"> PDF</option>
                                                 </select>
-
                                             </div>
 
                                             <div class="form-actions form-group">

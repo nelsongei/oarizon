@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\DisbursedLoanListingExport;
 use App\Exports\MemberExport;
+use App\Exports\NssfReport;
 use Maatwebsite\Excel\Concerns\Exportable;
 use App\Exports\P9FormExports;
 use App\Models\Account;
@@ -3874,11 +3875,9 @@ class ReportsController extends Controller
 
     public function payslip(Request $request)
     {
-//        dd($request->period);
         $check = DB::table('x_transact')
             ->where('financial_month_year', '=', $request->get('period'))
             ->count();
-
         if ($check == 0) {
             return Redirect::back()->with('notice', 'No payslip is processed for this month!');
         }
@@ -4352,13 +4351,10 @@ class ReportsController extends Controller
                 })->download('xls');
             }
         } elseif ($request->get('format') == "pdf") {
-
             if ($request->get("employeeid") == 'All') {
 
                 $period = $request->get("period");
-
                 $select = $request->get("employeeid");
-
                 $id = $request->get('employeeid');
 
                 $empall = DB::table('x_transact')
@@ -4394,15 +4390,20 @@ class ReportsController extends Controller
                     ->where('job_group_id', '!=', $jgroup->id)
                     ->where('x_employee.organization_id', Auth::user()->organization_id)
                     ->get();
+                $transacts = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                    ->where('financial_month_year', '=', $request->get('period'))
+                    ->where('x_employee.id', '=', $request->get('employeeid'))
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
+                    ->first();
 
                 Audit::logaudit('Payslip', 'view', 'viewed payslip for all employees for period ' . $request->get('period'));
                 //return view('payslips.payslips', compact('empall', 'select', 'period', 'currency', 'organization'));
-               // return view('pdf.monthlySlip', compact('empall', 'select', 'period', 'currency', 'organization'));
-                $pdf = PDF::loadView('pdf.monthlySlip', compact('empall', 'select', 'period', 'currency', 'organization'))->setPaper('a4');
+//                return view('pdf.monthlySlip', compact('empall', 'select', 'period', 'currency', 'organization'));
+                $pdf = PDF::loadView('pdf.monthlySlip', compact('empall', 'select', 'period', 'currency', 'organization', 'transacts'))->setPaper('a4');
                 return $pdf->stream('Payslips.pdf');
 
             } else {
-
                 if ($data = DB::table('x_transact')
                         ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                         ->where('financial_month_year', '=', $request->get('period'))
@@ -4412,7 +4413,6 @@ class ReportsController extends Controller
 
                     return Redirect::to('css/payslips')->with('errors', 'Your payslip for period ' . $request->get('period') . ' is not available!');
                 } else {
-
                     $period = $request->get("period");
 
                     $select = $request->get("employeeid");
@@ -4528,7 +4528,6 @@ class ReportsController extends Controller
                     return $pdf->stream($employee->personal_file_number . '_' . $employee->first_name . '_' . $employee->last_name . '_' . $month . '.pdf');
                 }
             }
-
         }
     }
 
@@ -8207,6 +8206,7 @@ class ReportsController extends Controller
         }
 
     }
+
     public function period_rem()
     {
         $branches = Branch::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->get();
@@ -12022,13 +12022,11 @@ class ReportsController extends Controller
 
     public function pensions(Request $request)
     {
-
         //$to   = explode("-", $request->get('to'));
         //return $to[0];
         $from = explode("-", $request->get('from'));
         $to = explode("-", $request->get('to'));
 //        dd($from[0]);
-
         if ($request->get('format') == "excel") {
             if ($request->get('employeeid') == 'All') {
                 $from = explode("-", $request->get('from'));
@@ -12103,30 +12101,22 @@ class ReportsController extends Controller
                     $objPHPExcel = new Spreadsheet();
 // Set the active Excel worksheet to sheet 0
                     $objPHPExcel->setActiveSheetIndex(0);
-
-
                     $excel->sheet('Pension', function ($sheet) use ($data, $total, $currency, $organization, $objPHPExcel, $period) {
                         $sheet->row(1, array(
                             'Organization Name: ', $organization->name
                         ));
-
                         $sheet->cell('A1', function ($cell) {
 
                             // manipulate the cell
                             $cell->setFontWeight('bold');
 
                         });
-
-
                         $sheet->row(2, array(
                             'Report name: ', 'Pension Contributions Report'
                         ));
-
                         $sheet->cell('A2', function ($cell) {
-
                             // manipulate the cell
                             $cell->setFontWeight('bold');
-
                         });
 
                         $sheet->row(3, array(
@@ -13308,31 +13298,57 @@ class ReportsController extends Controller
 
     }
 
-    public function period_nssf()
+    public function period_nssf(Request $request)
     {
-        return view('pdf.nssfSelect');
+        $total = DB::table('x_transact')
+            ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
+            ->where('social_security_applicable', '=', 1)
+            //->where('financial_month_year', '=', $request->get('period'))
+            ->sum('nssf_amount');
+
+        $data = DB::table('x_transact')
+            ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+            ->where('x_employee.organization_id', Auth::user()->organization_id)
+            ->where('social_security_applicable', '=', 1)
+            //->where('financial_month_year', '=', $request->get('period'))
+            ->get();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+
+        $part = explode("-", $request->get('period'));
+
+        $m = "";
+
+        if (strlen($part[0]) == 1) {
+            $m = "0" . $part[0];
+        } else {
+            $m = $part[0];
+        }
+
+//        $month = $m . "_" . $part[1];
+        return view('pdf.nssfSelect',compact('total','data','organization','part'));
     }
 
     public function nssfReturns(Request $request)
     {
 
         if ($request->get('format') == "excel") {
-            $total = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $total = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('social_security_applicable', '=', 1)
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->sum('nssf_amount');
 
-            $data = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $data = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('social_security_applicable', '=', 1)
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->get();
 
             $organization = Organization::find(Auth::user()->organization_id);
-
             $part = explode("-", $request->get('period'));
 
             $m = "";
@@ -13345,103 +13361,9 @@ class ReportsController extends Controller
 
             $month = $m . "_" . $part[1];
 
-
-            Excel::create('Nssf Report ' . $month, function ($excel) use ($data, $total, $organization) {
-
-                require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
-                require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php");
-
-
-                $objPHPExcel = new Spreadsheet();
-// Set the active Excel worksheet to sheet 0
-                $objPHPExcel->setActiveSheetIndex(0);
-
-
-                $excel->sheet('Nssf Report', function ($sheet) use ($data, $total, $organization, $objPHPExcel) {
-
-
-                    $sheet->row(1, array(
-                        'Employer Name: ', $organization->name
-                    ));
-
-                    $sheet->cell('A1', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-
-                    $sheet->row(2, array(
-                        'Employer Code: ', $organization->nssf_no
-                    ));
-
-                    $sheet->cell('A2', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-                    $sheet->row(3, array(
-                        'Contribution Period: ', $request->get('period')
-                    ));
-
-                    $sheet->cell('A3', function ($cell) {
-
-                        // manipulate the cell
-                        $cell->setFontWeight('bold');
-
-                    });
-
-                    $sheet->row(4, array(
-                        'PAYROLL NO.', 'EMPLOYEE NAME', 'NSSF NO.', 'STD AMT.', 'VOL AMT.', 'TOTAL AMT.', 'ID NO.', 'REMARKS'
-                    ));
-
-                    $sheet->row(4, function ($r) {
-
-                        // call cell manipulation methods
-                        $r->setFontWeight('bold');
-
-                    });
-
-                    $row = 5;
-
-
-                    for ($i = 0; $i < count($data); $i++) {
-
-                        $name = '';
-
-                        if ($data[$i]->middle_name == '' || $data[$i]->middle_name == null) {
-                            $name = $data[$i]->first_name . ' ' . $data[$i]->last_name;
-                        } else {
-                            $name = $data[$i]->first_name . ' ' . $data[$i]->middle_name . ' ' . $data[$i]->last_name;
-                        }
-
-                        $sheet->row($row, array(
-                            $data[$i]->personal_file_number, $name, $data[$i]->social_security_number, $data[$i]->nssf_amount, '', $data[$i]->nssf_amount * 2, $data[$i]->identity_number, ''
-                        ));
-
-                        $row++;
-
-                    }
-                    $sheet->row($row, array(
-                        '', 'Total', '', $total, '', $total * 2, '', ''
-                    ));
-                    $sheet->row($row, function ($r) {
-
-                        // call cell manipulation methods
-                        $r->setFontWeight('bold');
-
-                    });
-
-                });
-
-            })->download('xls');
-
+            return Excel::download(new NssfReport($total,$data,$organization,$month),'nssf_Report_.xls');
         } else {
             $period = $request->get("period");
-
             $total = DB::table('x_transact')
                 ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
                 ->where('x_employee.organization_id', Auth::user()->organization_id)
@@ -13459,21 +13381,16 @@ class ReportsController extends Controller
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->get();
             $organization = Organization::find(Auth::user()->organization_id);
-
             $part = explode("-", $request->get('period'));
             $m = "";
-
             if (strlen($part[0]) == 1) {
                 $m = "0" . $part[0];
             } else {
                 $m = $part[0];
             }
             $month = $m . "_" . $part[1];
-
             $pdf = PDF::loadView('pdf.nssfReport', compact('nssfs', 'total', 'currencies', 'period', 'organization'))->setPaper('a4');
-//            return $pdf->stream('nssf_Report_' . $month . '.pdf');
-            return $pdf->stream();
-
+            return $pdf->stream('nssf_Report_' . $month . '.pdf');
         }
     }
 
