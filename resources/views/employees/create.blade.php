@@ -99,7 +99,6 @@
                                                     </fieldset>
                                                 </form>
                                             </div>
-
                                             <div id="dialog-form" title="Create new education level">
                                                 <p class="validateTips2">Please insert education level.</p>
 
@@ -116,7 +115,6 @@
                                                     </fieldset>
                                                 </form>
                                             </div>
-
                                             <div id="dialog-form" title="Create new bank">
                                                 <p class="validateTips3">Please insert bank name.</p>
 
@@ -136,7 +134,6 @@
                                                     </fieldset>
                                                 </form>
                                             </div>
-
                                             <div id="dialog-form" title="Create new bank branch">
                                                 <p class="validateTips4">Please Insert Bank Branch.</p>
 
@@ -145,7 +142,6 @@
                                                         <label for="name">Name <span style="color:red">*</span></label>
                                                         <input type="text" name="bname" id="brname" value=""
                                                                class="form-control">
-
                                                         <label for="name">Code<span style="color:red"></span></label>
                                                         <input type="text" name="bcode" id="brcode" value=""
                                                                class="form-control">
