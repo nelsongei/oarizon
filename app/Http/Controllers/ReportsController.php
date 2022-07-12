@@ -13494,25 +13494,29 @@ class ReportsController extends Controller
                 ->sum('paye');
 
 
-            $total_disabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $total_disabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('financial_month_year', '=', request('period'))
                 ->where('income_tax_applicable', '=', 0)
                 ->sum('paye');
 
-            $payes_enabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $payes_enabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->where('income_tax_applicable', '=', 1)
                 ->get();
 
-            $payes_disabled = DB::table('transact')
-                ->join('employee', 'transact.employee_id', '=', 'employee.personal_file_number')
-                ->where('employee.organization_id', Auth::user()->organization_id)
+            $payes_disabled = DB::table('x_transact')
+                ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                ->where('x_employee.organization_id', Auth::user()->organization_id)
                 ->where('financial_month_year', '=', $request->get('period'))
                 ->where('income_tax_applicable', '=', 0)
+                ->get();
+            $currencies = DB::table('x_currencies')
+                ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
+                ->select('shortname')
                 ->get();
 
             $organization = Organization::find(Auth::user()->organization_id);
@@ -13533,25 +13537,51 @@ class ReportsController extends Controller
 
             $month = $m . "_" . $part[1];
 
-            return Excel::download(new PayeReport($total_enabled,$total_disabled,$payes_enabled,$payes_disabled,$organization,$period,$type,$month),'paye_report.xls');
+            return Excel::download(new PayeReport($total_enabled,$total_disabled,$payes_enabled,$payes_disabled,$organization,$period,$type,$month,$currencies),'paye_report.xls');
 
         }
         else if (request()->get('format') == "csv") {
 
             if ($request->get('type') == "enabled") {
 
-                $period = $request->get('period');
+                $total_enabled = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
+                    ->where('financial_month_year', '=', request('period'))
+                    ->where('income_tax_applicable', '=', 1)
+                    ->sum('paye');
 
-                $data = DB::table('employee')
-                    ->where('employee.organization_id', Auth::user()->organization_id)
+
+                $total_disabled = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
+                    ->where('financial_month_year', '=', request('period'))
+                    ->where('income_tax_applicable', '=', 0)
+                    ->sum('paye');
+
+                $payes_enabled = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
+                    ->where('financial_month_year', '=', $request->get('period'))
                     ->where('income_tax_applicable', '=', 1)
                     ->get();
 
-                $data_disabled = DB::table('employee')
-                    ->where('employee.organization_id', Auth::user()->organization_id)
+                $payes_disabled = DB::table('x_transact')
+                    ->join('x_employee', 'x_transact.employee_id', '=', 'x_employee.personal_file_number')
+                    ->where('x_employee.organization_id', Auth::user()->organization_id)
+                    ->where('financial_month_year', '=', $request->get('period'))
                     ->where('income_tax_applicable', '=', 0)
                     ->get();
+                $currencies = DB::table('x_currencies')
+                    ->whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)
+                    ->select('shortname')
+                    ->get();
 
+                $organization = Organization::find(Auth::user()->organization_id);
+
+                $period = $request->get('period');
+
+                $type = $request->get('type');
 
                 $part = explode("-", $request->get('period'));
 
@@ -13565,78 +13595,7 @@ class ReportsController extends Controller
 
                 $month = $m . "_" . $part[1];
 
-                Excel::create('B_Employee_Dtls_' . $month, function ($excel) use ($data, $period) {
-
-                    require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
-                    require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php");
-
-
-                    $objPHPExcel = new Spreadsheet();
-// Set the active Excel worksheet to sheet 0
-                    $objPHPExcel->setActiveSheetIndex(0);
-
-
-                    $excel->sheet('B_Employee_Dtls', function ($sheet) use ($data, $period, $objPHPExcel) {
-
-                        $row = 1;
-
-                        for ($i = 0; $i < count($data); $i++) {
-
-                            $type = '';
-                            $name = '';
-                            $ac = '';
-                            $mortgage = '';
-                            $deposit = '';
-                            $relief = '';
-
-                            if ($data[$i]->type_id == 1) {
-                                $type = 'Primary Employee';
-                            } else {
-                                $type = 'Secondary Employee';
-                            }
-
-                            if ($data[$i]->middle_name != '' && $data[$i]->middle_name != null) {
-                                $name = $data[$i]->first_name . ' ' . $data[$i]->middle_name . ' ' . $data[$i]->last_name;
-                            } else {
-                                $name = $data[$i]->first_name . ' ' . $data[$i]->last_name;
-                            }
-
-                            if ($data[$i]->type_id == 1) {
-                                $ac = 0;
-                            } else {
-                                $ac = '';
-                            }
-
-                            if ($data[$i]->type_id == 1) {
-                                $mortgage = 0;
-                            } else {
-                                $mortgage = '';
-                            }
-
-                            if ($data[$i]->type_id == 1) {
-                                $deposit = 0;
-                            } else {
-                                $deposit = '';
-                            }
-
-                            if ($data[$i]->type_id == 1) {
-                                $relief = 1280.00;
-                            } else {
-                                $relief = '';
-                            }
-
-                            $sheet->row($row, array(
-                                $data[$i]->pin, $name, 'Resident', $type, Payroll::processedsalaries($data[$i]->personal_file_number, $period),
-                                Payroll::processedhouseallowances($data[$i]->id, $period), Payroll::processedtransportallowances($data[$i]->id, $period),
-                                0, Payroll::processedovertimes($data[$i]->id, $period), 0, 0, Payroll::processedotherallowances($data[$i]->id, $period), '',
-                                0, 0, '', 0, 'Benefit not given', '', '', '', '', '', '', $ac, '', $mortgage, $deposit, '', '', '', $relief, Payroll::processedreliefs($data[$i]->id, $period),
-                                '', 0
-                            ));
-                            $row++;
-                        }
-                    });
-
-                })->download('csv');
+                return Excel::download(new PayeReport($total_enabled,$total_disabled,$payes_enabled,$payes_disabled,$organization,$period,$type,$month,$currencies),'paye_report.csv');
 
             } else {
 
@@ -14757,7 +14716,7 @@ class ReportsController extends Controller
         return view('pdf.p9');
     }
 
-    public function p9form1()
+    public function p9form1(Request $request)
     {
         $organization = Organization::find(Auth::user()->organization_id);
 
@@ -14771,261 +14730,13 @@ class ReportsController extends Controller
         } else {
             $ename = $employee->first_name . '_' . $employee->last_name;
         }
-//        dd($ename . '_P9Form_' . $year);
-
-        return Excel::download(new P9FormExports($year, $employee, $organization), $ename . '_P9Form_' . $year . ".xls");
-//        return Excel::download(function ($excel) use ($employee, $organization, $year) {
-//            require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/NamedRange.php");
-//            require_once(base_path() . "/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php");
-//
-//
-//            $objPHPExcel = new PHPExcel();
-//            // Set the active Excel worksheet to sheet 0
-//            $objPHPExcel->setActiveSheetIndex(0);
-//            dd($objPHPExcel);
-//            $excel->sheet('P9 Form ' . $year, function ($sheet) use ($employee, $organization, $year, $objPHPExcel) {
-//
-//                $name = '';
-//
-//                if ($employee->middle_name != null || $employee->middle_name != '') {
-//                    $name = $employee->first_name . ' ' . $employee->middle_name;
-//                } else {
-//                    $name = $employee->first_name;
-//                }
-//
-//                $sheet->row(1, array(
-//                    'Employer`s Name', $organization->name
-//                ));
-//
-//                $sheet->cell('A1', function ($cell) {
-//
-//                    // manipulate the cell
-//                    $cell->setFontWeight('bold');
-//
-//                });
-//
-//                $sheet->row(2, array(
-//                    'Employee`s Main Name', $employee->last_name
-//                ));
-//
-//                $sheet->cell('A2', function ($cell) {
-//
-//                    // manipulate the cell
-//                    $cell->setFontWeight('bold');
-//
-//                });
-//
-//
-//                $sheet->row(3, array(
-//                    'Employee`s Other Names', $name
-//                ));
-//
-//                $sheet->cell('A3', function ($cell) {
-//
-//                    // manipulate the cell
-//                    $cell->setFontWeight('bold');
-//
-//                });
-//
-//                $sheet->setCellValue('N1', 'Employer`s PIN');
-//                $sheet->setCellValue('O1', $organization->pin);
-//                $sheet->setCellValue('N3', 'Employee`s PIN');
-//                $sheet->setCellValue('O3', $employee->pin);
-//
-//                /*$sheet->row(4, array(
-//                'Employer`s PIN', $organization->pin
-//                ));
-//  */
-//                $sheet->cell('N1', function ($cell) {
-//
-//                    // manipulate the cell
-//                    $cell->setFontWeight('bold');
-//
-//                });
-//
-//                /*$sheet->row(5, array(
-//                'Employee`s PIN', $employee->pin
-//                ));*/
-//
-//                $sheet->cell('N3', function ($cell) {
-//
-//                    // manipulate the cell
-//                    $cell->setFontWeight('bold');
-//
-//                });
-//
-//                $trel = 0.00;
-//
-//                if ($year < 2017) {
-//                    $trel = 1162.00;
-//                } else if ($year >= 2017 && $year < 2018) {
-//                    $trel = 1280.00;
-//                } else {
-//                    $trel = 1408.00;
-//                }
-//
-//
-//                $sheet->mergeCells('F6:H6');
-//                $sheet->row(6, array(
-//                    'MONTH', 'Basic Salary Kshs.', 'Benefits Non Cash Kshs.', 'Value of Quarters Kshs.', 'Total Gross Pay Kshs.', 'Defined Contribution Retirement Scheme Kshs.', '', '', 'Owner-Occupied Interest Kshs.', 'Retirement Contribution & Owner Occupied Interest', 'Chargeable Pay Kshs.', 'Tax Charged Kshs.', 'Personal Relief Kshs. ' . $trel, 'Insurance Relief Kshs.', 'PAYE Tax (J-K) Kshs.'
-//                ));
-//
-//                $sheet->row(6, function ($r) {
-//
-//                    // call cell manipulation methods
-//                    $r->setFontWeight('bold');
-//                    $r->setAlignment('center');
-//                });
-//
-//                $sheet->row(7, array(
-//                    '', 'A', 'B', 'C', 'D', 'E', '', '', 'F Amount of Interest', 'G The Lowest of E added to F', 'H', 'J', 'K', '', 'L'
-//                ));
-//
-//                $sheet->mergeCells('F7:H7');
-//
-//                $sheet->mergeCells('A7:A8');
-//                $sheet->mergeCells('B7:B8');
-//                $sheet->mergeCells('C7:C8');
-//                $sheet->mergeCells('D7:D8');
-//                $sheet->mergeCells('E7:E8');
-//                $sheet->mergeCells('I7:I8');
-//                $sheet->mergeCells('J7:J8');
-//
-//                $sheet->row(7, function ($r) {
-//
-//                    // call cell manipulation methods
-//                    $r->setFontWeight('bold');
-//                    $r->setAlignment('center');
-//                });
-//
-//                $sheet->row(8, array(
-//                    '', '', '', '', '', 'E1 30% of A', 'E2 Actual', 'E3 Fixed', '', '', '', '', 'Total Kshs. ' . $trel, ''
-//                ));
-//
-//                $sheet->mergeCells('M8:N8');
-//
-//                $sheet->row(8, function ($r) {
-//
-//                    // call cell manipulation methods
-//                    $r->setFontWeight('bold');
-//                    $r->setAlignment('center');
-//                });
-//
-//                $totalsalo = 0.00;
-//                $totalgross = 0.00;
-//                $totale = 0.00;
-//                $totalrelief = 0.00;
-//                $totalttax = 0.00;
-//                $totaltax = 0.00;
-//
-//                for ($i = 1; $i <= 12; $i++) {
-//                    $monthNum = $i;
-//                    $dateObj = DateTime::createFromFormat('!m', $monthNum);
-//                    $monthName = $dateObj->format('F'); // March
-//                    $sheet->mergeCells('M' . ($i + 8) . ':N' . ($i + 8));
-//
-//                    $salo = Payroll::salo($employee, $i, $year);
-//                    $gross = Payroll::pgross($employee->personal_file_number, $i, $year);
-//                    $e = (30 / 100) * Payroll::salo($employee, $i, $year);
-//                    $relief = Payroll::prelief($employee->id, $employee->personal_file_number, $i, $year);
-//                    $ttax = Payroll::ptax($employee->personal_file_number, $i, $year) + Payroll::prelief($employee->id, $employee->personal_file_number, $i, $year);
-//                    $tax = Payroll::ptax($employee->personal_file_number, $i, $year);
-//
-//                    $sheet->row(($i + 8), array(
-//                        $monthName, $salo, 0.00, 0.00, $gross, $e, 0.00, 20000.00, 0.00, 0.00, $gross, $ttax, $relief, '', $tax
-//                    ));
-//
-//                    $totalsalo = $salo + $totalsalo;
-//                    $totalgross = $gross + $totalgross;
-//                    $totale = $e + $totale;
-//                    $totalrelief = $relief + $totalrelief;
-//                    $totalttax = $ttax + $totalttax;
-//                    $totaltax = $tax + $totaltax;
-//
-//                    $sheet->cell('A' . ($i + 8), function ($cell) {
-//
-//                        // manipulate the cell
-//                        $cell->setFontWeight('bold');
-//
-//                    });
-//
-//                    $sheet->cell('A' . ($i + 8), function ($cell) {
-//
-//                        // manipulate the cell
-//                        $cell->setFontWeight('bold');
-//
-//                    });
-//
-//                    $sheet->cell('N' . ($i + 8), function ($cell) {
-//
-//                        $cell->setAlignment('right');
-//
-//                    });
-//
-//                    $sheet->cell('M' . ($i + 8), function ($cell) {
-//
-//                        $cell->setAlignment('right');
-//
-//                    });
-//
-//                }
-//
-//                $sheet->mergeCells('M21:N21');
-//
-//                $sheet->row(21, array(
-//                    'Totals', $totalsalo, 0.00, 0.00, $totalgross, $totale, 0.00, 20000.00 * 12, 0.00, 0.00, $totalgross, $totalttax, $totalrelief, '', $totaltax
-//                ));
-//
-//                $sheet->cell('A21', function ($cell) {
-//
-//                    // manipulate the cell
-//                    $cell->setFontWeight('bold');
-//
-//                });
-//
-//                $sheet->cell('N21', function ($cell) {
-//
-//                    $cell->setAlignment('right');
-//
-//                });
-//
-//                $sheet->cell('M21', function ($cell) {
-//
-//                    $cell->setAlignment('right');
-//
-//                });
-//
-//                $sheet->mergeCells('A22:O22');
-//                $sheet->mergeCells('A23:O23');
-//                $sheet->mergeCells('A24:O24');
-//
-//                $sheet->row(22, function ($r) {
-//
-//                    // call cell manipulation methods
-//                    $r->setFontWeight('bold');
-//                    $r->setAlignment('center');
-//                });
-//
-//                $sheet->row(22, array(
-//                    'TOTAL TAX (COLL.) Kshs. ' . $totaltax
-//                ));
-//
-//                $sheet->row(23, array(
-//                    'To be completed by Employer at end of year'
-//                ));
-//
-//                $sheet->row(24, array(
-//                    'TOTAL CHARGEABLE PAY (COL. H) Kshs. ' . $totalgross
-//                ));
-//
-//                $sheet->row(24, function ($r) {
-//
-//                    // call cell manipulation methods
-//                    $r->setFontWeight('bold');
-//                });
-//            });
-//
-//        },$ename . '_P9Form_' . $year.".xls");
+        if ($request->type="Excel")
+        {
+            return Excel::download(new P9FormExports($year, $employee, $organization), $ename . '_P9Form_' . $year . ".xls");
+        }
+        else{
+            return "True";
+        }
     }
 
 }

@@ -651,7 +651,8 @@ Route::get('advanceReports', function () {
  * statutory reports
  */
 Route::get('statutoryReports', function () {
-    return view('employees.statutoryreports');
+    $employees = Employee::where('organization_id', Auth::user()->organization_id)->get();
+    return view('employees.statutoryreports',compact('employees'));
 });
 
 Route::resource('accounts', AccountsController::class);

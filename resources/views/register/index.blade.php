@@ -158,7 +158,7 @@
                                         </div>
                                         <strong>Instructions to pay</strong>
                                         <ol>
-                                            <li>Go To Lipsa Na Mpesa</li>
+                                            <li>Go To Lipa Na Mpesa</li>
                                             <li>Select Paybill</li>
                                             <li>Enter Paybill No 600999</li>
                                             <li>Enter Account "Your Organization Name</li>
