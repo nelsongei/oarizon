@@ -76,7 +76,6 @@ function asMoney($value)
 
 
     </style>
-
 </head>
 <body>
 

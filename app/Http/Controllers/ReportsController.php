@@ -14730,12 +14730,13 @@ class ReportsController extends Controller
         } else {
             $ename = $employee->first_name . '_' . $employee->last_name;
         }
-        if ($request->type="Excel")
+        if ($request->type =="Excel")
         {
             return Excel::download(new P9FormExports($year, $employee, $organization), $ename . '_P9Form_' . $year . ".xls");
         }
         else{
-            return "True";
+            $pdf = PDF::loadview('pdf.p9Pdf',compact('organization','employee','year'));
+            return $pdf->stream($employee->first_name.'_'.$employee->last_name.'_'.$year);
         }
     }
 
