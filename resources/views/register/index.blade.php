@@ -160,7 +160,7 @@
                                         <ol>
                                             <li>Go To Lipa Na Mpesa</li>
                                             <li>Select Paybill</li>
-                                            <li>Enter Paybill No 600999</li>
+                                            <li>Enter Paybill No 600999 As The Business Number</li>
                                             <li>Enter Account "Your Organization Name</li>
                                             <li>Enter Your Pin and Click Ok</li>
                                             <li id="callBack" style="display: none"><strong>Transaction Failed.

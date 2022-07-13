@@ -21,11 +21,7 @@ class CreateCitizenshipsTable extends Migration {
 			$table->foreign('organization_id')->references('id')->on('x_organizations')->onDelete('cascade')->onUpdate('cascade');
 			$table->timestamps();
 		});
-
-
 	}
-
-
 	/**
 	 * Reverse the migrations.
 	 *

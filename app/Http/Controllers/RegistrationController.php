@@ -68,6 +68,7 @@ class RegistrationController extends Controller
             $this->type($orgId);
             $this->banks($orgId);
             $this->deduction($orgId);
+            $this->citizenships($orgId);
             $this->nhifNssf($orgId);
         }
         return $data;
@@ -121,6 +122,11 @@ class RegistrationController extends Controller
             array('employee_type_name' => 'Full Time','organization_id' => $orgId),
             array('employee_type_name' => 'Contract','organization_id' => $orgId),
             array('employee_type_name' => 'Internship','organization_id' => $orgId),
+        ));
+    }
+    public function  citizenships($orgId){
+        DB::table('citizenships')->insert(array(
+            array('name'=>'Kenyan','organization_id'=>$orgId)
         ));
     }
     public function banks($orgId)

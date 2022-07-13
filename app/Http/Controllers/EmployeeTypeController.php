@@ -9,113 +9,113 @@ use Illuminate\Support\Facades\View;
 
 class EmployeeTypeController extends Controller {
 
-	/**
-	 * Display a listing of branches
-	 *
-	 * @return \Illuminate\Contracts\View\View
+    /**
+     * Display a listing of branches
+     *
+     * @return \Illuminate\Contracts\View\View
      */
-	public function index()
-	{
-		$etypes = EType::all();
+    public function index()
+    {
+        $etypes = EType::all();
 
-		return View::make('employee_type.index', compact('etypes'));
-	}
+        return View::make('employee_type.index', compact('etypes'));
+    }
 
-	/**
-	 * Show the form for creating a new branch
-	 *
-	 * @return \Illuminate\Contracts\View\View
+    /**
+     * Show the form for creating a new branch
+     *
+     * @return \Illuminate\Contracts\View\View
      */
-	public function create()
-	{
-		return View::make('employee_type.create');
-	}
+    public function create()
+    {
+        return View::make('employee_type.create');
+    }
 
-	/**
-	 * Store a newly created branch in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		$validator = Validator::make($data = request()->all(), EType::$rules,EType::$messages);
+    /**
+     * Store a newly created branch in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        $validator = Validator::make($data = request()->all(), EType::$rules,EType::$messages);
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
 
-		$etype = new EType;
+        $etype = new EType;
 
-		$etype->employee_type_name = request('name');
+        $etype->employee_type_name = request('name');
 
         $etype->organization_id = '1';
 
-		$etype->save();
+        $etype->save();
 
-		return Redirect::route('employee_type.index');
-	}
+        return Redirect::route('employee_type.index');
+    }
 
-	/**
-	 * Display the specified branch.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$etype = EType::findOrFail($id);
-
-		return View::make('employee_type.show', compact('etype'));
-	}
-
-	/**
-	 * Show the form for editing the specified branch.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Contracts\View\View
+    /**
+     * Display the specified branch.
+     *
+     * @param  int  $id
+     * @return Response
      */
-	public function edit($id)
-	{
-		$etype = EType::find($id);
+    public function show($id)
+    {
+        $etype = EType::findOrFail($id);
 
-		return View::make('employee_type.edit', compact('etype'));
-	}
+        return View::make('employee_type.show', compact('etype'));
+    }
 
-	/**
-	 * Update the specified branch in storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\RedirectResponse
+    /**
+     * Show the form for editing the specified branch.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\View
      */
-	public function update($id)
-	{
-		$etype = EType::findOrFail($id);
+    public function edit($id)
+    {
+        $etype = EType::find($id);
 
-		$validator = Validator::make($data = request()->all(), EType::$rules,EType::$messages);
+        return View::make('employee_type.edit', compact('etype'));
+    }
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		$etype->employee_type_name = request('name');
-		$etype->update();
-
-		return Redirect::route('employee_type.index');
-	}
-
-	/**
-	 * Remove the specified branch from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\RedirectResponse
+    /**
+     * Update the specified branch in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-	public function destroy($id)
-	{
-		EType::destroy($id);
+    public function update($id)
+    {
+        $etype = EType::findOrFail($id);
 
-		return Redirect::route('employee_type.index');
-	}
+        $validator = Validator::make($data = request()->all(), EType::$rules,EType::$messages);
+
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $etype->employee_type_name = request('name');
+        $etype->update();
+
+        return Redirect::route('employee_type.index');
+    }
+
+    /**
+     * Remove the specified branch from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        EType::destroy($id);
+
+        return Redirect::route('employee_type.index');
+    }
 
 }

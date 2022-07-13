@@ -226,7 +226,6 @@ class BankAccountController extends Controller
           set bank_statement_id=$lastInsertID, transaction_date=date('Y-m-d', strtotime(@col2)), description=@col6, ref_no=@col4,
           transaction_amnt=@col4, check_no=@col5, created_at=NOW(), updated_at=NOW()",
           addslashes($file_path));
-
         return DB::connection()->getpdo()->exec($query);*/
         Excel::load(public_path() . '/bankStatements/' . $file, function ($reader) use ($lastInsertID) {
             $results = $reader->get();

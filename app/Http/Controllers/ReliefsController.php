@@ -9,113 +9,113 @@ use Illuminate\Support\Facades\View;
 
 class ReliefsController extends Controller {
 
-	/**
-	 * Display a listing of branches
-	 *
-	 * @return \Illuminate\Contracts\View\View
+    /**
+     * Display a listing of branches
+     *
+     * @return \Illuminate\Contracts\View\View
      */
-	public function index()
-	{
-		$reliefs = Relief::all();
+    public function index()
+    {
+        $reliefs = Relief::all();
 
-		return View::make('reliefs.index', compact('reliefs'));
-	}
+        return View::make('reliefs.index', compact('reliefs'));
+    }
 
-	/**
-	 * Show the form for creating a new branch
-	 *
-	 * @return \Illuminate\Contracts\View\View
+    /**
+     * Show the form for creating a new branch
+     *
+     * @return \Illuminate\Contracts\View\View
      */
-	public function create()
-	{
-		return View::make('reliefs.create');
-	}
+    public function create()
+    {
+        return View::make('reliefs.create');
+    }
 
-	/**
-	 * Store a newly created branch in storage.
-	 *
-	 * @return \Illuminate\Http\RedirectResponse
+    /**
+     * Store a newly created branch in storage.
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-	public function store()
-	{
-		$validator = Validator::make($data = request()->all(), Relief::$rules,Relief::$messages);
+    public function store()
+    {
+        $validator = Validator::make($data = request()->all(), Relief::$rules,Relief::$messages);
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
 
-		$relief = new Relief;
+        $relief = new Relief;
 
-		$relief->relief_name = request('name');
+        $relief->relief_name = request('name');
 
         $relief->organization_id = '1';
 
-		$relief->save();
+        $relief->save();
 
-		return Redirect::route('reliefs.index');
-	}
+        return Redirect::route('reliefs.index');
+    }
 
-	/**
-	 * Display the specified branch.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Contracts\View\View
+    /**
+     * Display the specified branch.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\View
      */
-	public function show($id)
-	{
-		$relief = Relief::findOrFail($id);
+    public function show($id)
+    {
+        $relief = Relief::findOrFail($id);
 
-		return View::make('reliefs.show', compact('relief'));
-	}
+        return View::make('reliefs.show', compact('relief'));
+    }
 
-	/**
-	 * Show the form for editing the specified branch.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Contracts\View\View
+    /**
+     * Show the form for editing the specified branch.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\View
      */
-	public function edit($id)
-	{
-		$relief = Relief::find($id);
+    public function edit($id)
+    {
+        $relief = Relief::find($id);
 
-		return View::make('reliefs.edit', compact('relief'));
-	}
+        return View::make('reliefs.edit', compact('relief'));
+    }
 
-	/**
-	 * Update the specified branch in storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\RedirectResponse
+    /**
+     * Update the specified branch in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-	public function update($id)
-	{
-		$relief = Relief::findOrFail($id);
+    public function update($id)
+    {
+        $relief = Relief::findOrFail($id);
 
-		$validator = Validator::make($data = request()->all(), Relief::$rules,Relief::$messages);
+        $validator = Validator::make($data = request()->all(), Relief::$rules,Relief::$messages);
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
 
-		$relief->relief_name = Input::get('name');
-		$relief->update();
+        $relief->relief_name = Input::get('name');
+        $relief->update();
 
-		return Redirect::route('reliefs.index');
-	}
+        return Redirect::route('reliefs.index');
+    }
 
-	/**
-	 * Remove the specified branch from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\RedirectResponse
+    /**
+     * Remove the specified branch from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-	public function destroy($id)
-	{
-		Relief::destroy($id);
+    public function destroy($id)
+    {
+        Relief::destroy($id);
 
-		return Redirect::route('reliefs.index');
-	}
+        return Redirect::route('reliefs.index');
+    }
 
 }
