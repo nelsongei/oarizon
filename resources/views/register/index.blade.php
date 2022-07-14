@@ -158,11 +158,11 @@
                                         </div>
                                         <strong>Instructions to pay</strong>
                                         <ol>
-                                            <li>Go To Lipa Na Mpesa</li>
-                                            <li>Select Paybill</li>
-                                            <li>Enter Paybill No 600999 As The Business Number</li>
-                                            <li>Enter Account "Your Organization Name</li>
-                                            <li>Enter Your Pin and Click Ok</li>
+                                            <li>Check on a payment popup on your phone</li>
+                                            <li>Input your MPESA PIN and click OK.</li>
+                                            <li>An MPESA confirmation SMS will be sent to you.</li>
+                                            <li>Wait for upto 2-minutes as we try to validate your transaction.</li>
+                                            <li>Do NOT close this window.</li>
                                             <li id="callBack" style="display: none"><strong>Transaction Failed.
                                                     Click The
                                                     Pay Now Button Again.</strong></li>
@@ -206,19 +206,11 @@
                 type: "POST",
                 data: requestOrganization,
                 success: function (data) {
-                    window.location = '/oarizon/public/login';
+                    setTimeout(1000);
                     toastr.success('Success');
+                    window.location = '/oarizon/public/login';
                 }
             })
-            // axios.post("Access-Control-Allow-Origin: http://example.com/oarizon/public/createOrganizations",requestOrganization)
-            //     .then((response)=>{
-            //         console.log(response);
-            //         toastr.success('Success, Proceed to login');
-
-            //     })
-            //     .catch((error)=>{
-            //         console.log(error);
-            //     })
         })
     </script>
     <script>
@@ -228,11 +220,13 @@
             {
                 $('#page1').hide();
                 $('#page2').fadeIn();
+
             }
             if(id ===2)
             {
                 $("#page1").fadeIn();
                 $("#page2").hide();
+                document.getElementById("contactBtn").disabled = false;
             }
         }
     </script>
