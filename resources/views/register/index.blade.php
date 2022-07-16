@@ -7,6 +7,7 @@
             max-width: 600px;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <section class="login-block">
         <div class="container-fluid">
             <div class="row">
@@ -22,7 +23,8 @@
                                         <h3 class="text-center txt-primary">Register Your Organization</h3>
                                         <center>
                                             <button style="border-radius: 40px" class="btn btn-info btn-md rounded-pill"
-                                                    onclick="event.preventDefault(); tabControl(1)"> Organization Details
+                                                    onclick="event.preventDefault(); tabControl(1)"> Organization
+                                                Details
                                             </button>&nbsp;
                                             <button style="border-radius: 40px" class="btn btn-info btn-md rounded-pill"
                                                     id="contactBtn" disabled=""
@@ -39,23 +41,23 @@
                                         <label class="float-label">Firstname</label>
                                     </div>
                                     <div class="form-group form-primary col-md-6">
-                                        <input type="text" name="surname" id="surname" class="form-control" >
+                                        <input type="text" name="surname" id="surname" class="form-control">
                                         <span class="form-bar"></span>
                                         <label class="float-label">Surname</label>
                                     </div>
                                     <div class="form-group form-primary col-md-6">
                                         <input type="text" name="company_name" id="company_name" class="form-control"
-                                               >
+                                        >
                                         <span class="form-bar"></span>
                                         <label class="float-label">Company Name</label>
                                     </div>
                                     <div class="form-group form-primary col-md-6">
-                                        <input type="email" name="email" id="email" class="form-control" >
+                                        <input type="email" name="email" id="email" class="form-control">
                                         <span class="form-bar"></span>
                                         <label class="float-label">Company Email</label>
                                     </div>
                                     <div class="form-group form-primary col-md-6">
-                                        <input type="text" name="phone" id="phone" class="form-control" >
+                                        <input type="text" name="phone" id="phone" class="form-control">
                                         <span class="form-bar"></span>
                                         <label class="float-label">Company Phone Number</label>
                                     </div>
@@ -82,12 +84,12 @@
                                         <label class="float-label">Confirm Password</label>
                                     </div>
                                     <div class="form-group form-primary col-md-6">
-                                        <input type="text" name="website" id="website" class="form-control" >
+                                        <input type="text" name="website" id="website" class="form-control">
                                         <span class="form-bar"></span>
                                         <label class="float-label">Company Website</label>
                                     </div>
                                     <div class="form-group form-primary col-md-6">
-                                        <input type="text" name="address" id="address" class="form-control" >
+                                        <input type="text" name="address" id="address" class="form-control">
                                         <span class="form-bar"></span>
                                         <label class="float-label">Company Address</label>
                                     </div>
@@ -124,7 +126,8 @@
                                     </div>
                                     <div class="form-group form-primary col-md-6">
                                         <label for="user_count" class="">About The Module</label>
-                                        <input type="text" name="user_count" id="user_count" class="form-control" readonly>
+                                        <input type="text" name="user_count" id="user_count" class="form-control"
+                                               readonly>
                                     </div>
                                     <div class="form-group form-primary col-md-6">
                                         <label for="period" class="">Period</label>
@@ -147,36 +150,60 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="payNow">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <div class="alert alert-info icons-alert" role="alert">
-                                            <div class="iq-alert-text"><strong>Payment Alert! </strong>Follow the
-                                                instructions below
-                                            </div>
-                                        </div>
-                                        <strong>Instructions to pay</strong>
-                                        <ol>
-                                            <li>Check on a payment popup on your phone</li>
-                                            <li>Input your MPESA PIN and click OK.</li>
-                                            <li>An MPESA confirmation SMS will be sent to you.</li>
-                                            <li>Wait for upto 2-minutes as we try to validate your transaction.</li>
-                                            <li>Do NOT close this window.</li>
-                                            <li id="callBack" style="display: none"><strong>Transaction Failed.
-                                                    Click The
-                                                    Pay Now Button Again.</strong></li>
-                                            <li id="success" style="display: none;color: #14a800"><strong>Transaction
-                                                    SuccessFull.
-                                                    You May
-                                                    Close This form.</strong></li>
-                                        </ol>
-                                    </div>
-                                    <div class="modal-footer justify-content-center"></div>
-                                </div>
-                            </div>
-                        </div>
                     </form>
+                </div>
+            </div>
+            <div class="modal fade" id="payNow">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" id="mpesa">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="alert alert-info icons-alert" role="alert">
+                                    <div class="iq-alert-text"><strong>Payment Alert! </strong>Follow the
+                                        instructions below
+                                    </div>
+                                </div>
+                                <strong>Instructions to pay</strong>
+                                <ol>
+                                    <li>Check on a payment popup on your phone</li>
+                                    <li>Input your MPESA PIN and click OK.</li>
+                                    <li>An MPESA confirmation SMS will be sent to you.</li>
+                                    <li>Wait for upto 2-minutes as we try to validate your transaction.</li>
+                                    <li>Do NOT close this window.</li>
+                                    <li id="callBack" style="display: none"><strong>Transaction Failed.
+                                            Click The
+                                            Pay Now Button Again.</strong></li>
+                                    <li id="success" style="display: none;color: #14a800"><strong>Transaction
+                                            SuccessFull.
+                                            You May
+                                            Close This form.</strong></li>
+                                </ol>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-sm btn-warning not-now"
+                                        id="closeModal">
+                                    Not Now
+                                </button>
+                                <button style="display: none" type="button"
+                                        class="btn btn-sm btn-warning click-me"
+                                        id="closeModals">
+                                    Close Me
+                                </button>
+                                <button type="submit" class="btn btn-sm btn-primary pay-now"
+                                        id="pay-now">
+                                    Pay Now
+                                </button>
+                                <button style="display: none;" id="processingPaymentButton" type="button"
+                                        class="btn btn-outline-info">
+                                    <div style="max-height: 20px; max-width: 20px"
+                                         class="spinner-border  text-info"
+                                         id="">
+                                    </div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,8 +212,80 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        document.getElementById('create_organization').addEventListener('submit', (event) => {
+        document.getElementById('mpesa').addEventListener('submit', (event) => {
             event.preventDefault();
+            const requestBody = {
+                phone: document.getElementById('phone').value,
+                amount: document.getElementById('price').value,
+            }
+            axios.post("http://127.0.0.1/payroll/public/stkPush", requestBody)
+                .then((response) => {
+                    if (response.data.ResponseDescription) {
+                        let CheckoutRequestID = response.data.CheckoutRequestID;
+                        toastr.success(response.data.ResponseDescription, {timeout: 5000})
+                        $('.pay-now').hide();
+                        $('#processingPaymentButton').show();
+                        intervalId = setInterval(function () {
+                            callBackStatus(CheckoutRequestID);
+                            //createOrg();
+                        }, 5000);
+                    } else {
+                        console.log(response.data.errorMessage)
+                        toastr.error(response.data.errorMessage, {timeout: 5000});
+                    }
+                })
+        })
+        function callBackStatus(CheckoutRequestID) {
+            console.log(CheckoutRequestID)
+            $.ajax({
+                url: "http://127.0.0.1/licensemanager/public/api/v1/data/" + CheckoutRequestID,
+                type: "GET",
+                success: function (data) {
+                    console.log(data.transaction.length);
+                    if (data.transaction.length > 0) {
+                        console.log(data.transaction[0].CheckoutRequestID)
+                        if (data.transaction[0].CheckoutRequestID === CheckoutRequestID) {
+                            toastr.success(data.transaction[0].ResultDesc);
+                            clearInterval(intervalId);
+                            $('#success').show();
+                            $('#processingPaymentButton').hide();
+                            $('.not-now').hide();
+                            $('.click-me').show();
+                            updateOrganization(CheckoutRequestID);
+                        }
+                    } else {
+                        $('#callBack').show()
+                    }
+                }
+            })
+        }
+        function updateOrganization(CheckoutRequestID) {
+            console.log(CheckoutRequestID)
+            var organizationId = document.getElementById('organizationId').value;
+            var moduleId = document.getElementById('module_id').value;
+            var endDate = document.getElementById('end_dates').value;
+            axios.post("http://127.0.0.1/licensemanager/public/api/v1/update/organization/" + CheckoutRequestID + "/" + organizationId + "/" + moduleId + "/" + endDate, {})
+                .then((response) => {
+                    if (response) {
+                        axios.get("http://127.0.0.1/payroll/public/license/date/" + organizationId + "/" + moduleId + "/" + endDate, {})
+                            .then((response) => {
+                                if (response) {
+                                    window.location.reload()
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+
+    </script>
+    <script>
+        function createOrg() {
             const requestOrganization = {
                 firstname: document.getElementById('firstname').value,
                 surname: document.getElementById('surname').value,
@@ -202,28 +301,35 @@
                 _token: "{{csrf_token()}}"
             };
             $.ajax({
-                url: "http://127.0.0.1/oarizon/public/createOrganizations",
+                url: "http://127.0.0.1/payroll/public/createOrganizations",
                 type: "POST",
                 data: requestOrganization,
                 success: function (data) {
-                    setTimeout(1000);
+                    //setTimeout(1000);
                     toastr.success('Success');
-                    window.location = '/oarizon/public/login';
+                    window.location = '/payroll/public/login';
                 }
             })
+        }
+    </script>
+    <script>
+        document.getElementById('closeModal').addEventListener('click', (event) => {
+            event.preventDefault();
+            $('#payNow').modal('hide');
+        })
+        document.getElementById('closeModals').addEventListener('click', (event) => {
+            event.preventDefault();
+            $('#payNow').modal('hide');
         })
     </script>
     <script>
-        function nexts(id)
-        {
-            if(id===1)
-            {
+        function nexts(id) {
+            if (id === 1) {
                 $('#page1').hide();
                 $('#page2').fadeIn();
 
             }
-            if(id ===2)
-            {
+            if (id === 2) {
                 $("#page1").fadeIn();
                 $("#page2").hide();
                 document.getElementById("contactBtn").disabled = false;
@@ -234,7 +340,7 @@
         function selectModule() {
             var path = document.getElementById('module_ids').value;
             $.ajax({
-                url: "http://127.0.0.1/oarizon/public/license/data/" + path,
+                url: "http://127.0.0.1/payroll/public/license/data/" + path,
                 type: 'GET',
                 data: '_token=<?php echo csrf_token()?>',
                 success: function (response) {
@@ -242,7 +348,7 @@
                         document.getElementById('price').value = response[0].price;
                         document.getElementById('desc').value = response[0].description;
                         document.getElementById('user_count').value = response[0].user_count;
-                        document.getElementById('period').value = (response[0].interval_count)+(response[0].trial_days)+' '+response[0].interval;
+                        document.getElementById('period').value = (response[0].interval_count) + (response[0].trial_days) + ' ' + response[0].interval;
                     }
                 }
             })

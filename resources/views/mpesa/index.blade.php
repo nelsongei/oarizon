@@ -274,7 +274,7 @@
                                                         Close This form.</strong></li>
                                             </ol>
                                             <input type="hidden" id="organizationId" name="organizationId"
-                                                   value="{{\App\models\Organization::first()->id}}">
+                                                   value="{{Auth::user()->organization_id}}">
                                             <div class="form-group">
                                                 <label for="phone" class="col-form-label">Phone Number:</label>
                                                 <input type="text" class="form-control" id="phone" name="phone"
