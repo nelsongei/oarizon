@@ -221,13 +221,13 @@
             axios.post("http://127.0.0.1/payroll/public/stkPush", requestBody)
                 .then((response) => {
                     if (response.data.ResponseDescription) {
-                        let CheckoutRequestID = response.data.CheckoutRequestID;
+                        let CheckoutRequestID = 'ws_CO_18072022083414565719405904'
+                        //let CheckoutRequestID = response.data.CheckoutRequestID;
                         toastr.success(response.data.ResponseDescription, {timeout: 5000})
                         $('.pay-now').hide();
                         $('#processingPaymentButton').show();
                         intervalId = setInterval(function () {
                             callBackStatus(CheckoutRequestID);
-                            //createOrg();
                         }, 5000);
                     } else {
                         console.log(response.data.errorMessage)
@@ -251,7 +251,8 @@
                             $('#processingPaymentButton').hide();
                             $('.not-now').hide();
                             $('.click-me').show();
-                            updateOrganization(CheckoutRequestID);
+                            //updateOrganization(CheckoutRequestID);
+                            createOrg();
                         }
                     } else {
                         $('#callBack').show()
@@ -259,11 +260,21 @@
                 }
             })
         }
+        function getRecentOrganization()
+        {
+            $.ajax({
+                url: "https://127.0.0.1/licensemanager/public/api/v1/latest",
+                type: "GET",
+                success: function (data) {
+                    console.log(data)
+                }
+            })
+        }
         function updateOrganization(CheckoutRequestID) {
             console.log(CheckoutRequestID)
             var organizationId = document.getElementById('organizationId').value;
             var moduleId = document.getElementById('module_id').value;
-            var endDate = document.getElementById('end_dates').value;
+            var endDate = document.getElementById('period').value;
             axios.post("http://127.0.0.1/licensemanager/public/api/v1/update/organization/" + CheckoutRequestID + "/" + organizationId + "/" + moduleId + "/" + endDate, {})
                 .then((response) => {
                     if (response) {
@@ -305,8 +316,9 @@
                 type: "POST",
                 data: requestOrganization,
                 success: function (data) {
-                    //setTimeout(1000);
-                    toastr.success('Success');
+                    getRecentOrganization()
+                    setTimeout(5000);
+                    toastr.success('Successfully Created your Account');
                     window.location = '/payroll/public/login';
                 }
             })
