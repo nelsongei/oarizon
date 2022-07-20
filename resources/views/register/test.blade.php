@@ -97,12 +97,11 @@
                                     <input type="hidden" id="trxn_id" name="trxn_id" value="">
                                     <div class="form-group col-md-12">
                                         <button
-                                            type="button"
+                                            type="submit"
                                             style="border-radius: 40px"
                                             class="btn btn-success btn-md float-right waves-effect text-center m-b-20"
-                                            onclick="event.preventDefault(); nexts(1)"
                                         >
-                                            Next
+                                            Submit
                                         </button>
                                     </div>
                                 </div>
@@ -212,57 +211,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        document.getElementById('mpesa').addEventListener('submit', (event) => {
+        document.getElementById('create_organization').addEventListener('submit', (event) => {
             event.preventDefault();
-            const requestBody = {
-                phone: document.getElementById('phone').value,
-                amount: document.getElementById('price').value,
-            }
-            axios.post("http://127.0.0.1/payroll/public/stkPush", requestBody)
-                .then((response) => {
-                    if (response.data.ResponseDescription) {
-                        //let CheckoutRequestID = 'ws_CO_18072022095316077719405904'
-                        let CheckoutRequestID = response.data.CheckoutRequestID;
-                        toastr.success(response.data.ResponseDescription, {timeout: 5000})
-                        $('.pay-now').hide();
-                        $('#processingPaymentButton').show();
-                        intervalId = setInterval(function () {
-                            callBackStatus(CheckoutRequestID);
-                        }, 5000);
-                    } else {
-                        console.log(response.data.errorMessage)
-                        toastr.error(response.data.errorMessage, {timeout: 5000});
-                    }
-                })
-        })
-
-        function callBackStatus(CheckoutRequestID) {
-            console.log(CheckoutRequestID)
-            $.ajax({
-                url: "http://127.0.0.1/licensemanager/public/api/v1/data/" + CheckoutRequestID,
-                type: "GET",
-                success: function (data) {
-                    console.log(data.transaction.length);
-                    if (data.transaction.length > 0) {
-                        console.log(data.transaction[0].CheckoutRequestID)
-                        if (data.transaction[0].CheckoutRequestID === CheckoutRequestID) {
-                            toastr.success(data.transaction[0].ResultDesc);
-                            clearInterval(intervalId);
-                            $('#success').show();
-                            $('#processingPaymentButton').hide();
-                            $('.not-now').hide();
-                            $('.click-me').show();
-                            //updateOrganization(CheckoutRequestID);
-                            createOrg(CheckoutRequestID);
-                        }
-                    } else {
-                        $('#callBack').show()
-                    }
-                }
-            })
-        }
-
-        function createOrg(CheckoutRequestID) {
             const requestOrganization = {
                 firstname: document.getElementById('firstname').value,
                 surname: document.getElementById('surname').value,
@@ -282,52 +232,12 @@
                 type: "POST",
                 data: requestOrganization,
                 success: function (data) {
-                    getRecentOrganization(CheckoutRequestID)
-                    //setTimeout(10000);
                     toastr.success('Successfully Created your Account');
-                    //window.location = '/payroll/public/login';
+                    setTimeout(3000);
+                    window.location = '/payroll/public/login';
                 }
             })
-        }
-
-        function getRecentOrganization(CheckoutRequestID) {
-            $.ajax({
-                url: "https://127.0.0.1/licensemanager/public/api/v1/latest",
-                type: "GET",
-                success: function (data) {
-                    console.log(data)
-                    console.log(data[0].id)
-                    let orgId = data[0].id;
-                    updateOrganization(orgId, CheckoutRequestID)
-                }
-            })
-        }
-
-        function updateOrganization(orgId, CheckoutRequestID) {
-            console.log(CheckoutRequestID)
-            var organizationId = orgId;
-            var moduleId = document.getElementById('module_id').value;
-            var endDate = document.getElementById('period').value;
-            axios.post("http://127.0.0.1/licensemanager/public/api/v1/update/organization/" + CheckoutRequestID + "/" + organizationId + "/" + moduleId + "/" + endDate, {})
-                .then((response) => {
-                    if (response) {
-                        axios.get("http://127.0.0.1/payroll/public/license/date/" + organizationId + "/" + moduleId + "/" + endDate, {})
-                            .then((response) => {
-                                if (response) {
-                                    //window.location.reload()
-                                    console.log(response);
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                            })
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-
+        })
     </script>
     <script>
         document.getElementById('closeModal').addEventListener('click', (event) => {
@@ -372,4 +282,3 @@
         }
     </script>
 @endsection
-
