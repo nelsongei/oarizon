@@ -177,12 +177,8 @@ function asMoney($value)
                                                         <td>{{ $employee->personal_file_number }}</td>
                                                         <td>{{ $employee->first_name.' '.$employee->last_name }}</td>
                                                         <?php
-
-
                                                         $totalsalary = $totalsalary + App\Models\Payroll::basicpay($employee->id, request('period'));
-
                                                         ?>
-
                                                         <td align="right">{{ App\Models\Payroll::basicpay($employee->id,request('period')) }}</td>
 
                                                         @foreach($earnings as $earning)

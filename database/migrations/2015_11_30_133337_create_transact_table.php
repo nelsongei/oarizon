@@ -33,6 +33,7 @@ class CreateTransactTable extends Migration {
 			$table->string('net')->default('0.00');
 			$table->string('financial_month_year');
 			$table->string('process_type');
+			$table->boolean('is_emailed')->default(false);
 			$table->timestamps();
 		});
 	}

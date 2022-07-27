@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use \App\Http\Controllers\Controller;
-use App\Models\Group;
+use App\Http\Controllers\Controller;
+use App\Models\Jobgroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -19,7 +19,7 @@ class GroupsController extends Controller {
 	 */
 	public function index()
 	{
-		$groups = Group::where('organization_id',Auth::user()->organization_id)->get();
+		$groups = Jobgroup::where('organization_id',Auth::user()->organization_id)->get();
 
 		return view('groups.index', compact('groups'));
 	}
@@ -76,7 +76,7 @@ class GroupsController extends Controller {
 	 */
 	public function edit($id)
 	{
-		$group = Group::find($id);
+		$group = Jobgroup::find($id);
 
 		return view('groups.edit', compact('group'));
 	}
@@ -89,19 +89,14 @@ class GroupsController extends Controller {
 	 */
 	public function update(Request $request,$id)
 	{
-		$group = Group::findOrFail($id);
-
-		$validator = Validator::make($data = $request->all(), Group::$rules);
-
+		$group = Jobgroup::findOrFail($id);
+		$validator = Validator::make($data = $request->all(), Jobgroup::$rules);
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
-
-		$group->name = $request->get('name');
-		$group->description = $request->get('description');
+		$group->job_group_name = $request->get('job_group_name');
 		$group->update();
-
 		return Redirect::route('groups.index');
 	}
 
@@ -113,9 +108,7 @@ class GroupsController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		Group::destroy($id);
-
+		Jobgroup::destroy($id);
 		return Redirect::route('groups.index');
 	}
-
 }

@@ -373,10 +373,10 @@
                                                             <label for="username">Gender <span
                                                                     style="color:red">*</span></label><br>
                                                             <input class="" type="radio" name="gender" id="gender"
-                                                                   value="male"<?= ($employee->gender == 'male') ? 'checked="checked"' : ''; ?>>
+                                                                   value="Male"<?= ($employee->gender == 'Male') ? 'checked="checked"' : ''; ?>>
                                                             Male
                                                             <input class="" type="radio" name="gender" id="gender"
-                                                                   value="female"<?= ($employee->gender == 'female') ? 'checked="checked"' : ''; ?>>
+                                                                   value="Female"<?= ($employee->gender == 'Female') ? 'checked="checked"' : ''; ?>>
                                                             Female
                                                         </div>
 

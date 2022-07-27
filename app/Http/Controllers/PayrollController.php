@@ -8,6 +8,7 @@ use App\Models\Dailypay;
 use App\Models\Deduction;
 use App\Models\Department;
 use App\Models\Earningsetting;
+use App\Models\Email;
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Jobgroup;
@@ -38,7 +39,6 @@ class PayrollController extends Controller
      */
     public function index()
     {
-
         $accounts = Account::where('organization_id', Auth::user()->organization_id)->get();
 
         $department = Department::whereNull('organization_id')
@@ -53,14 +53,14 @@ class PayrollController extends Controller
 //        } else {
 //            $type = Employee::where('organization_id', Auth::user()->organization_id)->/*where('job_group_id',$jgroup->id)->*/ where('personal_file_number', Auth::user()->username)->count();
 //        }
-        return View::make('payroll.index', compact('accounts','jgroups' ));
+        return View::make('payroll.index', compact('accounts', 'jgroups'));
     }
 
     public function unlockindex()
     {
         DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
 //        $transacts = DB::table('x_transact')->where('organization_id', Auth::user()->organization_id)->orderBy('id', 'Desc')->simplepaginate(10);
-        $transacts = DB::table('x_transact')->where('organization_id',Auth::user()->organization_id)->groupBy('financial_month_year','id','organization_id')->orderBy('id','Desc')->simplepaginate(10);
+        $transacts = DB::table('x_transact')->where('organization_id', Auth::user()->organization_id)->groupBy('financial_month_year', 'id', 'organization_id')->orderBy('id', 'Desc')->simplepaginate(10);
 
         return View::make('payroll.unlockindex', compact('transacts'));
     }
@@ -82,7 +82,7 @@ class PayrollController extends Controller
             return Redirect::to('unlockpayroll/index');
         }
 
-        $users = User::where('user_type', 'admin')->where('id', '!=', Auth::user()->id)->where('organization_id',Auth::user()->organization_id)->get();
+        $users = User::where('user_type', 'admin')->where('id', '!=', Auth::user()->id)->where('organization_id', Auth::user()->organization_id)->get();
         return View::make('payroll.unlockpayroll', compact('transact', 'users'));
     }
 
@@ -174,10 +174,8 @@ class PayrollController extends Controller
         }
 
         $period = request('period');
-        $start = date('Y-m-01', strtotime ($period));
+        $start = date('Y-m-01', strtotime($period));
         $end = date('Y-m-t', strtotime($period));
-//        dd($start);
-
         $employees = DB::table('x_employee')
             ->where('in_employment', '=', 'Y')
             ->where('organization_id', Auth::user()->organization_id)
@@ -211,10 +209,7 @@ class PayrollController extends Controller
                 ->where('job_group_id', '=', $jgroup->id)
                 ->whereDate('date_joined', '<=', $end)
                 ->get();
-//            dd($employees);
         }
-
-
         $type = request('type');
         $account = request('account');
         $earnings = Earningsetting::where('organization_id', Auth::user()->organization_id)->orWhereNull('organization_id')->get();
@@ -232,7 +227,7 @@ class PayrollController extends Controller
             ->orWhereNull('organization_id')->get();
 //        print_r($accounts);
 
-        Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'preview', 'previewed payroll');
+        Audit::logaudit(date('Y-m-d'), Auth::user()->name, 'preview', 'previewed payroll');
 
         return View::make('payroll.preview', compact('employees', 'period', 'account', 'nontaxables', 'earnings', 'overtimes', 'allowances', 'reliefs', 'deductions', 'type'));
     }
@@ -731,179 +726,14 @@ class PayrollController extends Controller
         //return $display;
 
         return json_encode(["paye1" => number_format($paye1, 2), "nssf1" => number_format($nssf1, 2), "nhif1" => number_format($nhif1, 2), "netv" => number_format($z, 2), "gross1" => number_format($gross, 2)]);
-
-        //$net = number_format(Payroll::netcalc($employee->id,$fperiod),2);
-
         $currency = Currency::whereNull('organization_id')->orWhere('organization_id', Auth::user()->organization_id)->first();
-
-        /*$display .="
-        <br/>
-
-<div class='row'>
-    <div class='col-lg-12'>
-  <h3>Payroll Calculator</h3>
-
-<hr>
-</div>
-</div>
-
-
-<div class='row'>
-    <div class='col-lg-5'>
-
-      <div role='tabpanel'>
-
-  <!-- Nav tabs -->
-  <ul class='nav nav-tabs' role='tablist'>
-    <li role='presentation'><a href='#grosstonet' aria-controls='grosstonet' role='tab' data-toggle='tab'>Gross to Net</a></li>
-    <li role='presentation' class='active'><a href='#nettogross' aria-controls='nettogross' role='tab' data-toggle='tab'>Net to Gross</a></li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class='tab-content'>
-
-
-  <div role='tabpanel' class='tab-pane' id='grosstonet' class='displayrecord'>
-    <form method='POST' action=".URL::to('shownet')." accept-charset='UTF-8'>
-    <fieldset>";
-
-
-       $a = str_replace( ',', '', Input::get('gross'));
-
-
-   $display .="
-       <div class='form-group'>
-        <label for='username'>Gross Pay:</label>
-        <div class='input-group'>
-        <span class='input-group-addon'>".$currency->shortname."</span>
-        <input class='form-control' placeholder='' type='text' name='gross' id='gross' value='0.00'>
-        </div>
-       </div>
-
-        <div class='form-group'>
-        <label for='username'>Paye:</label>
-        <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-         <input readonly class='form-control' placeholder='' type='text' name='paye' id='paye' value='0.00'>
-        </div>
-
-        <div class='form-group insts' id='insts'>
-            <label for='username'>NSSF: </label>
-            <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-            <input readonly class='form-control' placeholder='' type='text' name='nssf' id='nssf' value='0.00'>
-        </div>
-      </div>
-
-        <div class='form-group'>
-            <label for='username'>NHIF: <span style='color:red'>*</span> </label>
-            <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-            <input readonly class='form-control' placeholder='' type='text' name='nhif' id='nhif' value='0.00'>
-           </div>
-        </div>
-
-        <div class='form-group'>
-        <label for='username'>Net:</label>
-        <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-         <input readonly class='form-control' placeholder='' type='text' name='net' id='net' value='0.00'>
-        </div>
-      </div>
-
-    </fieldset>
-
-    <div align='right' style='margin-top:0px;display:none;'' class='form-actions form-group'>
-
-          <button class='btn btn-primary btn-sm process'>Get Net</button>
-        </div>
-
-        </form>
-
-
-</div>
-
-
-
-<div role='tabpanel' class='tab-pane active' id='nettogross'>
-  <form method='POST' action=".URL::to('showgross')." accept-charset='UTF-8'>
-    <fieldset>";
-
-       $a = str_replace( ',', '', Input::get('net1'));
-
-$display .="
-       <div class='form-group'>
-        <label for='username'>Gross Pay:</label>
-        <div class='input-group'>
-          <span class='input-group-addon'>".$currency->shortname."</span>
-        <input class='form-control' readonly placeholder='' type='text' name='gross1' id='gross1' value='$gross'>
-       </div>
-       </div>
-
-        <div class='form-group'>
-        <label for='username'>Paye:</label>
-        <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-        <input readonly class='form-control' placeholder='' type='text' name='paye1' id='paye1' value='$paye1'>
-        </div>
-      </div>
-
-        <div class='form-group insts' id='insts'>
-            <label for='username'>NSSF: </label>
-            <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-        <input readonly class='form-control' placeholder='' type='text' name='nssf1' id='nssf1' value='$nssf1'>
-        </div>
-      </div>
-
-        <div class='form-group'>
-            <label for='username'>NHIF: <span style='color:red'>*</span> </label>
-            <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-        <input readonly class='form-control' placeholder='' type='text' name='nhif1' id='nhif1' value='$nhif1'>
-        </div>
-      </div>
-
-        <div class='form-group'>
-        <label for='username'>Net:</label>
-        <div class='input-group'>
-            <span class='input-group-addon'>".$currency->shortname."</span>
-        <input class='form-control' placeholder='' type='text' name='net1' id='net1' value='$z'>
-       </div>
-        </div>
-      </div>
-
-    </fieldset>
-    <div align='right' style='margin-top:0px;display:none;' class='form-actions form-group'>
-
-          <button class='btn btn-primary btn-sm process' >Get Gross</button>
-        </div>
-
-        </form>
-</div>
-
-
-  </div>
-
-</div>
-
-</div>
-
-</div> ";
-
-        return $display;
-        exit();*/
-
-//return View::make('payroll.payroll_calculator', compact('net','paye1','nssf1','nhif1','gross','currency'));
-
-
     }
 
 
     public function display()
     {
         $display = "";
-        $postedit = Input::all();
+        $postedit = request()->all();
         $part1 = $postedit['period1'];
         $part2 = $postedit['period2'];
         $part3 = $postedit['period3'];
@@ -993,7 +823,7 @@ $display .="
 
         foreach ($employees as $employee) {
 
-            $salary = number_format(Payroll::basicpay($employee->id, Input::get('period')), 2);
+            $salary = number_format(Payroll::basicpay($employee->id, request('period')), 2);
 
             $hourly = number_format(Payroll::overtimes($employee->id, 'Daily', $fperiod), 2);
             $daily = number_format(Payroll::overtimes($employee->id, 'Hourly', $fperiod), 2);
@@ -1122,7 +952,7 @@ $display .="
      */
     public function store()
     {
-
+     //   dd('Hello');
         $period = request('period');
         $start = date('Y-m-01', strtotime("01-" . $period));
         $end = date('Y-m-t', strtotime("01-" . $period));
@@ -1186,12 +1016,16 @@ $display .="
             $payroll->process_type = request('type');
             $payroll->organization_id = Auth::user()->organization_id;
             $payroll->save();
-
+            //Crons
+            $email = new Email();
+            $email->employee_id = $employee->id;
+            $email->organization_id = Auth::user()->organization_id;
+            $email->save();
         }
 
 
 //        $part = explode("-", $period);
-        $part=  $period;
+        $part = $period;
 //        dd($part);
         $start = $part[1] . "-" . $part[0] . "-01";
         $end = date('Y-m-t', strtotime($start));
@@ -2067,7 +1901,7 @@ $display .="
         }
 
         $period = request('period');
-        Audit::logaudit(date('Y-m-d'),Auth::user()->name, 'process', 'processed payroll for ' . $period);
+        Audit::logaudit(date('Y-m-d'), Auth::user()->name, 'process', 'processed payroll for ' . $period);
 
         return Redirect::route('payroll.index')->withFlashMessage('Payroll successfully processed!');
 

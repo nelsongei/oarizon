@@ -8,7 +8,7 @@ class Jobgroup extends Model
     public $table = "x_job_group";
 
     public static $rules = [
-        'name' => 'required',
+        'job_group_name' => 'required',
         'amount[]' => 'regex:/^(\$?(?(?=\()(\())\d+(?:,\d+)?(?:\.\d+)?(?(2)\)))$/'
     ];
 

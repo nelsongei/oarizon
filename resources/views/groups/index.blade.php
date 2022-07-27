@@ -23,7 +23,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Group Name</th>
-                                        <th>Description</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -32,8 +31,7 @@
                                     @forelse($groups as $group)
                                         <tr>
                                             <td> {{ $i }}</td>
-                                            <td>{{ $group->name }}</td>
-                                            <td>{{ $group->description }}</td>
+                                            <td>{{ $group->job_group_name }}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

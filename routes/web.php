@@ -11,6 +11,7 @@ use App\Http\Controllers\AuditsController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\BanksController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfficeShiftController;
 use App\Http\Controllers\BenefitSettingsController;
@@ -81,7 +82,8 @@ use Illuminate\Support\Facades\View;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('sendEmails',[EmailController::class,'sendEmail']);
+Route::get('notofyMail',[EmailController::class,'notifyAdmin']);
 Route::get('/', function () {
     return redirect('login');
 });
@@ -703,9 +705,9 @@ Route::post('citizenships/update/{id}', [CitizenshipController::class, 'update']
 Route::get('citizenships/delete/{id}', [CitizenshipController::class, 'destroy']);
 Route::get('citizenships/edit/{id}', [CitizenshipController::class, 'edit']);
 
-//Route::group(['middleware' => 'can:manage_audits'], function () {
+Route::group(['middleware' => 'can:manage_audit'], function () {
 Route::resource('audits', AuditsController::class);
-//});
+});
 // ================== Mpesa END API ROUTES organizations================================//
 Route::get('/licence', [MpesaController::class, 'index']);
 Route::get('/license/data', [MpesaController::class, 'getLicenseData']);
