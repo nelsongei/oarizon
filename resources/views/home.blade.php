@@ -318,7 +318,7 @@
             data: {
                 labels: ['{{$months[11]}}', '{{$months[10]}}', '{{$months[9]}}', '{{$months[8]}}', '{{$months[7]}}', '{{$months[6]}}', '{{$months[5]}}', '{{$months[4]}}', '{{$months[3]}}', '{{$months[2]}}', '{{$months[1]}}', '{{$months[0]}}'],
                 datasets: [{
-                    label: 'Payroll Process',
+                    label: 'Amount Processed',
                     data: [{{$monthss12}}, {{$monthss11}}, {{$monthss10}}, {{$monthss9}}, {{$monthss8}}, {{$monthss7}}, {{$monthss6}}, {{$monthss5}}, {{$monthss4}}, {{$monthss3}}, {{$monthss2}}, {{$monthss1}}],
                     backgroundColor: [
                         '#644ec5',

@@ -38,7 +38,7 @@ class HomeController extends Controller
         $applied = Leaveapplication::where('organization_id',Auth::user()->organization_id)->where('status', 'applied')->count();
         //Leave History
         for ($i = 0; $i < 12; $i++) {
-            $months[] = date("Y-M", strtotime(date('Y-m-01') . " -$i months"));
+            $months[] = date("m-Y", strtotime(date('Y-m-01') . " -$i months"));
         }
         $month1 = Leaveapplication::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[0])),date('Y-m-t 23:59:59',strtotime($months[0]))])->count();
         $month2 = Leaveapplication::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[1])),date('Y-m-t 23:59:59',strtotime($months[1]))])->count();
@@ -53,18 +53,18 @@ class HomeController extends Controller
         $month11 = Leaveapplication::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[10])),date('Y-m-t 23:59:59',strtotime($months[10]))])->count();
         $month12 = Leaveapplication::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[11])),date('Y-m-t 23:59:59',strtotime($months[11]))])->count();
         //dd(date('Y-m-t H:m:s',strtotime($months[0])));
-        $monthss1 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[0])),date('Y-m-t 23:59:59',strtotime($months[0]))])->count();
-        $monthss2 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[1])),date('Y-m-t 23:59:59',strtotime($months[1]))])->count();
-        $monthss3 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[2])),date('Y-m-t 23:59:59',strtotime($months[2]))])->count();
-        $monthss4 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[3])),date('Y-m-t 23:59:59',strtotime($months[3]))])->count();
-        $monthss5 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[4])),date('Y-m-t 23:59:59',strtotime($months[4]))])->count();
-        $monthss6 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[5])),date('Y-m-t 23:59:59',strtotime($months[5]))])->count();
-        $monthss7 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[6])),date('Y-m-t 23:59:59',strtotime($months[6]))])->count();
-        $monthss8 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[7])),date('Y-m-t 23:59:59',strtotime($months[7]))])->count();
-        $monthss9 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[8])),date('Y-m-t 23:59:59',strtotime($months[8]))])->count();
-        $monthss10 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[9])),date('Y-m-t 23:59:59',strtotime($months[9]))])->count();
-        $monthss11 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[10])),date('Y-m-t 23:59:59',strtotime($months[10]))])->count();
-        $monthss12 = Transact::where('organization_id',Auth::user()->organization_id)->whereBetween('created_at',[date('Y-m-01 H:m:s',strtotime($months[11])),date('Y-m-t 23:59:59',strtotime($months[11]))])->count();
+        $monthss1 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[0])->sum('basic_pay');
+        $monthss2 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[1])->sum('basic_pay');
+        $monthss3 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[2])->sum('basic_pay');
+        $monthss4 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[3])->sum('basic_pay');
+        $monthss5 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[4])->sum('basic_pay');
+        $monthss6 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[5])->sum('basic_pay');
+        $monthss7 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[6])->sum('basic_pay');
+        $monthss8 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[7])->sum('basic_pay');
+        $monthss9 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[8])->sum('basic_pay');
+        $monthss10 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[9])->sum('basic_pay');
+        $monthss11 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[10])->sum('basic_pay');
+        $monthss12 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[11])->sum('basic_pay');
         //Home Stats
         $employees = Employee::where('organization_id',Auth::user()->organization_id)->count();
         $leaves = Leaveapplication::where('organization_id',Auth::user()->organization_id)->count();
