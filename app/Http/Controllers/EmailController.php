@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email;
+use App\Models\Organization;
+use App\Models\Transact;
 use Illuminate\Support\Facades\Auth;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -12,7 +14,11 @@ class EmailController extends Controller
 {
     //
     public static function general($emailData){
+        $organization = Organization::find(Auth::user()->organization_id);
+        $payroll = Transact::where('organization_id',Auth::user()->organization_id)->where('employeeId',$emailData['id'])->where('is_emailed',false)->first();
+        view()->share(compact('organization'));
         view()->share(compact('emailData'));
+        view()->share(compact('payroll'));
         $mail = new PHPMailer(true);
         try {
             //Server settings
@@ -36,10 +42,11 @@ class EmailController extends Controller
             // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
             // Content
             $mail->isHTML(true);                                     // Set email format to HTML
-            $mail->Subject = 'Payroll';
+            $mail->Subject = 'Payslip for '.$payroll->financial_month_year;
             $mail->Body    = view('mail.index')->render();
             // $mail->AltBody = strip_tags($message);
             $mail->send();
+            EmailController::payrollData($emailData['id']);
             EmailController::updateMail($emailData['id']);
         }
         catch (Exception $e){
@@ -58,6 +65,12 @@ class EmailController extends Controller
                 $emailData = [
                     'id'=>$email['id'],
                     'email'=>$email->employee->email_office,
+                    'name'=>$email->employee->first_name.' '.$email->employee->last_name,
+                    'identity_number'=>$email->employee->identity_number,
+                    'pin'=>$email->employee->pin,
+                    'social_security_number'=>$email->employee->social_security_number,
+                    'hospital_insurance_number'=>$email->employee->hospital_insurance_number,
+
                 ];
                 if ($emailData){
 //                    $users = User::first();
@@ -81,6 +94,13 @@ class EmailController extends Controller
         $update->status  = 1;
         $update->push();
         return $update;
+    }
+    public static function payrollData($id)
+    {
+        $payroll = Transact::where('organization_id',Auth::user()->organization_id)->where('employeeId',$id)->where('is_emailed',false)->find($id);
+        $payroll->is_emailed = true;
+        $payroll->push();
+        return $payroll;
     }
     public static function notifyAdmin($message){
         $to = 'nelson.saammy@gmail.com';

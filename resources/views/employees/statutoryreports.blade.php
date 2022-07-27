@@ -196,7 +196,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer justify-content-center">
-                                                                <button type="button" class="btn btn-sm btn-warning">
+                                                                <button type="button" class="btn btn-sm btn-warning" data-dismiss="modal">
                                                                     Not Now
                                                                 </button>
                                                                 <button type="submit"

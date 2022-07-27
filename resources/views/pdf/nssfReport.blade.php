@@ -84,13 +84,9 @@ function asMoney($value)
     <table>
 
         <tr>
-
-
             <td style="width:150px">
-
-                <img src="{{public_path().'/uploads/logo/'.$organization->logo}}" alt="logo" width="80%">
-
-
+{{--                <img src="{{asset('uploads/logo/'.$organization->logo)}}" alt="logo" width="80%">--}}
+                <img src="{{asset('uploads/logo/'.Auth::user()->organization->logo)}}" alt="logo" width="80%">
             </td>
 
             <td>

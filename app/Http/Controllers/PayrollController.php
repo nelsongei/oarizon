@@ -997,6 +997,7 @@ class PayrollController extends Controller
             $payroll = new Payroll;
 
             $payroll->employee_id = $employee->personal_file_number;
+            $payroll->employeeId = $employee->id;
 
             $payroll->user_id = Auth::user()->id;
 

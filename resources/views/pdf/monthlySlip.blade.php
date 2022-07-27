@@ -168,7 +168,6 @@
                     <tr>
                         <td><strong>ALLOWANCES</strong>
                         <td></td>
-                        </td>
                     </tr>
                     @if(App\Models\Payroll::processedallowancenames($emp->id,$period) != null)
                         <tr>
