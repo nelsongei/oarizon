@@ -415,6 +415,12 @@
                                 <span class="pcoded-mtext">Audit</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('audits')}}" class="waves-effect waves-dark">
+                                <span class="pcoded-micon"><i class="feather icon-user"></i></span>
+                                <span class="pcoded-mtext">Email Configuration</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="">

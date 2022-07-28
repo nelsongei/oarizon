@@ -2,6 +2,7 @@
 
 use App\Models\Audit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -15,8 +16,7 @@ class AuditsController extends Controller {
      */
     public function index()
     {
-        $audits = Audit::orderBy('id', 'DESC')->simplepaginate(10);
-
+        $audits = Audit::where('organization_id',Auth::user()->organization_id)->orderBy('id', 'DESC')->simplepaginate(10);
         return View::make('audits.index', compact('audits'));
     }
 
