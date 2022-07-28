@@ -557,7 +557,6 @@ class EmployeesController extends Controller
     public function show($id)
     {
         $employee = Employee::findOrFail($id);
-
         return View::make('employees.show', compact('employee'));
     }
 
@@ -986,72 +985,16 @@ class EmployeesController extends Controller
     public function deactivateportal($id)
     {
 
-
         $employee = Employee::find($id);
-
         DB::table('users')->where('username', '=', $employee->personal_file_number)->delete();
-
         $employee->is_css_active = false;
         $employee->update();
-
-
         return Redirect::back()->with('notice', 'Employee has been deactivated');;
 
 
     }
-    /*public function promote_transfer(){
-
-    $employee = Employee::findOrFail($id);
-
-    $user_id = DB::table('users')->where('organization_id',Auth::user()->organization_id)->where('username', '=', $employee->personal_file_number)->pluck('id');
-
-    $user = User::findOrFail($user_id);
-
-    $user->password = Hash::make('123456');
-    $user->update();
-
-    return Redirect::back();
-
-    }
-     */
-    /*
-    public function promote_transfer(){
-    $employeeid=$request->get('employee');
-    $employee = Employee::findOrFail($employeeid);
-    $promo=new Promotion;
-
-    if(($request->get('operation'))=='promote')
+    public function employeeType($id)
     {
-
-    $promo->employee()->associate($employee);
-    $promo->salary=$request->get('salary');
-    $promo->date=$request->get('pdate');
-    $promo->department=$request->get('department');
-    $promo->type='Promotion';
-    $promo->reason=$request->get('reason');
-    $promo->save();
-
-
+        return EType::where('organization_id', Auth::user()->organization_id)->where('id',$id)->get();
     }
-    if(($request->get('operation'))=='transfer')
-    {
-
-    $promo->employee()->associate($employee);
-    $promo->salary=$request->get('salary');
-    $promo->date=$request->get('tdate');
-    $promo->stationto=$request->get('stationto');
-    $promo->stationfrom=$request->get('stationfrom');
-    $promo->reason=$request->get('reason');
-    $promo->type='Transfer';
-    $promo->save();
-
-
-
-    }
-
-    return Redirect::back();
-
-    }*/
-
-
 }

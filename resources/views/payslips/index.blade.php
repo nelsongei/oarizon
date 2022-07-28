@@ -1,5 +1,5 @@
 @extends('layouts.main_hr')
-
+<script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
 <script type="text/javascript">
     function YNconfirm() {
         var per = document.getElementById("period").value;
@@ -8,7 +8,6 @@
         }
     }
 </script>
-
 @section('xara_cbs')
     @include('partials.breadcrumbs')
     <div class="pcoded-inner-content">
@@ -46,18 +45,33 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <?php $count =1?>
+                                        @foreach($payslips as $payslip)
                                             <tr>
-                                                <td>1</td>
-                                                <td>June 2022</td>
-                                                <td>10</td>
-                                                <td>500,000</td>
-                                                <td>50,000</td>
-                                                <td>50,000</td>
-                                                <td>50,000</td>
+                                                <td>{{$count++}}</td>
+                                                <td>{{$payslip->financial_month_year}}</td>
+                                                <td>{{ App\Models\Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$payslip->financial_month_year)->count()  }}</td>
+                                                <td>{{App\Models\Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$payslip->financial_month_year)->sum('basic_pay')}}</td>
+                                                <td>{{App\Models\Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$payslip->financial_month_year)->sum('nhif_amount')}}</td>
+                                                <td>{{App\Models\Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$payslip->financial_month_year)->sum('paye')}}</td>
+                                                <td>{{App\Models\Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$payslip->financial_month_year)->sum('nssf_amount')}}</td>
                                                 <td>
-                                                    <i class="fa fa-check-circle fa-3x" style="color: green"></i>
+                                                    @if(App\Models\Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$payslip->financial_month_year)->pluck('is_emailed')->first() == 1)
+                                                        <lord-icon
+                                                            src="https://cdn.lordicon.com/jvihlqtw.json"
+                                                            trigger="loop"
+                                                            style="width:50px;height:50px">
+                                                        </lord-icon>
+                                                    @else
+                                                        <lord-icon
+                                                            src="https://cdn.lordicon.com/tdrtiskw.json"
+                                                            trigger="loop"
+                                                            style="width:50px;height:50px">
+                                                        </lord-icon>
+                                                    @endif
                                                 </td>
                                             </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>

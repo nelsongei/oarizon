@@ -112,6 +112,7 @@ Route::post('employee/import', [EmployeesController::class, 'importEmployees']);
 Route::get('employees/show/{id}', [EmployeesController::class, 'show']);
 Route::get('v1/employees', [EmployeesController::class, 'getEmployees']);
 Route::get('employees/create', [EmployeesController::class, 'create']);
+Route::get('employee/type/{id}', [EmployeesController::class, 'employeeType']);
 
 //    Route::resource('employees', 'EmployeesController');
 Route::post('employees/update/{id}', [EmployeesController::class, 'update']);

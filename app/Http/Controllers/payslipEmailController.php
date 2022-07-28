@@ -21,15 +21,13 @@ class payslipEmailController extends Controller
      */
     public function index()
     {
+        for ($i = 0; $i < 12; $i++) {
+            $months[] = date("m-Y", strtotime(date('Y-m-01') . " -$i months"));
+            $monthss1 = Transact::where('organization_id',Auth::user()->organization_id)->where('financial_month_year',$months[$i])->sum('basic_pay');
+        }
         $employees = Employee::where('organization_id', Auth::user()->organization_id)->get();
-        $payslips = Transact::where('organization_id', Auth::user()->organization_id)->get();
-        $basic = DB::table('x_transact')
-            ->groupBy('financial_month_year')
-            ->where('x_transact.is_emailed', false)
-            ->where('x_transact.organization_id', Auth::user()->organization_id)
-            ->select('x_transact.financial_month_year')
-            ->sum('x_transact.basic_pay');
-        return View::make('payslips.index', compact('employees','basic'));
+        $payslips = Transact::where('organization_id', Auth::user()->organization_id)->groupBy('financial_month_year')->get();
+        return View::make('payslips.index', compact('employees','payslips'));
     }
 
     public function sendEmail()

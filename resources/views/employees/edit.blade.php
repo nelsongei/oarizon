@@ -619,15 +619,13 @@
                                                                 <option value="cnew">Create New</option>
                                                                 @foreach($etypes as $etype)
                                                                     <option id="types"
-                                                                            value="{{$etype->id }}"<?= ($employee->type_id == $etype->id) ? 'selected="selected"' : ''; ?>> {{ $etype->employee_type_name }}</option>
+                                                                            value="{{$etype->id }}"> {{ $etype->employee_type_name }}</option>
+{{--                                                                            value="{{$etype->id }}"<?= ($employee->type_id == $etype->id) ? 'selected="selected"' : ''; ?>> {{ $etype->employee_type_name }}</option>--}}
                                                                 @endforeach
 
                                                             </select>
                                                         </div>
-
-
                                                         <div id="contract">
-
                                                             <div class="form-group">
                                                                 <label for="username">Start Date <span
                                                                         style="color:red">*</span></label>
@@ -1409,15 +1407,23 @@
             });
 
             $("#type_id").on("change", function () {
-                if ($(this).val() == 2) {
-                    $('#contract').show();
-                } else {
-                    $('#contract').hide();
-                    $('#startdate').val('');
-                    $('#enddate').val('');
-                }
+                // console.log($(this).innerHTML)
+                var id = document.getElementById('type_id').value;
+                $.ajax({
+                    type: "GET",
+                    url: "http://127.0.0.1/payroll/public/employee/type/" + id,
+                    data: '_token=<?php echo csrf_token()?>',
+                    success: function (response) {
+                        if (response[0].employee_type_name === 'Contract') {
+                            $('#contract').show();
+                        } else {
+                            $('#contract').hide();
+                            $('#startdate').val('');
+                            $('#enddate').val('');
+                        }
+                    }
+                })
             });
-
             $("#uploadFile").on("change", function () {
                 var files = !!this.files ? this.files : [];
                 if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
@@ -2840,5 +2846,17 @@
             erroClass: 'has-error',
             successClass: 'has-success'
         };
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker21').datepicker({
+                format: "yyyy-mm-dd",
+                assumeNearbyYear: true,
+                autoclose: true,
+                todayBtn: 'linked',
+                todayHighlight: true
+            });
+
+        });
     </script>
 @endsection
